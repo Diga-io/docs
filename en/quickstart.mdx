@@ -1,0 +1,56 @@
+---
+title: "Quickstart"
+description: "Start building with Diga in minutes"
+---
+
+## Get started in three steps
+
+Get up and running with Diga quickly.
+
+### Step 1: Set up your account
+
+<AccordionGroup>
+  <Accordion icon="user-plus" title="Create your account">
+    Sign up for a Diga account to get started with our voice AI platform.
+    
+    Visit our [dashboard](https://dashboard.diga.io) to create your account.
+  </Accordion>
+  <Accordion icon="key" title="Get your API key">
+    Once logged in, navigate to your dashboard to get your API key.
+    
+    You'll need this key to authenticate your API requests.
+    
+    <Tip>Keep your API key secure and never share it publicly.</Tip>
+  </Accordion>
+</AccordionGroup>
+
+### Step 2: Make your first API call
+
+<AccordionGroup>
+  <Accordion icon="phone" title="Create your first call">
+    Use our API to create your first voice call.
+
+    ```bash
+    curl -X POST https://api.diga.io/v1/calls \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "agent_id": "your_agent_id",
+        "phone_number": "+1234567890"
+      }'
+    ```
+
+    <Tip>Check out our [API Reference](/api-reference/call/create_call) for more details.</Tip>
+  </Accordion>
+</AccordionGroup>
+
+### Step 3: Explore more features
+
+<Accordion icon="rocket" title="Discover Diga's capabilities">
+  1. Create custom agents with different voices and behaviors
+  2. Set up knowledge bases for your agents
+  3. Configure webhooks for real-time notifications
+  4. Monitor your calls and analyze transcriptions
+
+  Visit our [API Reference](/api-reference/call/get_call) to explore all available features.
+</Accordion>
