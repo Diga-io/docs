@@ -19,13 +19,16 @@
   },
   "fonts": {
     "heading": {
-      "family": "Sora",
+      "family": "Geist",
       "weight": 700
     },
     "body": {
-      "family": "Geist",
-      "weight": 500
+      "family": "Sora",
+      "weight": 400
     }
+  },
+  "icons": {
+    "library": "lucide"
   },
   "navigation": {
     "global": {
@@ -36,9 +39,14 @@
           "icon": "discord"
         },
         {
-          "anchor": "Blog",
+          "anchor": "Changelog",
           "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "icon": "clock"
+        },
+        {
+          "anchor": "Pricing",
+          "icon": "dollar-sign",
+          "href": "https://mintlify.com/pricing"
         }
       ]
     },
@@ -76,8 +84,56 @@
                 "group": "Comenzar",
                 "pages": [
                   "es/index",
-                  "es/quickstart",
-                  "es/development"
+                  "es/crear-agente"
+                ]
+              },
+              {
+                "group": "Construir",
+                "pages": [
+                  {
+                    "group": "Agentes",
+                    "pages": [
+                      "es/build/agentes/index",
+                      "es/build/agentes/prompt-unico",
+                      "es/build/agentes/camino-conversacional",
+                      "es/build/agentes/personalizacion-llamada",
+                      "es/build/agentes/control-versiones",
+                      "es/build/agentes/herramientas-llamada"
+                    ]
+                  },
+                  {
+                    "group": "Integraciones",
+                    "pages": [
+                      "es/build/herramientas/introduccion",
+                      "es/build/herramientas/integraciones-MCP",
+                      "es/build/herramientas/integraciones-HTTP"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Telefonía",
+                "pages": [
+                  "es/despliegue/comprar-telefonos",
+                  "es/despliegue/sip-trunks"
+                ]
+              },
+              {
+                "group": "Cuentas y proyectos",
+                "pages": [
+                  "es/proyectos/cuentas",
+                  "es/proyectos/proyectos"
+                ]
+              },
+              {
+                "group": "Analitícas",
+                "pages": [
+                  "es/despliegue/monitoreo-logs"
+                ]
+              },
+              {
+                "group": "Guías avanzadas",
+                "pages": [
                 ]
               }
             ]
