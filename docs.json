@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "aspen",
+  "theme": "almond",
   "name": "Diga",
   "colors": {
     "primary": "#343E96",
@@ -52,28 +52,6 @@
     },
     "languages": [
       {
-        "language": "en",
-        "tabs": [
-          {
-            "tab": "Documentation",
-            "groups": [
-              {
-                "group": "Get Started",
-                "pages": [
-                  "en/index",
-                  "en/quickstart",
-                  "en/development"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "API Reference",
-            "openapi": "/api-reference/openapi.json"
-          }
-        ]
-      },
-      {
         "language": "es",
         "default": true,
         "tabs": [
@@ -93,7 +71,6 @@
                   {
                     "group": "Agentes",
                     "pages": [
-                      "es/build/agentes/index",
                       "es/build/agentes/prompt-unico",
                       "es/build/agentes/camino-conversacional",
                       "es/build/agentes/personalizacion-llamada",
@@ -104,7 +81,7 @@
                   {
                     "group": "Integraciones",
                     "pages": [
-                      "es/build/herramientas/introduccion",
+                      "es/build/integraciones/creacion",
                       "es/build/herramientas/integraciones-MCP",
                       "es/build/herramientas/integraciones-HTTP"
                     ]
@@ -140,6 +117,28 @@
           },
           {
             "tab": "API reference",
+            "openapi": "/api-reference/openapi.json"
+          }
+        ]
+      },
+      {
+        "language": "en",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "groups": [
+              {
+                "group": "Get Started",
+                "pages": [
+                  "en/index",
+                  "en/quickstart",
+                  "en/development"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "API Reference",
             "openapi": "/api-reference/openapi.json"
           }
         ]
