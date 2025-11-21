@@ -1,91 +1,163 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "theme": "aspen",
+  "name": "Diga",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#343E96",
+    "light": "#D7DAFF",
+    "dark": "#343E96"
   },
-  "favicon": "/favicon.svg",
+  "background": {
+    "color": {
+      "light": "#FDFDFD",
+      "dark": "#010318"
+    }
+  },
+  "favicon": {
+    "light": "/logo/fav-light.svg",
+    "dark": "/logo/fav-dark.svg"
+  },
+  "fonts": {
+    "heading": {
+      "family": "Geist",
+      "weight": 700
+    },
+    "body": {
+      "family": "Sora",
+      "weight": 400
+    }
+  },
+  "icons": {
+    "library": "lucide"
+  },
   "navigation": {
-    "tabs": [
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Discord",
+          "href": "https://mintlify.com/docs",
+          "icon": "discord"
+        },
+        {
+          "anchor": "Changelog",
+          "href": "https://mintlify.com/blog",
+          "icon": "clock"
+        },
+        {
+          "anchor": "Pricing",
+          "icon": "dollar-sign",
+          "href": "https://mintlify.com/pricing"
+        }
+      ]
+    },
+    "languages": [
       {
-        "tab": "Guides",
-        "groups": [
+        "language": "en",
+        "tabs": [
           {
-            "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "development"
+            "tab": "Documentation",
+            "groups": [
+              {
+                "group": "Get Started",
+                "pages": [
+                  "en/index",
+                  "en/quickstart",
+                  "en/development"
+                ]
+              }
             ]
           },
           {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
+            "tab": "API Reference",
+            "openapi": "/api-reference/openapi.json"
           }
         ]
       },
       {
-        "tab": "API reference",
-        "groups": [
+        "language": "es",
+        "default": true,
+        "tabs": [
           {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
+            "tab": "Documentación",
+            "groups": [
+              {
+                "group": "Comenzar",
+                "pages": [
+                  "es/index",
+                  "es/crear-agente"
+                ]
+              },
+              {
+                "group": "Construir",
+                "pages": [
+                  {
+                    "group": "Agentes",
+                    "pages": [
+                      "es/build/agentes/index",
+                      "es/build/agentes/prompt-unico",
+                      "es/build/agentes/camino-conversacional",
+                      "es/build/agentes/personalizacion-llamada",
+                      "es/build/agentes/control-versiones",
+                      "es/build/agentes/herramientas-llamada"
+                    ]
+                  },
+                  {
+                    "group": "Integraciones",
+                    "pages": [
+                      "es/build/herramientas/introduccion",
+                      "es/build/herramientas/integraciones-MCP",
+                      "es/build/herramientas/integraciones-HTTP"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Telefonía",
+                "pages": [
+                  "es/despliegue/comprar-telefonos",
+                  "es/despliegue/sip-trunks"
+                ]
+              },
+              {
+                "group": "Cuentas y proyectos",
+                "pages": [
+                  "es/proyectos/cuentas",
+                  "es/proyectos/proyectos"
+                ]
+              },
+              {
+                "group": "Analitícas",
+                "pages": [
+                  "es/despliegue/monitoreo-logs"
+                ]
+              },
+              {
+                "group": "Guías avanzadas",
+                "pages": [
+                ]
+              }
             ]
           },
           {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
+            "tab": "API reference",
+            "openapi": "/api-reference/openapi.json"
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
+    ]
+  },
+  "api": {
+    "playground": {
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": ["python", "javascript", "curl", "go"],
+      "defaults": "all"
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/primary_log.svg",
+    "dark": "/logo/white_logo.svg"
   },
   "navbar": {
     "links": [
