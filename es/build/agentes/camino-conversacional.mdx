@@ -1,0 +1,234 @@
+---
+title: "Como funciona"
+description: "Construye agentes telefónicos con flujos estructurados mediante nodos y transiciones para escenarios de llamadas complejas"
+---
+
+## ¿Qué es un Agente de Camino Conversacional?
+
+Los agentes de camino conversacional te permiten crear múltiples nodos para manejar diferentes escenarios en las conversaciones. Este enfoque proporciona un control más detallado sobre el flujo de la conversación en comparación con los agentes de prompt único, permitiéndote manejar escenarios más complejos con resultados predecibles.
+
+<Note>
+**¿Cuándo usar Caminos Conversacionales?**
+
+Esta arquitectura es ideal cuando necesitas:
+- Control preciso sobre el flujo de la conversación
+- Ejecutar herramientas en momentos determinados
+- Manejar múltiples escenarios con lógica condicional
+- Comportamiento 100% predecible y auditable
+- Transferir llamadas basándose en el contexto
+
+Para casos más simples, considera usar Agentes de Prompt Único
+</Note>
+
+### Ventajas principales
+
+<CardGroup cols={2}>
+  <Card title="Conversaciones estructuradas" icon="message-circle-more">
+    Dale instrucciones a tu agente sobre como debe responder en puntos específicos de la conversación
+  </Card>
+  <Card title="Uso avanzado de herramientas" icon="pickaxe">
+    Llama a tus APIs y webhooks en nodos específicos
+  </Card>
+  <Card title="Manejo de escenarios complejos" icon="/icons/dataflow-02.svg">
+    Soporta múltiples condiciones y rutas de conversación 
+  </Card>
+  <Card title="Selección de información" icon="/icons/file-attachment-02.svg">
+    Añade informacion contextual en nodos específicos para mejorar las respuestas
+  </Card>
+</CardGroup>
+
+<Frame>
+  <img src="/images/conversation-flow-overview.png" alt="Diagrama de flujo conversacional mostrando nodos conectados con condiciones de transición" />
+</Frame>
+
+## Componentes fundamentales
+
+### Prompt Global
+
+El prompt global es un conjunto de instrucciones que se aplican a toda la conversación. Define el tono, estilo y comportamiento general del agente.
+
+### Nodos
+
+Los nodos son las unidades básicas del flujo conversacional. Cada nodo define un conjunto pequeño de lógica para un momento específico de la conversación.
+
+**Tipos de nodos disponibles:**
+- Nodo de Inicio
+- Nodo de Conversación
+- Nodo de Herramienta
+- Nodo de Terminar
+- Nodo de Transferencia
+
+<Card title="Entiende todo sobre los nodos" icon="/icons/dataflow-03.svg" href="/es/build/agentes/camino-conversacional/tipos-nodos">
+  Aprende a usar cada tipo de nodo en detalle
+</Card>
+
+### Transiciones
+
+Las transiciones son las conexiones entre nodos que definen cómo el agente navega a través del flujo conversacional. Cada transición especifica:
+
+- **Cuándo** el agente debe moverse de un nodo a otro
+- **Qué condiciones** deben cumplirse para que ocurra la transición
+- **Cuál es el siguiente nodo** de destino
+
+## Cómo funciona
+
+El agente siempre comienza en el primer nodo de tu flujo. A partir de ahí, se desplaza entre nodos según las etiquetas que definas en cada transición, ejecutando las instrucciones de cada nodo como parte del diálogo generado.
+
+### Navegación entre nodos
+
+Las decisiones sobre qué camino tomar se basan en dos elementos clave:
+
+1. **Las condiciones de las transiciones**: Describen cuándo debe activarse cada ruta, Las condiciones permiten que el agente permanezca en un nodo hasta que se cumpla un requisito específico. Si la condición no se satisface, el agente no avanzará y seguirá solicitando la información necesaria.
+2. **Las instrucciones del nodo**: Definen qué debe decir o hacer el agente en ese punto
+
+**Ejemplo práctico:**
+
+En un nodo llamado "Solicitar información de reserva", el agente pide al usuario la fecha, hora y número de comensales. Dependiendo de la respuesta del usuario, el agente evalúa las etiquetas de las transiciones:
+
+- Si el número de comensales es **menor a 8** → avanza al nodo "Procesar reserva"
+- Si el número de comensales es **mayor a 8** → avanza al nodo "Transferir llamada"
+
+El agente ejecuta las instrucciones del nuevo nodo y continúa navegando por el flujo hasta completar la llamada.
+
+## Nodos Globales
+
+En un flujo conversacional, existen escenarios que pueden surgir en cualquier momento de la llamada y que no están vinculados a un nodo específico. Por ejemplo, el usuario podría decir *"No tengo tiempo ahora"* o *"Necesito llamar más tarde"* en cualquier punto de la conversación, y querrías manejar estas situaciones de manera consistente independientemente de dónde ocurran.
+
+Para estos casos, puedes configurar **nodos globales**. Cualquier tipo de nodo puede convertirse en un nodo global marcándolo como tal en su configuración.
+
+<Frame>
+  <img src="/images/global-node-example.png" alt="Configuración de un nodo global en el editor de flujo conversacional" />
+</Frame>
+
+### Configurar un Nodo Global
+
+Cuando defines un nodo como global, debes especificar la condición que activará la transición hacia ese nodo. Esta condición actúa como un disparador universal que se evalúa desde cualquier punto del flujo.
+
+**Ejemplo:**
+
+Imagina que configuras un nodo global con la condición:
+
+> "Cuando el usuario indica que no es un buen momento para hablar"
+
+Ahora, sin importar en qué parte de la llamada se encuentre el agente, si el usuario dice algo como *"No tengo tiempo"* o *"¿Puedo llamar después?"*, el agente transitará automáticamente a este nodo global para manejar la situación.
+
+<Note>
+**Característica importante:**
+
+Los nodos globales no necesitan estar conectados visualmente al resto del flujo en tu diagrama, ya que pueden ser alcanzados desde cualquier nodo por defecto.
+</Note>
+
+### Retorno al Flujo Principal
+
+El agente dependiendo del contexto puede regresar al flujo principal después de manejar la situación en el nodo global. Tambien puedes definir transiciones específicas desde el nodo global hacia otros nodos particulares del flujo.
+
+## Mejores Prácticas
+
+<AccordionGroup>
+  <Accordion title="Siempre define una transición por defecto">
+    Nunca dejes un nodo sin una ruta de escape. Si el usuario dice algo inesperado, el agente debe saber qué hacer.
+
+    ```
+    ❌ Malo:
+    Transiciones:
+    ├─ "usuario acepta" → Siguiente nodo
+    └─ (nada más)
+
+    ✅ Bueno:
+    Transiciones:
+    ├─ "usuario acepta" → Siguiente nodo
+    ├─ "usuario rechaza" → Nodo alternativo
+    └─ Por defecto → Clarificar respuesta
+    ```
+  </Accordion>
+
+  <Accordion title="Evita condiciones ambiguas que se solapen">
+    Si dos condiciones pueden cumplirse simultáneamente, el comportamiento será impredecible.
+
+    ```
+    ❌ Malo:
+    ├─ "usuario menciona precio" → Nodo Pricing
+    └─ "usuario pregunta algo" → Nodo FAQ
+
+    ✅ Bueno:
+    ├─ "usuario pregunta específicamente sobre precios o costos" → Nodo Pricing
+    ├─ "usuario pregunta sobre características o funcionalidad" → Nodo Features
+    └─ "otra pregunta general" → Nodo FAQ
+    ```
+  </Accordion>
+
+  <Accordion title="Nombra tus nodos descriptivamente">
+    El nombre del nodo debe indicar claramente su propósito.
+
+    ```
+    ❌ Malo:
+    - Nodo 1
+    - Paso siguiente
+    - Check
+
+    ✅ Bueno:
+    - Solicitar fecha de reserva
+    - Verificar disponibilidad via API
+    - Confirmar datos con usuario
+    ```
+  </Accordion>
+
+  <Accordion title="Mantén la lógica simple por nodo">
+    Un nodo debe hacer una cosa bien. Si tiene muchas transiciones, probablemente debas dividirlo.
+
+    ```
+    ❌ Un nodo con 8+ transiciones diferentes
+    ✅ Divide en nodos intermedios de clasificación
+
+    Ejemplo:
+    Mal diseño:
+    "Manejar todo" → 8 caminos diferentes
+
+    Buen diseño:
+    "Clasificar tipo" → 3 categorías
+      ├─ "Categoría A" → 2-3 caminos específicos
+      ├─ "Categoría B" → 2-3 caminos específicos
+      └─ "Categoría C" → 2-3 caminos específicos
+    ```
+  </Accordion>
+</AccordionGroup>
+## Ejemplo práctico: Reserva de restaurante
+
+Imagina un flujo simple para gestionar reservas:
+
+<Frame>
+  <img src="/images/conversation-flow-restaurant-reservation.png" alt="Diagrama de flujo para reserva de restaurante mostrando nodos de comienzo, conversación, herramienta y terminar" />   
+</Frame>
+
+## Siguientes pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Explorar Tipos de Nodos"
+    icon="circle-nodes"
+    href="/es/build/agentes/camino-conversacional/tipos-nodos"
+  >
+    Aprende cómo usar cada tipo de nodo en detalle
+  </Card>
+  <Card
+    title="Transiciones entre Nodos"
+    icon="arrow-right-arrow-left"
+    href="/es/build/agentes/camino-conversacional/transiciones"
+  >
+    Define condiciones para controlar el flujo de la conversación
+  </Card>
+  <Card
+    title="Personalización de Llamadas"
+    icon="sliders"
+    href="/es/build/agentes/personalizacion-llamada"
+  >
+    Ajusta voz, velocidad, idioma y parámetros avanzados
+  </Card>
+  <Card
+    title="Control de Versiones"
+    icon="code-branch"
+    href="/es/build/agentes/control-versiones"
+  >
+    Gestiona múltiples versiones de tus caminos conversacionales
+  </Card>
+</CardGroup>

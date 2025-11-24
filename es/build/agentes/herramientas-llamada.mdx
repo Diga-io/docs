@@ -1,0 +1,229 @@
+---
+title: "Herramientas de llamada"
+description: "Herramientas predefinidas para controlar el flujo de llamadas telefónicas"
+---
+
+Las herramientas de llamada son funciones predefinidas que permiten a tu agente realizar acciones telefónicas durante una conversación. A diferencia de las integraciones HTTP o MCP que conectan con servicios externos, estas herramientas están incorporadas directamente en el sistema de telefonía de Diga.
+
+## Herramientas disponibles
+
+Actualmente hay tres herramientas de llamada que puedes habilitar en tus agentes:
+
+<CardGroup cols={3}>
+  <Card title="Transferir" icon="/icons/phone-outgoing-01.svg">
+    Transfiere la llamada a otro número telefónico
+  </Card>
+  <Card title="Colgar" icon="phone-off">
+    Finaliza la llamada de forma controlada
+  </Card>
+  <Card title="Detección de contestador" icon="voicemail">
+    Verifica si la llamada fue contestada por una máquina
+  </Card>
+</CardGroup>
+
+<Note>
+**Agentes de Camino Conversacional**
+
+En agentes con caminos conversacionales, estas herramienta se implementa mediante nodos dedicados dentro del flujo.
+
+Aprende más en [Tipos de Nodos](/es/build/agentes/camino-conversacional/tipos-nodos).
+</Note>
+
+## Transferir llamadas
+
+La herramienta de transferencia permite al agente redirigir la llamada a otro número telefónico o extensión telefoníca. Esto es útil para escalar conversaciones a agentes humanos o departamentos específicos.
+
+### Cómo funciona
+
+Cuando el agente ejecuta la herramienta de transferencia:
+
+<Steps>
+  <Step title="El agente identifica que necesita transferir">
+    Basándose en el contexto de la conversación o condiciones específicas
+  </Step>
+
+  <Step title="Se ejecuta la transferencia">
+    La llamada se redirige al número de teléfono configurado
+  </Step>
+
+  <Step title="La llamada del agente finaliza">
+    Una vez realizada la transferencia, el agente se desconecta
+  </Step>
+</Steps>
+
+### Configuración
+
+Para habilitar la transferencia en tu agente:
+
+1. Accede a la configuración de tu agente
+2. Ve a la sección **Herramientas de llamada**
+3. Activa la herramienta **Transferir**
+4. Configura la herramienta. Puedes definir:
+    - **Número de destino**: El número al que se transferirá la llamada.
+    - **Extensión**: Si usas un sistema PBX, puedes definir una extensión interna. En el caso de que no indiques número de destino, la extensión se realizará con ese mismo número.
+    - **Condición**: Explicacion de cuándo el agente debe usar la herramienta
+
+
+### Casos de uso comunes
+
+<AccordionGroup>
+  <Accordion title="Escalamiento a agentes humanos">
+    Cuando el usuario solicita hablar con una persona o el agente no puede resolver la consulta, transfiere la llamada a un equipo de soporte humano.
+
+    **Ejemplo de prompt:**
+    ```markdown
+    Si el usuario solicita hablar con una persona o si no puedes resolver su problema,
+    usa la herramienta de transferencia para conectarlo con un agente humano.
+    Antes de transferir, explica al usuario que lo vas a conectar con un especialista.
+    ```
+  </Accordion>
+
+  <Accordion title="Enrutamiento por departamento">
+    Dirige las llamadas a diferentes departamentos según el tipo de consulta (ventas, soporte, facturación).
+
+    **Ejemplo de prompt:**
+    ```markdown
+    - Si el usuario pregunta sobre productos o precios: transfiere al departamento de ventas
+    - Si reporta un problema técnico: transfiere al soporte técnico
+    - Si tiene dudas sobre facturación: transfiere al departamento de administración
+    ```
+  </Accordion>
+
+  <Accordion title="Transferencia condicional">
+    Transfiere solo cuando se cumplan ciertas condiciones, como horarios fuera de atención o casos complejos.
+
+    **Ejemplo de prompt:**
+    ```markdown
+    Si estamos fuera del horario de atención (antes de 9am o después de 6pm),
+    informa al usuario y pregunta si desea que lo transfieras al servicio de emergencias.
+    ```
+  </Accordion>
+</AccordionGroup>
+
+
+## Colgar llamadas
+
+La herramienta de colgar permite al agente finalizar la llamada de manera controlada y natural cuando la conversación ha concluido.
+
+### Cómo funciona
+
+El agente puede decidir finalizar la llamada cuando:
+
+- La conversación ha cumplido su objetivo
+- El usuario indica que no necesita más ayuda
+- Se han manejado todas las consultas del usuario
+- Se detecta una situación que requiere terminar la llamada
+
+### Configuración
+
+Para habilitar la función de colgar:
+
+1. Accede a la configuración de tu agente
+2. Ve a la sección **Herramientas de llamada**
+3. Activa la herramienta **Colgar**
+4. Configura la **condicion** para definir cuándo el agente debe usar la herramienta
+
+
+### Mejores prácticas
+
+<Card title="Despedidas naturales" icon="handshake">
+Asegúrate de que el agente siempre se despida educadamente antes de colgar. Incluye instrucciones en tu prompt para confirmar que el usuario no necesita nada más antes de finalizar.
+</Card>
+
+**Ejemplo de prompt:**
+```markdown
+Antes de colgar:
+1. Pregunta si el usuario necesita ayuda con algo más
+2. Espera su respuesta
+3. Si dice que no necesita nada más, despídete cordialmente
+4. Usa la herramienta de colgar para finalizar la llamada
+
+Ejemplo de despedida:
+"Ha sido un placer ayudarte. Si necesitas algo más en el futuro, no dudes en llamarnos. ¡Que tengas un excelente día!"
+```
+
+<Warning>
+**Evita colgar abruptamente**
+
+Nunca configures el agente para colgar sin confirmar primero con el usuario. Esto crea una mala experiencia y puede hacer que los usuarios se sientan ignorados.
+</Warning>
+
+## Detección de contestador automático
+
+La herramienta de detección de contestador automático identifica si la llamada fue contestada por una máquina o por una persona real. Esto es especialmente útil para llamadas salientes.
+
+### Cómo funciona
+
+El sistema analiza los primeros segundos de audio para determinar si:
+
+- Una persona real contestó el teléfono
+- Un contestador automático o buzón de voz contestó
+- Un sistema IVR (Interactive Voice Response) contestó
+
+### Configuración
+
+Para habilitar la detección de contestador:
+
+1. Accede a la configuración de tu agente
+2. Ve a la sección **Herramientas de llamada**
+3. Activa la herramienta **Detección de contestador**
+
+### Casos de uso
+
+<AccordionGroup>
+  <Accordion title="Llamadas salientes automatizadas">
+    En campañas de llamadas salientes, puedes configurar el agente para que solo continúe la conversación si detecta una persona real, o deje un mensaje grabado si es un contestador.
+
+    **Ejemplo de configuración:**
+    ```markdown
+    Al inicio de la llamada:
+    1. Usa la herramienta de detección de contestador
+    2. Si detectas una persona real: continúa con el script de ventas normal
+    3. Si detectas un contestador: deja un mensaje breve y cuelga
+
+    Mensaje para contestador:
+    "Hola, habla [Nombre] de [Empresa]. Te llamamos para [motivo].
+    Por favor llámanos al [número]. Gracias."
+    ```
+  </Accordion>
+
+  <Accordion title="Optimización de campañas">
+    Evita desperdiciar tiempo del agente hablando con contestadores, permitiendo que solo se dedique tiempo a conversaciones reales.
+  </Accordion>
+</AccordionGroup>
+
+## Siguientes pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Añadir integraciones"
+    icon="plug"
+    href="/es/build/agentes/anadir-integraciones"
+  >
+    Conecta APIs externas y servicios MCP a tu agente
+  </Card>
+
+  <Card
+    title="Caminos conversacionales"
+    icon="/icons/dataflow-02.svg"
+    href="/es/build/agentes/camino-conversacional"
+  >
+    Usa nodos dedicados para mayor control sobre las herramientas
+  </Card>
+
+  <Card
+    title="Integraciones HTTP"
+    icon="webhook"
+    href="/es/build/integraciones/integraciones-http"
+  >
+    Aprende a crear integraciones personalizadas
+  </Card>
+
+  <Card
+    title="Personalización de llamadas"
+    icon="sliders"
+    href="/es/build/agentes/personalizacion-llamada"
+  >
+    Ajusta voz, velocidad e idioma de tu agente
+  </Card>
+</CardGroup>

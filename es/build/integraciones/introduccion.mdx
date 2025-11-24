@@ -1,0 +1,164 @@
+---
+title: "Introducción a las Integraciones"
+description: "Conecta tus agentes con sistemas externos para realizar acciones durante las llamadas telefónicas"
+---
+
+## ¿Qué son las Integraciones?
+
+Las integraciones permiten que tus agentes telefónicos se conecten con sistemas externos durante las conversaciones. En lugar de programar manualmente cada llamada API, defines **herramientas** reutilizables que tus agentes pueden usar cuando las necesiten.
+
+Por ejemplo, un agente de soporte puede:
+- Buscar información de un cliente en tu CRM
+- Crear tickets en tu sistema de gestión
+- Procesar devoluciones en tu plataforma de pagos
+- Consultar inventario en tu base de datos
+
+Todo esto sucede en tiempo real durante la conversación telefónica, sin que el usuario tenga que esperar.
+
+<Note>
+  Las integraciones son opcionales. Puedes crear agentes que solo conversen sin realizar acciones externas. Úsalas cuando necesites que tu agente **haga algo** además de hablar.
+</Note>
+
+## Casos de Uso Comunes
+
+Las integraciones elevan las capacidades de tus agentes en múltiples casos:
+
+**Atención al Cliente**
+- Buscar información de clientes en CRM
+- Consultar estado de pedidos
+- Crear tickets de soporte
+
+**Ventas y Comercio**
+- Consultar disponibilidad de productos
+- Verificar precios y descuentos
+- Procesar pedidos
+
+**Servicios Financieros**
+- Consultar saldos de cuenta
+- Verificar transacciones
+- Procesar reembolsos
+
+## Conceptos Clave
+
+### Herramientas
+
+Una **herramienta** es una acción específica que tu agente puede realizar. Ejemplos:
+- `buscar_cliente` - Busca un cliente por teléfono o email
+- `crear_ticket` - Crea un ticket de soporte
+- `consultar_inventario` - Verifica disponibilidad de un producto
+- `procesar_reembolso` - Inicia una devolución
+
+Cada herramienta tiene:
+- **Nombre**: Identificador único (ej. `buscar_cliente`)
+- **Descripción**: Explica cuándo usarla
+- **Parámetros**: Información que necesita (ej. número de teléfono, email)
+
+### Integraciones
+
+Una **integración** es un contenedor que agrupa herramientas relacionadas y gestiona la conexión con un sistema externo.
+
+Por ejemplo, una integración "Zendesk" podría incluir:
+- `buscar_cliente`
+- `crear_ticket`
+- `actualizar_ticket`
+- `consultar_estado_ticket`
+
+Las integraciones también almacenan las credenciales (API keys, tokens) necesarias para autenticarse con el sistema externo.
+
+## Cómo Funcionan las Integraciones Durante una Llamada
+
+Cuando un usuario está en una llamada con tu agente, este puede usar las herramientas asignadas para realizar acciones en tiempo real:
+
+<Steps>
+  <Step title="El usuario solicita algo">
+    El usuario hace una petición durante la conversación (ej. "¿Cuál es el estado de mi pedido 12345?")
+  </Step>
+
+  <Step title="El agente identifica la necesidad">
+    El agente reconoce que necesita usar una herramienta para responder (ej. `consultar_pedido`)
+  </Step>
+
+  <Step title="El agente llama a la herramienta">
+    El agente ejecuta la herramienta con los parámetros necesarios (ej. `order_id=12345`)
+  </Step>
+
+  <Step title="El sistema externo responde">
+    La integración consulta el sistema externo y devuelve los datos al agente
+  </Step>
+
+  <Step title="El agente responde al usuario">
+    El agente usa la información recibida para dar una respuesta clara (ej. "Tu pedido está en camino y llegará mañana")
+  </Step>
+</Steps>
+
+Todo esto sucede en segundos, sin que el usuario tenga que esperar o ser transferido.
+
+## Tipos de Integraciones
+
+Diga soporta dos tipos de integraciones:
+
+<CardGroup cols={2}>
+  <Card
+    title="HTTP"
+    icon="/icons/dataflow-02.svg"
+    href="/es/build/integraciones/integraciones-http"
+  >
+    Creas herramientas manualmente definiendo endpoints, parámetros y autenticación. Es la opción más flexible.
+  </Card>
+  <Card
+    title="MCP (Model Context Protocol)"
+    icon="/icons/mcp-server.svg"
+    href="/es/build/integraciones/integraciones-mcp"
+  >
+    Las herramientas se sincronizan automáticamente desde el servidor. El proveedor gestiona las actualizaciones.
+  </Card>
+</CardGroup>
+
+## Confirmación de Usuario
+
+Para acciones sensibles (como procesar pagos o eliminar datos), puedes requerir **confirmación explícita del usuario** antes de ejecutar una herramienta.
+
+Cuando configuras confirmación de usuario, el agente:
+1. Explica qué acción va a realizar
+2. Pide confirmación al usuario ("¿Confirmas que quieres procesar el reembolso de 50 euros?")
+3. Espera una respuesta afirmativa
+4. Solo entonces ejecuta la herramienta
+
+Esto añade una capa de seguridad para operaciones críticas.
+
+<Tip>
+  **Recomendación**: Activa confirmación de usuario para cualquier herramienta que pueda tener consecuencias importantes o irreversibles.
+</Tip>
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Crear Integración HTTP"
+    icon="/icons/dataflow-02.svg"
+    href="/es/build/integraciones/integraciones-http"
+  >
+    Guía paso a paso para conectar cualquier API REST a tus agentes.
+  </Card>
+  <Card
+    title="Crear Integración MCP"
+    icon="/icons/dataflow-03.svg"
+    href="/es/build/integraciones/integraciones-mcp"
+  >
+    Aprende a sincronizar herramientas automáticamente desde servidores MCP.
+  </Card>
+  <Card
+    title="Asignar Integraciones a Agentes"
+    icon="/icons/file-attachment-02.svg"
+    href="/es/build/agentes/anadir-integraciones"
+  >
+    Configura qué agentes pueden usar qué herramientas.
+  </Card>
+  <Card
+    title="Usar Herramientas en Prompts"
+    icon="wrench"
+    href="/es/build/agentes/herramientas-llamada"
+  >
+    Aprende a instruir a tus agentes sobre cuándo usar cada herramienta.
+  </Card>
+</CardGroup>

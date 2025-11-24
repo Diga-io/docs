@@ -1,4 +1,80 @@
 ---
-title: "Personalización"
-description: "Ajustes avanzados para adapatar el agente a tus necesidades"
+title: "Personalización de Llamadas"
+description: "Configura el idioma, velocidad de voz, detección de inactividad y límites de duración para optimizar la experiencia de tus agentes telefónicos"
 ---
+
+## Introducción
+
+Además del prompt y las herramientas, puedes personalizar múltiples aspectos técnicos de cómo tu agente maneja las llamadas. Esta configuración te permite adaptar el comportamiento del agente a diferentes contextos: ajustar la velocidad de habla para distintas audiencias, configurar recordatorios para mantener al usuario comprometido, y establecer límites de tiempo para proteger tu presupuesto.
+
+<Note>
+**Alcance de la personalización**
+
+Todas estas configuraciones se aplican de forma global al agente, sin importar si usas modo de Prompt Único o Camino Conversacional. No necesitas ajustarlas en cada nodo individualmente.
+</Note>
+
+## Parámetros de voz
+
+### Idioma
+
+Define el idioma en el que el agente entendera durante la llamada. El idioma seleccionado afecta tanto el reconocimiento de voz como la síntesis de voz, pero no a la generación de texto del modelo de lenguaje. Por ello es imprescindible indicar al agente el idioma correcto en el prompt.
+
+<Frame>
+    <img src="/images/agent-language-configuration.png" alt="Captura de pantalla mostrando la configuración de idioma en el panel del agente" />
+</Frame>
+
+
+### Velocidad de voz
+
+Controla qué tan rápido habla el agente. Este parámetro es especialmente útil para adaptar el ritmo de conversación según tu audiencia.
+
+- **Rango de valores:** `0.25` a `2.0`
+- **Valor por defecto:** `1.0` (velocidad normal)
+
+## Sistema de detección de inactividad
+
+El sistema de detección de inactividad ayuda a mantener la conversación activa cuando el usuario deja de responder. Este mecanismo es fundamental para evitar silencios largos que terminan con la llamada o generan una mala experiencia.
+
+### Cómo funciona
+
+Cuando el usuario deja de hablar durante cierto tiempo, el agente envía un mensaje de recordatorio para verificar si sigue en la línea. Si después de varios recordatorios no hay respuesta, la llamada se termina automáticamente.
+
+<Frame>
+  <img src="/images/inactivity-detection-flow.png" alt="Diagrama de flujo mostrando el sistema de detección de inactividad con recordatorios progresivos" />
+</Frame>
+
+### Parámetros configurables
+
+#### Mensajes de recordatorio
+
+Define qué frases usará el agente para comprobar si el usuario sigue en la línea. Puedes definir:
+
+- **Mensajes fijos:** Una lista de frases específicas que el agente usará de manera aleatoria
+- **Mensajes generados:** El agente generará mensajes naturales basándose en el contexto. Este es el enfoque recomendado para una experiencia más humana.
+
+#### Frecuencia de recordatorios
+
+Define cada cuánto tiempo (en milisegundos) el agente debe enviar un recordatorio si no detecta actividad.
+
+- **Valor por defecto:** `7500` (7.5 segundos)
+- **Rango recomendado:** `5000` a `15000` ms
+
+<Warning>
+**Evita valores muy bajos**: Frecuencias menores a 5 segundos pueden hacer que el agente interrumpa al usuario mientras piensa su respuesta, generando una experiencia frustrante.
+</Warning>
+
+#### Número máximo de recordatorios
+
+Especifica cuántos recordatorios enviará el agente antes de terminar la llamada por inactividad.
+
+- **Valor por defecto:** `3`
+- **Rango recomendado:** `2` a `5`
+
+
+## Límites de duración
+
+### Duración máxima de llamada
+
+Establece el tiempo máximo que puede durar una llamada antes de terminarse automáticamente.
+
+**Valor por defecto:** `14400000` (4 horas)

@@ -1,0 +1,268 @@
+---
+title: "Añade tus integraciones externas"
+description: "Conecta tu agente con servicios externos para ampliar su funcionalidad"
+---
+
+## Introducción
+
+Una vez que hayas creado tus integraciones (HTTP o MCP), necesitas **asignarlas a tus agentes** para que puedan usar las herramientas durante las llamadas. Este proceso te permite controlar:
+
+- **Qué agentes** tienen acceso a qué integraciones
+- **Qué herramientas específicas** de cada integración puede usar cada agente
+- **En qué versión** del agente están disponibles las herramientas
+
+Esto te da control granular sobre qué acciones puede realizar cada agente, siguiendo el principio de privilegio mínimo.
+
+<Note>
+  **Prerequisito**: Antes de asignar integraciones a un agente, necesitas haber creado las integraciones. Si aún no lo has hecho, consulta:
+  - [Integraciones HTTP](/es/build/integraciones/integraciones-http)
+  - [Integraciones MCP](/es/build/integraciones/integraciones-mcp)
+</Note>
+
+## Asignar Integración a un Agente
+
+A continuación se describen los pasos para asignar una integración existente a un agente en modo prompt único. Si quieres añadir integraciones a un agente de Camino Conversacional, consulta la sección correspondiente sobre los [nodos de herramienta](/es/build/agentes/camino-conversacional/tipos-nodos.mdx)
+
+<Steps>
+  <Step title="Accede a tu Agente">
+    Desde el dashboard, ve a la sección **Agentes** y selecciona el agente al que quieres añadir integraciones.
+  </Step>
+
+  <Step title="Ve a Integraciones">
+    En la configuración del agente que aparece en el menú lateral, selecciona la pestaña **Integraciones**.
+  </Step>
+
+  <Step title="Añade Integración">
+    Haz clic en **Añadir Integración** y selecciona la integración que quieres asignar.
+
+    Se mostrarán todas las integraciones disponibles en tu proyecto, además de la posibilidad de crear una nueva integración directamente desde este menú.
+  </Step>
+
+  <Step title="Filtra Herramienta">
+
+    Después de seleccionar la integración, verás una lista de todas las herramientas que contiene. Aquí puedes seleccionar qué herramientas específicas quieres que este agente pueda usar.
+
+    <Warning>
+      Solo da acceso a las herramientas que el agente realmente necesita. El agente realizará mejora las herramientas cuanto menos opciones tenga.
+    </Warning>
+  </Step>
+
+  <Step title="Guarda los Cambios">
+    Haz clic en **Guardar** para aplicar la configuración.
+
+    La integración con sus herramientas están ahora disponibles para esta versión del agente.
+  </Step>
+</Steps>
+
+## Filtrado de Herramientas por Agente
+
+Diferentes agentes tienen diferentes necesidades. El filtrado te permite asignar la misma integración a múltiples agentes, pero con acceso a diferentes herramientas.
+
+### Ejemplo: Integración CRM Compartida
+
+Imagina una integración "CRM Clientes" con 10 herramientas:
+
+<AccordionGroup>
+  <Accordion title="Agente: Soporte al Cliente">
+    **Necesita**:
+    - Buscar cliente
+    - Consultar pedidos
+    - Crear tickets de soporte
+    - Actualizar información de contacto
+
+    **No necesita**:
+    - Crear oportunidades de venta
+    - Cerrar ventas
+    - Modificar precios
+    - Eliminar clientes
+
+    **Configuración**:
+    ```
+    Integración: CRM Clientes
+    Herramientas permitidas: 4 de 10
+      ✅ buscar_cliente
+      ✅ consultar_pedido
+      ✅ crear_ticket
+      ✅ actualizar_contacto
+    ```
+  </Accordion>
+
+  <Accordion title="Agente: Ventas Inbound">
+    **Necesita**:
+    - Buscar cliente
+    - Crear oportunidades
+    - Actualizar oportunidades
+    - Consultar pipeline de ventas
+
+    **No necesita**:
+    - Crear tickets de soporte
+    - Eliminar clientes
+    - Exportar datos
+
+    **Configuración**:
+    ```
+    Integración: CRM Clientes
+    Herramientas permitidas: 4 de 10
+      ✅ buscar_cliente
+      ✅ crear_oportunidad
+      ✅ actualizar_oportunidad
+      ✅ consultar_pipeline
+    ```
+  </Accordion>
+
+  <Accordion title="Agente: Administrador de Cuentas">
+    **Necesita**:
+    - Buscar cliente
+    - Actualizar información completa
+    - Consultar historial
+    - Exportar reportes
+
+    **No necesita**:
+    - Eliminar clientes (muy peligroso)
+    - Modificar precios base
+
+    **Configuración**:
+    ```
+    Integración: CRM Clientes
+    Herramientas permitidas: 6 de 10
+      ✅ buscar_cliente
+      ✅ actualizar_cliente
+      ✅ consultar_historial
+      ✅ exportar_reporte
+      ✅ crear_nota
+      ✅ programar_reunion
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Ventajas del Filtrado
+
+<CardGroup cols={2}>
+  <Card title="Seguridad" icon="shield-check">
+    Reduce el riesgo de que un agente ejecute acciones peligrosas por error o confusión.
+  </Card>
+  <Card title="Simplicidad" icon="sparkles">
+    El agente solo ve herramientas relevantes, reduciendo confusión sobre cuál usar.
+  </Card>
+  <Card title="Cumplimiento" icon="file-check">
+    Facilita auditorías mostrando exactamente qué permisos tiene cada agente.
+  </Card>
+  <Card title="Reusabilidad" icon="recycle">
+    Reutiliza la misma integración para múltiples agentes con diferentes niveles de acceso.
+  </Card>
+</CardGroup>
+
+## Múltiples Integraciones por Agente
+
+Un agente puede tener asignadas **múltiples integraciones** simultáneamente. Esto es útil cuando necesita interactuar con varios sistemas.
+
+### Ejemplo: Agente de E-commerce
+
+```
+Agente: "Soporte E-commerce"
+
+Integraciones asignadas:
+
+1. Integración: Sistema de Pedidos
+   Herramientas:
+     - consultar_pedido
+     - consultar_envio
+     - cancelar_pedido
+
+2. Integración: Plataforma de Pagos
+   Herramientas:
+     - consultar_transaccion
+     - procesar_reembolso (con confirmación)
+
+3. Integración: CRM Clientes
+   Herramientas:
+     - buscar_cliente
+     - actualizar_contacto
+
+4. Integración: Sistema de Inventario
+   Herramientas:
+     - consultar_disponibilidad
+     - verificar_stock
+```
+
+Durante una llamada, este agente puede:
+1. Buscar al cliente en el CRM
+2. Consultar su pedido en el Sistema de Pedidos
+3. Verificar el estado del pago en la Plataforma de Pagos
+4. Si es necesario, procesar un reembolso (con confirmación del usuario)
+5. Verificar disponibilidad de productos alternativos en Inventario
+
+<Tip>
+  **Organización**: Agrupa herramientas relacionadas en integraciones separadas. Es más fácil gestionar "Integración Pagos" + "Integración CRM" que una sola "Integración Mega" con 50 herramientas.
+</Tip>
+
+## Verificar Configuración
+
+Después de asignar integraciones, verifica que todo esté configurado correctamente:
+
+### Probar en Llamada Real
+
+La mejor forma de validar es realizar llamadas de prueba:
+
+<Steps>
+  <Step title="Escenarios de prueba">
+    Define escenarios que requieran usar cada herramienta:
+    - "El usuario quiere saber el estado de su pedido 12345"
+    - "El usuario solicita un reembolso"
+    - "El usuario quiere actualizar su email"
+  </Step>
+
+  <Step title="Ejecuta las llamadas">
+    Llama al agente y presenta cada escenario
+  </Step>
+
+  <Step title="Verifica el comportamiento">
+    Confirma que:
+    - El agente usa la herramienta correcta
+    - Los parámetros se envían correctamente
+    - La herramienta devuelve datos esperados
+    - El agente interpreta y comunica la respuesta apropiadamente
+    - La confirmación de usuario funciona cuando está activada
+  </Step>
+
+  <Step title="Revisa los logs">
+    Consulta los logs de llamadas para ver:
+    - Qué herramientas se ejecutaron
+    - Qué parámetros se enviaron
+    - Qué respuestas se recibieron
+    - Si hubo errores
+  </Step>
+</Steps>
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Usar Herramientas en Prompts"
+    icon="wrench"
+    href="/es/build/agentes/herramientas-llamada"
+  >
+    Aprende a instruir a tus agentes sobre cuándo y cómo usar cada herramienta.
+  </Card>
+  <Card
+    title="Crear Integraciones HTTP"
+    icon="/icons/dataflow-02.svg"
+    href="/es/build/integraciones/integraciones-http"
+  >
+    Conecta cualquier API REST a tus agentes.
+  </Card>
+  <Card
+    title="Crear Integraciones MCP"
+    icon="/icons/dataflow-03.svg"
+    href="/es/build/integraciones/integraciones-mcp"
+  >
+    Sincroniza herramientas automáticamente desde servidores MCP.
+  </Card>
+  <Card
+    title="Control de Versiones"
+    icon="/icons/layers-three-02.svg"
+    href="/es/build/agentes/control-versiones"
+  >
+    Gestiona múltiples versiones de agentes con diferentes configuraciones.
+  </Card>
+</CardGroup>

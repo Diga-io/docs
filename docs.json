@@ -34,7 +34,7 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Discord",
+          "anchor": "Community & Support",
           "href": "https://mintlify.com/docs",
           "icon": "discord"
         },
@@ -72,18 +72,25 @@
                     "group": "Agentes",
                     "pages": [
                       "es/build/agentes/prompt-unico",
-                      "es/build/agentes/camino-conversacional",
+                      {
+                        "group": "Caminos Conversacionales",
+                        "pages": [
+                          "es/build/agentes/camino-conversacional",
+                          "es/build/agentes/camino-conversacional/tipos-nodos"
+                        ]
+                      },
                       "es/build/agentes/personalizacion-llamada",
                       "es/build/agentes/control-versiones",
-                      "es/build/agentes/herramientas-llamada"
+                      "es/build/agentes/herramientas-llamada",
+                      "es/build/agentes/anadir-integraciones"
                     ]
                   },
                   {
                     "group": "Integraciones",
                     "pages": [
-                      "es/build/integraciones/creacion",
-                      "es/build/herramientas/integraciones-MCP",
-                      "es/build/herramientas/integraciones-HTTP"
+                      "es/build/integraciones/introduccion",
+                      "es/build/integraciones/integraciones-http",
+                      "es/build/integraciones/integraciones-mcp"
                     ]
                   }
                 ]
@@ -96,7 +103,7 @@
                 ]
               },
               {
-                "group": "Cuentas y proyectos",
+                "group": "Plataforma",
                 "pages": [
                   "es/proyectos/cuentas",
                   "es/proyectos/proyectos"
@@ -155,14 +162,14 @@
     }
   },
   "logo": {
-    "light": "/logo/primary_log.svg",
+    "light": "/logo/primary_iso.svg",
     "dark": "/logo/white_logo.svg"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "https://mintlify.com/docs/support"
       }
     ],
     "primary": {
