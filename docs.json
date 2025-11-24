@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "aspen",
+  "theme": "almond",
   "name": "Diga",
   "colors": {
     "primary": "#343E96",
@@ -34,7 +34,7 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Discord",
+          "anchor": "Community & Support",
           "href": "https://mintlify.com/docs",
           "icon": "discord"
         },
@@ -51,28 +51,6 @@
       ]
     },
     "languages": [
-      {
-        "language": "en",
-        "tabs": [
-          {
-            "tab": "Documentation",
-            "groups": [
-              {
-                "group": "Get Started",
-                "pages": [
-                  "en/index",
-                  "en/quickstart",
-                  "en/development"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "API Reference",
-            "openapi": "/api-reference/openapi.json"
-          }
-        ]
-      },
       {
         "language": "es",
         "default": true,
@@ -93,20 +71,26 @@
                   {
                     "group": "Agentes",
                     "pages": [
-                      "es/build/agentes/index",
                       "es/build/agentes/prompt-unico",
-                      "es/build/agentes/camino-conversacional",
+                      {
+                        "group": "Caminos Conversacionales",
+                        "pages": [
+                          "es/build/agentes/camino-conversacional",
+                          "es/build/agentes/camino-conversacional/tipos-nodos"
+                        ]
+                      },
                       "es/build/agentes/personalizacion-llamada",
                       "es/build/agentes/control-versiones",
-                      "es/build/agentes/herramientas-llamada"
+                      "es/build/agentes/herramientas-llamada",
+                      "es/build/agentes/anadir-integraciones"
                     ]
                   },
                   {
                     "group": "Integraciones",
                     "pages": [
-                      "es/build/herramientas/introduccion",
-                      "es/build/herramientas/integraciones-MCP",
-                      "es/build/herramientas/integraciones-HTTP"
+                      "es/build/integraciones/introduccion",
+                      "es/build/integraciones/integraciones-http",
+                      "es/build/integraciones/integraciones-mcp"
                     ]
                   }
                 ]
@@ -119,7 +103,7 @@
                 ]
               },
               {
-                "group": "Cuentas y proyectos",
+                "group": "Plataforma",
                 "pages": [
                   "es/proyectos/cuentas",
                   "es/proyectos/proyectos"
@@ -143,6 +127,28 @@
             "openapi": "/api-reference/openapi.json"
           }
         ]
+      },
+      {
+        "language": "en",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "groups": [
+              {
+                "group": "Get Started",
+                "pages": [
+                  "en/index",
+                  "en/quickstart",
+                  "en/development"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "API Reference",
+            "openapi": "/api-reference/openapi.json"
+          }
+        ]
       }
     ]
   },
@@ -156,14 +162,14 @@
     }
   },
   "logo": {
-    "light": "/logo/primary_log.svg",
+    "light": "/logo/primary_iso.svg",
     "dark": "/logo/white_logo.svg"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "https://mintlify.com/docs/support"
       }
     ],
     "primary": {

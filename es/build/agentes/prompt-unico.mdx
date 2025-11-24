@@ -1,0 +1,340 @@
+---
+title: "Como hacer prompts"
+description: "Mejores prácticas para escribir prompts efectivos que creen agentes telefónicos confiables y naturales"
+
+---
+
+## Introducción
+
+La creacion de prompts es la base para crear agentes telefónicos de IA efectivos. Un prompt bien diseñado determina cómo tu agente interpreta situaciones, responde a usuarios y maneja casos especiales. Esta guía proporciona estrategias probadas para escribir prompts que los agentes puedan seguir de manera confiable.
+
+<Note>
+  Esta guía se enfoca en principios generales de la ingeniería de prompts. Para implementación específica por tipo de agente:
+
+  * **Agentes de Prompt Único**: Aplica estos principios directamente en tus prompts
+  * **Agentes de Camino Conversacional**: Usa estos principios dentro de las instrucciones de cada nodo
+</Note>
+
+
+## Mejor Práctica 1: Organiza tu prompt en secciones
+
+Los prompts largos y desordenados confunden a los modelos de lenguaje. La solución es estructurar tu prompt en bloques temáticos bien definidos. Esto tiene ventajas importantes:
+
+* **Fácil de mantener**: Puedes modificar el comportamiento en un área sin tocar el resto
+* **Reutilizable**: Copia secciones enteras a otros agentes que necesiten comportamientos similares
+* **Mayor precisión**: El modelo entiende mejor las instrucciones cuando están categorizadas
+
+### Cómo estructurar un prompt efectivo
+
+Usa encabezados claros para separar cada tipo de instrucción:
+
+```markdown
+## Identidad
+Define quién es el agente y qué hace.
+Eres [nombre], [rol] en [empresa].
+Te especializas en [área de conocimiento].
+
+## Reglas de Estilo
+Establece cómo debe hablar el agente.
+Responde en máximo 2 frases cuando sea posible.
+Habla de manera natural, como lo haría una persona real.
+Reconoce las emociones del usuario en tus respuestas.
+
+## Guías de Respuesta
+Instrucciones específicas sobre formato y confirmaciones.
+Di las fechas en voz alta: "quince de enero" en lugar de "15/1".
+Una pregunta cada vez: no satures al usuario con múltiples preguntas seguidas.
+Repite información importante: confirma números, fechas y nombres.
+
+## Tareas a Realizar
+Los pasos exactos que debe seguir el agente.
+[Describe el flujo de la conversación paso por paso]
+
+## Manejo de Situaciones Difíciles
+Qué decir cuando el usuario reacciona negativamente.
+Si dice que no le interesa: "Lo entiendo perfectamente. ¿Puedo preguntarte qué..."
+Si se nota frustrado: "Noto tu molestia, voy a hacer todo lo posible por solucionarlo..."
+```
+
+<Accordion title=" Ejmplo Completo: Agente de Atención al Cliente">
+
+<CodeGroup>
+```markdown Prompt Estructurado
+## Identidad
+Eres Ana, agente de atención al cliente de TechSolutions.
+Tu rol es ayudar a clientes con consultas sobre productos, pedidos y soporte técnico básico.
+Tienes experiencia en servicio al cliente y resolución de problemas.
+
+## Reglas de Estilo
+Sé conciso: Respuestas de 1-2 frases por defecto.
+Sé cálido: Usa un tono amigable y profesional.
+Sé proactivo: Anticipa necesidades del cliente.
+Evita jerga técnica: Explica conceptos en términos simples.
+
+## Guías de Respuesta
+Confirma información crítica: Repite números de pedido, fechas y montos.
+Reformula preguntas: Si algo no es claro, pide aclaración de forma específica.
+Ofrece alternativas: Si no puedes hacer algo, sugiere opciones.
+No uses abreviaturas: Di "lunes a viernes" en lugar de "L-V".
+
+## Conocimiento de Empresa
+Horario: Lunes a viernes de 9 a 18 horas, sábados de 10 a 14 horas.
+Política de devoluciones: 30 días desde la compra con recibo.
+Envío estándar: 3-5 días laborables.
+Productos principales: Laptops, tablets, accesorios de oficina.
+
+## Instrucciones de Tarea
+1. Saluda de forma cálida y preséntate.
+2. Pregunta en qué puedes ayudar.
+3. Escucha la consulta completa antes de responder.
+4. Proporciona la información solicitada de forma clara.
+5. Pregunta si necesita ayuda adicional.
+6. Despídete profesionalmente.
+
+## Manejo de Objeciones
+Si el cliente está molesto: "Entiendo tu frustración. Déjame ver cómo puedo resolver esto."
+Si no tienes la información: "No tengo esa información ahora mismo. Te puedo transferir con alguien que sí puede ayudarte."
+Si solicitan algo imposible: "No puedo hacer eso directamente, pero lo que sí puedo hacer es..."
+```
+
+```markdown Ejemplo de Conversación
+Usuario: Hola, tengo un problema con mi pedido.
+Agente: Hola, soy Ana de TechSolutions. Lamento que tengas un problema. ¿Me puedes contar qué pasó?
+
+Usuario: Pedí una laptop hace una semana y aún no llega.
+Agente: Entiendo. ¿Tienes el número de pedido a mano?
+
+Usuario: Sí, es el 45892.
+Agente: Perfecto, el cuatro cinco ocho nueve dos. Dame un momento para revisar.
+
+[Consulta sistema]
+
+Agente: Veo que tu pedido salió hace 4 días. El envío estándar toma de 3 a 5 días, así que debería llegar en los próximos dos días. ¿Te envío el número de rastreo por mensaje?
+
+Usuario: Sí, por favor.
+Agente: Listo, te lo acabo de enviar. ¿Hay algo más en lo que pueda ayudarte?
+
+Usuario: No, eso es todo.
+Agente: Perfecto. Gracias por llamar, que tengas buen día.
+```
+</CodeGroup>
+
+</Accordion>
+
+## Mejor Práctica 2: Cuándo migrar a Camino Conversacional
+
+No todos los casos de uso funcionan bien con un prompt único. Si tu agente empieza a ser impredecible o el prompt se vuelve demasiado largo, es momento de considerar un agente de Camino Conversacional.
+
+### Señales de que necesitas cambiar de arquitectura:
+
+* **Tu prompt tiene demasiados "si... entonces"**: Cuando superas 3-4 condiciones, el modelo empieza a confundirse
+* **Usas muchas herramientas**: Con más de 5 integraciones, el agente no sabe cuándo usar cada una
+* **Necesitas recordar información**: Si debes rastrear variables entre diferentes momentos de la conversación
+* **Comportamiento errático**: El agente responde bien a veces y otras veces falla en el mismo escenario
+
+### Qué ganas con Camino Conversacional:
+
+* **Enfoque**: Cada nodo tiene un único propósito, sin distracciones
+* **Confiabilidad**: Las transiciones y herramientas se activan de forma determinística, no dependen de interpretación
+* **Debugging más simple**: Puedes identificar exactamente en qué nodo está fallando
+* **Consistencia**: El comportamiento es predecible porque está explícitamente programado
+
+<Tip>
+**Regla práctica**: Si escribiste más de 3 bloques del tipo "Si el usuario menciona X, entonces haz Y", probablemente tu caso de uso funcione mejor con un flujo estructurado.
+</Tip>
+
+## Mejor Práctica 3: Sé explícito con las herramientas
+
+<Note>Esta sección aplica solo a Agentes de Prompt Único. Los Agentes de Camino Conversacional gestionan las llamadas a funciones automáticamente según la configuración de cada nodo.</Note>
+
+### Por qué es importante
+
+Un error común es pensar que el modelo sabrá cuándo usar cada herramienta con solo leer su descripción. En la práctica, esto no funciona bien. El resultado es un agente que:
+
+* Usa herramientas cuando no debería
+* Ignora herramientas cuando sí las necesita
+* Confunde cuál herramienta usar en cada situación
+
+### La solución: instrucciones paso a paso
+
+Necesitas decirle al agente exactamente cuándo activar cada herramienta. No dejes nada a la interpretación. Usa los nombres exactos de las funciones en las instrucciones.
+
+#### Ejemplo: Agente de Servicio al Cliente
+
+```markdown
+## Instrucciones de Uso de Herramientas
+
+1. Recopila información inicial sobre el problema del cliente.
+
+2. Determina el tipo de solicitud:
+   - Si el cliente menciona "reembolso" o "devolver dinero":
+     → Llama a la función `transferir_a_soporte` inmediatamente
+   - Si el cliente necesita estado de pedido:
+     → Llama a la función `consultar_estado_pedido` con order_id
+   - Si el cliente quiere cambiar su pedido:
+     → Primero llama `consultar_estado_pedido`
+     → Luego transiciona a estado_modificacion
+
+3. Después de recuperar información:
+   - Siempre resume lo que encontraste
+   - Pregunta si necesitan ayuda adicional
+   - Si sí, determina la siguiente acción apropiada
+```
+
+#### Ejemplo: Agente de Reservas de Restaurante
+
+```markdown
+## Instrucciones de Uso de Herramientas
+
+1. Saluda y pregunta para cuántas personas y qué fecha desean reservar.
+
+2. Una vez tengas ambos datos:
+   → Llama a `consultar_disponibilidad` con fecha y cantidad_personas
+
+3. Analiza el resultado:
+   - Si hay disponibilidad:
+     • Ofrece las opciones de horario disponibles
+     • Espera confirmación del cliente
+     → Llama a `crear_reserva` con todos los datos
+   - Si NO hay disponibilidad:
+     • Ofrece fechas alternativas cercanas
+     • Si el cliente acepta alternativa:
+       → Llama nuevamente a `consultar_disponibilidad` con nueva fecha
+
+4. Después de crear la reserva:
+   → Llama a `enviar_confirmacion` con el número de reserva
+   → Confirma verbalmente todos los detalles al cliente
+
+5. IMPORTANTE: Nunca llames a `crear_reserva` sin antes verificar disponibilidad.
+```
+
+### Claves para escribir instrucciones de herramientas efectivas
+
+1. **Palabras clave**: Especifica qué términos o frases debe escuchar el agente para activar cada herramienta
+2. **Orden de ejecución**: Si una herramienta depende de otra, déjalo claro. Por ejemplo: "primero consulta, después crea"
+3. **Restricciones**: Igual de importante es decir cuándo NO usar una herramienta. Evita llamadas innecesarias
+4. **Justificación**: Añade una línea explicando para qué sirve cada herramienta. Ayuda al modelo a entender el propósito
+
+## Mejor Práctica 4: Optimización para Conversaciones de Voz
+
+A diferencia de los chatbots de texto, los agentes telefónicos deben generar respuestas que suenen naturales cuando son habladas. Esto requiere consideraciones especiales:
+
+### Reglas de Formato para Voz
+
+```markdown
+## Guías de Respuesta para Voz
+
+Fechas: Di "quince de marzo de dos mil veinticinco" no "15/03/2025"
+Horarios: Di "tres de la tarde" no "15:00 horas"
+Números de teléfono: Di "seis uno dos, tres cuatro, cinco seis" agrupando dígitos
+Montos: Di "veinte euros" no "20,00 EUR"
+URLs: No deletrees. Di "te envío el enlace por mensaje"
+Emails: No deletrees. Di "te envío la información por correo"
+Listas: Máximo 3 opciones. Si hay más, pregunta qué tipo busca primero.
+
+NUNCA uses:
+- Asteriscos o emojis: *sonríe* 😊
+- Abreviaturas: "L-V" → "lunes a viernes"
+- Jerga de internet: "LOL", "OMG"
+- Símbolos: "+", "@", "#"
+```
+
+### Control de Longitud de Respuestas
+
+```markdown
+## Reglas de Concisión
+
+Respuesta por defecto: Máximo 2 frases
+Explicación compleja: Máximo 4 frases, luego pregunta si quedó claro
+Listas de opciones: Máximo 3 ítems a la vez
+Si hay mucha información: Divide en partes y pregunta qué quiere saber primero
+
+Ejemplo MALO:
+"Tenemos cinco tipos de seguros: el básico que cubre accidentes y responsabilidad civil,
+el premium que incluye todo lo anterior más cobertura de robo y daños parciales,
+el familiar que extiende la cobertura a todos los miembros del hogar..."
+
+Ejemplo BUENO:
+"Tenemos seguros básicos, premium y familiares. ¿Cuál te interesa que te explique?"
+```
+
+### Manejo de Interrupciones
+
+```markdown
+## Comportamiento con Interrupciones
+
+Si el usuario te interrumpe:
+1. Detente inmediatamente en lo que estás diciendo
+2. No repitas lo que ya dijiste
+3. Responde a lo nuevo que mencionó
+4. Solo pregunta si quiere retomar el tema anterior si era crítico
+
+Ejemplo:
+Agente: "El horario de atención es de lunes a—"
+Usuario: "¿Y el precio?"
+Agente: "El precio inicial es de cincuenta euros. ¿Quieres saber sobre otros planes?"
+[NO repite lo del horario a menos que el usuario lo pida]
+```
+
+## Iteración y Optimización
+
+La iteración es clave para perfeccionar tus prompts. Aquí tienes un proceso recomendado:
+
+<Steps>
+  <Step title="Comienza con un prompt sencillo ">
+    Usa las estructuras de esta guía como punto de partida.
+  </Step>
+
+  <Step title="Prueba con escenarios reales">
+    Realiza 5-10 llamadas de prueba con diferentes tipos de consultas.
+  </Step>
+
+  <Step title="Identifica patrones de fallo">
+    Revisa transcripciones para detectar:
+    - Momentos donde el agente no sabe qué hacer
+    - Respuestas que suenan poco naturales
+    - Uso incorrecto de herramientas
+    - Información incorrecta o desactualizada
+  </Step>
+
+  <Step title="Refina secciones específicas">
+    Ajusta solo las partes del prompt que causaron problemas y comienza de nuevo el proceso
+  </Step>
+</Steps>
+
+<Tip>
+**Estrategia de pruebas**: Pide a alguien que no conoce tu agente que haga una llamada real. Su experiencia te mostrará problemas que tú no verías porque conoces cómo "debería" funcionar.
+</Tip>
+
+## Siguientes pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Caminos conversacionales"
+    icon="/icons/dataflow-04.svg"
+    href="/es/build/agentes/camino-conversacional"
+  >
+    Aprende cuándo y cómo usar flujos estructurados para mayor control.
+  </Card>
+  <Card
+    title="Personalización de llamadas"
+    icon="/icons/settings-03.svg"
+    href="/es/build/agentes/personalizacion-llamada"
+  >
+    Ajusta voz, velocidad y parámetros avanzados.
+  </Card>
+  <Card
+    title="Integrar herramientas"
+    icon="wrench"
+    href="/es/build/agentes/herramientas-llamada"
+  >
+    Conecta APIs y bases de datos a tu agente.
+  </Card>
+  <Card
+    title="Control de versiones"
+    icon="/icons/layers-three-02.svg"
+    href="/es/build/agentes/control-versiones"
+  >
+    Gestiona y prueba múltiples versiones de prompts.
+  </Card>
+</CardGroup>

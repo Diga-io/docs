@@ -1,0 +1,127 @@
+---
+title: "Tipos de Nodos"
+description: "Guía completa de los cinco tipos de nodos disponibles en caminos conversacionales y cuándo usar cada uno"
+---
+
+## Introducción
+
+Los nodos son los bloques fundamentales de un camino conversacional. Cada tipo de nodo tiene un propósito específico y capacidades únicas. Elegir el tipo correcto de nodo para cada paso de tu flujo es clave para crear agentes efectivos.
+
+<CardGroup cols={2}>
+  <Card title="Nodo de Inicio" icon="play" color="#767DA3">
+    Comienza la conversación
+  </Card>
+  <Card title="Nodo de Conversación" icon="message-square">
+    Genera diálogo con el usuario
+  </Card>
+  <Card title="Nodo de Herramienta" icon="wrench" color="#A3A9C2">
+    Ejecuta llamadas API
+  </Card>
+  <Card title="Nodo de Transferencia" icon="arrow-right-left" color="#f59e0b">
+    Transfiere a otro número
+  </Card>
+  <Card title="Nodo de Terminar" icon="phone-off" color="#ef4444">
+    Finaliza la llamada
+  </Card>
+</CardGroup>
+
+## Nodo de Inicio
+
+### Descripción
+
+El nodo de comienzo es el punto de entrada de todo camino conversacional. Es el primer nodo que se ejecuta cuando comienza la llamada.
+
+<Note>
+**Único y obligatorio**
+
+Cada camino conversacional debe tener exactamente un nodo de comienzo. No puedes tener varios nodos de inicio ni eliminar el nodo de comienzo.
+</Note>
+
+### Características
+
+- Indica el comportamiento inicial, saludar primero o esperar a que el usuario hable
+- Solo puede estar conectado a un único nodo de conversacion
+- No genera diálogo por sí mismo, esto lo realiza el nodo siguiente
+
+### Configuración
+
+- **Esperar al usuario**: Si es afirmativo, espera a que el usuario hable primero
+- **Tiempo de espera**: Tiempo en milisegundos hasta que el agente hable
+
+
+## Nodo de Conversación
+
+### Descripción
+
+Los nodos de conversación son el corazón de la interacción. Generan diálogo, hacen preguntas, y responden a las necesidades del usuario. La mayoría de nodos de un camino conversacional serán de este tipo.
+
+Ten en cuenta que el agente puede mantener una conversación de varios turnos dentro de un solo nodo, por lo que no es necesario crear un nuevo nodo de conversación para cada frase que el agente tenga que decir. Se recomienda dividir el nodo cuando haya una división lógica o la instrucción sea demasiado larga.
+
+### Instrucciones
+Hay dos formas principales de definir el comportamiento de un nodo de conversación:
+
+1. **Prompt**: el campo de texto sirve para dar instrucciones sobre lo que debe hacer el agente en este punto de la conversación. Esta es la forma recomendada de generar respuestas, ya que hace que la conversación sea más humana y natural.
+2. **Texto fijo**: en lugar de usar un prompt, puedes definir un texto fijo que el agente dirá exactamente como está escrito. Esto es útil para mensajes estándar o información que no debe cambiar.
+
+### Variables en Prompts
+
+Puedes usar variables dinámicas en tus prompts para personalizar la conversación:
+
+```markdown
+Prompt:
+Hola {{nombre_cliente}}, veo que tu último pedido {{numero_orden}}
+fue enviado el {{fecha_envio}} y debería llegar el {{fecha_estimada}}.
+¿Hay algo específico sobre este pedido que quieras consultar?
+```
+
+## Nodo de Herramienta
+
+### Descripción
+
+Los nodos de herramienta ejecutan llamadas a APIs externas, webhooks, o cualquier integración de sistema externo. Son fundamentales para conectar tu agente con tus servicios.
+
+En este nodo debes elegir la herramienta a usar. La herramienta se elige a partir de las integraciones creadas, pudiendo haber solo una herramienta por nodo.
+
+### Características
+
+- **Ejecución de API**: Llama a endpoints HTTP
+- **Sin diálogo directo**: No genera conversación
+- **Procesamiento de datos**: Recibe y procesa respuestas de servicios externos
+- **Transiciones basadas en resultado**: Las siguientes acciones dependen del resultado de la llamada
+
+### Ejemplo de uso
+
+<Frame>
+  <img src="/images/conversational-flow-tool-node.png" alt="Ejemplo de flujo conversacional con nodo de herramienta para verificar disponibilidad" />
+</Frame>
+
+## Nodo de Transferencia
+
+### Descripción
+
+Los nodos de transferencia redirigen la llamada a otro número telefónico o extensión telefónica. Útil para escalar a agentes humanos o departamentos especializados.
+
+### Características
+
+- **Transferencia en vivo**: Pasa la llamada a otro número
+- **Finaliza el flujo**: Una vez transferido, el agente IA ya no participa
+- **Manejo en caso de fallo**: Si la transferencia falla, puede haber una transición alternativa a otro nodo
+
+### Configuración
+
+- **Número de destino**: El número al que se transferirá la llamada.
+- **Extensión**: Si usas un sistema PBX, puedes definir una extensión interna. En el caso de que no indiques número de destino, la extensión se realizará con ese mismo número.
+
+### Ejemplo de uso
+
+<Frame>
+  <img src="/images/conversational-flow-transfer-node.png" alt="Ejemplo de flujo conversacional con nodo de transferencia a agente humano" />
+</Frame>
+
+## Nodo de Terminar
+
+Los nodos de terminar finalizan la llamada de manera controlada. Son los puntos de salida del flujo conversacional. Para que el agente indique un mensaje antes de colgar, se debe añadir un nodo de conversación antes del nodo de terminar.
+
+<Frame>
+  <img src="/images/conversational-flow-end-node.png" alt="Ejemplo de flujo conversacional con nodo de terminación después de un nodo de conversación" />
+</Frame>

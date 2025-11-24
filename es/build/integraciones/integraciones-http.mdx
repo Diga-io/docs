@@ -1,0 +1,310 @@
+---
+title: "Integraciones HTTP"
+description: "Conecta cualquier API REST a tus agentes telefónicos mediante integraciones HTTP"
+---
+
+## ¿Qué son las Integraciones HTTP?
+
+Las integraciones HTTP te permiten conectar tus agentes con **cualquier API REST** que uses o controles. Es la forma más flexible de integrar sistemas externos, desde CRMs hasta plataformas de pagos, bases de datos o servicios internos.
+
+A diferencia de las integraciones MCP que sincronizan herramientas automáticamente, con HTTP **tú defines manualmente** cada herramienta: qué endpoint llamar, qué parámetros enviar y cómo autenticarse.
+
+## Crear una Integración HTTP
+
+<Steps>
+  <Step title="Accede a Integraciones">
+    Desde el dashboard, ve a la sección **Integraciones** y haz clic en **Nueva Integración**.
+
+    Selecciona el tipo **HTTP**.
+  </Step>
+
+  <Step title="Configura la Conexión">
+    Define los detalles básicos de tu integración:
+
+    **Nombre**: Identifica tu integración (ej. "Zendesk", "Apidetuempresa" )
+
+    **URL Base**: El dominio y ruta base de la API (ej. `https://api.tuempresa.com/v1`)
+
+    **Descripción**: (Opcional) Explica para qué sirve esta integración
+    **Credenciales**: Dependiendo del servidor, puede requerir:
+    - Bearer Token
+    - Headers personalizados
+    - Sin autenticación
+
+  </Step>
+
+  <Step title="Guarda la Integración">
+    Una vez confirmada la conexión, guarda la integración.
+
+    Ahora puedes crear herramientas que usen esta integración.
+  </Step>
+</Steps>
+
+## Crear Herramientas
+
+Una vez creada la integración, necesitas definir las **herramientas** (acciones específicas) que tus agentes pueden usar.
+
+<Steps>
+  <Step title="Accede a la Integración">
+    En la lista de integraciones, selecciona la que acabas de crear.
+
+    Haz clic en **Nueva Herramienta**.
+  </Step>
+
+  <Step title="Define la Herramienta">
+    Configura los detalles de la acción:
+
+    **Nombre**: Identificador único en formato snake_case (ej. `buscar_cliente`, `crear_ticket`)
+
+    **Descripción**: Explica cuándo el agente debe usar esta herramienta. Sé específico.
+
+    <Tip>
+      **Buena descripción**: "Usa esta herramienta cuando el usuario proporcione su número de pedido y quiera saber el estado de su envío"
+
+      **Mala descripción**: "Consulta pedidos"
+    </Tip>
+
+    **Método HTTP**: GET, POST, PUT, PATCH, DELETE
+
+    **Endpoint**: Ruta relativa a la URL base (ej. `/customers`, `/tickets/create`)
+
+    **Headers Personalizados**: (Opcional) Añade headers específicos para esta herramienta, si es necesario.
+  </Step>
+
+  <Step title="Define Parámetros">
+    Especifica qué información necesita la herramienta. Los parámetros son opcionales (dependerá de la API) y podemos encontrar dos tipos:
+
+    **Parametros de la query**: Se envían en la URL (ej. `?status=open&limit=5`)
+
+    **Parametros del body**: Se envían en el cuerpo de la solicitud (JSON)
+
+    Para cada parámetro define los siguientes campos:
+    - **Nombre**: Identificador único (ej. `customer_id`, `status`). Debe ser el nombre del valor que espera la API.
+    - **Descripción**: Qué información representa y cómo obtenerla
+    - **Tipo de Dato**: string, number, boolean, array, object
+    - **Obligatorio**: Si es requerido o no
+    - **Modo de obtención**: Cómo el agente consigue este valor:
+      - Prompt: El agente pregunta al usuario o lo infiere del contexto
+      - Valor fijo: Un valor constante que defines al crear la herramienta
+
+    <Warning>
+      La descripción del parámetro es clave para que el agente entienda qué valor debe proporcionar. Sé claro y específico.
+    </Warning>
+
+  </Step>
+
+</Steps>
+
+## Ejemplo Completo: Integración con un CRM
+
+Vamos a crear una integración con un CRM ficticio para buscar clientes.
+
+### 1. Crear la Integración
+
+```
+Nombre: CRM Clientes
+URL Base: https://api.micrm.com/v2
+Tipo de Auth: Bearer Token 
+  Valor: crm_key_abc123xyz789
+```
+
+### 2. Crear Herramienta: Buscar Cliente
+
+```
+Nombre: buscar_cliente
+Descripción: Usa esta herramienta cuando el usuario mencione su email
+             o teléfono y necesites encontrar su información en el CRM.
+
+Método: GET
+Endpoint: /customers/search
+
+Parámetros:
+  - email (string, opcional, query)
+    Descripción: Email del cliente
+
+  - phone (string, opcional, query)
+    Descripción: Teléfono del cliente
+
+  - limit (number, opcional, query, default: 1)
+    Descripción: Número máximo de resultados
+
+Requiere Confirmación: No
+```
+
+### 3. Ejemplo de Uso en Llamada
+
+```
+Usuario: Mi email es juan@ejemplo.com, ¿qué pedidos tengo?
+
+Agente: [Llama a buscar_cliente con email="juan@ejemplo.com"]
+
+API responde:
+{
+  "customers": [{
+    "id": "cust_123",
+    "name": "Juan Pérez",
+    "email": "juan@ejemplo.com",
+    "phone": "+34612345678"
+  }]
+}
+
+Agente: Hola Juan, veo que tienes una cuenta con nosotros.
+        Déjame consultar tus pedidos...
+```
+
+## Mejores Prácticas
+
+<AccordionGroup>
+  <Accordion title="Nomenclatura Clara">
+    **Nombres de herramientas**:
+    - Usa verbos que describan la acción: `buscar_`, `crear_`, `actualizar_`, `eliminar_`
+    - Formato snake_case: `consultar_inventario`, no `consultarInventario`
+    - Sé específico: `crear_ticket_soporte`, no solo `crear`
+
+    **Nombres de parámetros**:
+    - Consistentes con la API: usa los mismos nombres que la documentación
+    - Descriptivos: `customer_id` mejor que `id`
+  </Accordion>
+
+  <Accordion title="Descripciones Precisas">
+    Las descripciones ayudan al agente a decidir cuándo usar cada herramienta.
+
+    **Buenas descripciones incluyen**:
+    - Cuándo usar la herramienta (trigger)
+    - Qué información necesita del usuario
+    - Qué hace exactamente
+
+    **Ejemplo**:
+    ```
+    ✅ BIEN:
+    "Usa esta herramienta cuando el usuario mencione su número de
+    pedido y quiera conocer el estado de su envío. Requiere el
+    número de pedido completo (ej. ORD-12345)."
+
+    ❌ MAL:
+    "Consulta pedidos"
+    ```
+  </Accordion>
+
+  <Accordion title="Gestión de Errores">
+    Define qué debe hacer el agente si la herramienta falla:
+
+    **En el prompt del agente**, añade instrucciones como:
+    ```markdown
+    ## Manejo de Errores de Herramientas
+
+    Si una herramienta falla:
+    1. No repitas el error técnico al usuario
+    2. Explica el problema en lenguaje simple
+    3. Ofrece una alternativa
+
+    Ejemplo:
+    "Lo siento, no puedo acceder a esa información en este momento.
+    ¿Puedo ayudarte con algo más o prefieres que te transfiera
+    con un agente humano?"
+    ```
+  </Accordion>
+
+  <Accordion title="Seguridad de Credenciales">
+    - **Rota credenciales regularmente**: Actualiza API keys cada 3-6 meses
+    - **Usa credenciales de solo lectura** cuando sea posible
+    - **Separa entornos**: Diferentes credenciales para staging y producción
+    - **Nunca expongas credenciales** en prompts, logs o respuestas del agente
+  </Accordion>
+
+  <Accordion title="Optimización de Latencia">
+    Las llamadas lentas pausan la conversación.
+
+    **Reduce latencia**:
+    - Usa endpoints optimizados (solo pide los datos necesarios)
+    - Limita el tamaño de respuestas (usa parámetros como `limit`, `fields`)
+    - Considera cachear datos que no cambian frecuentemente
+    - Monitorea tiempos de respuesta (objetivo: < 2 segundos)
+
+    **Ejemplo**:
+    ```
+    ✅ BIEN: GET /customers/123?fields=name,email,phone
+    ❌ MAL: GET /customers/123 (devuelve 50 campos innecesarios)
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Solución de Problemas
+
+<AccordionGroup>
+  <Accordion title="Error 401: No Autorizado">
+    **Causa**: Credenciales incorrectas o expiradas.
+
+    **Solución**:
+    - Verifica que el tipo de autenticación sea correcto
+    - Confirma que la API key o token esté activa
+    - Revisa si el token tiene los permisos necesarios
+    - Para Bearer tokens, verifica que no haya expirado
+  </Accordion>
+
+  <Accordion title="Error 404: No Encontrado">
+    **Causa**: El endpoint no existe.
+
+    **Solución**:
+    - Verifica la URL base (debe terminar en la versión de la API, ej. `/v1`)
+    - Confirma que el endpoint esté correctamente escrito
+    - Revisa la documentación para cambios en la API
+  </Accordion>
+
+  <Accordion title="Error 400: Solicitud Incorrecta">
+    **Causa**: Parámetros faltantes o con formato incorrecto.
+
+    **Solución**:
+    - Verifica que los parámetros requeridos estén configurados
+    - Confirma que los tipos de datos sean correctos (string, number, etc.)
+    - Revisa que los parámetros estén en la ubicación correcta (path, query, body)
+  </Accordion>
+
+  <Accordion title="Error 429: Demasiadas Solicitudes">
+    **Causa**: Límite de rate limit excedido.
+
+    **Solución**:
+    - Verifica los límites de la API en su documentación
+    - Reduce la frecuencia de llamadas
+    - Considera upgradar tu plan con el proveedor de la API
+    - Implementa caché para datos que no cambian frecuentemente
+  </Accordion>
+
+  <Accordion title="La herramienta nunca se usa">
+    **Causa**: El agente no sabe cuándo usar la herramienta.
+
+    **Solución**:
+    - Mejora la descripción de la herramienta (sé más específico)
+    - En agentes de Prompt Único: añade instrucciones explícitas sobre cuándo usar la herramienta
+    - En Caminos Conversacionales: asegúrate de que el nodo correcto esté configurado para usar la herramienta
+  </Accordion>
+
+  <Accordion title="El agente usa la herramienta incorrectamente">
+    **Causa**: Parámetros mal configurados o descripción ambigua.
+
+    **Solución**:
+    - Revisa que los parámetros tengan descripciones claras
+    - Asegúrate de que los tipos de datos sean correctos
+    - Mejora las instrucciones en el prompt del agente
+    - Usa confirmación de usuario para herramientas críticas
+  </Accordion>
+</AccordionGroup>
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Asignar a Agentes"
+    icon="/icons/file-attachment-02.svg"
+    href="/es/build/agentes/anadir-integraciones"
+  >
+    Aprende a asignar esta integración a tus agentes y filtrar herramientas.
+  </Card>
+  <Card
+    title="Integraciones MCP"
+    icon="/icons/mcp-server.svg"
+    href="/es/build/integraciones/integraciones-mcp"
+  >
+    Descubre cómo sincronizar herramientas automáticamente con MCP.
+  </Card>
+</CardGroup>

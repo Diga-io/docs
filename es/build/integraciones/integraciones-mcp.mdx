@@ -1,0 +1,158 @@
+---
+title: "Integraciones MCP"
+description: "Conecta servidores MCP a tus agentes para sincronizar herramientas automáticamente"
+---
+
+## ¿Qué son las Integraciones MCP?
+
+MCP (Model Context Protocol) es un protocolo estandarizado que permite que servicios externos **expongan herramientas automáticamente** a sistemas de IA. En lugar de crear manualmente cada herramienta como en HTTP, las integraciones MCP se sincronizan con un servidor y obtienen todas las herramientas disponibles de forma automática.
+
+Es como conectar un plugin: el servidor MCP le dice al agente qué herramientas ofrece, qué parámetros necesitan y cómo llamarlas.
+
+Puede conocer mas sobre MCP en la [documentación oficial del protocolo](https://modelcontextprotocol.io).
+
+## MCP disponibles en Diga
+
+Diga acepta servidores MCP a través de HTTP con streaming. Soportamos dos métodos de comunicación:
+
+### HTTP Streameable (`/mcp`)
+
+Si tu servidor MCP expone un endpoint que termina en `/mcp`, Diga utilizará el protocolo HTTP streameable nativo de MCP. Este es el método recomendado para nuevas implementaciones.
+
+**Ejemplo**: `https://tu-servidor.com/mcp`
+
+### Server-Sent Events (SSE)
+
+Si tu endpoint no termina en `/mcp`, Diga utilizará Server-Sent Events (SSE) para la comunicación bidireccional con el servidor MCP.
+
+<Note>
+  Ambos métodos soportan el mismo conjunto de capacidades MCP. La elección del protocolo es automática basándose en la URL que proporciones.
+</Note>
+
+## Crear una Integración MCP
+
+<Steps>
+  <Step title="Accede a Integraciones">
+    Desde el dashboard, ve a la sección **Integraciones** y haz clic en **Nueva Integración**.
+
+    Selecciona el tipo **MCP**.
+  </Step>
+
+  <Step title="Configura el Servidor MCP">
+    Proporciona los detalles de conexión al servidor:
+
+    **Nombre**: Identifica tu integración (ej. "Salesforce MCP", "HubSpot MCP")
+
+    **URL del Servidor**: Endpoint del servidor MCP 
+
+    **Credenciales**: Dependiendo del servidor, puede requerir:
+    - Bearer Token
+    - Headers personalizados
+    - Sin autenticación
+
+  </Step>
+
+  <Step title="Prueba la Conexión">
+    Haz clic en **Probar Conexión** para verificar que puedes comunicarte con el servidor MCP.
+
+    Si falla:
+    - Verifica que la URL del servidor sea correcta
+    - Confirma que las credenciales estén activas
+    - Asegúrate de que el servidor MCP esté en línea y accesible
+  </Step>
+
+  <Step title="Sincroniza Herramientas">
+    Una vez conectado, Diga automáticamente:
+    1. Descubre qué herramientas ofrece el servidor
+    2. Lee sus descripciones y parámetros
+    3. Las muestra en tu lista de herramientas
+
+    <Note>
+      Las herramientas se sincronizan automáticamente cuando listes las herramientas o asignes la integración a un agente.
+    </Note>
+
+  </Step>
+
+  <Step title="Revisa y Filtra Herramientas">
+    Revisa las herramientas disponibles.
+
+    Puedes:
+    - **Ver descripción**: Entender qué hace cada herramienta
+    - **Ver parámetros**: Revisar qué información necesita
+    - **Configurar confirmación**: Requerir aprobación del usuario para herramientas sensibles
+
+  </Step>
+
+  <Step title="Guarda la Integración">
+    Una vez configurada, guarda la integración.
+
+    Las herramientas sincronizadas están listas para asignarse a agentes.
+  </Step>
+</Steps>
+
+## Gestionar Herramientas Sincronizadas
+
+A diferencia de HTTP donde creas herramientas manualmente, con MCP las herramientas vienen del servidor. Sin embargo, puedes gestionarlas:
+
+### Configurar Confirmación de Usuario
+
+Aunque la herramienta venga del servidor MCP, puedes añadir una capa de confirmación:
+
+<Steps>
+  <Step title="Selecciona la herramienta">
+    En la lista de herramientas sincronizadas, encuentra la que necesita confirmación.
+  </Step>
+
+  <Step title="Activa confirmación">
+    Marca **Requiere Confirmación de Usuario**.
+  </Step>
+
+  <Step title="Comportamiento">
+    Ahora, cuando el agente intente usar esta herramienta:
+    1. Explicará al usuario qué hará
+    2. Pedirá confirmación explícita
+    3. Solo ejecutará si el usuario acepta
+  </Step>
+</Steps>
+
+
+### Sincronizacion de  Herramientas
+
+Como las herramientas se sincronizan desde el servidor MCP, cualquier cambio en el servidor (nuevas herramientas, actualizaciones) se reflejará en Diga la próxima vez que listes las herramientas o asignes la integración a un agente.
+
+<Warning>
+  Si el servidor MCP no es manejado por ti, te recomendamos comprobar periódicamente las herramientas para asegurarte de que todo esté actualizado.
+</Warning>
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Asignar a Agentes"
+    icon="/icons/file-attachment-02.svg"
+    href="/es/build/agentes/anadir-integraciones"
+  >
+    Aprende a asignar integraciones MCP a tus agentes y filtrar herramientas.
+  </Card>
+  <Card
+    title="Usar en Prompts"
+    icon="wrench"
+    href="/es/build/agentes/herramientas-llamada"
+  >
+    Instruye a tus agentes sobre cuándo y cómo usar herramientas.
+  </Card>
+  <Card
+    title="Integraciones HTTP"
+    icon="/icons/dataflow-02.svg"
+    href="/es/build/integraciones/integraciones-http"
+  >
+    Descubre cómo crear herramientas personalizadas con HTTP.
+  </Card>
+  <Card
+    title="Control de Versiones"
+    icon="/icons/layers-three-02.svg"
+    href="/es/build/agentes/control-versiones"
+  >
+    Gestiona versiones de agentes con diferentes integraciones.
+  </Card>
+</CardGroup>

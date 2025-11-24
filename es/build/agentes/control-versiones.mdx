@@ -1,0 +1,190 @@
+---
+title: "Control de versiones"
+description: "Gestiona y prueba múltiples versiones de tus agentes de forma segura"
+---
+
+## ¿Qué es el control de versiones?
+
+El control de versiones te permite crear y gestionar diferentes versiones de tu agente de forma segura. Puedes hacer cambios en un borrador, guardar versiones funcionales como respaldo, y publicar cuando estés listo para que tu agente atienda llamadas en vivo.
+
+<Note>
+**¿Por qué usar versiones?**
+
+El control de versiones te protege de errores costosos:
+- Haz cambios sin afectar llamadas en vivo
+- Guarda versiones funcionales como respaldo
+- Publica solo cuando estés listo
+- Vuelve a versiones anteriores si algo sale mal
+- Mantén un historial completo de todos los cambios
+</Note>
+
+## Conceptos fundamentales
+
+### Borrador
+
+Es tu espacio de trabajo donde haces todos los cambios al agente. Piensa en él como un documento de Google Docs que estás editando.
+
+**Características:**
+- Solo visible para ti en el dashboard
+- Puedes modificarlo cuantas veces quieras
+- Se guarda automáticamente mientras trabajas
+- Nunca se usa para atender llamadas reales
+- Puedes **publicar** el borrador para que atienda llamadas en vivo
+- Puedes **guardar como versión** para crear un respaldo sin publicar
+
+### Versión publicada
+
+Es la versión que está atendiendo llamadas en vivo en este momento. Es la configuración activa que tus clientes experimentan.
+
+**Características:**
+- Esta es la versión que usan todos los números de teléfono asignados a tu agente
+- Atiende todas las llamadas entrantes en este momento
+- Solo puede haber **una versión publicada** por agente al mismo tiempo
+- Es inmutable (no se puede editar directamente)
+- Si intentas editarla, se crea automáticamente una copia en el borrador
+- Aparece marcada como "Publicada" en el historial
+- Tiene un número de versión asignado (v1, v2, v3, etc.)
+
+<Warning>
+Para publicar una versión, debes tener un número de teléfono disponible en tu proyecto.
+</Warning>
+
+### Versiones guardadas
+
+Son copias funcionales de tu agente que has guardado pero no están publicadas. Son útiles para mantener diferentes configuraciones probadas sin ponerlas en vivo.
+
+**Características:**
+- No están en vivo (no atienden llamadas)
+- Son inmutables (no se pueden editar)
+- Si intentas editarlas, se crea automáticamente una copia en el borrador
+- Útiles para mantener configuraciones que funcionan bien
+- Puedes tener múltiples versiones guardadas
+- Cada una tiene su número de versión único
+- Puedes publicar cualquiera de ellas en cualquier momento
+
+### Numeración de versiones
+
+**Todas las versiones reciben un número incremental automáticamente**, sin importar si las guardas o publicas.
+
+- Tu primer agente empieza como **v1**
+- Al guardar el borrador como versión → **v2**
+- Al publicar desde el borrador → **v3**
+- Al guardar otra versión → **v4**
+- Y así sucesivamente...
+
+**Los números nunca se repiten** y siempre aumentan de forma secuencial. Esto asegura que cada versión tenga un identificador único.
+
+## Trabajar con versiones en el dashboard
+
+### Editar tu agente
+
+Cuando editas cualquier configuración de tu agente en el dashboard, estás modificando el **borrador**:
+
+1. Navega a tu agente en la sección "Agentes"
+2. Haz los cambios que necesites (prompt, voz, herramientas, etc.)
+3. Los cambios se guardan automáticamente en el borrador
+4. Verás una etiqueta "Borrador" indicando que hay cambios sin guardar/publicar
+
+<Tip>
+**Guardado automático**
+
+No necesitas preocuparte por guardar manualmente. El sistema guarda automáticamente tus cambios en el borrador mientras trabajas, similar a Google Docs.
+</Tip>
+
+### Guardar el borrador como versión
+
+Si quieres crear un respaldo de tu trabajo sin publicarlo:
+
+1. Haz clic en el botón "Guardar versión" en el editor
+2. Opcionalmente, agrega un nombre descriptivo (ejemplo: "Prueba con nuevo saludo")
+3. Confirma
+
+**Qué sucede al guardar:**
+- Se crea una nueva versión numerada (v2, v3, etc.)
+- Esta versión queda guardada en el historial
+- NO se publica (no atiende llamadas)
+- El borrador se mantiene para que sigas trabajando
+- Puedes publicar esta versión más tarde si quieres
+
+**Cuándo usar "Guardar versión":**
+- Quieres hacer un checkpoint de trabajo en progreso
+- Tienes una configuración funcional pero quieres seguir experimentando
+- Necesitas mantener múltiples opciones antes de decidir cuál publicar
+- Trabajas en equipo y quieren revisar antes de publicar
+
+### Publicar una versión
+
+Cuando estés listo para que tu agente atienda llamadas en vivo:
+
+**Opción 1: Publicar desde el borrador**
+1. Asegúrate de que el borrador tiene los cambios que quieres
+2. Haz clic en "Publicar"
+3. Opcionalmente, agrega un nombre descriptivo
+4. Confirma la publicación
+
+**Opción 2: Publicar una versión guardada**
+1. Ve al historial de versiones
+2. Encuentra la versión que quieres publicar
+3. Haz clic en "Publicar" junto a esa versión
+4. Confirma
+
+**Qué sucede al publicar:**
+- La versión se marca como "Publicada"
+- Todas las llamadas nuevas usan esta versión inmediatamente
+- Si había otra versión publicada, deja de estar publicada (pero sigue en el historial)
+- Solo puede haber una versión publicada a la vez
+
+<Warning>
+**Impacto en llamadas en vivo**
+
+Cuando publicas una nueva versión, afecta inmediatamente a todas las nuevas llamadas. Las llamadas en curso continúan con la versión que tenían. Asegúrate de probar bien antes de publicar.
+</Warning>
+
+### Editar una versión guardada o publicada
+
+Las versiones guardadas y publicadas son **inmutables** - no se pueden editar directamente. Esto protege la integridad del historial.
+
+**¿Qué pasa si intentas editarlas?**
+
+Cuando haces clic en "Editar" sobre una versión guardada o publicada:
+
+1. El sistema crea automáticamente una **copia completa** de esa versión
+2. La copia se coloca en tu borrador
+3. Puedes modificar el borrador libremente
+4. La versión original permanece sin cambios en el historial
+
+<Warning>
+  El borrador que se crea al editar una versión sobrescribe cualquier cambio no guardado que tuvieras en el borrador previamente.
+</Warning>
+
+### Ver el historial de versiones
+
+Dentro del editor de tu agente, puedes ver el historial completo de versiones debajo del nombre de tu agente. De esta manera puedes seleccionar la versión que quieras para poder verla o editarla.
+
+## Rastreo de llamadas por versión
+
+Cada llamada que atiende tu agente queda asociada a la versión específica que la manejó. Esto te permite:
+
+- Ver qué versión se usó para cada llamada en los detalles de la llamada
+- Auditar que versión se usó para cada llamada
+- Analizar el rendimiento de diferentes versiones
+
+
+## Siguientes pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Comprar un número de teléfono"
+    icon="phone-call"
+    href="/es/build/telefonia/comprar-numero"
+  >
+    Aprende a probar tus agentes antes de publicar cambios.
+  </Card>
+  <Card
+    title="Monitoreo de llamadas"
+    icon="chart-line"
+    href="/es/monitor/analytics"
+  >
+    Analiza el rendimiento de diferentes versiones de tu agente.
+  </Card>
+</CardGroup>
