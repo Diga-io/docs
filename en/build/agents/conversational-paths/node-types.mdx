@@ -1,0 +1,127 @@
+---
+title: "Node Types"
+description: "Complete guide to the five types of nodes available in conversational paths and when to use each one"
+---
+
+## Introduction
+
+Nodes are the fundamental building blocks of a conversational path. Each node type has a specific purpose and unique capabilities. Choosing the right node type for each step of your flow is key to creating effective agents.
+
+<CardGroup cols={2}>
+  <Card title="Start Node" icon="play" color="#767DA3">
+    Begins the conversation
+  </Card>
+  <Card title="Conversation Node" icon="message-square">
+    Generates dialogue with the user
+  </Card>
+  <Card title="Tool Node" icon="wrench" color="#A3A9C2">
+    Executes API calls
+  </Card>
+  <Card title="Transfer Node" icon="arrow-right-left" color="#f59e0b">
+    Transfers to another number
+  </Card>
+  <Card title="End Node" icon="phone-off" color="#ef4444">
+    Ends the call
+  </Card>
+</CardGroup>
+
+## Start Node
+
+### Description
+
+The start node is the entry point for every conversational path. It's the first node that executes when a call begins.
+
+<Note>
+**Unique and mandatory**
+
+Each conversational path must have exactly one start node. You cannot have multiple start nodes or delete the start node.
+</Note>
+
+### Features
+
+- Indicates initial behavior: greet first or wait for the user to speak
+- Can only be connected to a single conversation node
+- Doesn't generate dialogue by itself; the next node handles that
+
+### Configuration
+
+- **Wait for user**: If affirmative, waits for the user to speak first
+- **Wait time**: Time in milliseconds until the agent speaks
+
+
+## Conversation Node
+
+### Description
+
+Conversation nodes are the heart of interaction. They generate dialogue, ask questions, and respond to user needs. Most nodes in a conversational path will be of this type.
+
+Keep in mind that the agent can maintain a multi-turn conversation within a single node, so it's not necessary to create a new conversation node for every phrase the agent needs to say. It's recommended to split the node when there's a logical division or when the instruction becomes too long.
+
+### Instructions
+There are two main ways to define the behavior of a conversation node:
+
+1. **Prompt**: the text field is used to give instructions about what the agent should do at this point in the conversation. This is the recommended way to generate responses, as it makes the conversation more human and natural.
+2. **Fixed text**: instead of using a prompt, you can define a fixed text that the agent will say exactly as written. This is useful for standard messages or information that shouldn't change.
+
+### Variables in Prompts
+
+You can use dynamic variables in your prompts to personalize the conversation:
+
+```markdown
+Prompt:
+Hi {{customer_name}}, I see that your last order {{order_number}}
+was shipped on {{shipping_date}} and should arrive by {{estimated_date}}.
+Is there anything specific about this order you'd like to ask?
+```
+
+## Tool Node
+
+### Description
+
+Tool nodes execute calls to external APIs, webhooks, or any external system integration. They're fundamental for connecting your agent with your services.
+
+In this node, you must choose the tool to use. The tool is selected from created integrations, with only one tool allowed per node.
+
+### Features
+
+- **API execution**: Calls HTTP endpoints
+- **No direct dialogue**: Doesn't generate conversation
+- **Data processing**: Receives and processes responses from external services
+- **Result-based transitions**: Following actions depend on the call's result
+
+### Usage Example
+
+<Frame>
+  <img src="/images/conversational-flow-tool-node.png" alt="Conversational flow example with tool node to check availability" />
+</Frame>
+
+## Transfer Node
+
+### Description
+
+Transfer nodes redirect the call to another phone number or phone extension. Useful for escalating to human agents or specialized departments.
+
+### Features
+
+- **Live transfer**: Passes the call to another number
+- **Ends the flow**: Once transferred, the AI agent no longer participates
+- **Failure handling**: If the transfer fails, there can be an alternative transition to another node
+
+### Configuration
+
+- **Destination number**: The number to which the call will be transferred.
+- **Extension**: If you use a PBX system, you can define an internal extension. If you don't specify a destination number, the extension will be made with that same number.
+
+### Usage Example
+
+<Frame>
+  <img src="/images/conversational-flow-transfer-node.png" alt="Conversational flow example with transfer node to human agent" />
+</Frame>
+
+## End Node
+
+End nodes terminate the call in a controlled manner. They are the exit points of the conversational flow. For the agent to say a message before hanging up, a conversation node should be added before the end node.
+
+<Frame>
+  <img src="/images/conversational-flow-end-node.png" alt="Conversational flow example with end node after a conversation node" />
+</Frame>

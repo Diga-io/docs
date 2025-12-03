@@ -1,0 +1,226 @@
+---
+title: Proyectos
+description: Gestión de proyectos y organización en Diga
+---
+
+# Proyectos
+
+Los proyectos en Diga representan las organizaciones que utilizan la plataforma para gestionar agentes de voz con IA. Cada proyecto opera de forma independiente con su propio conjunto de recursos, configuración de facturación y miembros del equipo.
+
+## Información General
+
+Los proyectos son la unidad organizativa principal en Diga. Proporcionan un entorno multi-inquilino que permite a la plataforma servir a múltiples organizaciones mientras mantiene un estricto aislamiento de datos. Todos los recursos de la plataforma (agentes, llamadas, contactos, números de teléfono, etc.) están asociados a un proyecto específico.
+
+### Capacidades Clave
+
+- **Aislamiento de Datos**: Separación completa de datos y recursos entre proyectos
+- **Gestión de Equipos**: Soporte para múltiples usuarios con control de acceso basado en roles
+- **Recursos Específicos**: Todos los recursos de la plataforma están asociados a un proyecto
+- **Integración de Facturación**: Cada proyecto tiene su propia suscripción y configuración de pagos
+
+## Crear un Proyecto
+
+Cuando creas un nuevo proyecto, se configura automáticamente con:
+
+<Steps>
+  <Step title="Información básica">
+    Proporciona un nombre descriptivo y una descripción opcional para tu proyecto
+  </Step>
+
+  <Step title="Tu rol">
+    Se te asigna automáticamente como administrador del proyecto
+  </Step>
+
+  <Step title="Configuración de facturación">
+    Se crea un cliente de Stripe y se inicializa una suscripción gratuita
+  </Step>
+
+  <Step title="Recursos iniciales">
+    Tu proyecto está listo para empezar a crear agentes y gestionar llamadas
+  </Step>
+</Steps>
+
+<Note>
+Cada usuario puede crear múltiples proyectos. No hay límite en el número de proyectos que puedes gestionar.
+</Note>
+
+## Gestión del Proyecto
+
+### Actualizar Información del Proyecto
+
+Los administradores pueden actualizar la información del proyecto:
+
+1. Ve a **Configuración** &gt; **Proyecto**
+2. Modifica el nombre o descripción
+3. Haz clic en **Guardar cambios**
+
+### Ver Detalles del Proyecto
+
+Para ver información detallada de tu proyecto:
+
+- **Nombre**: El nombre de tu proyecto
+- **Descripción**: Una descripción opcional de tu proyecto
+- **Fecha de creación**: Cuándo se creó el proyecto
+- **ID del proyecto**: Identificador único del proyecto
+
+## Gestión de Equipo
+
+### Invitar Miembros
+
+Los administradores pueden invitar nuevos miembros al proyecto:
+
+<Steps>
+  <Step title="Accede a gestión de miembros">
+    Ve a Configuración &gt; Miembros
+  </Step>
+
+  <Step title="Envía una invitación">
+    Haz clic en "Invitar miembro", ingresa el email y selecciona un rol (Administrador o Miembro)
+  </Step>
+
+  <Step title="El usuario recibe la invitación">
+    Se envía un email de invitación al usuario
+  </Step>
+
+  <Step title="Aceptación">
+    Una vez aceptada, el usuario aparecerá en la lista de miembros del proyecto
+  </Step>
+</Steps>
+
+### Roles del Equipo
+
+Cada miembro del proyecto tiene uno de dos roles:
+
+| Rol | Descripción | Permisos |
+|-----|-------------|----------|
+| **Administrador** | Acceso administrativo completo | Puede gestionar todos los recursos, miembros, facturación y configuración del proyecto |
+| **Miembro** | Acceso limitado para operaciones diarias | Puede ver recursos y realizar llamadas, pero no puede modificar configuración ni gestionar equipo |
+
+<Info>
+Para más detalles sobre permisos específicos, consulta la página de [Roles y Permisos](/es/plataforma/roles-permisos).
+</Info>
+
+### Gestionar Miembros
+
+Los administradores pueden:
+
+- Ver todos los miembros del proyecto y sus roles
+- Cambiar el rol de un miembro (de Miembro a Administrador o viceversa)
+- Eliminar miembros del proyecto
+
+<Warning>
+No puedes eliminar el último administrador de un proyecto. Debes promover a otro miembro a administrador primero.
+</Warning>
+
+## Recursos del Proyecto
+
+Todos estos recursos están asociados a tu proyecto:
+
+### Agentes
+- Agentes de voz con IA configurados con prompts y flujos conversacionales
+- Cada agente pertenece a un solo proyecto
+
+### Llamadas
+- Registro de todas las llamadas realizadas por los agentes del proyecto
+- Transcripciones, grabaciones y analíticas de llamadas
+
+### Contactos
+- Base de datos de contactos para el proyecto
+- Gestión de información de clientes
+
+### Números de Teléfono
+- Números de teléfono adquiridos para el proyecto
+- Configuración de enrutamiento de llamadas
+
+### Integraciones
+- Conexiones a sistemas externos (CRM, bases de datos, APIs)
+- Webhooks y herramientas personalizadas
+
+### Claves API
+- Acceso programático a los recursos del proyecto
+- Claves con permisos restringidos para seguridad
+
+## Facturación del Proyecto
+
+Cada proyecto tiene su propia configuración de facturación independiente:
+
+- **Cliente de Stripe**: Un cliente de Stripe único por proyecto
+- **Plan de Suscripción**: Planes Gratuito, Starter, Pro, Scale o Business
+- **Minutos Incluidos**: Asignados mensualmente según el plan
+- **Números de Teléfono**: Cargo mensual por cada número
+- **Uso Adicional**: Minutos extras más allá del plan
+
+<Card title="Gestionar Facturación" icon="credit-card" href="/es/plataforma/facturacion">
+  Aprende más sobre planes de suscripción, facturación y pagos
+</Card>
+
+## Eliminación de Proyecto
+
+Los administradores pueden eliminar un proyecto cuando ya no sea necesario:
+
+<Warning>
+La eliminación de un proyecto es una acción permanente. Aunque el registro del proyecto se conserva en la base de datos (eliminación suave), se elimina el acceso y las membresías de todos los miembros.
+</Warning>
+
+<Steps>
+  <Step title="Verifica los requisitos">
+    - Debes ser administrador del proyecto
+    - El proyecto no debe ser tu único proyecto
+  </Step>
+
+  <Step title="Ve a configuración">
+    Accede a Configuración &gt; Proyecto
+  </Step>
+
+  <Step title="Elimina el proyecto">
+    Haz clic en "Eliminar proyecto" y confirma la acción
+  </Step>
+
+  <Step title="Confirmación">
+    El proyecto será marcado como eliminado y removido de tu lista de proyectos
+  </Step>
+</Steps>
+
+## Mejores Prácticas
+
+<AccordionGroup>
+  <Accordion title="Organiza por entorno o cliente">
+    Crea proyectos separados para diferentes clientes o entornos (desarrollo, producción) para mantener los recursos organizados y aislados.
+  </Accordion>
+
+  <Accordion title="Mantén al menos dos administradores">
+    Asigna al menos dos administradores por proyecto para evitar pérdida de acceso si un administrador no está disponible.
+  </Accordion>
+
+  <Accordion title="Revisa los miembros regularmente">
+    Audita periódicamente quién tiene acceso a tu proyecto y elimina miembros que ya no necesitan acceso.
+  </Accordion>
+
+  <Accordion title="Usa nombres descriptivos">
+    Elige nombres claros y descriptivos para tus proyectos, especialmente si gestionas múltiples proyectos.
+  </Accordion>
+</AccordionGroup>
+
+## Preguntas Frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Puedo transferir recursos entre proyectos?">
+    No, los recursos están vinculados permanentemente a un proyecto específico. Si necesitas mover recursos, deberás recrearlos en el proyecto destino.
+  </Accordion>
+
+  <Accordion title="¿Cuántos proyectos puedo crear?">
+    No hay límite en el número de proyectos que puedes crear. Cada proyecto tiene su propia facturación independiente.
+  </Accordion>
+
+  <Accordion title="¿Puedo cambiar el propietario de un proyecto?">
+    No hay un concepto de "propietario" único. Cualquier administrador tiene permisos completos. Puedes promover miembros a administradores o degradar administradores a miembros.
+  </Accordion>
+
+  <Accordion title="¿Qué sucede con los datos cuando elimino un proyecto?">
+    El proyecto se marca como eliminado (eliminación suave), preservando los datos para auditoría. Sin embargo, ningún usuario podrá acceder a estos datos.
+  </Accordion>
+
+  <Accordion title="¿Puedo renombrar un proyecto?">
+    Sí, los administradores pueden actualizar el nombre y descripción del proyecto en cualquier momento desde la configuración.
+  </Accordion>
+</AccordionGroup>

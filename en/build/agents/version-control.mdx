@@ -1,0 +1,190 @@
+---
+title: "Version Control"
+description: "Manage and test multiple versions of your agents safely"
+---
+
+## What is Version Control?
+
+Version control allows you to create and manage different versions of your agent safely. You can make changes in a draft, save working versions as backup, and publish when you're ready for your agent to handle live calls.
+
+<Note>
+**Why use versions?**
+
+Version control protects you from costly mistakes:
+- Make changes without affecting live calls
+- Save working versions as backup
+- Publish only when you're ready
+- Revert to previous versions if something goes wrong
+- Maintain a complete history of all changes
+</Note>
+
+## Fundamental Concepts
+
+### Draft
+
+This is your workspace where you make all changes to the agent. Think of it as a Google Docs document you're editing.
+
+**Features:**
+- Only visible to you in the dashboard
+- You can modify it as many times as you want
+- Saves automatically while you work
+- Never used to handle real calls
+- You can **publish** the draft so it handles live calls
+- You can **save as version** to create a backup without publishing
+
+### Published Version
+
+This is the version that's handling live calls right now. It's the active configuration that your customers experience.
+
+**Features:**
+- This is the version used by all phone numbers assigned to your agent
+- Handles all incoming calls at this moment
+- There can only be **one published version** per agent at a time
+- It's immutable (cannot be edited directly)
+- If you try to edit it, a copy is automatically created in the draft
+- Appears marked as "Published" in the history
+- Has an assigned version number (v1, v2, v3, etc.)
+
+<Warning>
+To publish a version, you must have a phone number available in your project.
+</Warning>
+
+### Saved Versions
+
+These are working copies of your agent that you've saved but aren't published. They're useful for maintaining different tested configurations without putting them live.
+
+**Features:**
+- Not live (don't handle calls)
+- Immutable (cannot be edited)
+- If you try to edit them, a copy is automatically created in the draft
+- Useful for maintaining configurations that work well
+- You can have multiple saved versions
+- Each has its unique version number
+- You can publish any of them at any time
+
+### Version Numbering
+
+**All versions receive an incremental number automatically**, regardless of whether you save or publish them.
+
+- Your first agent starts as **v1**
+- Saving the draft as a version → **v2**
+- Publishing from the draft → **v3**
+- Saving another version → **v4**
+- And so on...
+
+**Numbers never repeat** and always increase sequentially. This ensures each version has a unique identifier.
+
+## Working with Versions in the Dashboard
+
+### Editing Your Agent
+
+When you edit any configuration of your agent in the dashboard, you're modifying the **draft**:
+
+1. Navigate to your agent in the "Agents" section
+2. Make the changes you need (prompt, voice, tools, etc.)
+3. Changes are automatically saved to the draft
+4. You'll see a "Draft" label indicating there are unsaved/unpublished changes
+
+<Tip>
+**Auto-save**
+
+You don't need to worry about saving manually. The system automatically saves your changes to the draft while you work, similar to Google Docs.
+</Tip>
+
+### Saving the Draft as a Version
+
+If you want to create a backup of your work without publishing:
+
+1. Click the "Save version" button in the editor
+2. Optionally, add a descriptive name (example: "Test with new greeting")
+3. Confirm
+
+**What happens when saving:**
+- A new numbered version is created (v2, v3, etc.)
+- This version is saved in the history
+- It's NOT published (doesn't handle calls)
+- The draft is maintained so you can keep working
+- You can publish this version later if you want
+
+**When to use "Save version":**
+- You want to checkpoint work in progress
+- You have a working configuration but want to keep experimenting
+- You need to maintain multiple options before deciding which to publish
+- You're working as a team and want to review before publishing
+
+### Publishing a Version
+
+When you're ready for your agent to handle live calls:
+
+**Option 1: Publish from the draft**
+1. Make sure the draft has the changes you want
+2. Click "Publish"
+3. Optionally, add a descriptive name
+4. Confirm publication
+
+**Option 2: Publish a saved version**
+1. Go to version history
+2. Find the version you want to publish
+3. Click "Publish" next to that version
+4. Confirm
+
+**What happens when publishing:**
+- The version is marked as "Published"
+- All new calls use this version immediately
+- If there was another published version, it stops being published (but remains in history)
+- There can only be one published version at a time
+
+<Warning>
+**Impact on live calls**
+
+When you publish a new version, it immediately affects all new calls. Calls in progress continue with the version they had. Make sure to test well before publishing.
+</Warning>
+
+### Editing a Saved or Published Version
+
+Saved and published versions are **immutable** - they cannot be edited directly. This protects the integrity of the history.
+
+**What happens if you try to edit them?**
+
+When you click "Edit" on a saved or published version:
+
+1. The system automatically creates a **complete copy** of that version
+2. The copy is placed in your draft
+3. You can freely modify the draft
+4. The original version remains unchanged in history
+
+<Warning>
+  The draft created when editing a version overwrites any unsaved changes you had in the previous draft.
+</Warning>
+
+### Viewing Version History
+
+Within your agent's editor, you can see the complete version history below your agent's name. This way you can select the version you want to view or edit.
+
+## Call Tracking by Version
+
+Each call your agent handles is associated with the specific version that managed it. This allows you to:
+
+- See which version was used for each call in the call details
+- Audit which version was used for each call
+- Analyze performance of different versions
+
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Buy a Phone Number"
+    icon="phone-call"
+    href="/en/build/telephony/buy-number"
+  >
+    Learn how to test your agents before publishing changes.
+  </Card>
+  <Card
+    title="Call Monitoring"
+    icon="chart-line"
+    href="/en/monitor/analytics"
+  >
+    Analyze the performance of different versions of your agent.
+  </Card>
+</CardGroup>

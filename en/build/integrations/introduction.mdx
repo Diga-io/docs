@@ -1,0 +1,164 @@
+---
+title: "Introduction to Integrations"
+description: "Connect your agents with external systems to perform actions during phone calls"
+---
+
+## What are Integrations?
+
+Integrations allow your phone agents to connect with external systems during conversations. Instead of manually programming each API call, you define reusable **tools** that your agents can use when needed.
+
+For example, a support agent can:
+- Look up customer information in your CRM
+- Create tickets in your management system
+- Process returns in your payment platform
+- Check inventory in your database
+
+All of this happens in real-time during the phone conversation, without the user having to wait.
+
+<Note>
+  Integrations are optional. You can create agents that only converse without performing external actions. Use them when you need your agent to **do something** besides talking.
+</Note>
+
+## Common Use Cases
+
+Integrations elevate your agents' capabilities across multiple cases:
+
+**Customer Service**
+- Look up customer information in CRM
+- Check order status
+- Create support tickets
+
+**Sales and Commerce**
+- Check product availability
+- Verify prices and discounts
+- Process orders
+
+**Financial Services**
+- Check account balances
+- Verify transactions
+- Process refunds
+
+## Key Concepts
+
+### Tools
+
+A **tool** is a specific action your agent can perform. Examples:
+- `search_customer` - Searches for a customer by phone or email
+- `create_ticket` - Creates a support ticket
+- `check_inventory` - Verifies product availability
+- `process_refund` - Initiates a return
+
+Each tool has:
+- **Name**: Unique identifier (e.g., `search_customer`)
+- **Description**: Explains when to use it
+- **Parameters**: Information it needs (e.g., phone number, email)
+
+### Integrations
+
+An **integration** is a container that groups related tools and manages the connection with an external system.
+
+For example, a "Zendesk" integration could include:
+- `search_customer`
+- `create_ticket`
+- `update_ticket`
+- `check_ticket_status`
+
+Integrations also store the credentials (API keys, tokens) needed to authenticate with the external system.
+
+## How Integrations Work During a Call
+
+When a user is on a call with your agent, it can use assigned tools to perform actions in real-time:
+
+<Steps>
+  <Step title="The user requests something">
+    The user makes a request during the conversation (e.g., "What's the status of my order 12345?")
+  </Step>
+
+  <Step title="The agent identifies the need">
+    The agent recognizes it needs to use a tool to respond (e.g., `check_order`)
+  </Step>
+
+  <Step title="The agent calls the tool">
+    The agent executes the tool with the necessary parameters (e.g., `order_id=12345`)
+  </Step>
+
+  <Step title="The external system responds">
+    The integration queries the external system and returns the data to the agent
+  </Step>
+
+  <Step title="The agent responds to the user">
+    The agent uses the received information to give a clear response (e.g., "Your order is on its way and should arrive tomorrow")
+  </Step>
+</Steps>
+
+All of this happens in seconds, without the user having to wait or be transferred.
+
+## Types of Integrations
+
+Diga supports two types of integrations:
+
+<CardGroup cols={2}>
+  <Card
+    title="HTTP"
+    icon="/icons/dataflow-02.svg"
+    href="/en/build/integrations/http-integrations"
+  >
+    You create tools manually by defining endpoints, parameters, and authentication. It's the most flexible option.
+  </Card>
+  <Card
+    title="MCP (Model Context Protocol)"
+    icon="/icons/mcp-server.svg"
+    href="/en/build/integrations/mcp-integrations"
+  >
+    Tools are automatically synced from the server. The provider manages updates.
+  </Card>
+</CardGroup>
+
+## User Confirmation
+
+For sensitive actions (like processing payments or deleting data), you can require **explicit user confirmation** before executing a tool.
+
+When you configure user confirmation, the agent:
+1. Explains what action it's going to perform
+2. Asks for user confirmation ("Do you confirm you want to process the $50 refund?")
+3. Waits for an affirmative response
+4. Only then executes the tool
+
+This adds a layer of security for critical operations.
+
+<Tip>
+  **Recommendation**: Enable user confirmation for any tool that could have important or irreversible consequences.
+</Tip>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Create HTTP Integration"
+    icon="/icons/dataflow-02.svg"
+    href="/en/build/integrations/http-integrations"
+  >
+    Step-by-step guide to connect any REST API to your agents.
+  </Card>
+  <Card
+    title="Create MCP Integration"
+    icon="/icons/dataflow-03.svg"
+    href="/en/build/integrations/mcp-integrations"
+  >
+    Learn how to automatically sync tools from MCP servers.
+  </Card>
+  <Card
+    title="Assign Integrations to Agents"
+    icon="/icons/file-attachment-02.svg"
+    href="/en/build/agents/add-integrations"
+  >
+    Configure which agents can use which tools.
+  </Card>
+  <Card
+    title="Use Tools in Prompts"
+    icon="wrench"
+    href="/en/build/agents/call-tools"
+  >
+    Learn how to instruct your agents on when to use each tool.
+  </Card>
+</CardGroup>

@@ -1,0 +1,340 @@
+---
+title: "How to Write Prompts"
+description: "Best practices for writing effective prompts that create reliable and natural-sounding phone agents"
+
+---
+
+## Introduction
+
+Prompt engineering is the foundation for creating effective AI phone agents. A well-designed prompt determines how your agent interprets situations, responds to users, and handles edge cases. This guide provides proven strategies for writing prompts that agents can reliably follow.
+
+<Note>
+  This guide focuses on general prompt engineering principles. For type-specific implementation:
+
+  * **Single Prompt Agents**: Apply these principles directly in your prompts
+  * **Conversational Path Agents**: Use these principles within each node's instructions
+</Note>
+
+
+## Best Practice 1: Organize your prompt into sections
+
+Long, unorganized prompts confuse language models. The solution is to structure your prompt into well-defined thematic blocks. This has important advantages:
+
+* **Easy to maintain**: You can modify behavior in one area without touching the rest
+* **Reusable**: Copy entire sections to other agents that need similar behaviors
+* **Greater accuracy**: The model understands instructions better when they're categorized
+
+### How to structure an effective prompt
+
+Use clear headers to separate each type of instruction:
+
+```markdown
+## Identity
+Define who the agent is and what it does.
+You are [name], [role] at [company].
+You specialize in [area of expertise].
+
+## Style Rules
+Establish how the agent should speak.
+Respond in a maximum of 2 sentences when possible.
+Speak naturally, as a real person would.
+Acknowledge the user's emotions in your responses.
+
+## Response Guidelines
+Specific instructions about format and confirmations.
+Say dates out loud: "January fifteenth" instead of "1/15".
+One question at a time: don't overwhelm the user with multiple questions in a row.
+Repeat important information: confirm numbers, dates, and names.
+
+## Tasks to Perform
+The exact steps the agent should follow.
+[Describe the conversation flow step by step]
+
+## Handling Difficult Situations
+What to say when the user reacts negatively.
+If they say they're not interested: "I understand completely. May I ask what..."
+If they seem frustrated: "I notice your frustration, I'll do everything possible to resolve this..."
+```
+
+<Accordion title="Complete Example: Customer Service Agent">
+
+<CodeGroup>
+```markdown Structured Prompt
+## Identity
+You are Ana, a customer service agent at TechSolutions.
+Your role is to help customers with product inquiries, orders, and basic technical support.
+You have experience in customer service and problem solving.
+
+## Style Rules
+Be concise: 1-2 sentence responses by default.
+Be warm: Use a friendly and professional tone.
+Be proactive: Anticipate customer needs.
+Avoid technical jargon: Explain concepts in simple terms.
+
+## Response Guidelines
+Confirm critical information: Repeat order numbers, dates, and amounts.
+Rephrase questions: If something isn't clear, ask for clarification specifically.
+Offer alternatives: If you can't do something, suggest options.
+Don't use abbreviations: Say "Monday through Friday" instead of "Mon-Fri".
+
+## Company Knowledge
+Hours: Monday to Friday 9am to 6pm, Saturdays 10am to 2pm.
+Return policy: 30 days from purchase with receipt.
+Standard shipping: 3-5 business days.
+Main products: Laptops, tablets, office accessories.
+
+## Task Instructions
+1. Greet warmly and introduce yourself.
+2. Ask how you can help.
+3. Listen to the complete inquiry before responding.
+4. Provide the requested information clearly.
+5. Ask if they need additional help.
+6. Say goodbye professionally.
+
+## Handling Objections
+If the customer is upset: "I understand your frustration. Let me see how I can resolve this."
+If you don't have the information: "I don't have that information right now. I can transfer you to someone who can help."
+If they request something impossible: "I can't do that directly, but what I can do is..."
+```
+
+```markdown Conversation Example
+User: Hi, I have a problem with my order.
+Agent: Hello, I'm Ana from TechSolutions. I'm sorry you're having a problem. Can you tell me what happened?
+
+User: I ordered a laptop a week ago and it still hasn't arrived.
+Agent: I understand. Do you have the order number handy?
+
+User: Yes, it's 45892.
+Agent: Perfect, four five eight nine two. Give me a moment to check.
+
+[Checks system]
+
+Agent: I see your order shipped 4 days ago. Standard shipping takes 3 to 5 days, so it should arrive in the next two days. Should I send you the tracking number by message?
+
+User: Yes, please.
+Agent: Done, I just sent it. Is there anything else I can help you with?
+
+User: No, that's all.
+Agent: Perfect. Thanks for calling, have a great day.
+```
+</CodeGroup>
+
+</Accordion>
+
+## Best Practice 2: When to migrate to Conversational Paths
+
+Not all use cases work well with a single prompt. If your agent starts becoming unpredictable or the prompt becomes too long, it's time to consider a Conversational Path agent.
+
+### Signs you need to change architecture:
+
+* **Your prompt has too many "if... then" statements**: When you exceed 3-4 conditions, the model starts getting confused
+* **You use many tools**: With more than 5 integrations, the agent doesn't know when to use each one
+* **You need to remember information**: If you must track variables between different moments in the conversation
+* **Erratic behavior**: The agent responds well sometimes and fails other times in the same scenario
+
+### What you gain with Conversational Paths:
+
+* **Focus**: Each node has a single purpose, without distractions
+* **Reliability**: Transitions and tools are triggered deterministically, not dependent on interpretation
+* **Simpler debugging**: You can identify exactly which node is failing
+* **Consistency**: Behavior is predictable because it's explicitly programmed
+
+<Tip>
+**Rule of thumb**: If you've written more than 3 blocks of "If the user mentions X, then do Y", your use case probably works better with a structured flow.
+</Tip>
+
+## Best Practice 3: Be explicit with tools
+
+<Note>This section applies only to Single Prompt Agents. Conversational Path Agents manage function calls automatically based on each node's configuration.</Note>
+
+### Why it's important
+
+A common mistake is thinking the model will know when to use each tool just by reading its description. In practice, this doesn't work well. The result is an agent that:
+
+* Uses tools when it shouldn't
+* Ignores tools when it should use them
+* Confuses which tool to use in each situation
+
+### The solution: step-by-step instructions
+
+You need to tell the agent exactly when to activate each tool. Don't leave anything to interpretation. Use the exact function names in the instructions.
+
+#### Example: Customer Service Agent
+
+```markdown
+## Tool Usage Instructions
+
+1. Gather initial information about the customer's problem.
+
+2. Determine the type of request:
+   - If the customer mentions "refund" or "return money":
+     → Call the `transfer_to_support` function immediately
+   - If the customer needs order status:
+     → Call the `check_order_status` function with order_id
+   - If the customer wants to change their order:
+     → First call `check_order_status`
+     → Then transition to modification_state
+
+3. After retrieving information:
+   - Always summarize what you found
+   - Ask if they need additional help
+   - If yes, determine the next appropriate action
+```
+
+#### Example: Restaurant Reservation Agent
+
+```markdown
+## Tool Usage Instructions
+
+1. Greet and ask for how many people and what date they want to reserve.
+
+2. Once you have both pieces of information:
+   → Call `check_availability` with date and number_of_people
+
+3. Analyze the result:
+   - If there's availability:
+     • Offer the available time slot options
+     • Wait for customer confirmation
+     → Call `create_reservation` with all the data
+   - If there's NO availability:
+     • Offer nearby alternative dates
+     • If the customer accepts an alternative:
+       → Call `check_availability` again with the new date
+
+4. After creating the reservation:
+   → Call `send_confirmation` with the reservation number
+   → Verbally confirm all details to the customer
+
+5. IMPORTANT: Never call `create_reservation` without first verifying availability.
+```
+
+### Keys to writing effective tool instructions
+
+1. **Keywords**: Specify what terms or phrases the agent should hear to activate each tool
+2. **Execution order**: If one tool depends on another, make it clear. For example: "first query, then create"
+3. **Restrictions**: Equally important is saying when NOT to use a tool. Avoid unnecessary calls
+4. **Justification**: Add a line explaining what each tool is for. It helps the model understand the purpose
+
+## Best Practice 4: Optimization for Voice Conversations
+
+Unlike text chatbots, phone agents must generate responses that sound natural when spoken. This requires special considerations:
+
+### Formatting Rules for Voice
+
+```markdown
+## Response Guidelines for Voice
+
+Dates: Say "March fifteenth, twenty twenty-five" not "03/15/2025"
+Times: Say "three in the afternoon" not "3:00 PM"
+Phone numbers: Say "six one two, three four, five six" grouping digits
+Amounts: Say "twenty dollars" not "$20.00"
+URLs: Don't spell them out. Say "I'll send you the link by message"
+Emails: Don't spell them out. Say "I'll send you the information by email"
+Lists: Maximum 3 options. If there are more, ask what type they're looking for first.
+
+NEVER use:
+- Asterisks or emojis: *smiles* 😊
+- Abbreviations: "M-F" → "Monday through Friday"
+- Internet slang: "LOL", "OMG"
+- Symbols: "+", "@", "#"
+```
+
+### Response Length Control
+
+```markdown
+## Brevity Rules
+
+Default response: Maximum 2 sentences
+Complex explanation: Maximum 4 sentences, then ask if it was clear
+Option lists: Maximum 3 items at a time
+If there's a lot of information: Break it into parts and ask what they want to know first
+
+BAD Example:
+"We have five types of insurance: the basic that covers accidents and liability,
+the premium that includes all the above plus theft and partial damage coverage,
+the family plan that extends coverage to all household members..."
+
+GOOD Example:
+"We have basic, premium, and family plans. Which one would you like me to explain?"
+```
+
+### Handling Interruptions
+
+```markdown
+## Interruption Behavior
+
+If the user interrupts you:
+1. Stop immediately what you're saying
+2. Don't repeat what you already said
+3. Respond to the new thing they mentioned
+4. Only ask if they want to return to the previous topic if it was critical
+
+Example:
+Agent: "The business hours are Monday through—"
+User: "And the price?"
+Agent: "The starting price is fifty dollars. Would you like to know about other plans?"
+[Does NOT repeat the hours unless the user asks]
+```
+
+## Iteration and Optimization
+
+Iteration is key to perfecting your prompts. Here's a recommended process:
+
+<Steps>
+  <Step title="Start with a simple prompt">
+    Use the structures from this guide as a starting point.
+  </Step>
+
+  <Step title="Test with real scenarios">
+    Make 5-10 test calls with different types of queries.
+  </Step>
+
+  <Step title="Identify failure patterns">
+    Review transcripts to detect:
+    - Moments where the agent doesn't know what to do
+    - Responses that sound unnatural
+    - Incorrect tool usage
+    - Incorrect or outdated information
+  </Step>
+
+  <Step title="Refine specific sections">
+    Adjust only the parts of the prompt that caused problems and start the process again
+  </Step>
+</Steps>
+
+<Tip>
+**Testing strategy**: Ask someone who doesn't know your agent to make a real call. Their experience will show you problems you wouldn't see because you know how it "should" work.
+</Tip>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Conversational Paths"
+    icon="/icons/dataflow-04.svg"
+    href="/en/build/agents/conversational-paths"
+  >
+    Learn when and how to use structured flows for greater control.
+  </Card>
+  <Card
+    title="Call Customization"
+    icon="/icons/settings-03.svg"
+    href="/en/build/agents/call-customization"
+  >
+    Adjust voice, speed, and advanced parameters.
+  </Card>
+  <Card
+    title="Integrate Tools"
+    icon="wrench"
+    href="/en/build/agents/call-tools"
+  >
+    Connect APIs and databases to your agent.
+  </Card>
+  <Card
+    title="Version Control"
+    icon="/icons/layers-three-02.svg"
+    href="/en/build/agents/version-control"
+  >
+    Manage and test multiple versions of prompts.
+  </Card>
+</CardGroup>

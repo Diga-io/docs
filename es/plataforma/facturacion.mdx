@@ -1,0 +1,344 @@
+---
+title: Facturación
+description: Gestión de suscripciones, planes y pagos en Diga
+---
+
+# Facturación
+
+El sistema de facturación de Diga está basado en suscripciones y completamente integrado con Stripe para el procesamiento de pagos. Cada proyecto tiene su propia configuración de facturación independiente que incluye planes de suscripción, minutos incluidos y cargos adicionales.
+
+## Información General
+
+La facturación en Diga funciona por proyecto, lo que significa que cada proyecto tiene:
+
+- Su propio cliente de Stripe
+- Un plan de suscripción independiente
+- Asignación mensual de minutos
+- Facturación separada por números de teléfono y uso adicional
+
+<Note>
+Los minutos se asignan **mensualmente** independientemente del período de facturación (mensual o anual). Por ejemplo, un plan anual con 120,000 minutos al año recibirá 10,000 minutos cada mes.
+</Note>
+
+## Planes de Suscripción
+
+Diga ofrece varios planes de suscripción para adaptarse a diferentes necesidades:
+
+### Plan Gratuito
+
+Ideal para probar la plataforma:
+
+- **Costo**: $0/mes
+- **Minutos incluidos**: 30 minutos/mes
+- **Soporte**: Soporte comunitario
+
+### Planes de Pago
+
+Los planes pagos ofrecen más minutos y características:
+
+<Card
+  title="Planes de Suscripción"
+  icon="dollar-sign"
+  href="href"
+  arrow="true"
+  cta="Ver planes"
+>
+  Conoce los planes Starter, Pro, Scale y Business con más minutos y funcionalidades avanzadas.
+</Card>
+
+<Info>
+Aunque puedes pagar anualmente, los minutos se distribuyen mensualmente para facilitar la gestión del uso.
+</Info>
+
+### Cargos Adicionales
+
+Además del plan base, se aplican los siguientes cargos:
+
+**Números de Teléfono**
+- ¬1.75 por número de teléfono al mes
+- Los números se facturan mensualmente
+
+**Uso Adicional (Minutos Extra)**
+- Si excedes tus minutos incluidos, se cobran minutos adicionales
+- Los minutos extra se facturan mensualmente
+- Puedes deshabilitar el uso adicional para evitar cargos inesperados
+
+## Cómo Funciona la Facturación
+
+### Seguimiento de Uso
+
+Diga rastrea el uso de tu proyecto en segundos para mayor precisión:
+
+- **Internamente en segundos**: El sistema rastrea en segundos para cálculos precisos
+- **Mostrado en minutos**: La interfaz muestra el uso en minutos para mayor claridad
+- **Actualización en tiempo real**: El contador de uso se actualiza después de cada llamada
+
+### Período de Facturación
+
+Tu período de facturación depende de tu plan:
+
+- **Mensual**: Se te factura cada mes en la fecha de suscripción
+- **Anual**: Se te factura una vez al año, pero los minutos se asignan mensualmente
+
+<CodeGroup>
+```text Ejemplo Mensual
+Plan: Pro Mensual
+Minutos incluidos: 10,000/mes
+Fecha de facturación: Día 15 de cada mes
+```
+
+```text Ejemplo Anual
+Plan: Pro Anual
+Minutos incluidos: 120,000/año (10,000/mes)
+Fecha de facturación: Día 15 cada año
+Renovación mensual de minutos: Día 15 de cada mes
+```
+</CodeGroup>
+
+### Rollover de Minutos
+
+Diga incluye un sistema de rollover para que no pierdas minutos sin usar:
+
+<Steps>
+  <Step title="Acumula minutos sin usar">
+    Los minutos que no uses en un mes se transfieren al siguiente
+  </Step>
+
+  <Step title="Límite de rollover">
+    El rollover está limitado a 2x los minutos incluidos de tu plan para evitar acumulación ilimitada
+  </Step>
+
+  <Step title="Uso de rollover">
+    Los minutos de rollover se usan automáticamente antes de consumir el uso adicional
+  </Step>
+</Steps>
+
+**Ejemplo de Rollover**:
+- Plan: 10,000 minutos/mes
+- Mes 1: Usas 5,000 minutos  Rollover: 5,000 minutos
+- Mes 2: Tienes 15,000 minutos disponibles (10,000 nuevos + 5,000 rollover)
+- Límite máximo de rollover: 20,000 minutos (2x el plan)
+
+## Gestión de Suscripción
+
+### Ver Tu Suscripción
+
+Para ver los detalles de tu suscripción actual:
+
+1. Ve a **Configuración** &gt; **Facturación**
+2. Verás:
+   - Plan actual
+   - Minutos incluidos
+   - Uso del mes actual
+   - Minutos de rollover disponibles
+   - Próxima fecha de facturación
+
+### Cambiar de Plan
+
+#### Upgrade (Mejora de Plan)
+
+Cuando mejoras a un plan superior:
+
+- El cambio se aplica **inmediatamente**
+- Los minutos sin usar se transfieren al nuevo plan (con límite de rollover)
+- Se te factura la diferencia prorrateada
+
+<Steps>
+  <Step title="Selecciona un nuevo plan">
+    Ve a Configuración &gt; Facturación &gt; Cambiar plan
+  </Step>
+
+  <Step title="Revisa los cambios">
+    Verifica los nuevos minutos incluidos y el costo
+  </Step>
+
+  <Step title="Confirma el upgrade">
+    El cambio se aplica de inmediato y recibes los nuevos minutos
+  </Step>
+</Steps>
+
+#### Downgrade (Reducción de Plan)
+
+Cuando cambias a un plan inferior:
+
+- El cambio se aplica al **final del período de facturación actual**
+- No hay prorrateo
+- Los minutos de rollover no se transfieren
+
+<Warning>
+Al hacer downgrade, perderás cualquier minuto de rollover que exceda el límite del nuevo plan.
+</Warning>
+
+### Cambiar Período de Facturación
+
+Puedes cambiar entre facturación mensual y anual:
+
+**De Mensual a Anual**:
+- Se aplica al final del período mensual actual
+- Comienzas a ahorrar en la siguiente factura
+
+**De Anual a Mensual**:
+- Se aplica al final del período anual actual
+- Los minutos siguen siendo mensuales durante todo el período
+
+## Métodos de Pago
+
+### Agregar un Método de Pago
+
+<Steps>
+  <Step title="Accede a facturación">
+    Ve a Configuración &gt; Facturación
+  </Step>
+
+  <Step title="Métodos de pago">
+    Haz clic en "Agregar método de pago"
+  </Step>
+
+  <Step title="Ingresa los detalles">
+    Proporciona los detalles de tu tarjeta (procesado de forma segura por Stripe)
+  </Step>
+
+  <Step title="Guarda el método">
+    Tu método de pago se guardará para futuras facturas
+  </Step>
+</Steps>
+
+### Métodos Aceptados
+
+Diga acepta los siguientes métodos de pago a través de Stripe:
+
+- Tarjetas de crédito y débito (Visa, Mastercard, American Express)
+- Transferencias bancarias (según el país)
+- Otros métodos de pago locales
+
+## Facturas
+
+### Ver Facturas
+
+Todas tus facturas están disponibles en la sección de facturación:
+
+1. Ve a **Configuración** &gt; **Facturación** &gt; **Facturas**
+2. Verás una lista de todas las facturas:
+   - Fecha de factura
+   - Monto
+   - Estado (pagada, pendiente, fallida)
+   - Enlace de descarga
+
+### Descargar Facturas
+
+Puedes descargar cualquier factura en formato PDF para tus registros contables.
+
+## Uso Adicional y Límites
+
+### Habilitar/Deshabilitar Uso Adicional
+
+Por defecto, el uso adicional está habilitado, pero puedes controlarlo:
+
+<Tabs>
+  <Tab title="Uso Adicional Habilitado">
+    - Cuando excedes tus minutos incluidos + rollover, se te cobran minutos adicionales
+    - Las llamadas continúan funcionando normalmente
+    - Los minutos extra se facturan mensualmente
+  </Tab>
+
+  <Tab title="Uso Adicional Deshabilitado">
+    - Cuando excedes tus minutos incluidos + rollover, las nuevas llamadas se bloquean
+    - No se generan cargos adicionales inesperados
+    - Debes esperar a la renovación mensual o mejorar tu plan
+  </Tab>
+</Tabs>
+
+### Alertas de Uso
+
+Diga te notifica cuando te acercas a tus límites:
+
+- **Alerta al 80%**: Te notificamos cuando has usado el 80% de tus minutos
+- **Alerta al 100%**: Te notificamos cuando has usado todos tus minutos incluidos
+
+<Note>
+Configura tus preferencias de notificación en Configuración &gt; Notificaciones para recibir estas alertas.
+</Note>
+
+## Problemas de Pago
+
+### Pago Fallido
+
+Si un pago falla:
+
+1. Recibirás una notificación por email
+2. Stripe intentará cobrar nuevamente automáticamente
+3. Si el pago sigue fallando, tu suscripción puede ser cancelada
+
+<Warning>
+Si tu suscripción es cancelada por pagos fallidos, tus agentes dejarán de aceptar llamadas hasta que se resuelva el problema de pago.
+</Warning>
+
+### Resolver Problemas de Pago
+
+<Steps>
+  <Step title="Actualiza tu método de pago">
+    Ve a Configuración &gt; Facturación &gt; Métodos de pago
+  </Step>
+
+  <Step title="Verifica la factura">
+    Revisa las facturas pendientes en la sección de facturas
+  </Step>
+
+  <Step title="Contacta con soporte">
+    Si el problema persiste, contacta con nuestro equipo de soporte
+  </Step>
+</Steps>
+
+## Cancelación de Suscripción
+
+Si deseas cancelar tu suscripción:
+
+<Warning>
+Al cancelar tu suscripción, perderás acceso a las funcionalidades de pago y tus agentes dejarán de funcionar al final del período de facturación actual.
+</Warning>
+
+<Steps>
+  <Step title="Considera el plan gratuito">
+    Puedes cambiar al plan gratuito en lugar de cancelar completamente
+  </Step>
+
+  <Step title="Accede a facturación">
+    Ve a Configuración &gt; Facturación
+  </Step>
+
+  <Step title="Cancela la suscripción">
+    Haz clic en "Cancelar suscripción" y confirma
+  </Step>
+
+  <Step title="Continúa hasta el final del período">
+    Tu suscripción permanece activa hasta el final del período pagado
+  </Step>
+</Steps>
+
+## Preguntas Frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Cómo se cuentan los minutos?">
+    Los minutos se cuentan en base a la duración de las llamadas. Internamente, el sistema rastrea en segundos para mayor precisión, pero se muestran en minutos.
+  </Accordion>
+
+  <Accordion title="¿Los planes anuales incluyen todos los minutos de una vez?">
+    No, aunque pagues anualmente, los minutos se asignan mensualmente. Por ejemplo, 120,000 minutos/año = 10,000 minutos/mes.
+  </Accordion>
+
+  <Accordion title="¿Qué pasa con mis minutos sin usar?">
+    Los minutos sin usar se transfieren al siguiente mes (rollover) con un límite de 2x tus minutos incluidos.
+  </Accordion>
+
+  <Accordion title="¿Puedo cambiar de plan en cualquier momento?">
+    Sí, puedes cambiar de plan cuando quieras. Los upgrades se aplican inmediatamente, los downgrades al final del período actual.
+  </Accordion>
+
+  <Accordion title="¿Cómo funciona el prorrateo en upgrades?">
+    Cuando mejoras tu plan, se te cobra la diferencia prorrateada por el tiempo restante en tu período de facturación actual.
+  </Accordion>
+
+  <Accordion title="¿Qué sucede si me quedo sin minutos?">
+    Depende de tu configuración. Si tienes uso adicional habilitado, se te cobran minutos extra. Si está deshabilitado, las llamadas nuevas se bloquean hasta la renovación.
+  </Accordion>
+</AccordionGroup>

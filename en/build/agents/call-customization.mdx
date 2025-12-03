@@ -1,0 +1,80 @@
+---
+title: "Call Customization"
+description: "Configure language, speech speed, inactivity detection, and duration limits to optimize your phone agents' experience"
+---
+
+## Introduction
+
+Beyond the prompt and tools, you can customize multiple technical aspects of how your agent handles calls. This configuration allows you to adapt the agent's behavior to different contexts: adjust speech speed for different audiences, configure reminders to keep users engaged, and set time limits to protect your budget.
+
+<Note>
+**Customization Scope**
+
+All these settings apply globally to the agent, regardless of whether you use Single Prompt or Conversational Path mode. You don't need to adjust them in each node individually.
+</Note>
+
+## Voice Parameters
+
+### Language
+
+Defines the language the agent will understand during the call. The selected language affects both speech recognition and voice synthesis, but not the language model's text generation. Therefore, it's essential to indicate the correct language to the agent in the prompt.
+
+<Frame>
+    <img src="/images/agent-language-configuration.png" alt="Screenshot showing language configuration in the agent panel" />
+</Frame>
+
+
+### Speech Speed
+
+Controls how fast the agent speaks. This parameter is especially useful for adapting the conversation pace according to your audience.
+
+- **Value range:** `0.25` to `2.0`
+- **Default value:** `1.0` (normal speed)
+
+## Inactivity Detection System
+
+The inactivity detection system helps keep the conversation active when the user stops responding. This mechanism is fundamental to avoid long silences that end the call or create a poor experience.
+
+### How it Works
+
+When the user stops speaking for a certain time, the agent sends a reminder message to verify they're still on the line. If after several reminders there's no response, the call is automatically terminated.
+
+<Frame>
+  <img src="/images/inactivity-detection-flow.png" alt="Flow diagram showing the inactivity detection system with progressive reminders" />
+</Frame>
+
+### Configurable Parameters
+
+#### Reminder Messages
+
+Define what phrases the agent will use to check if the user is still on the line. You can define:
+
+- **Fixed messages:** A list of specific phrases the agent will use randomly
+- **Generated messages:** The agent will generate natural messages based on context. This is the recommended approach for a more human experience.
+
+#### Reminder Frequency
+
+Defines how often (in milliseconds) the agent should send a reminder if it detects no activity.
+
+- **Default value:** `7500` (7.5 seconds)
+- **Recommended range:** `5000` to `15000` ms
+
+<Warning>
+**Avoid very low values**: Frequencies below 5 seconds can cause the agent to interrupt the user while they're thinking of their response, creating a frustrating experience.
+</Warning>
+
+#### Maximum Number of Reminders
+
+Specifies how many reminders the agent will send before ending the call due to inactivity.
+
+- **Default value:** `3`
+- **Recommended range:** `2` to `5`
+
+
+## Duration Limits
+
+### Maximum Call Duration
+
+Sets the maximum time a call can last before it's automatically terminated.
+
+**Default value:** `14400000` (4 hours)
