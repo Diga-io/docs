@@ -1,0 +1,181 @@
+---
+title: Importa Números Personalizados 
+description: Importa tus propios números de teléfono usando SIP trunks
+---
+
+## SIP Trunks Personalizados
+
+Los SIP trunks personalizados te permiten importar tus propios números de teléfono a Diga, manteniendo el control total sobre tu infraestructura de telefonía mientras aprovechas las capacidades de los agentes de voz inteligentes.
+
+## Información General
+
+### ¿Qué es un SIP Trunk?
+
+Un SIP trunk es una conexión de telefonía IP que permite realizar y recibir llamadas usando el protocolo SIP (Session Initiation Protocol). Con SIP trunks personalizados, puedes:
+
+- **Importar números existentes**: Trae tus números actuales a Diga
+- **Mantener tu proveedor**: Continúa trabajando con tu operador actual
+- **Sin facturación adicional**: Diga no cobra por números personalizados
+- **Control total**: Gestiona tu configuración SIP
+
+## Requisitos Previos
+
+Antes de importar un número personalizado, asegúrate de tener:
+
+<Steps>
+  <Step title="Número en formato E.164">
+    Tu número debe estar en formato internacional E.164 (ej: +34912345678)
+  </Step>
+
+  <Step title="Proveedor SIP configurado">
+    Necesitas un proveedor SIP activo que soporte:
+    - Llamadas entrantes (inbound)
+    - Llamadas salientes (outbound)
+  </Step>
+
+  <Step title="Credenciales SIP">
+    Obtén de tu proveedor:
+    - Usuario SIP (username)
+    - Contraseña SIP (password)
+    - URI de terminación (termination URI)
+  </Step>
+</Steps>
+
+<Note>
+Si no tienes un proveedor SIP o no estás familiarizado con la configuración técnica, considera [comprar telélefonos en la plataforma](./comprar-telefonos) para una experiencia simplificada.
+</Note>
+
+## Importar un Número Personalizado
+
+### Información SIP Requerida
+
+#### Usuario SIP (Username)
+
+Tu identificador de usuario proporcionado por el proveedor SIP.
+
+**Ejemplo**: `usuario123` o `mi-empresa`
+
+#### Contraseña SIP (Password)
+
+La contraseña para autenticar las llamadas con tu proveedor.
+
+<Warning>
+Guarda esta contraseña de forma segura. Diga la almacena de forma cifrada pero debes mantenerla confidencial.
+</Warning>
+
+#### URI de Terminación (Termination URI)
+
+La dirección del servidor SIP de tu proveedor donde se enviarán las llamadas.
+
+**Formato típico**: `sip:[dominio]:[puerto]`
+
+**Ejemplos**:
+- `sip:sip.miproveedor.com:5060`
+- `sip:trunk.example.net:5061`
+
+<Note>
+Si no estás seguro de estos valores, contacta con tu proveedor SIP. Esta información suele estar disponible en el panel de control de tu servicio SIP.
+</Note>
+
+## Gestión de Números Personalizados
+
+### Ver Números Personalizados
+
+Los números personalizados aparecen en tu lista de números junto con los números de Diga, pero se identifican claramente en la columna de proveedor como "Custom".
+
+### Eliminar un Número Personalizado
+
+A diferencias
+
+## Facturación
+
+### Sin Cargos en Diga
+
+Los números personalizados **no generan cargos en tu factura de Diga**:
+
+- Sin tarifa mensual por número
+- Sin cargos de configuración
+- Sin cargos por llamadas (pagas directamente a tu proveedor SIP)
+
+### Costos con tu Proveedor SIP
+
+Tu proveedor SIP puede cobrarte por:
+
+- Alquiler mensual del número
+- Llamadas entrantes
+- Llamadas salientes
+- Configuración del trunk SIP
+
+<Note>
+Revisa los términos de facturación directamente con tu proveedor SIP, ya que Diga no gestiona estos pagos.
+</Note>
+
+### Uso de Minutos
+
+Las llamadas realizadas con números personalizados **sí consumen minutos de tu plan de Diga**:
+
+- Los minutos se cuentan igual que con números Netelip
+- Se aplican a tu asignación mensual de minutos
+- Si excedes tu plan, se cobran minutos adicionales (si está habilitado)
+
+<Info>
+Solo el número en sí es gratuito en Diga. El tiempo de llamada sigue consumiendo tus minutos incluidos en tu plan de suscripción.
+</Info>
+
+## Solución de Problemas
+
+### Las llamadas entrantes no funcionan
+
+**Posibles causas**:
+1. Credenciales SIP incorrectas
+2. URI de terminación mal configurada
+3. Tu proveedor SIP no está reenviando llamadas a Diga
+4. No hay agente asignado para llamadas entrantes
+
+**Soluciones**:
+- Verifica las credenciales con tu proveedor SIP
+- Asegúrate de que el URI de terminación sea correcto
+- Contacta con tu proveedor para verificar el reenvío
+- Asigna un agente para llamadas entrantes
+
+### Las llamadas salientes fallan
+
+**Posibles causas**:
+1. Tu proveedor SIP no permite llamadas salientes
+2. Credenciales incorrectas
+3. Restricciones de tu proveedor (destinos permitidos, límites, etc.)
+4. No hay agente asignado para llamadas salientes
+
+**Soluciones**:
+- Verifica que tu trunk SIP soporte llamadas salientes
+- Confirma las credenciales con tu proveedor
+- Revisa las políticas de llamadas salientes de tu proveedor
+- Asigna un agente para llamadas salientes
+
+### Error al importar el número
+
+**Posibles causas**:
+1. Formato de número incorrecto (no E.164)
+2. El número ya está importado en otro proyecto
+3. Credenciales SIP inválidas
+
+**Soluciones**:
+- Asegúrate de usar formato E.164 con + al inicio
+- Verifica que el número no esté en uso en otro proyecto
+- Confirma que las credenciales sean correctas
+
+### Calidad de llamada deficiente
+
+**Posibles causas**:
+1. Problemas con tu proveedor SIP
+2. Latencia de red
+3. Configuración de códecs incompatible
+
+**Soluciones**:
+- Contacta con tu proveedor SIP para verificar la calidad
+- Verifica la conectividad de red
+- Consulta con tu proveedor sobre códecs soportados
+
+<Warning>
+Diga no tiene control sobre la calidad de las llamadas de números personalizados. Si experimentas problemas persistentes, contacta con tu proveedor SIP.
+</Warning>

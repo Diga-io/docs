@@ -1,0 +1,122 @@
+---
+title: Monitoreo de Llamadas
+description: Consulta y analiza todas las llamadas realizadas por tus agentes en tiempo real
+---
+
+## Registro de Llamadas
+
+El registro de llamadas te permite consultar y gestionar todas las llamadas realizadas por tus agentes en tiempo real. Usa los filtros para encontrar rápidamente cualquier conversación.
+
+### Acceder al Registro
+
+Para acceder al registro de llamadas, simplemente navega a la sección **Registro de Llamadas** en el panel izquierdo. Allí encontrarás una tabla con todas las llamadas realizadas por tus agentes.
+
+
+### Información de la Tabla
+
+Cada entrada del registro muestra:
+
+| Campo | Descripción |
+|-------|-------------|
+| **Identificador** | ID único de la llamada (ej: `#ef52...`) con opción de copiar |
+| **Agente** | Nombre del agente que atendió la llamada |
+| **Tipo** | Indica si la llamada fue **Entrante** o **Saliente** |
+| **Teléfono de contacto** | Número del cliente o contacto |
+| **Estado** | Estado actual de la llamada |
+| **Duración** | Tiempo total de la conversación |
+| **Fecha** | Fecha y hora exacta de la llamada |
+| **Acciones** | Enlace para ver los detalles completos |
+
+### Estados de Llamada
+
+Las llamadas pueden estar en diferentes estados:
+
+<AccordionGroup>
+  <Accordion title="Completada" icon="circle-check">
+    La llamada finalizó correctamente. Puedes acceder a la grabación y transcripción completa.
+  </Accordion>
+
+  <Accordion title="Dialing" icon="phone-outgoing">
+    La llamada saliente está en proceso de marcación, esperando que el contacto responda.
+  </Accordion>
+
+  <Accordion title="En curso" icon="phone-call">
+    La llamada está activa actualmente.
+  </Accordion>
+
+  <Accordion title="Sin respuesta" icon="phone-missed">
+    El contacto no respondió la llamada.
+  </Accordion>
+
+  <Accordion title="Fallida" icon="phone-off">
+    La llamada no pudo completarse debido a un error técnico.
+  </Accordion>
+</AccordionGroup>
+
+
+## Detalles de Llamada
+
+Al hacer clic en una llamada, accedes a su vista detallada con toda la información de la conversación.
+
+### Información General
+
+En la parte superior encontrarás:
+
+- **ID de llamada**: Identificador único completo con opción de copiar
+- **Estado**: Badge indicando si la llamada está completada, en curso, etc.
+- **Fecha y hora**: Momento exacto en que se realizó la llamada
+- **Agente**: Nombre del agente que atendió
+- **Tipo**: Si fue entrante o saliente
+- **Duración**: Tiempo total de la conversación
+
+### Información del Contacto
+
+<CardGroup cols={2}>
+  <Card title="Contacto" icon="user">
+    Nombre del contacto si está disponible en tu CRM o integraciones. Muestra "Desconocido" si no hay información.
+  </Card>
+  <Card title="Motivo de finalización" icon="flag">
+    Indica cómo terminó la llamada: "Cliente colgó", "Agente finalizó", "Transferida", etc.
+  </Card>
+</CardGroup>
+
+### Reproductor de Audio
+
+Escucha la grabación completa de la llamada:
+
+- **Controles de reproducción**: Play, pausa y barra de progreso
+- **Control de volumen**: Ajusta el nivel de audio
+- **Indicador de tiempo**: Muestra el tiempo actual y duración total
+- **Descarga**: Opción para descargar el archivo de audio
+
+<Info>
+Las grabaciones se almacenan de forma segura y están disponibles durante 90 días. Puedes descargarlas para archivo permanente.
+</Info>
+
+### Transcripción de Llamada
+
+La transcripción muestra la conversación completa en formato de chat:
+
+**Formato de la transcripción:**
+
+- **Contacto** (izquierda): Mensajes del cliente en burbujas alineadas a la izquierda
+- **Agente** (derecha): Respuestas del agente en burbujas alineadas a la derecha
+- **Marcas de tiempo**: Cada mensaje incluye la hora exacta
+
+**Ejemplo de transcripción:**
+
+```
+Contacto - viernes, 12:00
+"¿Escucháis?"
+
+Agente - viernes, 12:00
+"Hola, soy NataliA, su enfermera virtual de la Unidad de 
+Insuficiencia Cardiaca del Hospital, ¿qué tal está?"
+
+Contacto - viernes, 12:00
+"Hola, Natalia, pues estoy fenomenal."
+
+Agente - viernes, 12:00
+"Me alegro mucho de escuchar eso. ¿Me indica su nombre 
+para confirmar en su ficha?"
+```

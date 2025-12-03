@@ -1,0 +1,158 @@
+---
+title: "MCP Integrations"
+description: "Connect MCP servers to your agents to automatically sync tools"
+---
+
+## What are MCP Integrations?
+
+MCP (Model Context Protocol) is a standardized protocol that allows external services to **automatically expose tools** to AI systems. Instead of manually creating each tool like with HTTP, MCP integrations sync with a server and obtain all available tools automatically.
+
+It's like connecting a plugin: the MCP server tells the agent what tools it offers, what parameters they need, and how to call them.
+
+You can learn more about MCP in the [official protocol documentation](https://modelcontextprotocol.io).
+
+## MCP Available in Diga
+
+Diga accepts MCP servers via HTTP with streaming. We support two communication methods:
+
+### Streamable HTTP (`/mcp`)
+
+If your MCP server exposes an endpoint that ends in `/mcp`, Diga will use MCP's native streamable HTTP protocol. This is the recommended method for new implementations.
+
+**Example**: `https://your-server.com/mcp`
+
+### Server-Sent Events (SSE)
+
+If your endpoint doesn't end in `/mcp`, Diga will use Server-Sent Events (SSE) for bidirectional communication with the MCP server.
+
+<Note>
+  Both methods support the same set of MCP capabilities. The protocol choice is automatic based on the URL you provide.
+</Note>
+
+## Create an MCP Integration
+
+<Steps>
+  <Step title="Access Integrations">
+    From the dashboard, go to the **Integrations** section and click **New Integration**.
+
+    Select the **MCP** type.
+  </Step>
+
+  <Step title="Configure the MCP Server">
+    Provide the connection details to the server:
+
+    **Name**: Identifies your integration (e.g., "Salesforce MCP", "HubSpot MCP")
+
+    **Server URL**: MCP server endpoint
+
+    **Credentials**: Depending on the server, it may require:
+    - Bearer Token
+    - Custom Headers
+    - No authentication
+
+  </Step>
+
+  <Step title="Test the Connection">
+    Click **Test Connection** to verify you can communicate with the MCP server.
+
+    If it fails:
+    - Verify the server URL is correct
+    - Confirm the credentials are active
+    - Make sure the MCP server is online and accessible
+  </Step>
+
+  <Step title="Sync Tools">
+    Once connected, Diga automatically:
+    1. Discovers what tools the server offers
+    2. Reads their descriptions and parameters
+    3. Displays them in your tools list
+
+    <Note>
+      Tools are automatically synced when you list the tools or assign the integration to an agent.
+    </Note>
+
+  </Step>
+
+  <Step title="Review and Filter Tools">
+    Review the available tools.
+
+    You can:
+    - **View description**: Understand what each tool does
+    - **View parameters**: Review what information it needs
+    - **Configure confirmation**: Require user approval for sensitive tools
+
+  </Step>
+
+  <Step title="Save the Integration">
+    Once configured, save the integration.
+
+    The synced tools are ready to be assigned to agents.
+  </Step>
+</Steps>
+
+## Manage Synced Tools
+
+Unlike HTTP where you create tools manually, with MCP the tools come from the server. However, you can manage them:
+
+### Configure User Confirmation
+
+Although the tool comes from the MCP server, you can add a confirmation layer:
+
+<Steps>
+  <Step title="Select the tool">
+    In the list of synced tools, find the one that needs confirmation.
+  </Step>
+
+  <Step title="Enable confirmation">
+    Check **Requires User Confirmation**.
+  </Step>
+
+  <Step title="Behavior">
+    Now, when the agent tries to use this tool:
+    1. It will explain to the user what it will do
+    2. It will ask for explicit confirmation
+    3. It will only execute if the user accepts
+  </Step>
+</Steps>
+
+
+### Tool Synchronization
+
+Since tools are synced from the MCP server, any changes on the server (new tools, updates) will be reflected in Diga the next time you list the tools or assign the integration to an agent.
+
+<Warning>
+  If the MCP server isn't managed by you, we recommend periodically checking the tools to make sure everything is up to date.
+</Warning>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Assign to Agents"
+    icon="/icons/file-attachment-02.svg"
+    href="/en/build/agents/add-integrations"
+  >
+    Learn how to assign MCP integrations to your agents and filter tools.
+  </Card>
+  <Card
+    title="Use in Prompts"
+    icon="wrench"
+    href="/en/build/agents/call-tools"
+  >
+    Instruct your agents on when and how to use tools.
+  </Card>
+  <Card
+    title="HTTP Integrations"
+    icon="/icons/dataflow-02.svg"
+    href="/en/build/integrations/http-integrations"
+  >
+    Discover how to create custom tools with HTTP.
+  </Card>
+  <Card
+    title="Version Control"
+    icon="/icons/layers-three-02.svg"
+    href="/en/build/agents/version-control"
+  >
+    Manage agent versions with different integrations.
+  </Card>
+</CardGroup>

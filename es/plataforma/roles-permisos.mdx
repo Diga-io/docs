@@ -1,0 +1,340 @@
+---
+title: Roles y Permisos
+description: Control de acceso basado en roles y permisos en Diga
+---
+
+# Roles y Permisos
+
+El sistema de roles y permisos de Diga implementa un modelo de control de acceso basado en roles (RBAC) que gobierna qué acciones pueden realizar los usuarios dentro de un proyecto. Los roles se asignan por proyecto, permitiendo que los usuarios tengan diferentes niveles de permisos en diferentes proyectos.
+
+## Información General
+
+Los roles en Diga sirven como contenedores de permisos que definen qué acciones puede realizar un usuario dentro de un proyecto específico. El sistema actualmente soporta dos roles principales con conjuntos de permisos distintos que balancean el control administrativo con la colaboración de los miembros.
+
+### Conceptos Clave
+
+- **Rol**: Una colección nombrada de permisos (ej. "admin", "member")
+- **Alcance por Proyecto**: Los usuarios tienen roles por proyecto, no globalmente
+- **Paquete de Permisos**: Cada rol contiene un conjunto predefinido de permisos
+- **Asignación**: Los roles se asignan al agregar usuarios a los proyectos
+
+## Roles Disponibles
+
+Diga ofrece dos roles principales con diferentes niveles de acceso:
+
+### Administrador
+
+Los administradores tienen acceso administrativo completo a todos los recursos del proyecto.
+
+**Capacidades principales:**
+
+- Gestión completa de proyectos (actualizar, eliminar)
+- Gestión de miembros del equipo (invitar, cambiar roles, eliminar)
+- Gestión de agentes (crear, modificar, eliminar)
+- Gestión de números de teléfono (comprar, configurar, liberar)
+- Gestión de facturación (ver, actualizar suscripción)
+- Gestión de claves API (crear, modificar, revocar)
+- Gestión de integraciones (configurar, actualizar, eliminar)
+- Acceso completo a analíticas y registros
+
+### Miembro
+
+Los miembros tienen acceso limitado para operaciones diarias sin privilegios administrativos.
+
+**Capacidades principales:**
+
+- Ver agentes y configuraciones (solo lectura)
+- Realizar llamadas usando los agentes del proyecto
+- Ver llamadas, transcripciones y grabaciones
+- Ver contactos y analíticas
+- Ver configuración de números de teléfono
+- Acceder a reportes y estadísticas
+
+**Limitaciones:**
+
+- No pueden crear, modificar o eliminar agentes
+- No pueden gestionar miembros del equipo
+- No pueden acceder a la facturación
+- No pueden crear o modificar integraciones
+- No pueden gestionar claves API
+- No pueden modificar la configuración del proyecto
+
+## Permisos Detallados
+
+Los permisos se organizan por categoría de recurso:
+
+<AccordionGroup>
+  <Accordion title="Gestión de Proyectos">
+    | Permiso | Administrador | Miembro |
+    |---------|---------------|---------|
+    | Ver información del proyecto |  |  |
+    | Actualizar detalles del proyecto |  | L |
+    | Eliminar proyecto |  | L |
+  </Accordion>
+
+  <Accordion title="Gestión de Agentes">
+    | Permiso | Administrador | Miembro |
+    |---------|---------------|---------|
+    | Ver agentes |  |  |
+    | Crear agentes |  | L |
+    | Modificar agentes |  | L |
+    | Eliminar agentes |  | L |
+    | Ver configuración de agentes |  |  |
+  </Accordion>
+
+  <Accordion title="Gestión de Llamadas">
+    | Permiso | Administrador | Miembro |
+    |---------|---------------|---------|
+    | Ver llamadas |  |  |
+    | Iniciar llamadas |  |  |
+    | Modificar metadatos de llamadas |  | L |
+    | Eliminar registros de llamadas |  | L |
+    | Ver transcripciones |  |  |
+    | Ver grabaciones |  |  |
+  </Accordion>
+
+  <Accordion title="Gestión de Números de Teléfono">
+    | Permiso | Administrador | Miembro |
+    |---------|---------------|---------|
+    | Ver números de teléfono |  |  |
+    | Comprar números nuevos |  | L |
+    | Configurar números |  | L |
+    | Liberar números |  | L |
+  </Accordion>
+
+  <Accordion title="Gestión de Contactos">
+    | Permiso | Administrador | Miembro |
+    |---------|---------------|---------|
+    | Ver contactos |  |  |
+    | Crear contactos |  |  |
+    | Eliminar contactos |  | L |
+  </Accordion>
+
+  <Accordion title="Gestión de Miembros">
+    | Permiso | Administrador | Miembro |
+    |---------|---------------|---------|
+    | Ver miembros del equipo |  | L |
+    | Invitar nuevos miembros |  | L |
+    | Cambiar roles de miembros |  | L |
+    | Eliminar miembros |  | L |
+  </Accordion>
+
+  <Accordion title="Facturación">
+    | Permiso | Administrador | Miembro |
+    |---------|---------------|---------|
+    | Ver información de facturación |  | L |
+    | Gestionar suscripción |  | L |
+    | Ver facturas |  | L |
+    | Actualizar métodos de pago |  | L |
+  </Accordion>
+
+  <Accordion title="Claves API">
+    | Permiso | Administrador | Miembro |
+    |---------|---------------|---------|
+    | Ver claves API |  | L |
+    | Crear claves API |  | L |
+    | Modificar claves API |  | L |
+    | Revocar claves API |  | L |
+  </Accordion>
+
+  <Accordion title="Integraciones">
+    | Permiso | Administrador | Miembro |
+    |---------|---------------|---------|
+    | Ver integraciones |  | L |
+    | Crear integraciones |  | L |
+    | Modificar integraciones |  | L |
+    | Eliminar integraciones |  | L |
+  </Accordion>
+
+  <Accordion title="Analíticas y Monitoreo">
+    | Permiso | Administrador | Miembro |
+    |---------|---------------|---------|
+    | Ver mensajes de llamadas |  |  |
+    | Ver transcripciones |  |  |
+    | Ver grabaciones |  |  |
+    | Ver estadísticas |  |  |
+    | Ver voces disponibles |  |  |
+  </Accordion>
+</AccordionGroup>
+
+## Gestión de Roles
+
+### Asignar Roles
+
+Al invitar un nuevo miembro al proyecto, puedes asignarle un rol:
+
+<Steps>
+  <Step title="Invita al miembro">
+    Ve a Configuración &gt; Miembros &gt; Invitar miembro
+  </Step>
+
+  <Step title="Selecciona el rol">
+    Elige entre Administrador o Miembro según el nivel de acceso necesario
+  </Step>
+
+  <Step title="Envía la invitación">
+    El usuario recibirá un email con la invitación y el rol asignado
+  </Step>
+</Steps>
+
+### Cambiar Roles
+
+Los administradores pueden cambiar el rol de cualquier miembro:
+
+<Note>
+Solo los administradores pueden cambiar roles. Los miembros no tienen acceso a esta funcionalidad.
+</Note>
+
+<Steps>
+  <Step title="Accede a la gestión de miembros">
+    Ve a Configuración &gt; Miembros
+  </Step>
+
+  <Step title="Selecciona el miembro">
+    Encuentra el miembro cuyo rol deseas cambiar
+  </Step>
+
+  <Step title="Cambia el rol">
+    Haz clic en el menú de acciones y selecciona el nuevo rol
+  </Step>
+
+  <Step title="Confirma el cambio">
+    El cambio se aplica inmediatamente
+  </Step>
+</Steps>
+
+<Warning>
+No puedes degradar al último administrador de un proyecto. Debe haber al menos un administrador en todo momento.
+</Warning>
+
+## Casos de Uso por Rol
+
+### ¿Cuándo usar el rol de Administrador?
+
+Asigna el rol de administrador a usuarios que necesitan:
+
+- Configurar y gestionar agentes de voz
+- Administrar el equipo y sus permisos
+- Gestionar la facturación y suscripciones
+- Configurar integraciones con sistemas externos
+- Tener control completo sobre el proyecto
+
+**Ejemplos:**
+- Propietarios del negocio
+- Gerentes de proyecto
+- Administradores técnicos
+- Personal de IT senior
+
+### ¿Cuándo usar el rol de Miembro?
+
+Asigna el rol de miembro a usuarios que necesitan:
+
+- Operar agentes existentes (realizar llamadas)
+- Ver analíticas y reportes
+- Acceder a transcripciones y grabaciones
+- Trabajar con contactos
+- No requieren modificar configuraciones
+
+**Ejemplos:**
+- Agentes de ventas
+- Personal de soporte
+- Analistas
+- Operadores de call center
+
+## Mejores Prácticas
+
+<CardGroup cols={2}>
+  <Card title="Principio de Mínimo Privilegio" icon="shield-check">
+    Asigna a los usuarios el nivel de acceso mínimo necesario para realizar sus tareas. Comienza con el rol de Miembro y eleva a Administrador solo cuando sea necesario.
+  </Card>
+
+  <Card title="Múltiples Administradores" icon="users">
+    Mantén al menos dos administradores por proyecto para evitar pérdida de acceso si un administrador no está disponible.
+  </Card>
+
+  <Card title="Revisión Regular" icon="calendar">
+    Audita periódicamente los roles de los miembros del equipo y ajusta según sea necesario cuando cambien las responsabilidades.
+  </Card>
+
+  <Card title="Documentación de Roles" icon="book">
+    Documenta qué rol debe tener cada tipo de usuario en tu organización para mantener consistencia.
+  </Card>
+</CardGroup>
+
+### Seguridad
+
+<AccordionGroup>
+  <Accordion title="Protección del Último Administrador">
+    El sistema previene automáticamente la eliminación o degradación del último administrador de un proyecto para asegurar que el proyecto siempre tenga al menos un administrador.
+  </Accordion>
+
+  <Accordion title="Auditoría de Cambios">
+    Todos los cambios de roles se registran para fines de auditoría. Los administradores pueden revisar el historial de cambios.
+  </Accordion>
+
+  <Accordion title="Permisos Granulares">
+    Aunque el sistema actualmente tiene dos roles, los permisos son granulares, permitiendo futuras mejoras como roles personalizados.
+  </Accordion>
+</AccordionGroup>
+
+## Claves API y Permisos
+
+Las claves API pueden tener permisos restringidos independientes de los roles de usuario:
+
+<Info>
+Las claves API restringidas te permiten crear acceso programático con permisos específicos, incluso más limitados que el rol de Miembro.
+</Info>
+
+### Crear Clave API Restringida
+
+<Steps>
+  <Step title="Accede a claves API">
+    Ve a Configuración &gt; Claves API (solo administradores)
+  </Step>
+
+  <Step title="Crea nueva clave">
+    Haz clic en "Crear clave API"
+  </Step>
+
+  <Step title="Selecciona permisos">
+    Elige solo los permisos específicos que necesita la clave
+  </Step>
+
+  <Step title="Guarda la clave">
+    Copia la clave generada (solo se muestra una vez)
+  </Step>
+</Steps>
+
+**Ejemplo de permisos para clave de solo lectura:**
+- Ver agentes
+- Ver llamadas
+- Ver contactos
+- Ver estadísticas
+
+## Preguntas Frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Puedo crear roles personalizados?">
+    Actualmente, Diga ofrece dos roles fijos: Administrador y Miembro. Los roles personalizados pueden estar disponibles en futuras versiones.
+  </Accordion>
+
+  <Accordion title="¿Los roles son globales o por proyecto?">
+    Los roles son específicos por proyecto. Puedes ser administrador en un proyecto y miembro en otro.
+  </Accordion>
+
+  <Accordion title="¿Qué pasa si soy el último administrador y quiero dejar el proyecto?">
+    Debes promover a otro miembro a administrador antes de poder abandonar el proyecto.
+  </Accordion>
+
+  <Accordion title="¿Los miembros pueden ver la facturación?">
+    No, solo los administradores tienen acceso a la información de facturación y suscripción.
+  </Accordion>
+
+  <Accordion title="¿Puedo limitar más los permisos de un administrador?">
+    No, todos los administradores tienen permisos completos. Si necesitas permisos más limitados, usa el rol de Miembro.
+  </Accordion>
+
+  <Accordion title="¿Se notifica a los usuarios cuando cambia su rol?">
+    Sí, los usuarios reciben una notificación cuando su rol cambia en un proyecto.
+  </Accordion>
+</AccordionGroup>

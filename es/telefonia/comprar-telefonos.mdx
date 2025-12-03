@@ -1,0 +1,199 @@
+---
+title: Comprar Números de Teléfono
+description: Compra y gestión de números de teléfono para tus agentes de voz
+---
+
+## Números de Teléfono
+
+Los números de teléfono permiten que tus agentes de voz reciban y realicen llamadas. En esta sección te explicamos cómo comprar numeros directamente desde Diga, de manera que no tengas que manejar una infrastructura telefónica.
+
+<Note>
+Actualmente solo ofrecemos numeros de teléfono españoles, y solo se premite realizar llamadas a números nacionales. Si deseas realizar peticiones para otros países, comprueba la seccion de [Configurar número personalizado](/es/telefonia/sip-trunks).
+</Note>
+
+## Comprar Números de Teléfono
+
+
+<Steps>
+  <Step title="Selecciona tus números">
+    Ve a *Números de teléfono** y haz clic en "Comprar número". Selecciona el código de área y la cantidad de números que necesitas.
+  </Step>
+
+  <Step title="Completa el pago">
+    Serás redirigido a Stripe para procesar el pago de forma segura. Los números quedarán reservados para tu proyecto.
+  </Step>
+
+  <Step title="Verifica tu identidad (primera compra)">
+    Si es tu primera compra, deberás completar el proceso de verificación de identidad antes de que los números se activen. Tienes 24 horas para completar este paso.
+  </Step>
+
+  <Step title="Configura tus agentes">
+    Una vez activos, asigna agentes a tus números para que puedan recibir y realizar llamadas.
+  </Step>
+</Steps>
+
+<Note>
+Los números reservados durante la compra se mantendrán en espera hasta que se complete la verificación de identidad.
+</Note>
+
+## Verificación de Identidad
+
+### ¿Por Qué es Necesaria?
+
+La verificación de identidad es un **requisito regulatorio** para prevenir fraudes y cumplir con las normativas de telecomunicaciones. Solo es necesaria para la primera compra de números de cada empresa.
+
+### Cuándo se Requiere
+
+La verificación es obligatoria en estos casos:
+
+- **Primera compra de números**: Empresas nuevas que compran su primer número
+- **Sin verificación previa**: Si tu empresa nunca completó la verificación
+
+<Info>
+Las empresas ya verificadas pueden comprar números adicionales sin verificación adicional.
+</Info>
+
+### Proceso de Verificación
+
+Se utilizara el servicio de Veriff para completar la verificación de identidad. El proceso es el siguiente:
+
+<Steps>
+  <Step title="Completa tu compra">
+    Después de realizar el pago, tus números quedarán reservados temporalmente.
+  </Step>
+
+  <Step title="Inicia la verificación">
+    Aparecera una ventana donde deberas iniciar el proceso eligiendo tu tipo de documento.
+  </Step>
+
+  <Step title="Proporciona tus documentos">
+    Sube los documentos de identidad requeridos.
+  </Step>
+
+  <Step title="Espera la aprobación">
+    Veriff revisará tus documentos. Este proceso suele tardar entre unos minutos y 24 horas.
+  </Step>
+
+  <Step title="Activación automática">
+    Una vez aprobada, tus números reservados se activarán automáticamente.
+  </Step>
+</Steps>
+
+### Estados de Verificación
+
+Tu verificación puede estar en uno de estos estados:
+
+**Pendiente**
+- Documentos enviados, esperando revisión
+- No puedes comprar números adicionales durante este período
+- Los números comprados permanecen reservados
+
+**Verificada**
+- Aprobación exitosa
+- Números reservados activados automáticamente
+- Puedes comprar números adicionales sin restricciones
+
+**Rechazada**
+- Documentos no aprobados
+- Pago cancelado automáticamente (no se te cobra)
+- Números reservados liberados
+- Puedes intentar verificar nuevamente con documentos correctos
+
+## Ciclo de Vida de los Números
+
+Los números de teléfono pasan por diferentes estados durante su vida útil en tu proyecto.
+
+### Estados del Número
+
+<AccordionGroup>
+  <Accordion title="Reservado">
+    El número está temporalmente asignado a tu proyecto durante el proceso de compra o verificación.
+
+    - Aún no está activo para llamadas
+    - Permanece en este estado durante la verificación
+    - Se activa automáticamente al aprobar la verificación
+  </Accordion>
+
+  <Accordion title="Asignado (Activo)">
+    El número está completamente activo y operativo.
+
+    - Puedes asignar agentes para llamadas entrantes y salientes
+    - Se factura mensualmente (€1.95/mes)
+    - Aparece en tu lista de números activos
+  </Accordion>
+
+  <Accordion title="Liberado (Cuarentena)">
+    Has liberado el número, pero está en período de cuarentena de 31 días.
+
+    - No puedes usarlo para llamadas
+    - Otros clientes no pueden comprarlo durante este período
+    - Aún visible en tu panel (marcado como "En cuarentena")
+    - Los agentes se desasignan automáticamente
+  </Accordion>
+
+  <Accordion title="Disponible">
+    Después de la cuarentena, el número vuelve a estar disponible para comprarse.
+  </Accordion>
+</AccordionGroup>
+
+### Período de Cuarentena
+
+Cuando liberas un número, entra en un **período de cuarentena de 31 días** antes de estar disponible para otros clientes.
+
+**¿Por qué existe la cuarentena?**
+- Evita que números recién liberados sean comprados inmediatamente por otras empresas
+- Permite tiempo para que los contactos actualicen sus registros
+- Reduce confusión en clientes que puedan tener el número guardado
+
+<Warning>
+Durante la cuarentena, el número ya no se puede usar para llamadas y no se factura. No puedes reactivar un número liberado. Si necesitas recuperarlo, [contacta con soporte](https://www.diga.io/contact).
+</Warning>
+
+
+## Facturación de Números
+
+### Costo Mensual
+
+Cada número de teléfono Netelip tiene un costo fijo:
+
+- **€1.75 por número al mes**
+- Facturación mensual independiente de tu plan de suscripción
+- Se cobra junto con tu factura mensual de minutos
+
+## Solución de Problemas
+
+### No puedo comprar números adicionales
+
+**Causa**: Tu empresa tiene una verificación pendiente.
+
+**Solución**:
+- Completa el proceso de verificación de identidad
+- Una vez aprobada, podrás comprar números adicionales
+
+### Mi pago fue autorizado pero los números no están activos
+
+**Causa**: Tienes una verificación de identidad pendiente.
+
+**Explicación**:
+- El pago está retenido pero no capturado
+- Los números están reservados esperando la verificación
+- Se activarán automáticamente al aprobar la verificación
+
+### Mi verificación fue rechazada
+
+**Solución**:
+1. Revisa el motivo del rechazo en el email de Veriff
+2. Prepara documentos válidos y legibles
+3. Intenta el proceso de verificación nuevamente
+4. El pago anterior fue cancelado, no se te cobró
+
+### Liberé un número por error
+
+<Warning>
+Los números liberados no se pueden recuperar. Entran en cuarentena de 31 días y luego quedan disponibles para otros clientes.
+</Warning>
+
+Si liberaste un número por error:
+- No es posible reactivarlo
+- Puedes comprar un número diferente inmediatamente
+- El número liberado no estará disponible para otros hasta después de 31 días

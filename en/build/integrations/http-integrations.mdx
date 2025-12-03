@@ -1,0 +1,310 @@
+---
+title: "HTTP Integrations"
+description: "Connect any REST API to your phone agents via HTTP integrations"
+---
+
+## What are HTTP Integrations?
+
+HTTP integrations allow you to connect your agents with **any REST API** you use or control. It's the most flexible way to integrate external systems, from CRMs to payment platforms, databases, or internal services.
+
+Unlike MCP integrations that sync tools automatically, with HTTP **you manually define** each tool: what endpoint to call, what parameters to send, and how to authenticate.
+
+## Create an HTTP Integration
+
+<Steps>
+  <Step title="Access Integrations">
+    From the dashboard, go to the **Integrations** section and click **New Integration**.
+
+    Select the **HTTP** type.
+  </Step>
+
+  <Step title="Configure the Connection">
+    Define the basic details of your integration:
+
+    **Name**: Identifies your integration (e.g., "Zendesk", "YourCompanyAPI")
+
+    **Base URL**: The domain and base path of the API (e.g., `https://api.yourcompany.com/v1`)
+
+    **Description**: (Optional) Explain what this integration is for
+    **Credentials**: Depending on the server, it may require:
+    - Bearer Token
+    - Custom Headers
+    - No authentication
+
+  </Step>
+
+  <Step title="Save the Integration">
+    Once the connection is confirmed, save the integration.
+
+    Now you can create tools that use this integration.
+  </Step>
+</Steps>
+
+## Create Tools
+
+Once the integration is created, you need to define the **tools** (specific actions) your agents can use.
+
+<Steps>
+  <Step title="Access the Integration">
+    In the integrations list, select the one you just created.
+
+    Click **New Tool**.
+  </Step>
+
+  <Step title="Define the Tool">
+    Configure the action details:
+
+    **Name**: Unique identifier in snake_case format (e.g., `search_customer`, `create_ticket`)
+
+    **Description**: Explain when the agent should use this tool. Be specific.
+
+    <Tip>
+      **Good description**: "Use this tool when the user provides their order number and wants to know their shipping status"
+
+      **Bad description**: "Check orders"
+    </Tip>
+
+    **HTTP Method**: GET, POST, PUT, PATCH, DELETE
+
+    **Endpoint**: Path relative to the base URL (e.g., `/customers`, `/tickets/create`)
+
+    **Custom Headers**: (Optional) Add specific headers for this tool, if needed.
+  </Step>
+
+  <Step title="Define Parameters">
+    Specify what information the tool needs. Parameters are optional (depending on the API) and we can find two types:
+
+    **Query Parameters**: Sent in the URL (e.g., `?status=open&limit=5`)
+
+    **Body Parameters**: Sent in the request body (JSON)
+
+    For each parameter, define the following fields:
+    - **Name**: Unique identifier (e.g., `customer_id`, `status`). Must be the name of the value the API expects.
+    - **Description**: What information it represents and how to obtain it
+    - **Data Type**: string, number, boolean, array, object
+    - **Required**: Whether it's required or not
+    - **Retrieval Mode**: How the agent gets this value:
+      - Prompt: The agent asks the user or infers it from context
+      - Fixed value: A constant value you define when creating the tool
+
+    <Warning>
+      The parameter description is key for the agent to understand what value it should provide. Be clear and specific.
+    </Warning>
+
+  </Step>
+
+</Steps>
+
+## Complete Example: CRM Integration
+
+Let's create an integration with a fictional CRM to search for customers.
+
+### 1. Create the Integration
+
+```
+Name: Customer CRM
+Base URL: https://api.mycrm.com/v2
+Auth Type: Bearer Token 
+  Value: crm_key_abc123xyz789
+```
+
+### 2. Create Tool: Search Customer
+
+```
+Name: search_customer
+Description: Use this tool when the user mentions their email
+             or phone and you need to find their information in the CRM.
+
+Method: GET
+Endpoint: /customers/search
+
+Parameters:
+  - email (string, optional, query)
+    Description: Customer's email
+
+  - phone (string, optional, query)
+    Description: Customer's phone
+
+  - limit (number, optional, query, default: 1)
+    Description: Maximum number of results
+
+Requires Confirmation: No
+```
+
+### 3. Usage Example in Call
+
+```
+User: My email is john@example.com, what orders do I have?
+
+Agent: [Calls search_customer with email="john@example.com"]
+
+API responds:
+{
+  "customers": [{
+    "id": "cust_123",
+    "name": "John Smith",
+    "email": "john@example.com",
+    "phone": "+1612345678"
+  }]
+}
+
+Agent: Hi John, I see you have an account with us.
+        Let me check your orders...
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Clear Nomenclature">
+    **Tool names**:
+    - Use verbs that describe the action: `search_`, `create_`, `update_`, `delete_`
+    - snake_case format: `check_inventory`, not `checkInventory`
+    - Be specific: `create_support_ticket`, not just `create`
+
+    **Parameter names**:
+    - Consistent with the API: use the same names as the documentation
+    - Descriptive: `customer_id` better than `id`
+  </Accordion>
+
+  <Accordion title="Precise Descriptions">
+    Descriptions help the agent decide when to use each tool.
+
+    **Good descriptions include**:
+    - When to use the tool (trigger)
+    - What information it needs from the user
+    - What it exactly does
+
+    **Example**:
+    ```
+    ✅ GOOD:
+    "Use this tool when the user mentions their order
+    number and wants to know their shipping status. Requires the
+    complete order number (e.g., ORD-12345)."
+
+    ❌ BAD:
+    "Check orders"
+    ```
+  </Accordion>
+
+  <Accordion title="Error Handling">
+    Define what the agent should do if the tool fails:
+
+    **In the agent prompt**, add instructions like:
+    ```markdown
+    ## Tool Error Handling
+
+    If a tool fails:
+    1. Don't repeat the technical error to the user
+    2. Explain the problem in simple language
+    3. Offer an alternative
+
+    Example:
+    "I'm sorry, I can't access that information right now.
+    Can I help you with something else or would you prefer
+    me to transfer you to a human agent?"
+    ```
+  </Accordion>
+
+  <Accordion title="Credential Security">
+    - **Rotate credentials regularly**: Update API keys every 3-6 months
+    - **Use read-only credentials** when possible
+    - **Separate environments**: Different credentials for staging and production
+    - **Never expose credentials** in prompts, logs, or agent responses
+  </Accordion>
+
+  <Accordion title="Latency Optimization">
+    Slow calls pause the conversation.
+
+    **Reduce latency**:
+    - Use optimized endpoints (only request necessary data)
+    - Limit response size (use parameters like `limit`, `fields`)
+    - Consider caching data that doesn't change frequently
+    - Monitor response times (target: < 2 seconds)
+
+    **Example**:
+    ```
+    ✅ GOOD: GET /customers/123?fields=name,email,phone
+    ❌ BAD: GET /customers/123 (returns 50 unnecessary fields)
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Error 401: Unauthorized">
+    **Cause**: Incorrect or expired credentials.
+
+    **Solution**:
+    - Verify the authentication type is correct
+    - Confirm the API key or token is active
+    - Check if the token has the necessary permissions
+    - For Bearer tokens, verify it hasn't expired
+  </Accordion>
+
+  <Accordion title="Error 404: Not Found">
+    **Cause**: The endpoint doesn't exist.
+
+    **Solution**:
+    - Verify the base URL (should end with the API version, e.g., `/v1`)
+    - Confirm the endpoint is spelled correctly
+    - Check the documentation for API changes
+  </Accordion>
+
+  <Accordion title="Error 400: Bad Request">
+    **Cause**: Missing or incorrectly formatted parameters.
+
+    **Solution**:
+    - Verify required parameters are configured
+    - Confirm data types are correct (string, number, etc.)
+    - Check that parameters are in the correct location (path, query, body)
+  </Accordion>
+
+  <Accordion title="Error 429: Too Many Requests">
+    **Cause**: Rate limit exceeded.
+
+    **Solution**:
+    - Check the API's rate limits in its documentation
+    - Reduce call frequency
+    - Consider upgrading your plan with the API provider
+    - Implement caching for data that doesn't change frequently
+  </Accordion>
+
+  <Accordion title="The tool is never used">
+    **Cause**: The agent doesn't know when to use the tool.
+
+    **Solution**:
+    - Improve the tool description (be more specific)
+    - In Single Prompt agents: add explicit instructions about when to use the tool
+    - In Conversational Paths: make sure the correct node is configured to use the tool
+  </Accordion>
+
+  <Accordion title="The agent uses the tool incorrectly">
+    **Cause**: Poorly configured parameters or ambiguous description.
+
+    **Solution**:
+    - Check that parameters have clear descriptions
+    - Make sure data types are correct
+    - Improve instructions in the agent prompt
+    - Use user confirmation for critical tools
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Assign to Agents"
+    icon="/icons/file-attachment-02.svg"
+    href="/en/build/agents/add-integrations"
+  >
+    Learn how to assign this integration to your agents and filter tools.
+  </Card>
+  <Card
+    title="MCP Integrations"
+    icon="/icons/mcp-server.svg"
+    href="/en/build/integrations/mcp-integrations"
+  >
+    Discover how to automatically sync tools with MCP.
+  </Card>
+</CardGroup>

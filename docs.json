@@ -34,19 +34,19 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Community & Support",
-          "href": "https://mintlify.com/docs",
-          "icon": "discord"
+          "anchor": "Documentation",
+          "href": "http://localhost:4000",
+          "icon": "book-open"
         },
         {
-          "anchor": "Changelog",
-          "href": "https://mintlify.com/blog",
-          "icon": "clock"
+          "anchor": "Support",
+          "href": "https://www.diga.io/contact",
+          "icon": "message-square-share"
         },
         {
           "anchor": "Pricing",
           "icon": "dollar-sign",
-          "href": "https://mintlify.com/pricing"
+          "href": "https://www.diga.io/#precios-1"
         }
       ]
     },
@@ -98,15 +98,17 @@
               {
                 "group": "Telefonía",
                 "pages": [
-                  "es/despliegue/comprar-telefonos",
-                  "es/despliegue/sip-trunks"
+                  "es/telefonia/comprar-telefonos",
+                  "es/telefonia/sip-trunks"
                 ]
               },
               {
                 "group": "Plataforma",
                 "pages": [
-                  "es/proyectos/cuentas",
-                  "es/proyectos/proyectos"
+                  "es/plataforma/cuentas",
+                  "es/plataforma/proyectos",
+                  "es/plataforma/facturacion",
+                  "es/plataforma/roles-permisos"
                 ]
               },
               {
@@ -125,6 +127,10 @@
           {
             "tab": "API reference",
             "openapi": "/api-reference/openapi.json"
+          },
+          {
+            "tab": "Changelog",
+            "pages": ["es/changelog"]
           }
         ]
       },
@@ -141,12 +147,46 @@
                   "en/quickstart",
                   "en/development"
                 ]
+              },
+              {
+                "group": "Build",
+                "pages": [
+                  {
+                    "group": "Agents",
+                    "pages": [
+                      "en/build/agents/single-prompt",
+                      {
+                        "group": "Conversational Paths",
+                        "pages": [
+                          "en/build/agents/conversational-paths",
+                          "en/build/agents/conversational-paths/node-types"
+                        ]
+                      },
+                      "en/build/agents/call-customization",
+                      "en/build/agents/version-control",
+                      "en/build/agents/call-tools",
+                      "en/build/agents/add-integrations"
+                    ]
+                  },
+                  {
+                    "group": "Integrations",
+                    "pages": [
+                      "en/build/integrations/introduction",
+                      "en/build/integrations/http-integrations",
+                      "en/build/integrations/mcp-integrations"
+                    ]
+                  }
+                ]
               }
             ]
           },
           {
             "tab": "API Reference",
             "openapi": "/api-reference/openapi.json"
+          },
+          {
+            "tab": "Changelog",
+            "pages": ["en/changelog"]
           }
         ]
       }
@@ -169,13 +209,13 @@
     "links": [
       {
         "label": "Support",
-        "href": "https://mintlify.com/docs/support"
+        "href": "https://www.diga.io/contact"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://dashboard.diga.io"
     }
   },
   "contextual": {
@@ -192,9 +232,7 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "linkedin": "https://www.linkedin.com/company/diga-agentes"
     }
   }
 }

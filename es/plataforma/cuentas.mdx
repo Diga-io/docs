@@ -1,0 +1,152 @@
+---
+title: Cuentas de Usuario
+description: Gestión de cuentas de usuario y autenticación en Diga
+---
+
+# Cuentas de Usuario
+
+Las cuentas de usuario en Diga representan la identidad individual de cada usuario que puede pertenecer a uno o más proyectos. Las cuentas son la capa de identidad de la plataforma, gestionando la autenticación del usuario, información personal y membresías a proyectos con control de acceso basado en roles.
+
+## Información General
+
+En la arquitectura de Diga, una **Cuenta** representa una cuenta de usuario. A diferencia de los sistemas tradicionales de un solo inquilino, las cuentas pueden estar asociadas con múltiples proyectos, cada uno con roles potencialmente diferentes (administrador o miembro). Este diseño permite una colaboración flexible en el equipo mientras mantiene límites de seguridad claros.
+
+### Conceptos Clave
+
+- **Cuenta (Profile)**: La identidad central del usuario que contiene información personal (email, nombre)
+- **Membresía Multi-Proyecto**: Los usuarios pueden pertenecer a múltiples proyectos simultáneamente
+- **Asignación de Roles**: Cada relación proyecto-cuenta tiene un rol asociado
+- **Contexto de Cuenta**: La autenticación devuelve una cuenta que luego puede acceder a sus proyectos
+
+## Gestión de Cuentas
+
+### Crear una Cuenta
+
+Cuando te registras en Diga, se crea automáticamente una cuenta de usuario con tu información personal:
+
+- Nombre y apellido
+- Dirección de email
+- Proyecto predeterminado
+
+### Información Personal
+
+Puedes actualizar tu información personal en cualquier momento desde la configuración de tu cuenta:
+
+<Steps>
+  <Step title="Accede a la configuración">
+    Haz clic en tu avatar en la esquina superior derecha y selecciona "Configuración"
+  </Step>
+
+  <Step title="Actualiza tu información">
+    Modifica tu nombre, apellido u otra información personal
+  </Step>
+
+  <Step title="Guarda los cambios">
+    Haz clic en "Guardar" para actualizar tu cuenta
+  </Step>
+</Steps>
+
+## Membresías a Proyectos
+
+Tu cuenta puede pertenecer a múltiples proyectos con diferentes roles en cada uno.
+
+### Ver tus Proyectos
+
+Para ver todos los proyectos a los que perteneces:
+
+1. Ve al selector de proyectos en la barra de navegación
+2. Verás una lista de todos tus proyectos activos
+3. Cada proyecto mostrará tu rol (Administrador o Miembro)
+
+### Cambiar de Proyecto
+
+Puedes cambiar entre proyectos fácilmente:
+
+<Note>
+Al cambiar de proyecto, todos los recursos mostrados (agentes, llamadas, contactos) se actualizarán para reflejar el proyecto seleccionado.
+</Note>
+
+### Aceptar Invitaciones
+
+Cuando te invitan a un proyecto nuevo:
+
+1. Recibirás un email con el enlace de invitación
+2. Haz clic en el enlace para aceptar la invitación
+3. Se te agregará automáticamente al proyecto con el rol especificado
+4. El proyecto aparecerá en tu lista de proyectos
+
+## Seguridad de la Cuenta
+
+### Autenticación
+
+Diga utiliza autenticación segura para proteger tu cuenta:
+
+- Autenticación basada en tokens
+- Sesiones seguras
+- Integración con proveedores de autenticación externos
+
+### Privacidad
+
+Tu información personal está protegida:
+
+- Tu email solo es visible para administradores de proyectos a los que perteneces
+- Los datos personales nunca se comparten con terceros
+- Puedes controlar qué información es visible
+
+### Buenas Prácticas
+
+<AccordionGroup>
+  <Accordion title="Mantén tu información actualizada">
+    Asegúrate de que tu email y nombre estén actualizados para recibir notificaciones importantes y facilitar la colaboración con tu equipo.
+  </Accordion>
+
+  <Accordion title="Revisa tus proyectos regularmente">
+    Verifica periódicamente los proyectos a los que perteneces y abandona aquellos que ya no utilices.
+  </Accordion>
+
+  <Accordion title="Protege tus credenciales">
+    Nunca compartas tus credenciales de inicio de sesión. Cada miembro del equipo debe tener su propia cuenta.
+  </Accordion>
+</AccordionGroup>
+
+## Abandonar un Proyecto
+
+Si necesitas abandonar un proyecto:
+
+<Warning>
+Los administradores no pueden abandonar un proyecto si son el último administrador. Debes promover a otro miembro a administrador primero.
+</Warning>
+
+<Steps>
+  <Step title="Ve a la configuración del proyecto">
+    Selecciona el proyecto que deseas abandonar
+  </Step>
+
+  <Step title="Accede a la gestión de miembros">
+    Ve a Configuración &gt; Miembros
+  </Step>
+
+  <Step title="Abandona el proyecto">
+    Haz clic en "Abandonar proyecto" y confirma tu decisión
+  </Step>
+</Steps>
+
+## Preguntas Frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Puedo pertenecer a múltiples proyectos?">
+    Sí, tu cuenta puede pertenecer a tantos proyectos como necesites. Cada proyecto puede tener un rol diferente (administrador o miembro).
+  </Accordion>
+
+  <Accordion title="¿Puedo cambiar mi email?">
+    Actualmente, el cambio de email debe realizarse a través del soporte. Contacta con nuestro equipo para asistencia.
+  </Accordion>
+
+  <Accordion title="¿Qué sucede con mis datos si abandono todos mis proyectos?">
+    Tu cuenta permanece activa. Puedes crear nuevos proyectos o aceptar nuevas invitaciones en cualquier momento.
+  </Accordion>
+
+  <Accordion title="¿Puedo tener diferentes roles en diferentes proyectos?">
+    Sí, puedes ser administrador en un proyecto y miembro en otro. Los roles son específicos de cada proyecto.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,229 @@
+---
+title: "Call Tools"
+description: "Built-in tools to control phone call flow"
+---
+
+Call tools are built-in functions that allow your agent to perform phone actions during a conversation. Unlike HTTP or MCP integrations that connect to external services, these tools are built directly into Diga's telephony system.
+
+## Available Tools
+
+There are currently three call tools you can enable in your agents:
+
+<CardGroup cols={3}>
+  <Card title="Transfer" icon="/icons/phone-outgoing-01.svg">
+    Transfers the call to another phone number
+  </Card>
+  <Card title="Hang Up" icon="phone-off">
+    Ends the call in a controlled manner
+  </Card>
+  <Card title="Voicemail Detection" icon="voicemail">
+    Checks if the call was answered by a machine
+  </Card>
+</CardGroup>
+
+<Note>
+**Conversational Path Agents**
+
+In agents with conversational paths, these tools are implemented through dedicated nodes within the flow.
+
+Learn more in [Node Types](/en/build/agents/conversational-paths/node-types).
+</Note>
+
+## Transfer Calls
+
+The transfer tool allows the agent to redirect the call to another phone number or phone extension. This is useful for escalating conversations to human agents or specific departments.
+
+### How it Works
+
+When the agent executes the transfer tool:
+
+<Steps>
+  <Step title="The agent identifies the need to transfer">
+    Based on the conversation context or specific conditions
+  </Step>
+
+  <Step title="The transfer is executed">
+    The call is redirected to the configured phone number
+  </Step>
+
+  <Step title="The agent call ends">
+    Once the transfer is made, the agent disconnects
+  </Step>
+</Steps>
+
+### Configuration
+
+To enable transfer in your agent:
+
+1. Access your agent's configuration
+2. Go to the **Call Tools** section
+3. Enable the **Transfer** tool
+4. Configure the tool. You can define:
+    - **Destination number**: The number to which the call will be transferred.
+    - **Extension**: If you use a PBX system, you can define an internal extension. If you don't specify a destination number, the extension will be made with that same number.
+    - **Condition**: Explanation of when the agent should use the tool
+
+
+### Common Use Cases
+
+<AccordionGroup>
+  <Accordion title="Escalation to human agents">
+    When the user requests to speak with a person or the agent can't resolve the query, transfer the call to a human support team.
+
+    **Prompt example:**
+    ```markdown
+    If the user requests to speak with a person or if you can't resolve their problem,
+    use the transfer tool to connect them with a human agent.
+    Before transferring, explain to the user that you're going to connect them with a specialist.
+    ```
+  </Accordion>
+
+  <Accordion title="Department routing">
+    Route calls to different departments based on the type of query (sales, support, billing).
+
+    **Prompt example:**
+    ```markdown
+    - If the user asks about products or prices: transfer to sales department
+    - If they report a technical problem: transfer to technical support
+    - If they have billing questions: transfer to administration department
+    ```
+  </Accordion>
+
+  <Accordion title="Conditional transfer">
+    Transfer only when certain conditions are met, such as after-hours or complex cases.
+
+    **Prompt example:**
+    ```markdown
+    If we're outside business hours (before 9am or after 6pm),
+    inform the user and ask if they want to be transferred to emergency services.
+    ```
+  </Accordion>
+</AccordionGroup>
+
+
+## Hang Up Calls
+
+The hang up tool allows the agent to end the call in a controlled and natural manner when the conversation has concluded.
+
+### How it Works
+
+The agent can decide to end the call when:
+
+- The conversation has fulfilled its objective
+- The user indicates they don't need more help
+- All user queries have been handled
+- A situation is detected that requires ending the call
+
+### Configuration
+
+To enable the hang up function:
+
+1. Access your agent's configuration
+2. Go to the **Call Tools** section
+3. Enable the **Hang Up** tool
+4. Configure the **condition** to define when the agent should use the tool
+
+
+### Best Practices
+
+<Card title="Natural goodbyes" icon="handshake">
+Make sure the agent always says goodbye politely before hanging up. Include instructions in your prompt to confirm the user doesn't need anything else before ending.
+</Card>
+
+**Prompt example:**
+```markdown
+Before hanging up:
+1. Ask if the user needs help with anything else
+2. Wait for their response
+3. If they say they don't need anything else, say goodbye cordially
+4. Use the hang up tool to end the call
+
+Goodbye example:
+"It's been a pleasure helping you. If you need anything else in the future, don't hesitate to call us. Have a great day!"
+```
+
+<Warning>
+**Avoid hanging up abruptly**
+
+Never configure the agent to hang up without first confirming with the user. This creates a poor experience and can make users feel ignored.
+</Warning>
+
+## Voicemail Detection
+
+The voicemail detection tool identifies whether the call was answered by a machine or a real person. This is especially useful for outbound calls.
+
+### How it Works
+
+The system analyzes the first few seconds of audio to determine if:
+
+- A real person answered the phone
+- An answering machine or voicemail answered
+- An IVR (Interactive Voice Response) system answered
+
+### Configuration
+
+To enable voicemail detection:
+
+1. Access your agent's configuration
+2. Go to the **Call Tools** section
+3. Enable the **Voicemail Detection** tool
+
+### Use Cases
+
+<AccordionGroup>
+  <Accordion title="Automated outbound calls">
+    In outbound call campaigns, you can configure the agent to only continue the conversation if it detects a real person, or leave a recorded message if it's a voicemail.
+
+    **Configuration example:**
+    ```markdown
+    At the start of the call:
+    1. Use the voicemail detection tool
+    2. If you detect a real person: continue with the normal sales script
+    3. If you detect a voicemail: leave a brief message and hang up
+
+    Message for voicemail:
+    "Hello, this is [Name] from [Company]. We're calling about [reason].
+    Please call us at [number]. Thank you."
+    ```
+  </Accordion>
+
+  <Accordion title="Campaign optimization">
+    Avoid wasting agent time talking to voicemails, allowing time to be dedicated only to real conversations.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Add integrations"
+    icon="plug"
+    href="/en/build/agents/add-integrations"
+  >
+    Connect external APIs and MCP services to your agent
+  </Card>
+
+  <Card
+    title="Conversational paths"
+    icon="/icons/dataflow-02.svg"
+    href="/en/build/agents/conversational-paths"
+  >
+    Use dedicated nodes for greater control over tools
+  </Card>
+
+  <Card
+    title="HTTP Integrations"
+    icon="webhook"
+    href="/en/build/integrations/http-integrations"
+  >
+    Learn how to create custom integrations
+  </Card>
+
+  <Card
+    title="Call customization"
+    icon="sliders"
+    href="/en/build/agents/call-customization"
+  >
+    Adjust voice, speed, and language for your agent
+  </Card>
+</CardGroup>
