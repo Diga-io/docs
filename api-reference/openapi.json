@@ -6,8 +6,8 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000",
-      "description": "Development"
+      "url": "http://api.diga.io/v1",
+      "description": "Production"
     }
   ],
   "paths": {

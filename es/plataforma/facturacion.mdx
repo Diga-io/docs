@@ -55,7 +55,7 @@ Aunque puedes pagar anualmente, los minutos se distribuyen mensualmente para fac
 Además del plan base, se aplican los siguientes cargos:
 
 **Números de Teléfono**
-- ¬1.75 por número de teléfono al mes
+- ¬1.95 + IVA por número de teléfono al mes
 - Los números se facturan mensualmente
 
 **Uso Adicional (Minutos Extra)**
@@ -174,7 +174,7 @@ Al hacer downgrade, perderás cualquier minuto de rollover que exceda el límite
 Puedes cambiar entre facturación mensual y anual:
 
 **De Mensual a Anual**:
-- Se aplica al final del período mensual actual
+- Se aplica al final del período mensual actual si te mantienes en el mismo plan. En caso de cambio de plan, se aplica inmediatamente.
 - Comienzas a ahorrar en la siguiente factura
 
 **De Anual a Mensual**:
@@ -205,11 +205,11 @@ Puedes cambiar entre facturación mensual y anual:
 
 ### Métodos Aceptados
 
-Diga acepta los siguientes métodos de pago a través de Stripe:
+Actualemente, aceptamos tarjetas de crédito y débito principales, incluyendo Visa, MasterCard, American Express y Discover.
 
-- Tarjetas de crédito y débito (Visa, Mastercard, American Express)
-- Transferencias bancarias (según el país)
-- Otros métodos de pago locales
+<Note>
+  Si necesitas opciones de pago adicionales, contacta con nuestro equipo de soporte.
+</Note>
 
 ## Facturas
 
@@ -232,7 +232,7 @@ Puedes descargar cualquier factura en formato PDF para tus registros contables.
 
 ### Habilitar/Deshabilitar Uso Adicional
 
-Por defecto, el uso adicional está habilitado, pero puedes controlarlo:
+Por defecto, el uso adicional está deshabilitado, pero puedes controlarlo:
 
 <Tabs>
   <Tab title="Uso Adicional Habilitado">
@@ -294,14 +294,10 @@ Si tu suscripción es cancelada por pagos fallidos, tus agentes dejarán de acep
 Si deseas cancelar tu suscripción:
 
 <Warning>
-Al cancelar tu suscripción, perderás acceso a las funcionalidades de pago y tus agentes dejarán de funcionar al final del período de facturación actual.
+Al cancelar tu suscripción, al final del periodo será revertida al plan gratuito con 30 minutos/mes. Cualquier minuto de rollover se perderá.
 </Warning>
 
 <Steps>
-  <Step title="Considera el plan gratuito">
-    Puedes cambiar al plan gratuito en lugar de cancelar completamente
-  </Step>
-
   <Step title="Accede a facturación">
     Ve a Configuración &gt; Facturación
   </Step>
@@ -314,31 +310,3 @@ Al cancelar tu suscripción, perderás acceso a las funcionalidades de pago y tu
     Tu suscripción permanece activa hasta el final del período pagado
   </Step>
 </Steps>
-
-## Preguntas Frecuentes
-
-<AccordionGroup>
-  <Accordion title="¿Cómo se cuentan los minutos?">
-    Los minutos se cuentan en base a la duración de las llamadas. Internamente, el sistema rastrea en segundos para mayor precisión, pero se muestran en minutos.
-  </Accordion>
-
-  <Accordion title="¿Los planes anuales incluyen todos los minutos de una vez?">
-    No, aunque pagues anualmente, los minutos se asignan mensualmente. Por ejemplo, 120,000 minutos/año = 10,000 minutos/mes.
-  </Accordion>
-
-  <Accordion title="¿Qué pasa con mis minutos sin usar?">
-    Los minutos sin usar se transfieren al siguiente mes (rollover) con un límite de 2x tus minutos incluidos.
-  </Accordion>
-
-  <Accordion title="¿Puedo cambiar de plan en cualquier momento?">
-    Sí, puedes cambiar de plan cuando quieras. Los upgrades se aplican inmediatamente, los downgrades al final del período actual.
-  </Accordion>
-
-  <Accordion title="¿Cómo funciona el prorrateo en upgrades?">
-    Cuando mejoras tu plan, se te cobra la diferencia prorrateada por el tiempo restante en tu período de facturación actual.
-  </Accordion>
-
-  <Accordion title="¿Qué sucede si me quedo sin minutos?">
-    Depende de tu configuración. Si tienes uso adicional habilitado, se te cobran minutos extra. Si está deshabilitado, las llamadas nuevas se bloquean hasta la renovación.
-  </Accordion>
-</AccordionGroup>
