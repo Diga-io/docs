@@ -1,0 +1,181 @@
+---
+title: Import Custom Numbers
+description: Import your own phone numbers using SIP trunks
+---
+
+## Custom SIP Trunks
+
+Custom SIP trunks allow you to import your own phone numbers to Diga, maintaining full control over your telephony infrastructure while leveraging the capabilities of intelligent voice agents.
+
+## Overview
+
+### What is a SIP Trunk?
+
+A SIP trunk is an IP telephony connection that allows you to make and receive calls using the SIP (Session Initiation Protocol) protocol. With custom SIP trunks, you can:
+
+- **Import existing numbers**: Bring your current numbers to Diga
+- **Keep your provider**: Continue working with your current operator
+- **No additional billing**: Diga does not charge for custom numbers
+- **Full control**: Manage your SIP configuration
+
+## Prerequisites
+
+Before importing a custom number, make sure you have:
+
+<Steps>
+  <Step title="Number in E.164 format">
+    Your number must be in international E.164 format (e.g.: +34912345678)
+  </Step>
+
+  <Step title="Configured SIP provider">
+    You need an active SIP provider that supports:
+    - Inbound calls
+    - Outbound calls
+  </Step>
+
+  <Step title="SIP credentials">
+    Obtain from your provider:
+    - SIP username
+    - SIP password
+    - Termination URI
+  </Step>
+</Steps>
+
+<Note>
+If you don't have a SIP provider or are not familiar with technical configuration, consider [buying phone numbers on the platform](./buy-numbers) for a simplified experience.
+</Note>
+
+## Import a Custom Number
+
+### Required SIP Information
+
+#### SIP Username
+
+Your user identifier provided by the SIP provider.
+
+**Example**: `user123` or `my-company`
+
+#### SIP Password
+
+The password to authenticate calls with your provider.
+
+<Warning>
+Save this password securely. Diga stores it encrypted but you must keep it confidential.
+</Warning>
+
+#### Termination URI
+
+The address of your provider's SIP server where calls will be sent.
+
+**Typical format**: `sip:[domain]:[port]`
+
+**Examples**:
+- `sip:sip.myprovider.com:5060`
+- `sip:trunk.example.net:5061`
+
+<Note>
+If you are unsure of these values, contact your SIP provider. This information is usually available in your SIP service control panel.
+</Note>
+
+## Managing Custom Numbers
+
+### View Custom Numbers
+
+Custom numbers appear in your number list along with Diga numbers, but are clearly identified in the provider column as "Custom".
+
+### Delete a Custom Number
+
+Unlike Diga numbers, custom numbers can be deleted immediately without a quarantine period.
+
+## Billing
+
+### No Charges in Diga
+
+Custom numbers **do not generate charges on your Diga invoice**:
+
+- No monthly fee per number
+- No setup charges
+- No call charges (you pay directly to your SIP provider)
+
+### Costs with your SIP Provider
+
+Your SIP provider may charge you for:
+
+- Monthly number rental
+- Inbound calls
+- Outbound calls
+- SIP trunk configuration
+
+<Note>
+Review billing terms directly with your SIP provider, as Diga does not manage these payments.
+</Note>
+
+### Minutes Usage
+
+Calls made with custom numbers **do consume minutes from your Diga plan**:
+
+- Minutes count the same as with Netelip numbers
+- Applied to your monthly minute allocation
+- If you exceed your plan, additional minutes are charged (if enabled)
+
+<Info>
+Only the number itself is free in Diga. Call time still consumes your minutes included in your subscription plan.
+</Info>
+
+## Troubleshooting
+
+### Inbound calls don't work
+
+**Possible causes**:
+1. Incorrect SIP credentials
+2. Misconfigured termination URI
+3. Your SIP provider is not forwarding calls to Diga
+4. No agent assigned for inbound calls
+
+**Solutions**:
+- Verify credentials with your SIP provider
+- Ensure the termination URI is correct
+- Contact your provider to verify forwarding
+- Assign an agent for inbound calls
+
+### Outbound calls fail
+
+**Possible causes**:
+1. Your SIP provider does not allow outbound calls
+2. Incorrect credentials
+3. Provider restrictions (allowed destinations, limits, etc.)
+4. No agent assigned for outbound calls
+
+**Solutions**:
+- Verify that your SIP trunk supports outbound calls
+- Confirm credentials with your provider
+- Review your provider's outbound call policies
+- Assign an agent for outbound calls
+
+### Error importing the number
+
+**Possible causes**:
+1. Incorrect number format (not E.164)
+2. The number is already imported in another project
+3. Invalid SIP credentials
+
+**Solutions**:
+- Make sure to use E.164 format with + at the beginning
+- Verify that the number is not in use in another project
+- Confirm that the credentials are correct
+
+### Poor call quality
+
+**Possible causes**:
+1. Issues with your SIP provider
+2. Network latency
+3. Incompatible codec configuration
+
+**Solutions**:
+- Contact your SIP provider to verify quality
+- Verify network connectivity
+- Consult with your provider about supported codecs
+
+<Warning>
+Diga has no control over the quality of custom number calls. If you experience persistent issues, contact your SIP provider.
+</Warning>

@@ -37,6 +37,10 @@ El nodo de comienzo es el punto de entrada de todo camino conversacional. Es el 
 Cada camino conversacional debe tener exactamente un nodo de comienzo. No puedes tener varios nodos de inicio ni eliminar el nodo de comienzo.
 </Note>
 
+<Frame>
+  <img src="/images/nodo-inicio.png" alt="Ejemplo de flujo conversacional con nodo de inicio" />
+</Frame>
+
 ### Características
 
 - Indica el comportamiento inicial, saludar primero o esperar a que el usuario hable
@@ -57,11 +61,18 @@ Los nodos de conversación son el corazón de la interacción. Generan diálogo,
 
 Ten en cuenta que el agente puede mantener una conversación de varios turnos dentro de un solo nodo, por lo que no es necesario crear un nuevo nodo de conversación para cada frase que el agente tenga que decir. Se recomienda dividir el nodo cuando haya una división lógica o la instrucción sea demasiado larga.
 
+<Frame>
+  <img src="/images/nodo-conversacion.png" alt="Ejemplo de flujo conversacional con varios nodos de conversación" />
+</Frame>
 ### Instrucciones
 Hay dos formas principales de definir el comportamiento de un nodo de conversación:
 
 1. **Prompt**: el campo de texto sirve para dar instrucciones sobre lo que debe hacer el agente en este punto de la conversación. Esta es la forma recomendada de generar respuestas, ya que hace que la conversación sea más humana y natural.
 2. **Texto fijo**: en lugar de usar un prompt, puedes definir un texto fijo que el agente dirá exactamente como está escrito. Esto es útil para mensajes estándar o información que no debe cambiar.
+
+### Conocimiento contextual
+
+Permite al agente acceder a información específica en este nodo, mejorando la relevancia de sus respuestas.
 
 ### Variables en Prompts
 
@@ -82,6 +93,9 @@ Los nodos de herramienta ejecutan llamadas a APIs externas, webhooks, o cualquie
 
 En este nodo debes elegir la herramienta a usar. La herramienta se elige a partir de las integraciones creadas, pudiendo haber solo una herramienta por nodo.
 
+<Frame>
+  <img src="/images/nodo-herramienta.png" alt="Ejemplo de flujo conversacional con nodo de herramienta para llamar a una API externa"/>
+</Frame>
 ### Características
 
 - **Ejecución de API**: Llama a endpoints HTTP
@@ -89,17 +103,15 @@ En este nodo debes elegir la herramienta a usar. La herramienta se elige a parti
 - **Procesamiento de datos**: Recibe y procesa respuestas de servicios externos
 - **Transiciones basadas en resultado**: Las siguientes acciones dependen del resultado de la llamada
 
-### Ejemplo de uso
-
-<Frame>
-  <img src="/images/conversational-flow-tool-node.png" alt="Ejemplo de flujo conversacional con nodo de herramienta para verificar disponibilidad" />
-</Frame>
-
 ## Nodo de Transferencia
 
 ### Descripción
 
 Los nodos de transferencia redirigen la llamada a otro número telefónico o extensión telefónica. Útil para escalar a agentes humanos o departamentos especializados.
+
+<Frame>
+  <img src="/images/nodo-transferencia.png" alt="Ejemplo de flujo conversacional con nodo de transferencia a agente humano" />
+</Frame>
 
 ### Características
 
@@ -111,12 +123,6 @@ Los nodos de transferencia redirigen la llamada a otro número telefónico o ext
 
 - **Número de destino**: El número al que se transferirá la llamada.
 - **Extensión**: Si usas un sistema PBX, puedes definir una extensión interna. En el caso de que no indiques número de destino, la extensión se realizará con ese mismo número.
-
-### Ejemplo de uso
-
-<Frame>
-  <img src="/images/nodo-transferencia.png" alt="Ejemplo de flujo conversacional con nodo de transferencia a agente humano" />
-</Frame>
 
 ## Nodo de Terminar
 

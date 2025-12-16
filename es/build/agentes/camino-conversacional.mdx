@@ -38,7 +38,7 @@ Para casos más simples, considera usar Agentes de Prompt Único
 </CardGroup>
 
 <Frame>
-  <img src="/images/conversation-flow-overview.png" alt="Diagrama de flujo conversacional mostrando nodos conectados con condiciones de transición" />
+  <img src="/images/ejemplo-camino.png" alt="Diagrama de flujo conversacional mostrando nodos conectados con condiciones de transición" />
 </Frame>
 
 ## Componentes fundamentales
@@ -96,9 +96,6 @@ En un flujo conversacional, existen escenarios que pueden surgir en cualquier mo
 
 Para estos casos, puedes configurar **nodos globales**. Cualquier tipo de nodo puede convertirse en un nodo global marcándolo como tal en su configuración.
 
-<Frame>
-  <img src="/images/global-node-example.png" alt="Configuración de un nodo global en el editor de flujo conversacional" />
-</Frame>
 
 ### Configurar un Nodo Global
 
@@ -192,41 +189,34 @@ El agente dependiendo del contexto puede regresar al flujo principal después de
     ```
   </Accordion>
 </AccordionGroup>
-## Ejemplo práctico: Reserva de restaurante
-
-Imagina un flujo simple para gestionar reservas:
-
-<Frame>
-  <img src="/images/conversation-flow-restaurant-reservation.png" alt="Diagrama de flujo para reserva de restaurante mostrando nodos de comienzo, conversación, herramienta y terminar" />   
-</Frame>
 
 ## Siguientes pasos
 
 <CardGroup cols={2}>
   <Card
     title="Explorar Tipos de Nodos"
-    icon="circle-nodes"
+    icon="/icons/dataflow-03.svg"
     href="/es/build/agentes/camino-conversacional/tipos-nodos"
   >
     Aprende cómo usar cada tipo de nodo en detalle
   </Card>
   <Card
     title="Transiciones entre Nodos"
-    icon="arrow-right-arrow-left"
+    icon="workflow"
     href="/es/build/agentes/camino-conversacional/transiciones"
   >
     Define condiciones para controlar el flujo de la conversación
   </Card>
   <Card
     title="Personalización de Llamadas"
-    icon="sliders"
+    icon="headset"
     href="/es/build/agentes/personalizacion-llamada"
   >
     Ajusta voz, velocidad, idioma y parámetros avanzados
   </Card>
   <Card
     title="Control de Versiones"
-    icon="code-branch"
+    icon="git-branch"
     href="/es/build/agentes/control-versiones"
   >
     Gestiona múltiples versiones de tus caminos conversacionales

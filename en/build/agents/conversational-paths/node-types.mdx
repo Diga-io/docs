@@ -37,6 +37,10 @@ The start node is the entry point for every conversational path. It's the first 
 Each conversational path must have exactly one start node. You cannot have multiple start nodes or delete the start node.
 </Note>
 
+<Frame>
+  <img src="/images/nodo-inicio.png" alt="Conversational flow example with start node" />
+</Frame>
+
 ### Features
 
 - Indicates initial behavior: greet first or wait for the user to speak
@@ -57,6 +61,9 @@ Conversation nodes are the heart of interaction. They generate dialogue, ask que
 
 Keep in mind that the agent can maintain a multi-turn conversation within a single node, so it's not necessary to create a new conversation node for every phrase the agent needs to say. It's recommended to split the node when there's a logical division or when the instruction becomes too long.
 
+<Frame>
+  <img src="/images/nodo-conversacion.png" alt="Conversational flow example with multiple conversation nodes" />
+</Frame>
 ### Instructions
 There are two main ways to define the behavior of a conversation node:
 
@@ -82,6 +89,9 @@ Tool nodes execute calls to external APIs, webhooks, or any external system inte
 
 In this node, you must choose the tool to use. The tool is selected from created integrations, with only one tool allowed per node.
 
+<Frame>
+  <img src="/images/nodo-herramienta.png" alt="Conversational flow example with tool node to call external API"/>
+</Frame>
 ### Features
 
 - **API execution**: Calls HTTP endpoints
@@ -89,17 +99,15 @@ In this node, you must choose the tool to use. The tool is selected from created
 - **Data processing**: Receives and processes responses from external services
 - **Result-based transitions**: Following actions depend on the call's result
 
-### Usage Example
-
-<Frame>
-  <img src="/images/conversational-flow-tool-node.png" alt="Conversational flow example with tool node to check availability" />
-</Frame>
-
 ## Transfer Node
 
 ### Description
 
 Transfer nodes redirect the call to another phone number or phone extension. Useful for escalating to human agents or specialized departments.
+
+<Frame>
+  <img src="/images/nodo-transferencia.png" alt="Conversational flow example with transfer node to human agent" />
+</Frame>
 
 ### Features
 
@@ -112,16 +120,10 @@ Transfer nodes redirect the call to another phone number or phone extension. Use
 - **Destination number**: The number to which the call will be transferred.
 - **Extension**: If you use a PBX system, you can define an internal extension. If you don't specify a destination number, the extension will be made with that same number.
 
-### Usage Example
-
-<Frame>
-  <img src="/images/conversational-flow-transfer-node.png" alt="Conversational flow example with transfer node to human agent" />
-</Frame>
-
 ## End Node
 
 End nodes terminate the call in a controlled manner. They are the exit points of the conversational flow. For the agent to say a message before hanging up, a conversation node should be added before the end node.
 
 <Frame>
-  <img src="/images/conversational-flow-end-node.png" alt="Conversational flow example with end node after a conversation node" />
+  <img src="/images/nodo-terminar.png" alt="Conversational flow example with end node after a conversation node" />
 </Frame>

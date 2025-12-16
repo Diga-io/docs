@@ -101,35 +101,27 @@ Vamos a crear una integración con un CRM ficticio para buscar clientes.
 
 ### 1. Crear la Integración
 
-```
-Nombre: CRM Clientes
-URL Base: https://api.micrm.com/v2
-Tipo de Auth: Bearer Token 
-  Valor: crm_key_abc123xyz789
-```
+<Frame>
+  <img src="/images/crear-integracion-http.png" alt="Pantalla de creación de integración HTTP mostrando campos de nombre, URL base y credenciales" />
+</Frame>
 
 ### 2. Crear Herramienta: Buscar Cliente
 
-```
-Nombre: buscar_cliente
-Descripción: Usa esta herramienta cuando el usuario mencione su email
-             o teléfono y necesites encontrar su información en el CRM.
 
-Método: GET
-Endpoint: /customers/search
+- Configuración basica:
+<Frame>
+  <img src="/images/herramienta-http-crear.png" alt="Pantalla de creación de herramienta HTTP mostrando campos de nombre, descripción, método y endpoint" />
+</Frame>
 
-Parámetros:
-  - email (string, opcional, query)
-    Descripción: Email del cliente
+- Endpoint y método:
+<Frame>
+  <img src="/images/herramienta-http-endpoint.png" alt="Configuración del endpoint y método HTTP para la herramienta de buscar cliente" />
+</Frame>
 
-  - phone (string, opcional, query)
-    Descripción: Teléfono del cliente
-
-  - limit (number, opcional, query, default: 1)
-    Descripción: Número máximo de resultados
-
-Requiere Confirmación: No
-```
+- Parámetros:
+<Frame>
+  <img src="/images/herramienta-http-query.png" alt="Configuración del body JSON para la herramienta de buscar cliente con parámetro customer_id" />
+</Frame>
 
 ### 3. Ejemplo de Uso en Llamada
 

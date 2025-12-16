@@ -1,0 +1,312 @@
+---
+title: Billing
+description: Managing subscriptions, plans, and payments in Diga
+---
+
+# Billing
+
+Diga's billing system is subscription-based and fully integrated with Stripe for payment processing. Each project has its own independent billing configuration that includes subscription plans, included minutes, and additional charges.
+
+## Overview
+
+Billing in Diga works per project, which means each project has:
+
+- Its own Stripe customer
+- An independent subscription plan
+- Monthly minute allocation
+- Separate billing for phone numbers and additional usage
+
+<Note>
+Minutes are assigned **monthly** regardless of the billing period (monthly or annual). For example, an annual plan with 120,000 minutes per year will receive 10,000 minutes each month.
+</Note>
+
+## Subscription Plans
+
+Diga offers several subscription plans to suit different needs:
+
+### Free Plan
+
+Ideal for trying out the platform:
+
+- **Cost**: $0/month
+- **Included minutes**: 30 minutes/month
+- **Support**: Community support
+
+### Paid Plans
+
+Paid plans offer more minutes and features:
+
+<Card
+  title="Subscription Plans"
+  icon="dollar-sign"
+  href="https://www.diga.io/#precios-1"
+  arrow="true"
+  cta="View plans"
+>
+  Learn about Starter, Pro, Scale, and Business plans with more minutes and advanced features.
+</Card>
+
+<Info>
+Although you can pay annually, minutes are distributed monthly for easier usage management.
+</Info>
+
+### Additional Charges
+
+In addition to the base plan, the following charges apply:
+
+**Phone Numbers**
+- €1.95 + VAT per phone number per month
+- Numbers are billed monthly
+
+**Additional Usage (Extra Minutes)**
+- If you exceed your included minutes, additional minutes are charged
+- Extra minutes are billed monthly
+- You can disable additional usage to avoid unexpected charges
+
+## How Billing Works
+
+### Usage Tracking
+
+Diga tracks your project usage in seconds for greater precision:
+
+- **Internally in seconds**: The system tracks in seconds for precise calculations
+- **Displayed in minutes**: The interface shows usage in minutes for clarity
+- **Real-time updates**: The usage counter updates after each call
+
+### Billing Period
+
+Your billing period depends on your plan:
+
+- **Monthly**: You are billed each month on your subscription date
+- **Annual**: You are billed once a year, but minutes are assigned monthly
+
+<CodeGroup>
+```text Monthly Example
+Plan: Pro Monthly
+Included minutes: 10,000/month
+Billing date: 15th of each month
+```
+
+```text Annual Example
+Plan: Pro Annual
+Included minutes: 120,000/year (10,000/month)
+Billing date: 15th each year
+Monthly minute renewal: 15th of each month
+```
+</CodeGroup>
+
+### Minute Rollover
+
+Diga includes a rollover system so you don't lose unused minutes:
+
+<Steps>
+  <Step title="Accumulate unused minutes">
+    Minutes you don't use in a month roll over to the next month
+  </Step>
+
+  <Step title="Rollover limit">
+    Rollover is limited to 2x your plan's included minutes to avoid unlimited accumulation
+  </Step>
+
+  <Step title="Rollover usage">
+    Rollover minutes are automatically used before consuming additional usage
+  </Step>
+</Steps>
+
+**Rollover Example**:
+- Plan: 10,000 minutes/month
+- Month 1: You use 5,000 minutes → Rollover: 5,000 minutes
+- Month 2: You have 15,000 minutes available (10,000 new + 5,000 rollover)
+- Maximum rollover limit: 20,000 minutes (2x the plan)
+
+## Subscription Management
+
+### View Your Subscription
+
+To view your current subscription details:
+
+1. Go to **Settings** &gt; **Billing**
+2. You will see:
+   - Current plan
+   - Included minutes
+   - Current month usage
+   - Available rollover minutes
+   - Next billing date
+
+### Change Plan
+
+#### Upgrade
+
+When you upgrade to a higher plan:
+
+- The change is applied **immediately**
+- Unused minutes are transferred to the new plan (with rollover limit)
+- You are billed the prorated difference
+
+<Steps>
+  <Step title="Select a new plan">
+    Go to Settings &gt; Billing &gt; Change plan
+  </Step>
+
+  <Step title="Review changes">
+    Verify the new included minutes and cost
+  </Step>
+
+  <Step title="Confirm upgrade">
+    The change is applied immediately and you receive the new minutes
+  </Step>
+</Steps>
+
+#### Downgrade
+
+When you change to a lower plan:
+
+- The change is applied at the **end of the current billing period**
+- No proration
+- Rollover minutes do not transfer
+
+<Warning>
+When downgrading, you will lose any rollover minutes that exceed the new plan's limit.
+</Warning>
+
+### Change Billing Period
+
+You can switch between monthly and annual billing:
+
+**From Monthly to Annual**:
+- Applied at the end of the current monthly period if you stay on the same plan. In case of plan change, it is applied immediately.
+- You start saving on the next invoice
+
+**From Annual to Monthly**:
+- Applied at the end of the current annual period
+- Minutes remain monthly throughout the period
+
+## Payment Methods
+
+### Add a Payment Method
+
+<Steps>
+  <Step title="Access billing">
+    Go to Settings &gt; Billing
+  </Step>
+
+  <Step title="Payment methods">
+    Click "Add payment method"
+  </Step>
+
+  <Step title="Enter details">
+    Provide your card details (securely processed by Stripe)
+  </Step>
+
+  <Step title="Save method">
+    Your payment method will be saved for future invoices
+  </Step>
+</Steps>
+
+### Accepted Methods
+
+Currently, we accept major credit and debit cards, including Visa, MasterCard, American Express, and Discover.
+
+<Note>
+  If you need additional payment options, contact our support team.
+</Note>
+
+## Invoices
+
+### View Invoices
+
+All your invoices are available in the billing section:
+
+1. Go to **Settings** &gt; **Billing** &gt; **Invoices**
+2. You will see a list of all invoices:
+   - Invoice date
+   - Amount
+   - Status (paid, pending, failed)
+   - Download link
+
+### Download Invoices
+
+You can download any invoice in PDF format for your accounting records.
+
+## Additional Usage and Limits
+
+### Enable/Disable Additional Usage
+
+By default, additional usage is disabled, but you can control it:
+
+<Tabs>
+  <Tab title="Additional Usage Enabled">
+    - When you exceed your included minutes + rollover, you are charged for additional minutes
+    - Calls continue to work normally
+    - Extra minutes are billed monthly
+  </Tab>
+
+  <Tab title="Additional Usage Disabled">
+    - When you exceed your included minutes + rollover, new calls are blocked
+    - No unexpected additional charges are generated
+    - You must wait for monthly renewal or upgrade your plan
+  </Tab>
+</Tabs>
+
+### Usage Alerts
+
+Diga notifies you when you approach your limits:
+
+- **Alert at 80%**: We notify you when you have used 80% of your minutes
+- **Alert at 100%**: We notify you when you have used all your included minutes
+
+<Note>
+Configure your notification preferences in Settings &gt; Notifications to receive these alerts.
+</Note>
+
+## Payment Issues
+
+### Failed Payment
+
+If a payment fails:
+
+1. You will receive an email notification
+2. Stripe will automatically retry the charge
+3. If payment continues to fail, your subscription may be canceled
+
+<Warning>
+If your subscription is canceled due to failed payments, your agents will stop accepting calls until the payment issue is resolved.
+</Warning>
+
+### Resolve Payment Issues
+
+<Steps>
+  <Step title="Update your payment method">
+    Go to Settings &gt; Billing &gt; Payment methods
+  </Step>
+
+  <Step title="Verify invoice">
+    Review pending invoices in the invoices section
+  </Step>
+
+  <Step title="Contact support">
+    If the problem persists, contact our support team
+  </Step>
+</Steps>
+
+## Subscription Cancellation
+
+If you wish to cancel your subscription:
+
+<Warning>
+When you cancel your subscription, at the end of the period it will be reverted to the free plan with 30 minutes/month. Any rollover minutes will be lost.
+</Warning>
+
+<Steps>
+  <Step title="Access billing">
+    Go to Settings &gt; Billing
+  </Step>
+
+  <Step title="Cancel subscription">
+    Click "Cancel subscription" and confirm
+  </Step>
+
+  <Step title="Continue until end of period">
+    Your subscription remains active until the end of the paid period
+  </Step>
+</Steps>

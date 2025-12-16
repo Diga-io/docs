@@ -141,8 +141,7 @@
                 "group": "Get Started",
                 "pages": [
                   "en/index",
-                  "en/quickstart",
-                  "en/development"
+                  "en/create-agent"
                 ]
               },
               {
@@ -173,6 +172,26 @@
                       "en/build/integrations/mcp-integrations"
                     ]
                   }
+                ]
+              },
+              {
+                "group": "Telephony",
+                "pages": [
+                  "en/telephony/buy-numbers",
+                  "en/telephony/sip-trunks"
+                ]
+              },
+              {
+                "group": "Platform",
+                "pages": [
+                  "en/platform/projects",
+                  "en/platform/billing"
+                ]
+              },
+              {
+                "group": "Analytics",
+                "pages": [
+                  "en/deployment/monitoring-logs"
                 ]
               }
             ]
