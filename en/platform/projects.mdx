@@ -1,0 +1,226 @@
+---
+title: Projects
+description: Project management and organization in Diga
+---
+
+# Projects
+
+Projects in Diga represent the organizations that use the platform to manage AI voice agents. Each project operates independently with its own set of resources, billing configuration, and team members.
+
+## Overview
+
+Projects are the main organizational unit in Diga. They provide a multi-tenant environment that allows the platform to serve multiple organizations while maintaining strict data isolation. All platform resources (agents, calls, contacts, phone numbers, etc.) are associated with a specific project.
+
+### Key Capabilities
+
+- **Data Isolation**: Complete separation of data and resources between projects
+- **Team Management**: Support for multiple users with role-based access control
+- **Specific Resources**: All platform resources are associated with a project
+- **Billing Integration**: Each project has its own subscription and payment configuration
+
+## Create a Project
+
+When you create a new project, it is automatically configured with:
+
+<Steps>
+  <Step title="Basic information">
+    Provide a descriptive name and optional description for your project
+  </Step>
+
+  <Step title="Your role">
+    You are automatically assigned as the project administrator
+  </Step>
+
+  <Step title="Billing configuration">
+    A Stripe customer is created and a free subscription is initialized
+  </Step>
+
+  <Step title="Initial resources">
+    Your project is ready to start creating agents and managing calls
+  </Step>
+</Steps>
+
+<Note>
+Each user can create multiple projects. There is no limit on the number of projects you can manage.
+</Note>
+
+## Project Management
+
+### Update Project Information
+
+Administrators can update project information:
+
+1. Go to **Settings** &gt; **Project**
+2. Modify the name or description
+3. Click **Save changes**
+
+### View Project Details
+
+To view detailed information about your project:
+
+- **Name**: Your project name
+- **Description**: An optional description of your project
+- **Creation date**: When the project was created
+- **Project ID**: Unique project identifier
+
+## Team Management
+
+### Invite Members
+
+Administrators can invite new members to the project:
+
+<Steps>
+  <Step title="Access member management">
+    Go to Settings &gt; Members
+  </Step>
+
+  <Step title="Send an invitation">
+    Click "Invite member", enter the email and select a role (Administrator or Member)
+  </Step>
+
+  <Step title="User receives invitation">
+    An invitation email is sent to the user
+  </Step>
+
+  <Step title="Acceptance">
+    Once accepted, the user will appear in the project member list
+  </Step>
+</Steps>
+
+### Team Roles
+
+Each project member has one of two roles:
+
+| Role | Description | Permissions |
+|-----|-------------|----------|
+| **Administrator** | Full administrative access | Can manage all resources, members, billing, and project configuration |
+| **Member** | Limited access for daily operations | Can view resources and make calls, but cannot modify configuration or manage team |
+
+<Info>
+For more details on specific permissions, see the [Roles and Permissions](/en/platform/roles-permissions) page.
+</Info>
+
+### Manage Members
+
+Administrators can:
+
+- View all project members and their roles
+- Change a member's role (from Member to Administrator or vice versa)
+- Remove members from the project
+
+<Warning>
+You cannot remove the last administrator from a project. You must promote another member to administrator first.
+</Warning>
+
+## Project Resources
+
+All these resources are associated with your project:
+
+### Agents
+- AI voice agents configured with prompts and conversational flows
+- Each agent belongs to a single project
+
+### Calls
+- Record of all calls made by the project's agents
+- Call transcriptions, recordings, and analytics
+
+### Contacts
+- Contact database for the project
+- Customer information management
+
+### Phone Numbers
+- Phone numbers acquired for the project
+- Call routing configuration
+
+### Integrations
+- Connections to external systems (CRM, databases, APIs)
+- Webhooks and custom tools
+
+### API Keys
+- Programmatic access to project resources
+- Keys with restricted permissions for security
+
+## Project Billing
+
+Each project has its own independent billing configuration:
+
+- **Stripe Customer**: A unique Stripe customer per project
+- **Subscription Plan**: Free, Starter, Pro, Scale, or Business plans
+- **Included Minutes**: Assigned monthly according to plan
+- **Phone Numbers**: Monthly charge per number
+- **Additional Usage**: Extra minutes beyond the plan
+
+<Card title="Manage Billing" icon="credit-card" href="/en/platform/billing">
+  Learn more about subscription plans, billing, and payments
+</Card>
+
+## Project Deletion
+
+Administrators can delete a project when it is no longer needed:
+
+<Warning>
+Project deletion is a permanent action. Although the project record is preserved in the database (soft deletion), access and memberships for all members are removed.
+</Warning>
+
+<Steps>
+  <Step title="Verify requirements">
+    - You must be a project administrator
+    - The project must not be your only project
+  </Step>
+
+  <Step title="Go to settings">
+    Access Settings &gt; Project
+  </Step>
+
+  <Step title="Delete project">
+    Click "Delete project" and confirm the action
+  </Step>
+
+  <Step title="Confirmation">
+    The project will be marked as deleted and removed from your project list
+  </Step>
+</Steps>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Organize by environment or client">
+    Create separate projects for different clients or environments (development, production) to keep resources organized and isolated.
+  </Accordion>
+
+  <Accordion title="Maintain at least two administrators">
+    Assign at least two administrators per project to avoid loss of access if one administrator is unavailable.
+  </Accordion>
+
+  <Accordion title="Review members regularly">
+    Periodically audit who has access to your project and remove members who no longer need access.
+  </Accordion>
+
+  <Accordion title="Use descriptive names">
+    Choose clear, descriptive names for your projects, especially if you manage multiple projects.
+  </Accordion>
+</AccordionGroup>
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Can I transfer resources between projects?">
+    No, resources are permanently linked to a specific project. If you need to move resources, you will need to recreate them in the destination project.
+  </Accordion>
+
+  <Accordion title="How many projects can I create?">
+    There is no limit on the number of projects you can create. Each project has its own independent billing.
+  </Accordion>
+
+  <Accordion title="Can I change the owner of a project?">
+    There is no concept of a unique "owner". Any administrator has full permissions. You can promote members to administrators or demote administrators to members.
+  </Accordion>
+
+  <Accordion title="What happens to data when I delete a project?">
+    The project is marked as deleted (soft deletion), preserving data for auditing. However, no user will be able to access this data.
+  </Accordion>
+
+  <Accordion title="Can I rename a project?">
+    Yes, administrators can update the project name and description at any time from settings.
+  </Accordion>
+</AccordionGroup>

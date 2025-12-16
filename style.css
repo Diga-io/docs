@@ -4,11 +4,13 @@ strong, b {
 }
 
 /* Solo afecta a iconos en la carpeta /icons/ */
-img[src^="/icons/"][src$=".svg"] {
+img[src^="/icons/"][src$=".svg"],
+img[src*="/icons/"][src$=".svg"] {
   filter: invert(17%) sepia(47%) saturate(3560%) hue-rotate(226deg) brightness(92%) contrast(85%);
 }
 
 /* En modo oscuro */
-.dark img[src^="/icons/"][src$=".svg"] {
+.dark img[src^="/icons/"][src$=".svg"],
+.dark img[src*="/icons/"][src$=".svg"] {
   filter: invert(93%) sepia(82%) saturate(2391%) hue-rotate(179deg) brightness(99%) contrast(104%);
 }

@@ -101,35 +101,27 @@ Let's create an integration with a fictional CRM to search for customers.
 
 ### 1. Create the Integration
 
-```
-Name: Customer CRM
-Base URL: https://api.mycrm.com/v2
-Auth Type: Bearer Token 
-  Value: crm_key_abc123xyz789
-```
+<Frame>
+  <img src="/images/crear-integracion-http.png" alt="HTTP integration creation screen showing name, base URL, and credentials fields" />
+</Frame>
 
 ### 2. Create Tool: Search Customer
 
-```
-Name: search_customer
-Description: Use this tool when the user mentions their email
-             or phone and you need to find their information in the CRM.
 
-Method: GET
-Endpoint: /customers/search
+- Basic configuration:
+<Frame>
+  <img src="/images/herramienta-http-crear.png" alt="HTTP tool creation screen showing name, description, method, and endpoint fields" />
+</Frame>
 
-Parameters:
-  - email (string, optional, query)
-    Description: Customer's email
+- Endpoint and method:
+<Frame>
+  <img src="/images/herramienta-http-endpoint.png" alt="HTTP endpoint and method configuration for the search customer tool" />
+</Frame>
 
-  - phone (string, optional, query)
-    Description: Customer's phone
-
-  - limit (number, optional, query, default: 1)
-    Description: Maximum number of results
-
-Requires Confirmation: No
-```
+- Parameters:
+<Frame>
+  <img src="/images/herramienta-http-query.png" alt="JSON body configuration for the search customer tool with customer_id parameter" />
+</Frame>
 
 ### 3. Usage Example in Call
 
