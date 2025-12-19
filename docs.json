@@ -82,7 +82,8 @@
                       "es/build/agentes/personalizacion-llamada",
                       "es/build/agentes/control-versiones",
                       "es/build/agentes/herramientas-llamada",
-                      "es/build/agentes/anadir-integraciones"
+                      "es/build/agentes/anadir-integraciones",
+											"es/build/agentes/llamadas-test"
                     ]
                   },
                   {
@@ -161,7 +162,8 @@
                       "en/build/agents/call-customization",
                       "en/build/agents/version-control",
                       "en/build/agents/call-tools",
-                      "en/build/agents/add-integrations"
+                      "en/build/agents/add-integrations",
+											"en/build/agents/test-calls"
                     ]
                   },
                   {
