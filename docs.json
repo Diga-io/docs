@@ -80,6 +80,7 @@
                         ]
                       },
                       "es/build/agentes/personalizacion-llamada",
+                      "es/build/agentes/variables-dinamicas",
                       "es/build/agentes/control-versiones",
                       "es/build/agentes/herramientas-llamada",
                       "es/build/agentes/anadir-integraciones",
@@ -160,6 +161,7 @@
                         ]
                       },
                       "en/build/agents/call-customization",
+                      "en/build/agents/dynamic-variables",
                       "en/build/agents/version-control",
                       "en/build/agents/call-tools",
                       "en/build/agents/add-integrations",
