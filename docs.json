@@ -100,7 +100,13 @@
                 "group": "Telefonía",
                 "pages": [
                   "es/telefonia/comprar-telefonos",
-                  "es/telefonia/sip-trunks"
+                  {
+                    "group": "Importar números mediante SIP Trunk",
+                    "pages": [
+                      "es/telefonia/sip-trunks",
+                      "es/telefonia/sip-trunks/twilio"
+                    ]
+                  }
                 ]
               },
               {
@@ -180,7 +186,13 @@
                 "group": "Telephony",
                 "pages": [
                   "en/telephony/buy-numbers",
-                  "en/telephony/sip-trunks"
+                  {
+                    "group": "SIP Trunks",
+                    "pages": [
+                      "en/telephony/sip-trunks",
+                      "en/telephony/sip-trunks/twilio"
+                    ]
+                  }
                 ]
               },
               {
