@@ -6,8 +6,8 @@
   },
   "servers": [
     {
-      "url": "http://api.diga.io/v1",
-      "description": "Production"
+      "url": "https://api.diga.io",
+      "description": "Production" 
     }
   ],
   "paths": {
