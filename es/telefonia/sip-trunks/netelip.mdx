@@ -1,0 +1,93 @@
+---
+title: Netelip - Importar número
+description: Guía paso a paso para conectar tu cuenta de Netelip mediante SIP trunking
+---
+
+## Pasos
+
+<Steps>
+  <Step title="Comprar número en Netelip">
+    Empezaremos comprando el número de teléfono dentro de Netelip. Una vez lo tengamos configurado, podemos importarlo de forma muy simple en Diga.
+
+    Para ello:
+    1. Accede a tu cuenta de Netelip.
+    2. Selecciona servicios en la barra lateral o accede a través de la rueda de ajustes que verás moviendose en la parte superior derecha.
+    3. Selecciona *Numeración telefónica* en el menú.
+    4. Dentro de numeración telefónica, selecciona *Administrar*.
+    5. Haz click en adquirir dentro de las opciones que verás en la parte superior de la tabla
+
+    En el siguiente video, puedes ver paso por paso cómo comprar un número en Netelip:
+    <Frame>
+      <iframe
+        className="w-full aspect-video rounded-xl"
+        src="https://www.youtube.com/embed/eT_KPKavhoI"
+        title="Vídeo tutorial para aprender cómo adquirir un Número Virtual fijo con netelip"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      ></iframe>
+    </Frame>
+  </Step>
+
+  <Step title="Configurar el desvío hacia Diga">
+    Ya has creado comprado el número, ahora necesitas realizar el desvío de ese número hacia Diga mediante SIP Trunking.
+
+    Para ello:
+    1. En la lista de [Mis Números](https://cloud.netelip.com/es/numeration/numberlist), haz click en el botón de configurar.
+    2. En la lista de opciones, selecciona *Servidor SIP* y activa la opción de *Añadir al número e164 el signo ”+”*
+    3. En el campo de texto que se habilitará al realizar el paso anterior, introduce sip.diga.io
+
+    
+    <Warning>
+      Asegúrate de activar la opción de "Añadir al número e164 el signo ”+”" para que las llamadas se enruten correctamente.
+    </Warning>
+
+    <Frame>
+      <img src="/images/desvio-sip-trunk-netelip.gif" alt="Gif mostrando cómo configurar el desvío en Netelip" />
+    </Frame>
+  </Step>
+
+  <Step title="Importar números a Diga">
+    Ahora que el número está configurado con tu Elastic SIP trunking, necesitas importar el número a Diga para que sepamos cómo enrutar las llamadas.
+
+    <Frame>
+        <img src="/images/phones-list-diga.png" />
+    </Frame>
+
+    Para habilitar las llamadas salientes, necesitarás proporcionar el usuario y contraseña que Netelip te proporciona en tu [panel privado](https://cloud.netelip.com/es/sipline/configurator/qr). Podrás encontrar la URI de terminación en este panel al lado de la etiqueta de *Servidor*
+    
+    <Frame>
+        <img src="/images/import-phone-modal.png" />
+    </Frame>
+
+    También puedes importar números programáticamente mediante la [API de Importar Número](/api-reference/phones/import-phone-numbers).
+
+    Una vez importado el número, puedes realizar y recibir llamadas con este número igual que con un número comprado en Diga. Aparecerá en tu dashboard y podrás hacer llamadas directamente desde él.
+  </Step>
+</Steps>
+
+## Problemas Comunes
+
+<AccordionGroup>
+  <Accordion title="No puedo recibir llamadas entrantes">
+    **Verifica la configuración del desvío en Netelip**
+
+    Asegúrate de que has configurado correctamente el desvío hacia `sip.diga.io` en el panel de Netelip. Revisa que la opción de "Añadir al número e164 el signo ”+”" esté activada.
+
+    **Verifica que el número está importado correctamente en Diga**
+
+    Asegúrate de que el número que has importado en Diga coincide exactamente con el número configurado en Netelip, incluyendo el formato internacional.
+  </Accordion>
+  <Accordion title="Las llamadas entrantes funcionan pero las salientes no">
+    **Verifica tu URI de terminación SIP**
+
+    Si hay un espacio, elimínalo. 
+    
+    **Verifica que has puesto el mismo número de teléfono en Diga y en Netelip**
+    
+    A la hora de importar el número en Diga, asegúrate de que el número de teléfono que has puesto es exactamente el mismo que has configurado en Netelip.
+
+    **Verifica tu usuario y credenciales**
+
+    Asegúrate de haber introducido el usuario y credenciales correctos que aparecen en el diálogo de configuración.
+  </Accordion>
+</AccordionGroup>

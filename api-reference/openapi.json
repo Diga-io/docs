@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://api.diga.io/v1",
+      "url": "https://api.diga.io",
       "description": "Production"
     }
   ],
@@ -6176,7 +6176,7 @@
           "Phones"
         ],
         "summary": "List Phones",
-        "description": "Retrieve information about",
+        "description": "Retrieve a list of phones, optionally filtered by agent ID.",
         "operationId": "list_phones_v1_phone__get",
         "security": [
           {
@@ -6420,153 +6420,6 @@
         }
       }
     },
-    "/v1/phone/available": {
-      "get": {
-        "tags": [
-          "Phones"
-        ],
-        "summary": "Get Available Phone Numbers",
-        "description": "Retrieve information about available",
-        "operationId": "get_available_phone_numbers_v1_phone_available_get",
-        "security": [
-          {
-            "CustomHTTPBearer": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "after",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "format": "uuid"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "After"
-            }
-          },
-          {
-            "name": "before",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "format": "uuid"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Before"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "integer",
-                  "minimum": 1
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Page"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
-              "default": 20,
-              "title": "Limit"
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
-              "type": "string",
-              "default": "desc",
-              "title": "Order"
-            }
-          },
-          {
-            "name": "region_code",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "$ref": "#/components/schemas/ESRegionCode"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Region Code"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaginatedResponse_PhoneResponseSchema_"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Error: Internal Server Error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/phone/{phone_id}": {
       "get": {
         "tags": [
@@ -6621,9 +6474,9 @@
         "tags": [
           "Phones"
         ],
-        "summary": "Change Phone Agent",
-        "description": "Change the agent associated with a phone. It requires a valid agent_version_id, that\nwill publish the version of that agent. If a agent has already a published version, it will\nuse that version instead of creating a new one.",
-        "operationId": "change_phone_agent_v1_phone__phone_id__patch",
+        "summary": "Update Phone",
+        "description": "Update a phone's configuration (nickname and/or agent assignments).\n\nAgent assignment behavior:\n- Provide `inbound_version_id` to set which agent handles incoming calls\n- Provide `outbound_version_id` to set which agent handles outgoing calls\n- Assigning a version publishes it; if the agent already has a different\npublished version in another phone, the request will fail since an agent\ncan only have one published version at a time.",
+        "operationId": "update_phone_v1_phone__phone_id__patch",
         "security": [
           {
             "CustomHTTPBearer": []
@@ -6681,7 +6534,7 @@
           "Phones"
         ],
         "summary": "Release Phone Number",
-        "description": "Release a phone number.\n\n- For Netelip (purchased) numbers: Adjusts the subscription schedule\n- For custom (imported) numbers: Deletes LiveKit trunks and removes from database\n\nThe behavior depends on the phone's telephony provider.\n\nNote: Phones in RESERVED status (pending verification) cannot be released.",
+        "description": "Release a phone number.\n\n- For Netelip (purchased) numbers: Orders the release of the number which will take effect once the subscription cycle ends\n- For custom (imported) numbers: Deletes it automatically\n\nNote: Phones in RESERVED status (pending verification) cannot be released.",
         "operationId": "release_phone_number_v1_phone__id__delete",
         "security": [
           {
@@ -6717,61 +6570,14 @@
         }
       }
     },
-    "/v1/phone/purchase": {
-      "post": {
-        "tags": [
-          "Phones"
-        ],
-        "summary": "Purchase Phone Numbers",
-        "description": "Purchase new phone numbers for the company.\n\nFor verified companies, this creates a subscription-based checkout session.\nFor unverified companies, this creates a one-off captured payment checkout session. In this case, the money\nwill be held until the company is verified, at which point the payment will be captured. If the verification\ndoes not happen within a certain period, the reserved phone numbers will be released and the payment intent\ncancelled.",
-        "operationId": "purchase_phone_numbers_v1_phone_purchase_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PostPhoneNumberRequestSchema"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PostPhoneNumberResponseSchema"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "CustomHTTPBearer": []
-          }
-        ]
-      }
-    },
     "/v1/phone/import": {
       "post": {
         "tags": [
           "Phones"
         ],
-        "summary": "Import Phone Numbers",
-        "description": "Import a phone number from an external SIP provider.\n\nThis endpoint allows you to use your own phone numbers with custom SIP trunks.\nThe phone number will be created in the system and linked to your company\nwith the provided SIP configuration.\n\nNote: Custom/imported phone numbers cannot be shared between companies.\nEach imported number is exclusive to the importing company.",
-        "operationId": "import_phone_numbers_v1_phone_import_post",
+        "summary": "Import Phone Number",
+        "description": "Import a phone number from an external SIP provider.\n\nThis endpoint allows you to use your own phone numbers with custom SIP trunks",
+        "operationId": "import_phone_number_v1_phone_import_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -11512,65 +11318,6 @@
         "title": "DetectAnsweringMachineToolSchema",
         "description": "Settings schema for the detect answering machine call-tool."
       },
-      "ESRegionCode": {
-        "type": "string",
-        "enum": [
-          "C",
-          "VI",
-          "AB",
-          "A",
-          "AL",
-          "O",
-          "AV",
-          "BA",
-          "B",
-          "BU",
-          "CC",
-          "CA",
-          "S",
-          "CS",
-          "CE",
-          "CR",
-          "CO",
-          "CU",
-          "GI",
-          "GR",
-          "GU",
-          "SS",
-          "H",
-          "HU",
-          "PM",
-          "J",
-          "LE",
-          "L",
-          "LU",
-          "M",
-          "MA",
-          "ML",
-          "MU",
-          "NA",
-          "OR",
-          "P",
-          "GC",
-          "PO",
-          "LO",
-          "SA",
-          "SG",
-          "SE",
-          "SO",
-          "T",
-          "TF",
-          "TE",
-          "TO",
-          "V",
-          "VA",
-          "BI",
-          "ZA",
-          "Z"
-        ],
-        "title": "ESRegionCode",
-        "description": "Spanish region codes according to ISO 3166-2:ES\nhttps://es.wikipedia.org/wiki/ISO_3166-2:ES"
-      },
       "EndNodeCreateSchema": {
         "properties": {
           "name": {
@@ -13369,73 +13116,6 @@
         ],
         "title": "PaginatedResponse[PhoneRegisterResponseSchema]"
       },
-      "PaginatedResponse_PhoneResponseSchema_": {
-        "properties": {
-          "data": {
-            "items": {
-              "$ref": "#/components/schemas/PhoneResponseSchema"
-            },
-            "type": "array",
-            "title": "Data"
-          },
-          "first_id": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "First Id"
-          },
-          "last_id": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Last Id"
-          },
-          "has_more": {
-            "type": "boolean",
-            "title": "Has More"
-          },
-          "current_page": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Current Page"
-          },
-          "total_pages": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Total Pages"
-          }
-        },
-        "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
-        "title": "PaginatedResponse[PhoneResponseSchema]"
-      },
       "PaginatedResponse_ProjectResponseSchema_": {
         "properties": {
           "data": {
@@ -14166,34 +13846,6 @@
         "title": "PhoneRegisterStatus",
         "description": "Enum representing the status of a phone number register. The cycle is as follows:\n- RESERVED: The phone number is reserved for a certain amount of time before being assigned\n- ASSIGNED: The phone number is assigned to a company\n- RELEASED: The phone number is released from the company and is pending availability for purchase (30 days before it can be purchased again)\n- FINISHED: The phone register process is finished, and the phone number is available for purchase again. Once a phone number reaches this status, it cannot return to previous statuses."
       },
-      "PhoneResponseSchema": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Phone ID",
-            "description": "Unique identifier for the phone record"
-          },
-          "number": {
-            "type": "string",
-            "format": "phone",
-            "title": "Phone Number",
-            "description": "The phone number"
-          },
-          "telephony_provider": {
-            "$ref": "#/components/schemas/TelephonyProvider",
-            "title": "Telephony Provider",
-            "description": "The telephony provider (NETELIP for purchased numbers, CUSTOM for imported numbers)"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "number",
-          "telephony_provider"
-        ],
-        "title": "PhoneResponseSchema"
-      },
       "PhoneUpdateRequestSchema": {
         "properties": {
           "nickname": {
@@ -14276,60 +13928,6 @@
           "phone_number"
         ],
         "title": "PostImportPhoneNumberRequestSchema"
-      },
-      "PostPhoneNumberRequestSchema": {
-        "properties": {
-          "phone_ids": {
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "type": "array",
-            "minItems": 1,
-            "title": "Phone IDs",
-            "description": "List of phone IDs to be added"
-          },
-          "cancel_url": {
-            "type": "string",
-            "maxLength": 2083,
-            "minLength": 1,
-            "format": "uri",
-            "title": "Return URL",
-            "description": "URL to redirect if session is cancelled or fails"
-          },
-          "success_url": {
-            "type": "string",
-            "maxLength": 2083,
-            "minLength": 1,
-            "format": "uri",
-            "title": "Success URL",
-            "description": "URL to redirect upon successful completion"
-          }
-        },
-        "type": "object",
-        "required": [
-          "phone_ids",
-          "cancel_url",
-          "success_url"
-        ],
-        "title": "PostPhoneNumberRequestSchema"
-      },
-      "PostPhoneNumberResponseSchema": {
-        "properties": {
-          "session_url": {
-            "type": "string",
-            "maxLength": 2083,
-            "minLength": 1,
-            "format": "uri",
-            "title": "Session URL",
-            "description": "URL to complete the phone number addition process"
-          }
-        },
-        "type": "object",
-        "required": [
-          "session_url"
-        ],
-        "title": "PostPhoneNumberResponseSchema"
       },
       "ProjectResponseSchema": {
         "properties": {

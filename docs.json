@@ -104,6 +104,7 @@
                     "group": "Importar números mediante SIP Trunk",
                     "pages": [
                       "es/telefonia/sip-trunks",
+                      "es/telefonia/sip-trunks/netelip",
                       "es/telefonia/sip-trunks/twilio"
                     ]
                   }

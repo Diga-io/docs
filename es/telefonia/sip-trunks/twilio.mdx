@@ -1,5 +1,5 @@
 ---
-title: Importar número de Twilio
+title: Twilio - Importar número
 description: Guía paso a paso para conectar tu cuenta de Twilio mediante SIP trunking
 ---
 
@@ -47,80 +47,33 @@ description: Guía paso a paso para conectar tu cuenta de Twilio mediante SIP tr
         <img src="/images/phones-list-diga.png" />
     </Frame>
 
+    Aquí proporcionarás la URI de terminación SIP que configuraste en el Paso 1. Si configuraste autenticación por credenciales, también deberás proporcionar el usuario y contraseña.
+    
     <Frame>
         <img src="/images/import-phone-modal.png" />
     </Frame>
 
-    Aquí proporcionarás la URI de terminación SIP que configuraste en el Paso 1. Si configuraste autenticación por credenciales, también deberás proporcionar el usuario y contraseña.
+    También puedes importar números programáticamente mediante la [API de Importar Número](/api-reference/phones/import-phone-numbers).
 
-    {/* TODO: Añadir imagen de detalle de importación */}
-
-    También puedes importar números programáticamente mediante la [API de Importar Número](/api-references/import-phone-number).
-
-    Una vez importado el número, puedes realizar y recibir llamadas con este número igual que con un número comprado en Diga. Aparecerá en tu dashboard y podrás hacer llamadas directamente desde él. También puedes usar la [API de Crear Llamada](/api-references/create-phone-call) para crear llamadas programáticamente.
+    Una vez importado el número, puedes realizar y recibir llamadas con este número igual que con un número comprado en Diga. Aparecerá en tu dashboard y podrás hacer llamadas directamente desde él.
   </Step>
 </Steps>
 
 ## Problemas Comunes
 
-**1. Después de conectar, las llamadas entrantes funcionan pero las salientes no**
+<AccordionGroup>
+  <Accordion title="Las llamadas entrantes funcionan pero las salientes no">
+    **Verifica tu URI de terminación SIP**
 
-* Verifica tu URI de terminación SIP
-  Si hay un espacio, elimínalo. También deberías usar una URI de terminación localizada cerca de tu región. Consulta la [documentación de Twilio](https://www.twilio.com/docs/global-infrastructure/localized-uris/termination) para seleccionar una.
+    Si hay un espacio, elimínalo. También deberías usar una URI de terminación localizada cerca de tu región. Consulta la [documentación de Twilio](https://www.twilio.com/docs/global-infrastructure/localized-uris/termination) para seleccionar una.
 
-* Verifica tu usuario y credenciales
-  Asegúrate de haber introducido el usuario y credenciales correctos que aparecen en el diálogo de configuración.
-  Ten en cuenta que el nombre de usuario no es el "friendly name" que aparece en la lista de credenciales.
-  El friendly name es diferente al nombre de usuario, verifica que no hayas puesto un nombre diferente.
+    **Verifica tu usuario y credenciales**
 
-{/* TODO: Añadir imagen de credenciales */}
+    Asegúrate de haber introducido el usuario y credenciales correctos que aparecen en el diálogo de configuración. Ten en cuenta que el nombre de usuario no es el "friendly name" que aparece en la lista de credenciales. El friendly name es diferente al nombre de usuario, verifica que no hayas puesto un nombre diferente.
+  </Accordion>
 
-**2. ¿Cómo configuro las llamadas a países internacionales?**
-
-* Busca "geo" para encontrar la configuración "Voice Geographic Permissions".
-  {/* TODO: Añadir imagen de geo */}
-
-* Elige "Elastic Sip Trunking" en el selector y selecciona los países a los que deseas llamar.
-  {/* TODO: Añadir imagen de internacional */}
-
-## Enmascaramiento de Número de Teléfono
-
-Si tienes un número de teléfono personal o un número de empresa de confianza que deseas mostrar al destinatario, los números de teléfono verificados pueden importarse a Twilio para servir como identificador de llamada (Caller ID).
-
-### Añadir un Caller ID
-
-1. Ve a la [página de Verified Caller IDs](https://www.twilio.com/console/phone-numbers/verified)
-2. Haz clic en **Add a new Caller ID**
-3. Introduce el número de teléfono deseado para verificar, selecciona el método de verificación y haz clic en **Verify Number**
-
-{/* TODO: Añadir imagen de añadir caller ID */}
-
-4. El número introducido recibirá un código de autenticación OTP para verificación. Introduce este código de verificación en la siguiente ventana.
-
-{/* TODO: Añadir imagen de código OTP */}
-
-5. Una vez hagas clic en **Submit**, si el código OTP es correcto, recibirás una notificación de **Successful** y el número se añadirá a tu cuenta como caller ID verificado.
-
-### Configurar Reglas de Cabecera SIP para Mostrar el Caller ID
-
-1. En la consola de Twilio, navega a Elastic SIP Trunking > Trunks > [tu trunk] > Termination
-2. Desplázate hasta Header Manipulation y abre **View all SIP header manipulation policies**
-
-{/* TODO: Añadir imagen de políticas de cabecera */}
-
-3. Haz clic en **Create a policy** en la esquina superior derecha y dale un nombre descriptivo a tu política
-4. Haz clic en **+ Add request rule** y dale un nombre descriptivo a la regla
-5. En la sección Actions, configura los siguientes valores:
-   * **SIP header field**: **From number**
-   * **Action**: **Replace with**
-   * **Value**: Tu caller ID en formato E.164 (ej: +34912345678)
-
-{/* TODO: Añadir imagen de acciones */}
-
-6. Haz clic en **Add rule** y luego en **Save policy**
-7. Vuelve a la pestaña Termination dentro de tu trunk y selecciona la nueva política de manipulación de cabeceras del desplegable
-8. Ahora, cualquier número importado desde este trunk de Twilio a tu cuenta de Diga usará tu caller ID verificado. Realiza una llamada saliente de prueba para validar los cambios.
-
-<Note>
-Necesitarás al menos un número comprado en Twilio en tu SIP trunk para que el caller ID se aplique.
-</Note>
+  <Accordion title="¿Cómo configuro las llamadas a países internacionales?">
+    1. Busca "geo" para encontrar la configuración "Voice Geographic Permissions"
+    2. Elige "Elastic Sip Trunking" en el selector y selecciona los países a los que deseas llamar
+  </Accordion>
+</AccordionGroup>
