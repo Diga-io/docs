@@ -34,19 +34,9 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "http://doc.diga.io",
-          "icon": "book-open"
-        },
-        {
           "anchor": "Support",
           "href": "https://www.diga.io/contact",
           "icon": "message-square-share"
-        },
-        {
-          "anchor": "Pricing",
-          "icon": "dollar-sign",
-          "href": "https://www.diga.io/#precios-1"
         }
       ]
     },
