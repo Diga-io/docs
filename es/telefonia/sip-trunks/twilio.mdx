@@ -1,0 +1,79 @@
+---
+title: Twilio - Importar número
+description: Guía paso a paso para conectar tu cuenta de Twilio mediante SIP trunking
+---
+
+## Pasos
+
+<Steps>
+  <Step title="Crear Elastic SIP Trunking">
+  Empezaremos creando el SIP Trunk dentro de Twilio. Una vez lo tengamos configurado, podemos importarlo de forma muy simple en Diga.
+  <Steps>
+    <Step title="Crea el trunk, asígnale un nombre y configura los ajustes generales">
+      <Frame>
+        <img src="/images/sip-trunk-overview-twilio.png" alt="Captura de pantalla de la tabla de teléfonos en Diga" />
+      </Frame>
+      <Warning>
+        Debes activar la opción de `Call Transfer` (SIP REFER) y hacer click en la opción de `Enable PSTN Transfer` para permitir las transferencias en las llamadas
+      </Warning>
+    </Step>
+    <Step title="Configura la terminación (para llamadas salientes)">
+      La URI de terminación SIP es importante, la usarás en pasos posteriores. Es recomendable usar una URI de terminación localizada cerca de tu región. Puedes ver tus URIs localizadas en la consola de Twilio. Esta URL será utilizada para realizar [llamadas salientes](/api-reference/call/make-call). Es decir, llamadas iniciadas por un agente de Diga
+      <Frame>
+        <img src="/images/termination-uri.png" alt="Captura de pantalla de las URIs de terminación de Twilio" />
+      </Frame>
+      Para que tu Elastic SIP trunk acepte las solicitudes de llamadas salientes, necesitas utilizar la autenticación mediante usuario y contraseña. Lo podrás poner más adelante en Diga
+    </Step>
+    <Step title="Configura la originación (para llamadas entrantes)">
+      Aquí especificarás la dirección del servidor SIP de Diga como URI de originación SIP: `sip:sip.diga.io`
+
+      <Frame>
+        <img src="/images/add-origination-url.gif" />
+      </Frame>
+    </Step>
+  </Steps>
+  </Step>
+
+  <Step title="Mover números al Elastic SIP Trunking">
+    Ya has creado el Elastic SIP trunk, ahora necesitas comprar números nuevos o mover números existentes a este trunk.
+
+    {/* TODO: Añadir imagen de números */}
+  </Step>
+
+  <Step title="Importar números a Diga">
+    Ahora que el número está configurado con tu Elastic SIP trunking, necesitas importar el número a Diga para que sepamos cómo enrutar las llamadas.
+
+    <Frame>
+        <img src="/images/phones-list-diga.png" />
+    </Frame>
+
+    Aquí proporcionarás la URI de terminación SIP que configuraste en el Paso 1. Si configuraste autenticación por credenciales, también deberás proporcionar el usuario y contraseña.
+    
+    <Frame>
+        <img src="/images/import-phone-modal.png" />
+    </Frame>
+
+    También puedes importar números programáticamente mediante la [API de Importar Número](/api-reference/phones/import-phone-numbers).
+
+    Una vez importado el número, puedes realizar y recibir llamadas con este número igual que con un número comprado en Diga. Aparecerá en tu dashboard y podrás hacer llamadas directamente desde él.
+  </Step>
+</Steps>
+
+## Problemas Comunes
+
+<AccordionGroup>
+  <Accordion title="Las llamadas entrantes funcionan pero las salientes no">
+    **Verifica tu URI de terminación SIP**
+
+    Si hay un espacio, elimínalo. También deberías usar una URI de terminación localizada cerca de tu región. Consulta la [documentación de Twilio](https://www.twilio.com/docs/global-infrastructure/localized-uris/termination) para seleccionar una.
+
+    **Verifica tu usuario y credenciales**
+
+    Asegúrate de haber introducido el usuario y credenciales correctos que aparecen en el diálogo de configuración. Ten en cuenta que el nombre de usuario no es el "friendly name" que aparece en la lista de credenciales. El friendly name es diferente al nombre de usuario, verifica que no hayas puesto un nombre diferente.
+  </Accordion>
+
+  <Accordion title="¿Cómo configuro las llamadas a países internacionales?">
+    1. Busca "geo" para encontrar la configuración "Voice Geographic Permissions"
+    2. Elige "Elastic Sip Trunking" en el selector y selecciona los países a los que deseas llamar
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,119 @@
+---
+title: Twilio
+description: A step by step guide to connect to your Twilio account via SIP trunking
+---
+
+## Steps
+
+<Steps>
+  <Step title="Create Elastic SIP Trunking">
+    1. Create the trunk, give it a name, and toggle some general settings
+
+    {/* TODO: Add Twilio general configuration image */}
+
+    2. Setup termination (this is for outbound)
+
+    * The termination SIP URI here is important, we would use it in later steps. You might want to use a localized termination URI that's near your region. You can expand and view your localized URIs in the Twilio console.
+
+    {/* TODO: Add termination configuration image */}
+
+    * For your Elastic SIP trunk to accept our outbound request, you need to whitelist IP address or create auth with username and password.
+      * If you opt for the auth route, you need to specify the username and password in the next step when importing the number to Diga.
+      {/* TODO: Add auth image */}
+      * Currently Diga SIP server does not have a static IP, so if you opt for the IP route, you need to whitelist all the IP addresses in the range.
+      {/* TODO: Add ACL images */}
+
+    3. Setup origination (this is for inbound)
+
+    * Here you will specify Diga's SIP server address as the origination SIP URI:
+      `sip:sip.diga.io`
+
+    {/* TODO: Add origination configuration image */}
+  </Step>
+
+  <Step title="Move numbers to Elastic SIP Trunking">
+    You've created the Elastic SIP trunk, now you would need to purchase numbers or move existing numbers to this trunk.
+
+    {/* TODO: Add numbers image */}
+  </Step>
+
+  <Step title="Import numbers to Diga">
+    Now the number is set up with your Elastic SIP trunking, you need to import the number to Diga so that we will know how to route the call.
+
+    {/* TODO: Add import number image */}
+
+    Here you will supply the termination SIP URI you set up in Step 1. If you have set up auth via credentials, you will need to supply the username and password as well.
+
+    {/* TODO: Add import number detail image */}
+
+    You can also import number programmatically via [Import Number API](/api-references/import-phone-number).
+
+    Now the number is imported, you can make and receive calls with this number just like a number you purchased from Diga -- it will show up in your dashboard, and you can make phone calls from Dashboard directly. You can also use the [Create Phone Call API](/api-references/create-phone-call) to create calls programmatically.
+
+    If you wish Diga to stop using this number, you can delete it from the dashboard or via the [Delete Number API](/api-references/delete-phone-number).
+  </Step>
+</Steps>
+
+## Common Issues
+
+**1. After connecting, inbound works but outbound does not work?**
+
+* Check your Termination SIP URI
+  If there's a space in it, please remove. Also you should use a localized termination URI that's near your region. Check out this [doc](https://www.twilio.com/docs/global-infrastructure/localized-uris/termination) to select one.
+
+* Check your username and credentials
+  Please make sure you entered the right username and credentials which shows in the configuration dialog.
+  Please note the username is not the friendly name that shows in the credential list.
+  The friendly name is different from the username, you need to double check if you happen to give a different name.
+
+{/* TODO: Add credentials image */}
+
+**2. How do I set up dialing to international countries?**
+
+* Search "geo" to find the "Voice Geographic Permissions" setting.
+  {/* TODO: Add geo image */}
+
+* Choose "Elastic Sip Trunking" in selector, and select the countries you would like to dial.
+  {/* TODO: Add international image */}
+
+## Phone Number Masking
+
+If you have a personal phone number or a trusted business number you would like to display to the callee, verified phone numbers can be imported into Twilio to serve as the caller ID.
+
+### Add a Caller ID
+
+1. Go to the [Verified Caller IDs page](https://www.twilio.com/console/phone-numbers/verified)
+2. Click **Add a new Caller ID**
+3. Enter the desired phone number to verify, select the desired verification method, and then click **Verify Number**
+
+{/* TODO: Add add caller ID image */}
+
+4. The number entered will receive an OTP Authentication code for verification. Enter this verification code on the next window.
+
+{/* TODO: Add OTP code image */}
+
+5. Once you click **Submit**, if the correct OTP code was entered, you will receive a **Successful** notification and the number will be added to your account as a verified caller ID.
+
+### Configure SIP Header Rules to Display Caller ID
+
+1. In the Twilio Console, navigate to Elastic SIP Trunking > Trunks > [your trunk] > Termination
+2. Scroll down to Header Manipulation and open **View all SIP header manipulation policies**
+
+{/* TODO: Add header policies image */}
+
+3. Click on **Create a policy** in the top right and give your policy a friendly name
+4. Click on **+ Add request rule** and give the rule a friendly name
+5. Under the Actions section, set the following values:
+   * **SIP header field**: **From number**
+   * **Action**: **Replace with**
+   * **Value**: Your caller ID in E.164 format (e.g. +18881230987)
+
+{/* TODO: Add actions image */}
+
+6. Click **Add rule**, and then click **Save policy**
+7. Return to the Termination tab within your trunk, and select the new header manipulation policy from the dropdown
+8. Now, any number imported from this Twilio trunk into your Diga account will use your verified caller ID. Place an outbound test call to validate the changes.
+
+<Note>
+You will need at least one number purchased from Twilio in your SIP trunk in order for the caller ID to be applied.
+</Note>
