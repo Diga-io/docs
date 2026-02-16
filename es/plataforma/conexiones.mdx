@@ -1,0 +1,110 @@
+---
+title: "Conexiones"
+description: "Gestiona y mantén integradas todas las conexiones externas de tu proyecto."
+---
+
+# Conexiones
+
+Desde la sección de Conexiones puedes **visualizar, reconectar y renombrar** todas las conexiones externas vinculadas a tu proyecto. Las conexiones se generan automáticamente cuando configuras una integración en un flujo.
+
+Accede a esta sección desde **Ajustes > Proyecto > Conexiones**.
+
+<Note>
+Todos los miembros del proyecto pueden ver las conexiones, pero solo los **administradores** pueden reconectarlas o renombrarlas. Consulta la página de [Equipo](/es/plataforma/equipo) para más información sobre roles y permisos.
+</Note>
+
+## Vista general
+
+La vista principal muestra una tabla con todas las conexiones del proyecto. Para cada conexión puedes ver:
+
+- **Proveedor** — icono y tipo de servicio conectado (por ejemplo, Google Calendar, Trello, Microsoft Outlook).
+- **Nombre** — nombre asignado a la conexión.
+- **Estado** — indica si la conexión está **Activa** o **Inactiva**.
+- **Flujos** — número de flujos que utilizan esta conexión. Al hacer clic en el número, se redirige a la página de flujos filtrada por esa conexión.
+- **Conectado en** — fecha y hora en que se estableció la conexión.
+- **Acciones** — botones para reconectar o renombrar la conexión.
+
+### Filtrar conexiones
+
+Puedes filtrar las conexiones de dos formas:
+
+- **Por estado:** usa el desplegable de **Estado** para mostrar solo las conexiones activas, inactivas o todas.
+- **Por nombre:** usa el buscador para encontrar una conexión específica por su nombre.
+
+## Reconectar una conexión
+
+Si una conexión deja de funcionar (por ejemplo, porque la API Key expiró o se revocaron los permisos), puedes reconectarla sin necesidad de eliminarla y volver a crearla.
+
+<Steps>
+  <Step title="Haz clic en el botón de reconectar">
+    En la columna de **Acciones** de la conexión que necesitas reconectar, haz clic en el icono de reconectar.
+  </Step>
+  <Step title="Actualiza las credenciales">
+    Se abrirá un modal donde puedes ver el **nombre de la conexión** y actualizar la **API Key** u otras credenciales necesarias.
+  </Step>
+  <Step title="Guarda los cambios">
+    Haz clic en **Guardar** para aplicar las nuevas credenciales. La conexión volverá al estado **Activa** si las credenciales son válidas.
+  </Step>
+</Steps>
+
+<Warning>
+Si una conexión está en estado **Inactiva**, los flujos que la utilizan no podrán ejecutar las acciones vinculadas a esa integración hasta que se reconecte.
+</Warning>
+
+## Renombrar una conexión
+
+Puedes cambiar el nombre de una conexión para identificarla más fácilmente, sin afectar su funcionamiento.
+
+<Steps>
+  <Step title="Haz clic en el botón de renombrar">
+    En la columna de **Acciones**, haz clic en el icono de renombrar.
+  </Step>
+  <Step title="Introduce el nuevo nombre">
+    Se abrirá un modal con el nombre actual. Escribe el nuevo nombre descriptivo que deseas asignar.
+  </Step>
+  <Step title="Guarda los cambios">
+    Haz clic en **Guardar** para confirmar el cambio. Si prefieres no hacer cambios, haz clic en **Volver atrás**.
+  </Step>
+</Steps>
+
+## Estados de conexión
+
+| Estado | Descripción |
+|---|---|
+| **Activa** | La conexión funciona correctamente y los flujos pueden utilizarla |
+| **Inactiva** | La conexión ha dejado de funcionar y necesita ser reconectada |
+
+<Note>
+Una conexión puede pasar a estado **Inactiva** cuando las credenciales expiran, se revocan los permisos desde el servicio externo o el proveedor cambia su configuración de acceso.
+</Note>
+
+## Buenas prácticas
+
+<AccordionGroup>
+  <Accordion title="Usa nombres descriptivos">
+    Renombra las conexiones para reflejar su propósito (por ejemplo, "Google Calendar - Reservas" o "Trello - Soporte"). Facilita identificar qué conexión corresponde a cada uso.
+  </Accordion>
+  <Accordion title="Revisa las conexiones inactivas regularmente">
+    Monitorea el estado de tus conexiones para detectar problemas rápidamente. Una conexión inactiva puede afectar múltiples flujos.
+  </Accordion>
+  <Accordion title="Reconecta antes de que sea urgente">
+    Si recibes un aviso de que una API Key está por expirar, reconecta de forma proactiva para evitar interrupciones en tus flujos.
+  </Accordion>
+</AccordionGroup>
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Puedo crear conexiones desde esta página?">
+    No. Las conexiones se generan automáticamente cuando configuras una integración dentro de un flujo. Desde esta página puedes gestionarlas (reconectar y renombrar), pero no crearlas.
+  </Accordion>
+  <Accordion title="¿Qué pasa si reconecto una conexión que está activa?">
+    Puedes reconectar una conexión activa sin problemas. Esto es útil, por ejemplo, para actualizar una API Key antes de que expire.
+  </Accordion>
+  <Accordion title="¿Eliminar una conexión afecta a los flujos que la usan?">
+    Actualmente no es posible eliminar conexiones desde esta página. Si necesitas desconectar un servicio, puedes hacerlo desde la configuración de la integración en el flujo correspondiente.
+  </Accordion>
+  <Accordion title="¿Por qué una conexión aparece como inactiva?">
+    Una conexión puede volverse inactiva si las credenciales expiran, se revocan los permisos desde el servicio externo o el proveedor cambia su configuración de acceso. Reconéctala para restaurar el funcionamiento.
+  </Accordion>
+</AccordionGroup>

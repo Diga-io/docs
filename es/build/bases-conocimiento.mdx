@@ -5,6 +5,8 @@ description: "Crea y gestiona bases de conocimiento para proporcionar informaci�
 
 Las bases de conocimiento son colecciones de documentos que contienen información de tu negocio. Puedes vincularlas a tus agentes para que accedan a esta información durante las conversaciones y respondan con mayor precisión.
 
+También puedes subir documentos, textos o URLs de forma independiente, sin asignarlos a ninguna base de conocimiento. Estos elementos sueltos aparecerán en la vista general y podrás organizarlos en bases más adelante si lo necesitas.
+
 Accede a esta sección desde **Bases de conocimiento** en el panel lateral izquierdo.
 
 ## Vista general
@@ -28,6 +30,10 @@ Haz clic en **Añadir documentos** en la esquina superior derecha. Selecciona el
 | **Archivo** | Sube un archivo desde tu equipo |
 | **Texto** | Escribe o pega texto directamente |
 
+<Frame>
+  <img src="/images/añadir-bases.png" alt="Bases de conocimiento" />
+</Frame>
+
 ### Subir archivos
 
 Los formatos de archivo soportados son:
@@ -48,8 +54,8 @@ Los formatos de archivo soportados son:
   <Step title="Sube el archivo">
     Haz clic en el área de carga o arrastra el archivo. Configura las opciones adicionales si es necesario.
   </Step>
-  <Step title="Selecciona la base de conocimiento">
-    Elige la base de conocimiento a la que pertenecerá el archivo.
+  <Step title="Selecciona la base de conocimiento (opcional)">
+    Elige la base de conocimiento a la que pertenecerá el archivo. Si no seleccionas ninguna, el documento se añadirá de forma independiente y podrás organizarlo en una base más adelante.
   </Step>
   <Step title="Guarda">
     Haz clic en **Guardar** para subir y procesar el archivo.
@@ -66,8 +72,8 @@ Al añadir una URL puedes elegir entre dos modos: **Single URL** o **Sitemap**.
   <Step title="Selecciona URL">
     En el modal de añadir documentos, elige la opción **URL** y asegúrate de que la pestaña **Single URL** esté activa.
   </Step>
-  <Step title="Selecciona la base de conocimiento">
-    Elige la base de conocimiento de destino.
+  <Step title="Selecciona la base de conocimiento (opcional)">
+    Elige la base de conocimiento de destino. Si no seleccionas ninguna, el documento se añadirá de forma independiente.
   </Step>
   <Step title="Introduce la dirección">
     Escribe o pega la URL de la página web.
@@ -83,14 +89,17 @@ Al añadir una URL puedes elegir entre dos modos: **Single URL** o **Sitemap**.
   <Step title="Selecciona URL y cambia a Sitemap">
     En el modal de añadir documentos, elige la opción **URL** y haz clic en la pestaña **Sitemap**.
   </Step>
-  <Step title="Selecciona la base de conocimiento">
-    Elige la base de conocimiento de destino.
+  <Step title="Selecciona la base de conocimiento (opcional)">
+    Elige la base de conocimiento de destino. Si no seleccionas ninguna, los documentos se añadirán de forma independiente.
   </Step>
   <Step title="Introduce la URL del sitio">
     Escribe la URL del sitio web. El sistema buscará el sitemap y extraerá las páginas disponibles.
   </Step>
   <Step title="Selecciona las páginas">
     Haz clic en **Continuar**. Aparecerá una lista con todas las páginas encontradas en el sitemap. Marca las que quieras importar o usa **Select all** para seleccionarlas todas.
+  <Frame>
+  <img src="/images/modal-añadir-URL.png" alt="Modal añadir URL" />
+</Frame>
   </Step>
   <Step title="Guarda">
     Haz clic en **Guardar**. Se creará un documento por cada página seleccionada.
@@ -106,8 +115,8 @@ Al añadir una URL puedes elegir entre dos modos: **Single URL** o **Sitemap**.
   <Step title="Introduce el contenido">
     Escribe un nombre para el documento y añade el contenido en el campo de texto.
   </Step>
-  <Step title="Selecciona la base de conocimiento">
-    Elige la base de conocimiento de destino.
+  <Step title="Selecciona la base de conocimiento (opcional)">
+    Elige la base de conocimiento de destino. Si no seleccionas ninguna, el documento se añadirá de forma independiente.
   </Step>
   <Step title="Guarda">
     Haz clic en **Guardar**.
@@ -137,10 +146,37 @@ Desde esta vista puedes:
 
 - **Añadir documentos** a la base usando el botón en la esquina superior.
 - **Ver el contenido** de un documento haciendo clic sobre él. Dependiendo del tipo, verás el texto completo, el archivo para descargar o la URL de origen.
+- **Mover documentos** a otra base de conocimiento.
 - **Eliminar documentos** individuales de la base.
 
 <Note>
 Cuando añades un documento a una base de conocimiento que ya está vinculada a un agente, el documento se procesa automáticamente y el agente tendrá acceso al nuevo contenido una vez finalice el procesamiento.
+</Note>
+
+### Mover elementos a otra base
+
+Puedes mover uno o varios documentos de una base de conocimiento a otra para reorganizar tu contenido sin necesidad de eliminar y volver a subir los archivos.
+
+<Steps>
+  <Step title="Selecciona los elementos">
+    Dentro de la base de conocimiento, marca las casillas de los documentos que deseas mover.
+  </Step>
+  <Step title="Haz clic en Mover">
+    En la barra de acciones que aparece al seleccionar elementos, haz clic en **Mover**.
+  </Step>
+  <Step title="Elige la base de destino">
+    Se abrirá un modal con la lista de bases de conocimiento disponibles en el proyecto. Selecciona la base a la que quieres trasladar los documentos. También puedes elegir **Sin base de conocimiento** para desvincularlos de cualquier base.
+  <Frame>
+  <img src="/images/mover-bases.png" alt="Modal mover bases de conocimiento" />
+</Frame>
+  </Step>
+  <Step title="Confirma el movimiento">
+    Haz clic en **Guardar**. Los documentos se trasladarán a la base seleccionada.
+  </Step>
+</Steps>
+
+<Note>
+Si la base de destino está vinculada a un agente, los documentos movidos se procesarán automáticamente y estarán disponibles para ese agente.
 </Note>
 
 ## Eliminar una base de conocimiento
@@ -166,9 +202,26 @@ Una vez creadas, las bases de conocimiento se vinculan a los agentes desde la co
   Aprende cómo vincular bases de conocimiento a tus agentes y configurar la herencia en caminos conversacionales.
 </Card>
 
+## Límites
+
+| Concepto | Límite |
+|---|---|
+| **Tamaño máximo por archivo** | 10 MB |
+| **Número de documentos** | Sin límite |
+| **Almacenamiento por proyecto** | Varía según el plan contratado |
+
+El almacenamiento total disponible para bases de conocimiento (RAG Storage) depende de tu plan de suscripción. Consulta la página de [Planes y precios](/es/plataforma/facturacion) para ver los límites de tu plan.
+
+<Warning>
+Si alcanzas el límite de almacenamiento de tu plan, no podrás añadir nuevos documentos hasta que liberes espacio o mejores tu suscripción.
+</Warning>
+
 ## Buenas prácticas
 
 <AccordionGroup>
+  <Accordion title="Incluye textos cortos directamente en el prompt">
+    Si el contenido tiene menos de 500 bytes (aproximadamente un párrafo corto), es más eficiente incluirlo directamente en el prompt del agente en lugar de crear un documento en una base de conocimiento. Reserva las bases para contenido más extenso donde el agente necesita buscar información relevante.
+  </Accordion>
   <Accordion title="Organiza por tema">
     Crea bases de conocimiento separadas por área (productos, políticas, preguntas frecuentes) en lugar de una sola base con todo. Esto facilita el mantenimiento y permite vincular solo la información relevante a cada agente.
   </Accordion>

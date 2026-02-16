@@ -114,7 +114,8 @@
                       "es/plataforma/equipo",
                       "es/plataforma/suscripcion",
                       "es/plataforma/facturacion",
-                      "es/plataforma/api-keys"
+                      "es/plataforma/api-keys",
+                      "es/plataforma/conexiones"
                     ]
                   }
                 ]
