@@ -1,0 +1,158 @@
+---
+title: Suscripción
+description: Gestiona tu plan actual, métodos de pago e historial de pagos desde los ajustes de tu proyecto.
+---
+
+# Suscripción
+
+Desde **Ajustes > Suscripción** puedes consultar y gestionar tu plan actual, tus métodos de pago y tu historial de facturación.
+
+## Plan actual
+
+En la parte superior de la página verás un resumen de tu suscripción activa:
+
+- **Plan contratado** y precio mensual.
+- **Minutos incluidos** en tu plan.
+- **Minutos acumulados** (rollover) disponibles.
+- **Próxima fecha de facturación**.
+
+<Note>
+Los minutos se asignan **mensualmente**, independientemente de si tu período de facturación es mensual o anual.
+</Note>
+
+### Minutos restantes y acumulados
+
+Diga incluye un sistema de **rollover** para que no pierdas minutos sin usar:
+
+- Los minutos no consumidos en un mes se transfieren al siguiente.
+- El rollover está limitado a **2x** los minutos incluidos de tu plan.
+- Los minutos acumulados se consumen antes de generar uso adicional.
+
+## Método de pago
+
+En esta sección puedes ver y gestionar los métodos de pago asociados a tu proyecto.
+
+### Añadir un método de pago
+
+<Steps>
+  <Step title="Haz clic en Añadir método de pago">
+    En la sección de método de pago, haz clic en **Añadir método de pago**.
+  </Step>
+  <Step title="Introduce los datos de tu tarjeta">
+    Serás redirigido a Stripe para introducir los datos de forma segura.
+  </Step>
+  <Step title="Guarda el método">
+    Tu tarjeta quedará guardada para futuras facturas.
+  </Step>
+</Steps>
+
+### Cambiar el método de pago predeterminado
+
+Si tienes varias tarjetas registradas, puedes cambiar cuál se usa por defecto:
+
+1. Haz clic en **Cambiar método de pago predeterminado**.
+2. Selecciona la tarjeta que deseas usar.
+3. Confirma el cambio haciendo clic en **Continuar**.
+
+<Note>
+Si solo hay una tarjeta, se establece automáticamente como predeterminada.
+</Note>
+
+### Eliminar un método de pago
+
+<Steps>
+  <Step title="Selecciona el método a eliminar">
+    Haz clic en el icono de eliminar junto al método de pago.
+  </Step>
+  <Step title="Confirma la eliminación">
+    Se abrirá un modal de confirmación. Haz clic en **Eliminar** para confirmar.
+  </Step>
+</Steps>
+
+<Warning>
+No puedes eliminar tu único método de pago si tienes un plan activo de pago. Añade otro método antes de eliminar el existente.
+</Warning>
+
+## Gestionar suscripción
+
+Haz clic en **Gestionar suscripción** para abrir el panel de configuración de tu plan. Desde aquí puedes:
+
+- **Modificar tu plan**: te lleva a la página de [planes y precios](/es/plataforma/facturacion) para cambiar de plan.
+- **Cambiar el período de facturación**: alternar entre **plan mensual** y **plan anual**.
+- Ver los **minutos restantes** y **minutos acumulados** del período actual.
+- **Activar la facturación basada en uso**: permite seguir realizando llamadas una vez agotados tus minutos incluidos, facturando los minutos extra consumidos.
+
+<Tabs>
+  <Tab title="Facturación basada en uso activada">
+    - Cuando agotas tus minutos incluidos + rollover, las llamadas continúan.
+    - Los minutos extra se facturan mensualmente.
+  </Tab>
+  <Tab title="Facturación basada en uso desactivada">
+    - Cuando agotas tus minutos, las nuevas llamadas se bloquean.
+    - No se generan cargos adicionales.
+    - Debes esperar a la renovación mensual o mejorar tu plan.
+  </Tab>
+</Tabs>
+
+Para guardar los cambios, haz clic en **Guardar**. Si deseas descartarlos, haz clic en **Volver atrás**.
+
+<Note>
+Si sales del modal sin guardar, se te preguntará si deseas conservar o descartar los cambios realizados.
+</Note>
+
+### Cancelar suscripción
+
+<Steps>
+  <Step title="Accede a Gestionar suscripción">
+    Haz clic en **Gestionar suscripción** y luego en **Cancelar suscripción**.
+  </Step>
+  <Step title="Confirma la cancelación">
+    Se abrirá un modal de confirmación. Haz clic en **Cancelar plan** para confirmar.
+  </Step>
+  <Step title="Confirmación de éxito">
+    Verás un modal indicando que el plan ha sido cancelado con éxito.
+  </Step>
+</Steps>
+
+<Warning>
+Al cancelar, tu plan se revertirá al **plan gratuito** al final del período de facturación actual. Cualquier minuto de rollover que exceda el límite del plan gratuito se perderá. El cambio de plan no se hace efectivo hasta el próximo período de facturación.
+</Warning>
+
+## Historial de pagos
+
+En la parte inferior de la página encontrarás una tabla con todas tus facturas:
+
+|  |  |
+|---|---|
+| **Fecha** | Fecha de emisión de la factura |
+| **Descripción** | Concepto del cargo |
+| **Cantidad** | Importe facturado |
+| **Estado** | Estado del pago: Pendiente, Pagado, Rechazado |
+| **Acciones** | Enlace para descargar la factura |
+
+### Estados de pago
+
+- **Pendiente**: el pago aún no se ha completado.
+- **Pagado**: el pago se ha completado correctamente.
+- **Rechazado**: el pago ha fallado. Revisa tu método de pago.
+
+<Warning>
+Si un pago es rechazado repetidamente, tu suscripción puede ser cancelada tras varias semanas y tus agentes dejarán de aceptar llamadas hasta que se resuelva el problema.
+</Warning>
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Dónde puedo ver cuántos minutos me quedan?">
+    En la parte superior de **Ajustes > Suscripción** verás tus minutos restantes y acumulados del período actual.
+  </Accordion>
+  <Accordion title="¿Qué pasa con mis minutos si cambio de plan?">
+    Si haces un upgrade, los minutos restantes se transfieren al nuevo plan (con el límite de rollover del nuevo plan). Si haces un downgrade, los minutos de rollover que excedan el límite del nuevo plan se pierden.
+  </Accordion>
+  <Accordion title="¿Puedo tener varios métodos de pago?">
+    Sí. Puedes añadir varias tarjetas y seleccionar cuál usar como predeterminada.
+  </Accordion>
+  <Accordion title="¿Qué ocurre si cancelo mi suscripción?">
+    Tu plan actual permanece activo hasta el final del período pagado. Después se revierte al plan gratuito.
+  </Accordion>
+</AccordionGroup>

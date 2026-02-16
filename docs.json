@@ -73,6 +73,7 @@
                       "es/build/agentes/variables-dinamicas",
                       "es/build/agentes/control-versiones",
                       "es/build/agentes/herramientas-llamada",
+                      "es/build/agentes/bases-conocimiento",
                       "es/build/agentes/anadir-integraciones",
 											"es/build/agentes/llamadas-test"
                     ]
@@ -84,7 +85,8 @@
                       "es/build/integraciones/integraciones-http",
                       "es/build/integraciones/integraciones-mcp"
                     ]
-                  }
+                  },
+                  "es/build/bases-conocimiento"
                 ]
               },
               {
@@ -104,7 +106,17 @@
               {
                 "group": "Plataforma",
                 "pages": [
-                  "es/plataforma/facturacion"
+                  "es/plataforma/cuentas",
+                  {
+                    "group": "Proyectos",
+                    "pages": [
+                      "es/plataforma/proyectos",
+                      "es/plataforma/equipo",
+                      "es/plataforma/suscripcion",
+                      "es/plataforma/facturacion",
+                      "es/plataforma/api-keys"
+                    ]
+                  }
                 ]
               },
               {
