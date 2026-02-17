@@ -18,7 +18,7 @@ Solo los **administradores** pueden invitar nuevos usuarios al proyecto.
     En la esquina superior derecha de la tabla de miembros, haz clic en **Invitar usuarios**.
   </Step>
   <Step title="Introduce el email y selecciona un rol">
-    Escribe la dirección de correo del usuario y selecciona el rol que deseas asignarle (**Administrador** o **Miembro**).
+    Escribe la dirección de correo del usuario y selecciona el rol que deseas asignarle (**Administrador**, **Miembro** o **Lector**).
     <Frame>
   <img src="/images/invitar-usuario.png" alt="Invitar usuarios" />
 </Frame>
@@ -35,7 +35,7 @@ Solo los **administradores** pueden invitar nuevos usuarios al proyecto.
 
 Los administradores pueden realizar las siguientes acciones sobre los miembros del proyecto:
 
-- **Cambiar el rol** de un miembro (de Miembro a Administrador o viceversa).
+- **Cambiar el rol** de un miembro (entre Administrador, Miembro y Lector).
 - **Eliminar** a un miembro del proyecto.
 
 Para hacerlo, usa los botones de **Acciones** en la fila correspondiente de la tabla.
@@ -73,81 +73,101 @@ Acceso de **solo lectura** a la mayoría de recursos, con la posibilidad de oper
 Los miembros **no pueden** crear ni modificar agentes, gestionar el equipo, acceder a la facturación ni configurar integraciones o claves API.
 </Note>
 
+### Lector
+
+Acceso **mínimo de solo lectura**, limitado a la consulta de analíticas y registros de llamadas.
+
+- Ver el dashboard de inicio (analíticas generales).
+- Ver el registro de llamadas con transcripciones.
+
+<Note>
+Los lectores **no pueden** ver agentes, contactos, números de teléfono, bases de conocimiento ni ninguna otra sección del proyecto. Es el rol más restrictivo disponible.
+</Note>
+
 ### Permisos detallados
 
 <AccordionGroup>
   <Accordion title="Gestión de proyectos">
-    | Permiso | Administrador | Miembro |
-    |---|---|---|
-    | Ver información del proyecto | ✓ | ✓ |
-    | Actualizar detalles del proyecto | ✓ | ✗ |
-    | Eliminar proyecto | ✓ | ✗ |
+    | Permiso | Administrador | Miembro | Lector |
+    |---|---|---|---|
+    | Ver información del proyecto | ✓ | ✓ | ✗ |
+    | Actualizar detalles del proyecto | ✓ | ✗ | ✗ |
+    | Eliminar proyecto | ✓ | ✗ | ✗ |
   </Accordion>
   <Accordion title="Gestión de agentes">
-    | Permiso | Administrador | Miembro |
-    |---|---|---|
-    | Ver agentes | ✓ | ✓ |
-    | Crear agentes | ✓ | ✗ |
-    | Modificar agentes | ✓ | ✗ |
-    | Eliminar agentes | ✓ | ✗ |
+    | Permiso | Administrador | Miembro | Lector |
+    |---|---|---|---|
+    | Ver agentes | ✓ | ✓ | ✗ |
+    | Crear agentes | ✓ | ✗ | ✗ |
+    | Modificar agentes | ✓ | ✗ | ✗ |
+    | Eliminar agentes | ✓ | ✗ | ✗ |
+  </Accordion>
+  <Accordion title="Dashboard y analíticas">
+    | Permiso | Administrador | Miembro | Lector |
+    |---|---|---|---|
+    | Ver dashboard de inicio | ✓ | ✓ | ✓ |
+    | Acceder a reportes y estadísticas | ✓ | ✓ | ✓ |
   </Accordion>
   <Accordion title="Gestión de llamadas">
-    | Permiso | Administrador | Miembro |
-    |---|---|---|
-    | Ver llamadas | ✓ | ✓ |
-    | Iniciar llamadas | ✓ | ✓ |
-    | Modificar metadatos de llamadas | ✓ | ✗ |
-    | Eliminar registros de llamadas | ✓ | ✗ |
-    | Ver transcripciones y grabaciones | ✓ | ✓ |
+    | Permiso | Administrador | Miembro | Lector |
+    |---|---|---|---|
+    | Ver llamadas | ✓ | ✓ | ✓ |
+    | Ver transcripciones y grabaciones | ✓ | ✓ | ✓ |
+    | Iniciar llamadas | ✓ | ✓ | ✗ |
+    | Modificar metadatos de llamadas | ✓ | ✗ | ✗ |
+    | Eliminar registros de llamadas | ✓ | ✗ | ✗ |
   </Accordion>
   <Accordion title="Gestión de números de teléfono">
-    | Permiso | Administrador | Miembro |
-    |---|---|---|
-    | Ver números de teléfono | ✓ | ✓ |
-    | Comprar números nuevos | ✓ | ✗ |
-    | Configurar números | ✓ | ✗ |
-    | Liberar números | ✓ | ✗ |
+    | Permiso | Administrador | Miembro | Lector |
+    |---|---|---|---|
+    | Ver números de teléfono | ✓ | ✓ | ✗ |
+    | Comprar números nuevos | ✓ | ✗ | ✗ |
+    | Configurar números | ✓ | ✗ | ✗ |
+    | Liberar números | ✓ | ✗ | ✗ |
   </Accordion>
   <Accordion title="Gestión de contactos">
-    | Permiso | Administrador | Miembro |
-    |---|---|---|
-    | Ver contactos | ✓ | ✓ |
-    | Crear contactos | ✓ | ✓ |
-    | Eliminar contactos | ✓ | ✗ |
+    | Permiso | Administrador | Miembro | Lector |
+    |---|---|---|---|
+    | Ver contactos | ✓ | ✓ | ✗ |
+    | Crear contactos | ✓ | ✓ | ✗ |
+    | Eliminar contactos | ✓ | ✗ | ✗ |
   </Accordion>
   <Accordion title="Miembros del equipo">
-    | Permiso | Administrador | Miembro |
-    |---|---|---|
-    | Ver miembros del equipo | ✓ | ✗ |
-    | Invitar nuevos miembros | ✓ | ✗ |
-    | Cambiar roles | ✓ | ✗ |
-    | Eliminar miembros | ✓ | ✗ |
+    | Permiso | Administrador | Miembro | Lector |
+    |---|---|---|---|
+    | Ver miembros del equipo | ✓ | ✗ | ✗ |
+    | Invitar nuevos miembros | ✓ | ✗ | ✗ |
+    | Cambiar roles | ✓ | ✗ | ✗ |
+    | Eliminar miembros | ✓ | ✗ | ✗ |
   </Accordion>
   <Accordion title="Facturación">
-    | Permiso | Administrador | Miembro |
-    |---|---|---|
-    | Ver información de facturación | ✓ | ✗ |
-    | Gestionar suscripción | ✓ | ✗ |
-    | Ver facturas | ✓ | ✗ |
+    | Permiso | Administrador | Miembro | Lector |
+    |---|---|---|---|
+    | Ver información de facturación | ✓ | ✗ | ✗ |
+    | Gestionar suscripción | ✓ | ✗ | ✗ |
+    | Ver facturas | ✓ | ✗ | ✗ |
   </Accordion>
   <Accordion title="Claves API e integraciones">
-    | Permiso | Administrador | Miembro |
-    |---|---|---|
-    | Ver claves API | ✓ | ✗ |
-    | Crear / modificar / revocar claves | ✓ | ✗ |
-    | Ver integraciones | ✓ | ✗ |
-    | Crear / modificar / eliminar integraciones | ✓ | ✗ |
+    | Permiso | Administrador | Miembro | Lector |
+    |---|---|---|---|
+    | Ver claves API | ✓ | ✗ | ✗ |
+    | Crear / modificar / revocar claves | ✓ | ✗ | ✗ |
+    | Ver integraciones | ✓ | ✗ | ✗ |
+    | Crear / modificar / eliminar integraciones | ✓ | ✗ | ✗ |
   </Accordion>
 </AccordionGroup>
 
 ### ¿Qué rol asignar?
 
-<CardGroup cols={2}>
+<CardGroup cols={3}>
   <Card title="Administrador" icon="shield">
     Para quienes necesitan **control total**: propietarios del negocio, gerentes de proyecto, administradores técnicos o personal de IT.
   </Card>
   <Card title="Miembro" icon="user">
-    Para quienes necesitan **operar sin modificar**: agentes de ventas, personal de soporte, analistas u operadores de call center.
+    Para quienes necesitan **operar sin modificar**: agentes de ventas, personal de soporte u operadores de call center.
+  </Card>
+  <Card title="Lector" icon="eye">
+    Para quienes solo necesitan **consultar resultados**: supervisores, directivos o stakeholders que revisan métricas y registros de llamadas.
   </Card>
 </CardGroup>
 
@@ -155,7 +175,7 @@ Los miembros **no pueden** crear ni modificar agentes, gestionar el equipo, acce
 
 <AccordionGroup>
   <Accordion title="Aplica el principio de mínimo privilegio">
-    Asigna a los usuarios el nivel de acceso mínimo necesario. Comienza con el rol de **Miembro** y eleva a **Administrador** solo cuando sea necesario.
+    Asigna a los usuarios el nivel de acceso mínimo necesario. Comienza con el rol de **Lector** si solo necesitan consultar datos, usa **Miembro** si necesitan operar y eleva a **Administrador** solo cuando sea imprescindible.
   </Accordion>
   <Accordion title="Mantén al menos dos administradores">
     Evita depender de un solo administrador. Si esa persona no está disponible, nadie podrá gestionar el proyecto.
@@ -172,7 +192,7 @@ Los miembros **no pueden** crear ni modificar agentes, gestionar el equipo, acce
     Por proyecto. Puedes ser administrador en un proyecto y miembro en otro.
   </Accordion>
   <Accordion title="¿Puedo crear roles personalizados?">
-    Actualmente Diga ofrece dos roles fijos: Administrador y Miembro. Los roles personalizados podrían estar disponibles en futuras versiones.
+    Actualmente Diga ofrece tres roles fijos: Administrador, Miembro y Lector. Los roles personalizados podrían estar disponibles en futuras versiones.
   </Accordion>
   <Accordion title="¿Qué pasa si soy el último administrador y quiero dejar el proyecto?">
     Debes promover a otro miembro a administrador antes de poder abandonarlo.
