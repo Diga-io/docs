@@ -1,0 +1,158 @@
+---
+title: Subscription
+description: Manage your current plan, payment methods, and payment history from your project settings.
+---
+
+# Subscription
+
+From **Settings > Subscription** you can view and manage your current plan, your payment methods, and your billing history.
+
+## Current plan
+
+At the top of the page you'll see a summary of your active subscription:
+
+- **Subscribed plan** and monthly price.
+- **Included minutes** in your plan.
+- **Rollover minutes** available.
+- **Next billing date**.
+
+<Note>
+Minutes are allocated **monthly**, regardless of whether your billing period is monthly or annual.
+</Note>
+
+### Remaining and rollover minutes
+
+Diga includes a **rollover** system so you don't lose unused minutes:
+
+- Unused minutes in a month are carried over to the next.
+- Rollover is limited to **2x** the minutes included in your plan.
+- Rollover minutes are consumed before generating additional usage.
+
+## Payment method
+
+In this section you can view and manage the payment methods associated with your project.
+
+### Add a payment method
+
+<Steps>
+  <Step title="Click Add Payment Method">
+    In the payment method section, click **Add Payment Method**.
+  </Step>
+  <Step title="Enter your card details">
+    You'll be redirected to Stripe to enter your details securely.
+  </Step>
+  <Step title="Save the method">
+    Your card will be saved for future invoices.
+  </Step>
+</Steps>
+
+### Change the default payment method
+
+If you have multiple registered cards, you can change which one is used by default:
+
+1. Click **Change Default Payment Method**.
+2. Select the card you want to use.
+3. Confirm the change by clicking **Continue**.
+
+<Note>
+If there's only one card, it's automatically set as the default.
+</Note>
+
+### Remove a payment method
+
+<Steps>
+  <Step title="Select the method to remove">
+    Click the delete icon next to the payment method.
+  </Step>
+  <Step title="Confirm removal">
+    A confirmation modal will open. Click **Delete** to confirm.
+  </Step>
+</Steps>
+
+<Warning>
+You cannot remove your only payment method if you have an active paid plan. Add another method before removing the existing one.
+</Warning>
+
+## Manage subscription
+
+Click **Manage Subscription** to open the plan configuration panel. From here you can:
+
+- **Modify your plan**: takes you to the [Plans and Pricing](/en/platform/billing) page to change plans.
+- **Change the billing period**: switch between **monthly plan** and **annual plan**.
+- View **remaining minutes** and **rollover minutes** for the current period.
+- **Enable usage-based billing**: allows you to continue making calls once your included minutes are exhausted, billing extra consumed minutes.
+
+<Tabs>
+  <Tab title="Usage-based billing enabled">
+    - When you exhaust your included + rollover minutes, calls continue.
+    - Extra minutes are billed monthly.
+  </Tab>
+  <Tab title="Usage-based billing disabled">
+    - When you exhaust your minutes, new calls are blocked.
+    - No additional charges are generated.
+    - You must wait for the monthly renewal or upgrade your plan.
+  </Tab>
+</Tabs>
+
+To save changes, click **Save**. To discard them, click **Go Back**.
+
+<Note>
+If you exit the modal without saving, you'll be asked whether to keep or discard your changes.
+</Note>
+
+### Cancel subscription
+
+<Steps>
+  <Step title="Access Manage Subscription">
+    Click **Manage Subscription** and then **Cancel Subscription**.
+  </Step>
+  <Step title="Confirm cancellation">
+    A confirmation modal will open. Click **Cancel Plan** to confirm.
+  </Step>
+  <Step title="Success confirmation">
+    You'll see a modal indicating the plan has been successfully cancelled.
+  </Step>
+</Steps>
+
+<Warning>
+When you cancel, your plan will revert to the **free plan** at the end of the current billing period. Any rollover minutes exceeding the free plan limit will be lost. The plan change doesn't take effect until the next billing period.
+</Warning>
+
+## Payment history
+
+At the bottom of the page you'll find a table with all your invoices:
+
+|  |  |
+|---|---|
+| **Date** | Invoice issue date |
+| **Description** | Charge description |
+| **Amount** | Billed amount |
+| **Status** | Payment status: Pending, Paid, Declined |
+| **Actions** | Link to download the invoice |
+
+### Payment statuses
+
+- **Pending**: the payment hasn't been completed yet.
+- **Paid**: the payment was completed successfully.
+- **Declined**: the payment failed. Check your payment method.
+
+<Warning>
+If a payment is repeatedly declined, your subscription may be cancelled after several weeks and your agents will stop accepting calls until the issue is resolved.
+</Warning>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Where can I see how many minutes I have left?">
+    At the top of **Settings > Subscription** you'll see your remaining and rollover minutes for the current period.
+  </Accordion>
+  <Accordion title="What happens to my minutes if I change plans?">
+    If you upgrade, remaining minutes are transferred to the new plan (with the new plan's rollover limit). If you downgrade, rollover minutes exceeding the new plan's limit are lost.
+  </Accordion>
+  <Accordion title="Can I have multiple payment methods?">
+    Yes. You can add multiple cards and select which one to use as default.
+  </Accordion>
+  <Accordion title="What happens if I cancel my subscription?">
+    Your current plan remains active until the end of the paid period. After that, it reverts to the free plan.
+  </Accordion>
+</AccordionGroup>

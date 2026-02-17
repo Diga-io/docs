@@ -175,6 +175,7 @@
                       "en/build/agents/dynamic-variables",
                       "en/build/agents/version-control",
                       "en/build/agents/call-tools",
+                      "en/build/agents/knowledge-bases",
                       "en/build/agents/add-integrations",
 											"en/build/agents/test-calls"
                     ]
@@ -186,7 +187,8 @@
                       "en/build/integrations/http-integrations",
                       "en/build/integrations/mcp-integrations"
                     ]
-                  }
+                  },
+                  "en/build/knowledge-bases"
                 ]
               },
               {
@@ -194,9 +196,10 @@
                 "pages": [
                   "en/telephony/buy-numbers",
                   {
-                    "group": "SIP Trunks",
+                    "group": "Import Numbers via SIP Trunk",
                     "pages": [
                       "en/telephony/sip-trunks",
+                      "en/telephony/sip-trunks/netelip",
                       "en/telephony/sip-trunks/twilio"
                     ]
                   }
@@ -205,14 +208,30 @@
               {
                 "group": "Platform",
                 "pages": [
-                  "en/platform/projects",
-                  "en/platform/billing"
+                  "en/platform/accounts",
+                  {
+                    "group": "Projects",
+                    "pages": [
+                      "en/platform/projects",
+                      "en/platform/team",
+                      "en/platform/subscription",
+                      "en/platform/billing",
+                      "en/platform/api-keys",
+                      "en/platform/connections"
+                    ]
+                  }
                 ]
               },
               {
                 "group": "Analytics",
                 "pages": [
                   "en/deployment/monitoring-logs"
+                ]
+              },
+              {
+                "group": "Advanced Guides",
+                "pages": [
+                  "en/templates/appointment-booking"
                 ]
               }
             ]

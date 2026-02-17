@@ -1,0 +1,120 @@
+---
+title: "Add Knowledge Bases"
+description: "Assign knowledge bases to your agents so they can access your business information during conversations."
+---
+
+Knowledge bases provide your agents with specific business information so they can respond accurately during calls. Instead of including all information in the prompt, you can link documents, URLs, and texts that the agent will automatically query.
+
+<Info>
+To learn how to create and manage knowledge bases, see the [knowledge bases guide](/en/build/knowledge-bases).
+</Info>
+
+## In single prompt agents
+
+In a single prompt agent, knowledge bases are assigned from the agent's **Customize** tab, within the **Knowledge Bases** section.
+
+<Steps>
+  <Step title="Open the Knowledge Bases section">
+    Access the agent, go to the **Customize** tab and expand the **Knowledge Bases** section.
+  </Step>
+  <Step title="Link documents">
+    Click the **Link Documents** dropdown. A list will appear with the documents and knowledge bases available in the project. You can search by name using the search field.
+
+    Select the documents or bases you want to link. You can select multiple at once and they will be copied automatically.
+  </Step>
+</Steps>
+
+Linked documents appear listed below, and you can unlink them from your agent by clicking the delete icon next to each one.
+
+### Create documents from the agent
+
+You don't need to go to the knowledge bases section to add content. From the **Link Documents** dropdown, click **Create New** to access the options:
+
+- **Upload File** — Upload a file from your computer.
+- **Create a Text** — Write or paste text directly.
+- **Add URL** — Import content from a web page.
+
+The created document will be added to the project and automatically linked to the agent.
+
+## In conversational path agents
+
+Conversational path agents offer greater flexibility with knowledge bases thanks to an **inheritance system between levels**: the agent's global level and the individual level of each node.
+
+### Global level (agent customization)
+
+When you assign knowledge bases from the agent's **Customize** tab, they apply to **all nodes** in the conversational path. The agent will have access to this information at any point in the conversation.
+
+The configuration is identical to a single prompt agent: expand the **Knowledge Bases** section, use the **Link Documents** dropdown to select or create documents.
+
+### Node level
+
+Within the **Node** tab, in each conversation node's settings, you'll find two ways to provide specific information:
+
+**Contextual knowledge**
+
+A free text field where you can write relevant information you want to be available only in that node. It's useful for specific data that doesn't need a full document.
+
+> Example: *"Business hours are Monday to Friday, 9:00 AM to 6:00 PM. Weekend service is not available."*
+
+**Node knowledge bases**
+
+Each node has its own **Knowledge Bases** section with the **Link Documents** dropdown. Documents linked here are **added to** those inherited from the global level.
+<Frame>
+  <img src="/images/bases-conocimiento-nodo.png" alt="Knowledge bases in node" />
+</Frame>
+
+### Knowledge base inheritance
+
+By default, each node **inherits** the knowledge bases assigned at the global level. This means you don't need to configure bases in each node individually.
+
+If a node doesn't need the global knowledge bases, you can disable the **Inherit knowledge base** toggle in the node's settings. When disabled:
+
+- The node will no longer have access to global knowledge bases.
+- It will only use bases linked directly to the node itself (if any).
+
+<Note>
+The **Inherit knowledge base** toggle only appears in nodes when there is at least one knowledge base assigned at the agent's global level. If no global bases are configured, this control is not shown.
+</Note>
+
+| Configuration | Behavior |
+|---|---|
+| Inheritance enabled + no bases in node | The node uses only global bases |
+| Inheritance enabled + bases in node | The node uses global bases **plus** node bases |
+| Inheritance disabled + bases in node | The node uses only its specific bases |
+| Inheritance disabled + no bases in node | The node has no access to any knowledge base |
+
+## Best practices
+
+<AccordionGroup>
+  <Accordion title="Use the global level for general information">
+    Assign bases at the global level that apply to the entire conversation: company data, general policies, FAQs. Reserve node-level bases for information specific to that moment in the flow.
+  </Accordion>
+  <Accordion title="Use 'Contextual knowledge' for specific data">
+    If you only need the node to know a specific piece of data (a schedule, an address, a price), use the text field instead of creating a full document.
+  </Accordion>
+  <Accordion title="Don't overload with information">
+    Assign only the necessary bases at each level. Too much information can cause the agent to lose focus on what's relevant for each moment of the conversation.
+  </Accordion>
+  <Accordion title="Disable inheritance wisely">
+    Only disable inheritance when the global information isn't relevant for that node. In most cases, keeping inheritance active and adding specific bases is the best option.
+  </Accordion>
+</AccordionGroup>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Manage knowledge bases"
+    icon="book-open"
+    href="/en/build/knowledge-bases"
+  >
+    Create, organize, and manage your project's knowledge bases.
+  </Card>
+  <Card
+    title="Conversational paths"
+    icon="/icons/dataflow-04.svg"
+    href="/en/build/agents/conversational-paths"
+  >
+    Learn to build flows with nodes and transitions.
+  </Card>
+</CardGroup>
