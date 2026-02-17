@@ -1,0 +1,203 @@
+---
+title: "Team"
+description: "Invite users to your project, manage their roles, and control access permissions."
+---
+
+# Team
+
+From the Team section you can **invite users** to your project and **manage their permissions**. Each member has an assigned role that determines what actions they can perform within the project.
+
+Access this section from **Settings > Project > Team**.
+
+## Invite users
+
+Only **administrators** can invite new users to the project.
+
+<Steps>
+  <Step title="Click Invite Users">
+    In the upper right corner of the members table, click **Invite Users**.
+  </Step>
+  <Step title="Enter the email and select a role">
+    Type the user's email address and select the role you want to assign (**Administrator**, **Member**, or **Reader**).
+    <Frame>
+  <img src="/images/invite-users.png" alt="Invite users" />
+</Frame>
+  </Step>
+  <Step title="Send the invitation">
+    The user will receive an email with a link to join the project.
+  </Step>
+  <Step title="User accepts">
+    Once the invitation is accepted, the user will appear in the members table with the assigned role.
+  </Step>
+</Steps>
+
+## Manage members
+
+Administrators can perform the following actions on project members:
+
+- **Change the role** of a member (between Administrator, Member, and Reader).
+- **Remove** a member from the project.
+
+To do this, use the **Actions** buttons in the corresponding row of the table.
+
+<Warning>
+You cannot demote or remove the **last administrator** of the project. There must be at least one administrator at all times.
+</Warning>
+
+## Roles and permissions
+
+Diga uses a **role-based access control (RBAC)** model. Roles are assigned **per project**, meaning the same user can have different roles in different projects.
+
+### Administrator
+
+Full access to all project resources and settings.
+
+- Agent management (create, modify, delete).
+- Team member management (invite, change roles, remove).
+- Phone number management (buy, configure, release).
+- Billing and subscription management.
+- API key and integration management.
+- Full access to analytics and logs.
+
+### Member
+
+**Read-only** access to most resources, with the ability to operate existing agents.
+
+- View agents and their configurations.
+- Make calls with project agents.
+- View calls, transcriptions, and recordings.
+- View and create contacts.
+- Access reports and statistics.
+
+<Note>
+Members **cannot** create or modify agents, manage the team, access billing, or configure integrations or API keys.
+</Note>
+
+### Reader
+
+**Minimum read-only** access, limited to viewing analytics and call logs.
+
+- View the home dashboard (general analytics).
+- View call logs with transcriptions.
+
+<Note>
+Readers **cannot** view agents, contacts, phone numbers, knowledge bases, or any other project section. This is the most restrictive role available.
+</Note>
+
+### Detailed permissions
+
+<AccordionGroup>
+  <Accordion title="Project management">
+    | Permission | Administrator | Member | Reader |
+    |---|---|---|---|
+    | View project information | ✓ | ✓ | ✗ |
+    | Update project details | ✓ | ✗ | ✗ |
+    | Delete project | ✓ | ✗ | ✗ |
+  </Accordion>
+  <Accordion title="Agent management">
+    | Permission | Administrator | Member | Reader |
+    |---|---|---|---|
+    | View agents | ✓ | ✓ | ✗ |
+    | Create agents | ✓ | ✗ | ✗ |
+    | Modify agents | ✓ | ✗ | ✗ |
+    | Delete agents | ✓ | ✗ | ✗ |
+  </Accordion>
+  <Accordion title="Dashboard and analytics">
+    | Permission | Administrator | Member | Reader |
+    |---|---|---|---|
+    | View home dashboard | ✓ | ✓ | ✓ |
+    | Access reports and statistics | ✓ | ✓ | ✓ |
+  </Accordion>
+  <Accordion title="Call management">
+    | Permission | Administrator | Member | Reader |
+    |---|---|---|---|
+    | View calls | ✓ | ✓ | ✓ |
+    | View transcriptions and recordings | ✓ | ✓ | ✓ |
+    | Initiate calls | ✓ | ✓ | ✗ |
+    | Modify call metadata | ✓ | ✗ | ✗ |
+    | Delete call records | ✓ | ✗ | ✗ |
+  </Accordion>
+  <Accordion title="Phone number management">
+    | Permission | Administrator | Member | Reader |
+    |---|---|---|---|
+    | View phone numbers | ✓ | ✓ | ✗ |
+    | Buy new numbers | ✓ | ✗ | ✗ |
+    | Configure numbers | ✓ | ✗ | ✗ |
+    | Release numbers | ✓ | ✗ | ✗ |
+  </Accordion>
+  <Accordion title="Contact management">
+    | Permission | Administrator | Member | Reader |
+    |---|---|---|---|
+    | View contacts | ✓ | ✓ | ✗ |
+    | Create contacts | ✓ | ✓ | ✗ |
+    | Delete contacts | ✓ | ✗ | ✗ |
+  </Accordion>
+  <Accordion title="Team members">
+    | Permission | Administrator | Member | Reader |
+    |---|---|---|---|
+    | View team members | ✓ | ✗ | ✗ |
+    | Invite new members | ✓ | ✗ | ✗ |
+    | Change roles | ✓ | ✗ | ✗ |
+    | Remove members | ✓ | ✗ | ✗ |
+  </Accordion>
+  <Accordion title="Billing">
+    | Permission | Administrator | Member | Reader |
+    |---|---|---|---|
+    | View billing information | ✓ | ✗ | ✗ |
+    | Manage subscription | ✓ | ✗ | ✗ |
+    | View invoices | ✓ | ✗ | ✗ |
+  </Accordion>
+  <Accordion title="API keys and integrations">
+    | Permission | Administrator | Member | Reader |
+    |---|---|---|---|
+    | View API keys | ✓ | ✗ | ✗ |
+    | Create / modify / revoke keys | ✓ | ✗ | ✗ |
+    | View integrations | ✓ | ✗ | ✗ |
+    | Create / modify / delete integrations | ✓ | ✗ | ✗ |
+  </Accordion>
+</AccordionGroup>
+
+### Which role to assign?
+
+<CardGroup cols={3}>
+  <Card title="Administrator" icon="shield">
+    For those who need **full control**: business owners, project managers, technical administrators, or IT staff.
+  </Card>
+  <Card title="Member" icon="user">
+    For those who need to **operate without modifying**: sales agents, support staff, or call center operators.
+  </Card>
+  <Card title="Reader" icon="eye">
+    For those who only need to **review results**: supervisors, executives, or stakeholders who review metrics and call logs.
+  </Card>
+</CardGroup>
+
+## Best practices
+
+<AccordionGroup>
+  <Accordion title="Apply the principle of least privilege">
+    Assign users the minimum access level necessary. Start with the **Reader** role if they only need to view data, use **Member** if they need to operate, and elevate to **Administrator** only when essential.
+  </Accordion>
+  <Accordion title="Keep at least two administrators">
+    Avoid depending on a single administrator. If that person is unavailable, no one will be able to manage the project.
+  </Accordion>
+  <Accordion title="Review members regularly">
+    Periodically audit who has access and remove members who no longer need it.
+  </Accordion>
+</AccordionGroup>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Are roles global or per project?">
+    Per project. You can be an administrator in one project and a member in another.
+  </Accordion>
+  <Accordion title="Can I create custom roles?">
+    Currently Diga offers three fixed roles: Administrator, Member, and Reader. Custom roles may be available in future versions.
+  </Accordion>
+  <Accordion title="What happens if I'm the last administrator and want to leave the project?">
+    You must promote another member to administrator before you can leave.
+  </Accordion>
+  <Accordion title="Are users notified when their role changes?">
+    Yes, users receive a notification when their role changes in a project.
+  </Accordion>
+</AccordionGroup>

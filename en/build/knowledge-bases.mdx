@@ -1,0 +1,254 @@
+---
+title: "Knowledge Bases"
+description: "Create and manage knowledge bases to provide personalized information to your agents."
+---
+
+Knowledge bases are collections of documents that contain information about your business. You can link them to your agents so they can access this information during conversations and respond more accurately.
+
+You can also upload documents, texts, or URLs independently, without assigning them to any knowledge base. These standalone items will appear in the general view and you can organize them into bases later if needed.
+
+Access this section from **Knowledge Bases** in the left sidebar.
+
+## Overview
+
+The main view shows a table with all documents and knowledge bases in the project. For each entry you can see:
+
+- **Name and size** of the document or base
+- **Type** (file, URL, text, knowledge base)
+- **Date** created
+
+Use the search bar or the **Type** filter at the top of the table to find specific documents.
+
+## Add documents
+
+Click **Add Documents** in the upper right corner. Select the type of content you want to add:
+
+| Type | Description |
+|---|---|
+| **Knowledge base** | Create an empty base to group related documents |
+| **URL** | Import content from a web page |
+| **File** | Upload a file from your computer |
+| **Text** | Write or paste text directly |
+
+<Frame>
+  <img src="/images/añadir-bases.png" alt="Knowledge bases" />
+</Frame>
+
+### Upload files
+
+Supported file formats are:
+
+- **PDF** (`.pdf`)
+- **Word** (`.docx`)
+- **Markdown** (`.md`)
+- **Plain text** (`.txt`)
+- **HTML** (`.html`)
+
+<Steps>
+  <Step title="Select File">
+    In the add documents modal, choose the **File** option.
+  </Step>
+  <Step title="Select file type">
+    Choose from the available formats (PDF, Word, Markdown, etc.).
+  </Step>
+  <Step title="Upload the file">
+    Click the upload area or drag the file. Configure additional options if needed.
+  </Step>
+  <Step title="Select the knowledge base (optional)">
+    Choose the knowledge base the file will belong to. If you don't select any, the document will be added independently and you can organize it into a base later.
+  </Step>
+  <Step title="Save">
+    Click **Save** to upload and process the file.
+  </Step>
+</Steps>
+
+### Add a URL
+
+When adding a URL you can choose between two modes: **Single URL** or **Sitemap**.
+
+**Single URL** — Import the content of a single web page.
+
+<Steps>
+  <Step title="Select URL">
+    In the add documents modal, choose the **URL** option and make sure the **Single URL** tab is active.
+  </Step>
+  <Step title="Select the knowledge base (optional)">
+    Choose the destination knowledge base. If you don't select any, the document will be added independently.
+  </Step>
+  <Step title="Enter the address">
+    Type or paste the web page URL.
+  </Step>
+  <Step title="Save">
+    Click **Save**. The system will automatically extract the content from the page.
+  </Step>
+</Steps>
+
+**Sitemap** — Import multiple pages from a website at once.
+
+<Steps>
+  <Step title="Select URL and switch to Sitemap">
+    In the add documents modal, choose the **URL** option and click the **Sitemap** tab.
+  </Step>
+  <Step title="Select the knowledge base (optional)">
+    Choose the destination knowledge base. If you don't select any, the documents will be added independently.
+  </Step>
+  <Step title="Enter the site URL">
+    Type the website URL. The system will look for the sitemap and extract the available pages.
+  </Step>
+  <Step title="Select the pages">
+    Click **Continue**. A list will appear with all pages found in the sitemap. Check the ones you want to import or use **Select all** to select them all.
+  <Frame>
+  <img src="/images/modal-añadir-URL.png" alt="Add URL modal" />
+</Frame>
+  </Step>
+  <Step title="Save">
+    Click **Save**. One document will be created for each selected page.
+  </Step>
+</Steps>
+
+### Create a text
+
+<Steps>
+  <Step title="Select Text">
+    In the add documents modal, choose the **Text** option.
+  </Step>
+  <Step title="Enter the content">
+    Write a name for the document and add the content in the text field.
+  </Step>
+  <Step title="Select the knowledge base (optional)">
+    Choose the destination knowledge base. If you don't select any, the document will be added independently.
+  </Step>
+  <Step title="Save">
+    Click **Save**.
+  </Step>
+</Steps>
+
+### Create an empty knowledge base
+
+If you want to create the structure first and add documents later:
+
+1. Click **Add Documents**.
+2. Select **Knowledge Base**.
+3. Enter a name for the base.
+4. Click **Save**.
+
+The base will appear in the list and you can add documents to it later.
+
+## Inside a knowledge base
+
+Click a knowledge base to access its content. Inside you'll find a table with all documents it contains:
+
+- **Name and size** of the document
+- **Type** (file, URL, text)
+- **Date** created
+
+From this view you can:
+
+- **Add documents** to the base using the button in the upper corner.
+- **View the content** of a document by clicking on it. Depending on the type, you'll see the full text, the file to download, or the source URL.
+- **Move documents** to another knowledge base.
+- **Delete documents** individually from the base.
+
+<Note>
+When you add a document to a knowledge base that's already linked to an agent, the document is processed automatically and the agent will have access to the new content once processing is complete.
+</Note>
+
+### Move items to another base
+
+You can move one or more documents from one knowledge base to another to reorganize your content without having to delete and re-upload files.
+
+<Steps>
+  <Step title="Select the items">
+    Inside the knowledge base, check the boxes of the documents you want to move.
+  </Step>
+  <Step title="Click Move">
+    In the action bar that appears when selecting items, click **Move**.
+  </Step>
+  <Step title="Choose the destination base">
+    A modal will open with the list of available knowledge bases in the project. Select the base you want to move the documents to. You can also choose **No knowledge base** to unlink them from any base.
+  <Frame>
+  <img src="/images/mover-bases.png" alt="Move knowledge bases modal" />
+</Frame>
+  </Step>
+  <Step title="Confirm the move">
+    Click **Save**. The documents will be moved to the selected base.
+  </Step>
+</Steps>
+
+<Note>
+If the destination base is linked to an agent, moved documents will be processed automatically and will be available for that agent.
+</Note>
+
+## Delete a knowledge base
+
+<Warning>
+Deleting a knowledge base deletes all documents it contains. This action cannot be undone.
+</Warning>
+
+1. Access the knowledge base you want to delete.
+2. Click the options menu.
+3. Select **Delete knowledge base**.
+4. Confirm the action in the confirmation modal.
+
+## Link bases to agents
+
+Once created, knowledge bases are linked to agents from each agent's configuration. You can link the same base to multiple agents and an agent can have multiple linked bases.
+
+<Card
+  title="Knowledge bases in agents"
+  icon="bot"
+  href="/en/build/agents/knowledge-bases"
+>
+  Learn how to link knowledge bases to your agents and configure inheritance in conversational paths.
+</Card>
+
+## Limits
+
+| Concept | Limit |
+|---|---|
+| **Maximum file size** | 10 MB |
+| **Number of documents** | No limit |
+| **Storage per project** | Varies by subscription plan |
+
+The total storage available for knowledge bases (RAG Storage) depends on your subscription plan. See the [Plans and Pricing](/en/platform/billing) page for your plan's limits.
+
+<Warning>
+If you reach your plan's storage limit, you won't be able to add new documents until you free up space or upgrade your subscription.
+</Warning>
+
+## Best practices
+
+<AccordionGroup>
+  <Accordion title="Include short texts directly in the prompt">
+    If the content is less than 500 bytes (approximately a short paragraph), it's more efficient to include it directly in the agent's prompt instead of creating a document in a knowledge base. Reserve bases for more extensive content where the agent needs to search for relevant information.
+  </Accordion>
+  <Accordion title="Organize by topic">
+    Create separate knowledge bases by area (products, policies, FAQs) instead of one single base with everything. This makes maintenance easier and allows you to link only relevant information to each agent.
+  </Accordion>
+  <Accordion title="Keep information up to date">
+    Periodically review the content of your bases to ensure the information is current. An agent with outdated information creates a poor experience.
+  </Accordion>
+  <Accordion title="Use descriptive names">
+    Name your bases and documents clearly (for example, "Return Policy 2025" instead of "Doc1"). This makes management easier when you have multiple bases.
+  </Accordion>
+  <Accordion title="Prefer structured text">
+    Documents with headings, lists, and well-defined sections are easier for the agent to query than long blocks of unformatted text.
+  </Accordion>
+</AccordionGroup>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Can I use the same knowledge base in multiple agents?">
+    Yes. A knowledge base can be linked to multiple agents within the same project simultaneously.
+  </Accordion>
+  <Accordion title="What happens if I delete a document from a base linked to an agent?">
+    The agent will immediately lose access to that document.
+  </Accordion>
+  <Accordion title="Can I edit an already uploaded document?">
+    Files and URLs cannot be edited directly. If you need to update the information, delete the document and upload a new version.
+  </Accordion>
+  <Accordion title="How long does it take to process a document?">
+    Processing is usually fast, but depends on the document size.
+  </Accordion>
+</AccordionGroup>

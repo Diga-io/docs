@@ -1,0 +1,144 @@
+---
+title: "API Keys"
+description: "Create and manage API keys to connect to the Diga API and control access permissions."
+---
+
+API keys allow you to connect to the Diga API and use its features from your own applications. You can create multiple keys with different access levels to control what resources each key can use.
+
+Access this section from **Settings > Project > API Keys**.
+
+<Note>
+Only project **administrators** can create, view, and manage API keys. See the [Team](/en/platform/team) page for more information about roles and permissions.
+</Note>
+
+## Overview
+
+The main view shows a table with all API keys in the project. For each key you can see:
+
+- **Name** of the key
+- **Key ID**
+- **Key** (masked for security)
+- **Creation date**
+- **Key permissions** (restricted or unrestricted)
+
+Use the search bar at the top to find keys by name. The table includes pagination when there are many keys.
+
+## Create an API Key
+
+<Steps>
+  <Step title="Click Create API Key">
+    In the upper right corner, click **Create API Key**.
+  </Step>
+  <Step title="Enter a name">
+    Type a descriptive name to identify the key (for example, "CRM_Query" or "Booking_App").
+  </Step>
+  <Step title="Configure restrictions">
+    Decide whether to restrict the key's permissions:
+
+    - **Unrestricted**: The key has full access to all API resources.
+    - **Restrict key**: Enable the toggle to configure granular permissions per resource.
+
+    <Warning>
+    Unrestricted API keys represent a security risk. For greater safety, consider restricting access to only the necessary resources.
+    </Warning>
+  </Step>
+  <Step title="Save the key">
+    Click **Save**. The key will be generated and a modal will appear with the **complete API Key**.
+
+    <Warning>
+    The key will not be shown again. Copy it and store it in a secure location before closing the modal.
+    </Warning>
+  </Step>
+</Steps>
+
+## Restrict permissions
+
+When you enable the **Restrict key** toggle, you can configure the access level for each API resource. Each resource has three permission levels:
+
+<Frame>
+  <img src="/images/create-apikey.png" alt="Restrict permissions" />
+</Frame>
+
+| Level | Description |
+|---|---|
+| **No access** | The key cannot access this resource |
+| **Read** | The key can query data but not modify it |
+| **Write** | The key can query and modify data |
+
+### Available resources
+
+The resources you can configure permissions for are:
+
+<AccordionGroup>
+  <Accordion title="Communication">
+    - **Calls** — Phone call management
+    - **Messages** — Sending and receiving messages
+    - **Transcriptions** — Access to call transcriptions
+    - **Recordings** — Access to audio recordings
+  </Accordion>
+  <Accordion title="Agent configuration">
+    - **Agents** — Agent creation and configuration
+    - **Conversational paths** — Conversational path management
+    - **Knowledge bases** — Knowledge base management
+    - **Tools** — Call tools
+    - **Voices** — Voice configuration
+    - **Integrations** — External integration management
+    - **Webhooks** — Webhook configuration
+  </Accordion>
+  <Accordion title="Contacts and data">
+    - **Contacts** — Contact management
+    - **Statistics** — Access to analytical data
+    - **Verifications** — System verifications
+  </Accordion>
+  <Accordion title="Administration">
+    - **Phones** — Phone number management
+    - **Members** — Project team management
+    - **Billing** — Billing and subscription information
+    - **API Keys** — Management of other API keys
+    - **Notifications** — Notification configuration
+  </Accordion>
+</AccordionGroup>
+
+## Delete an API Key
+
+<Warning>
+Deleting an API key is permanent. Any application or service using this key will stop working immediately.
+</Warning>
+
+1. In the keys table, click the actions button for the key you want to delete.
+2. Select **Delete**.
+3. Confirm the action in the confirmation modal by clicking **Delete**.
+
+## Best practices
+
+<AccordionGroup>
+  <Accordion title="Always restrict your keys">
+    Avoid using unrestricted keys. Assign each key only the permissions it needs to function. This limits the impact if a key is compromised.
+  </Accordion>
+  <Accordion title="Use descriptive names">
+    Name keys according to their use (for example, "CRM_Production", "Mobile_App_Staging"). This makes it easy to identify which key corresponds to each application.
+  </Accordion>
+  <Accordion title="Rotate keys periodically">
+    Create new keys and delete old ones regularly. This reduces the risk of unauthorized access with keys that may have been leaked.
+  </Accordion>
+  <Accordion title="Don't share keys between environments">
+    Use different keys for development, staging, and production. If a development key leaks, your production environment won't be affected.
+  </Accordion>
+</AccordionGroup>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="How many API keys can I create?">
+    There's no fixed limit on the number of keys you can create per project.
+  </Accordion>
+  <Accordion title="Can I edit the permissions of an existing key?">
+    No. If you need to change a key's permissions, you must delete it and create a new one with the desired configuration.
+  </Accordion>
+  <Accordion title="What happens if I lose an API key?">
+    It's not possible to recover a key once the creation modal is closed. You'll need to create a new key and update the configuration in your applications.
+  </Accordion>
+  <Accordion title="Who can view and manage API keys?">
+    Only users with the **Administrator** role in the project can access the API Keys section.
+  </Accordion>
+</AccordionGroup>
