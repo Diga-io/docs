@@ -1,45 +1,70 @@
 ---
 title: Prueba tu agente
-description: Aprende a probar tu agente antes de publicarlo sin salir del editor.
+description: Aprende a probar tu agente directamente desde el editor antes de publicarlo, sin salir del navegador.
 ---
+## Introducción
+Antes de poner un agente en producción, es habitual querer comprobar que funciona correctamente o experimentar con nuevos cambios sin necesidad de crear y publicar una nueva versión en cada iteración.
 
-Es común querer asegurarse de que un agente funciona correctamente antes de ponerlo en producción, o simplemente quere probar nuevas ideas sin tener que crear una nueva versión por cada cambio. Para esto, el editor de agentes incluye una funcionalidad de prueba integrada que te permite simular llamadas directamente desde el editor, sin salir de tu navegador.
+Para ello, el editor de agentes de Diga incluye una funcionalidad de prueba integrada que te permite simular llamadas. De esta forma, puedes **interactuar con el agente que estás editando en tiempo real, sin salir del navegador ni publicar cambios**.
 
-## ¿Para qué sirve probar tu agente?
 
-Probar tu agente directamente desde el editor te permite validar rápidamente los cambios que has realizado en el flujo conversacional, las respuestas del agente y la integración con servicios externos. Esto es especialmente útil durante la fase de desarrollo, ya que puedes identificar y corregir errores o mejorar la experiencia del usuario sin necesidad de publicar una nueva versión del agente cada vez que haces un cambio. Además, esta funcionalidad está disponible sin necesidad de [importar](/es/telefonia/sip-trunks) o [comprar](/es/telefonia/comprar-telefonos) ningún número de teléfono.
+<Frame>
+  <img src="/images/agent-test.png" alt="Modal de agentes mostrando la parte donde se realiza el test para probar tu agente" />
+</Frame>
+
+## ¿Para qué sirve?
+
+Probar tu agente desde el editor te permite:
+
+- Validar cambios en el flujo conversacional.
+- Comprobar las respuestas del agente.
+- Verificar el comportamiento de herramientas e integraciones externas.
+
+Esta funcionalidad es especialmente útil durante la fase de desarrollo, ya que te permite **detectar errores y mejorar la experiencia** de la llamada sin necesidad de publicar una nueva versión del agente en cada cambio.
+
+<Note>
+No necesitas comprar ni vincular ningún número de teléfono para realizar pruebas.
+</Note>
+
+## Consideraciones sobre uso y métricas
+
+- Las llamadas de prueba **no generan registros ni métricas** en el sistema, ya que están pensadas únicamente para desarrollo y validación.
+- Los minutos consumidos durante las pruebas **sí cuentan** para el cómputo de minutos de tu plan, igual que las llamadas reales.
+
+## Cómo probar tu agente
+
+<Steps>
+  <Step title="Abre la pestaña de pruebas">
+    En el menú lateral del editor de agentes, haz clic en la pestaña **Test**.
+  </Step>
+  <Step title="Inicia la llamada de prueba">
+    Haz clic en el botón de **play**. Tras una breve carga, se iniciará una llamada de prueba con la configuración actual del agente.
+  </Step>
+  <Step title="Finaliza la prueba">
+    Cuando hayas terminado, haz clic en **Terminar test**, situado en la parte inferior de la transcripción.
+  </Step>
+</Steps>
+
+No es necesario crear ni publicar ninguna versión: estarás interactuando directamente con la configuración actual del agente.
 
 <Warning>
-Ten en cuenta que las pruebas realizadas desde el editor no generan registros de llamadas ni métricas en el sistema, ya que están destinadas únicamente para fines de desarrollo y validación.
+Antes de iniciar la prueba, asegúrate de tener el micrófono y los altavoces correctamente configurados en tu navegador.
 </Warning>
 
-<Note>
-Los minutos consumidos durante las pruebas en el editor contarán para el cómputo de tu plan, al igual que las llamadas reales.
-</Note>
+## Diferencias con una llamada real
 
-## ¿Cómo probar tu agente?
+Las llamadas de prueba no son llamadas telefónicas reales, por lo que algunas funcionalidades se comportan de forma distinta en el entorno de pruebas.
 
-En el menú lateral del editro de agentes, encontrá una pestaña llamada "Test", al hacer click en ella se abrirá la sección de test.
+<AccordionGroup>
+  <Accordion title="Colgar una llamada">
+    - **Llamada real:** la llamada termina cuando el usuario cuelga.
+    - **Entorno de pruebas:** al hacer clic en **Terminar test**, la llamada finaliza, pero puedes seguir viendo la transcripción hasta que cierres la pestaña de pruebas o inicies una nueva llamada.
+  </Accordion>
+  <Accordion title="Transferencia de llamadas">
+    **Llamada real:**
+    - Si alguien contesta, la llamada continúa con el nuevo interlocutor.
+    - Si nadie contesta, la llamada vuelve al agente.
 
-<Frame>
-  <img src="/images/test-agente-0.png" alt="Imagen que señala dónde encontrar la pestaña de test" />
-</Frame>
-
-Una vez dentro de esta sección, encontraŕas un gran botón con un símpolo de <i>play</i>. Al hacer click en este botón, tras una pequeña carga, se iniciará una llamada de prueba con el agente que estás editando, sin necesidad de crear ninguna versión ni publicarla, usted estará interactuando directamente con el agente que tiene abierto en el editor.
-
-<Note>
-Asegúrese de tener micrófono y altavoces conectados y configurados en su navegador para poder interactuar con el agente durante la llamada de prueba.
-</Note>
-
-<Frame>
-  <img src="/images/test-agente.png" alt="Imagen del menú de editor de agente" />
-</Frame>
-
-Cuando haya terminado de prompr el agente, haga click en el botón de "Terminar test", que se encuentra en la parte inferior de la transcripción de la llamada.
-
-## Consideraciones finales
-
-Tenga en cuenta que las pruebas que haga en el editor no son llamadas telefónicas reales, por lo que funcionalidades propias de la telefonía (cómo la transferecia de llamadas) funcionan de manera distinta en el entorno de pruebas. A continuación, se detallan algunas diferencias importantes:
-
-- **Colgar una llamada**: En una llamada real, una vez que la llamada acaba, el usuario cuelga y la llamada termina. En el entorno de pruebas, al hacer click en "Terminar test", la llamada finalizará pero podrá seguir viendo la transcripción de la llamada hasta que cierre la pestaña de pruebas o empiece una nueva llamada de prueba.
-- **Transferencia de llamadas**: En una llamada real, si el agente transfiere la llamada a otro número, la llamada se redirige a ese número; si alguien contesta, la llamada continúa con el nuevo interlocutor; si nadie contesta, la llamada vuelve al agente. En el entorno de pruebas, al llegar a un nodo de transferencia, la llamada es siempre continuada por el agente, como si nadie hubiera contestado la transferencia.
+    **Entorno de pruebas:** cuando el agente llega a un nodo de transferencia, la llamada siempre continúa con el agente, como si la transferencia no hubiera sido atendida. Esto te permite seguir observando el comportamiento conversacional durante la prueba.
+  </Accordion>
+</AccordionGroup>

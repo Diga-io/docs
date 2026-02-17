@@ -1,0 +1,120 @@
+---
+title: "Añade bases de conocimiento"
+description: "Asigna bases de conocimiento a tus agentes para que accedan a información de tu negocio durante las conversaciones."
+---
+
+Las bases de conocimiento proporcionan a tus agentes información específica de tu negocio para que puedan responder con precisión durante las llamadas. En lugar de incluir toda la información en el prompt, puedes vincular documentos, URLs y textos que el agente consultará automáticamente.
+
+<Info>
+Para aprender a crear y gestionar bases de conocimiento, consulta la [guía de bases de conocimiento](/es/build/bases-conocimiento).
+</Info>
+
+## En agentes de prompt único
+
+En un agente de prompt único, las bases de conocimiento se asignan desde la pestaña **Personalizar** del agente, dentro de la sección **Bases de conocimiento**.
+
+<Steps>
+  <Step title="Abre la sección de Bases de conocimiento">
+    Accede al agente, ve a la pestaña **Personalizar** y despliega la sección **Bases de conocimiento**.
+  </Step>
+  <Step title="Vincula documentos">
+    Haz clic en el dropdown **Vincular documentos**. Aparecerá una lista con los documentos y bases de conocimiento disponibles en el proyecto. Puedes buscar por nombre usando el campo de búsqueda.
+
+    Selecciona los documentos o bases que quieras vincular. Se pueden seleccionar varios a la vez y se copiarán automáticamente.
+  </Step>
+</Steps>
+
+Los documentos vinculados aparecen listados debajo, y puedes desvincularlo de tu agente haciendo clic en el icono de eliminar junto a cada uno.
+
+### Crear documentos desde el agente
+
+No necesitas ir a la sección de bases de conocimiento para añadir contenido. Desde el dropdown **Vincular documentos**, haz clic en **Crear nuevo** para acceder a las opciones:
+
+- **Subir Archivo** — Sube un archivo desde tu equipo.
+- **Crear un texto** — Escribe o pega texto directamente.
+- **Añadir URL** — Importa contenido desde una página web.
+
+El documento creado se añadirá al proyecto y se vinculará automáticamente al agente.
+
+## En agentes de camino conversacional
+
+Los agentes de camino conversacional ofrecen mayor flexibilidad con las bases de conocimiento gracias a un sistema de **herencia entre niveles**: el nivel global del agente y el nivel individual de cada nodo.
+
+### Nivel global (personalización del agente)
+
+Cuando asignas bases de conocimiento desde la pestaña **Personalizar** del agente, estas se aplican a **todos los nodos** del camino conversacional. El agente tendrá acceso a esta información en cualquier punto de la conversación.
+
+La configuración es idéntica a la de un agente de prompt único: despliega la sección **Bases de conocimiento**, usa el dropdown **Vincular documentos** para seleccionar o crear documentos.
+
+### Nivel de nodo
+
+Dentro de la pestaña **Nodo**, en los ajustes de cada nodo conversacional, encontrarás dos formas de proporcionar información específica:
+
+**Conocimiento en contexto**
+
+Un campo de texto libre donde puedes escribir información relevante que quieres que esté disponible solo en ese nodo. Es útil para datos puntuales que no necesitan un documento completo.
+
+> Ejemplo: *"El horario de atención es de lunes a viernes, de 9:00 a 18:00. Los fines de semana el servicio no está disponible."*
+
+**Bases de conocimiento del nodo**
+
+Cada nodo tiene su propia sección de **Bases de conocimiento** con el dropdown **Vincular documentos**. Los documentos vinculados aquí se **suman** a los heredados del nivel global.
+<Frame>
+  <img src="/images/bases-conocimiento-nodo.png" alt="Bases de conocimiento en nodo" />
+</Frame>
+
+### Herencia de bases de conocimiento
+
+Por defecto, cada nodo **hereda** las bases de conocimiento asignadas a nivel global. Esto significa que no necesitas configurar las bases en cada nodo individualmente.
+
+Si un nodo no necesita las bases de conocimiento globales, puedes desactivar el toggle **Heredar base de conocimiento** en los ajustes del nodo. Al desactivarlo:
+
+- El nodo dejará de tener acceso a las bases de conocimiento globales.
+- Solo utilizará las bases vinculadas directamente al propio nodo (si las hay).
+
+<Note>
+El toggle de **Heredar base de conocimiento** solo aparece en los nodos cuando hay al menos una base de conocimiento asignada a nivel global del agente. Si no hay bases globales configuradas, este control no se muestra.
+</Note>
+
+| Configuración | Comportamiento |
+|---|---|
+| Herencia activada + sin bases en el nodo | El nodo usa solo las bases globales |
+| Herencia activada + bases en el nodo | El nodo usa las bases globales **más** las del nodo |
+| Herencia desactivada + bases en el nodo | El nodo usa solo sus bases específicas |
+| Herencia desactivada + sin bases en el nodo | El nodo no tiene acceso a ninguna base de conocimiento |
+
+## Buenas prácticas
+
+<AccordionGroup>
+  <Accordion title="Usa el nivel global para información general">
+    Asigna a nivel global las bases que apliquen a toda la conversación: datos de la empresa, políticas generales, preguntas frecuentes. Reserva las bases a nivel de nodo para información específica de ese momento del flujo.
+  </Accordion>
+  <Accordion title="Usa 'Conocimiento en contexto' para datos puntuales">
+    Si solo necesitas que el nodo conozca un dato concreto (un horario, una dirección, un precio), usa el campo de texto en lugar de crear un documento completo.
+  </Accordion>
+  <Accordion title="No sobrecargues de información">
+    Asigna solo las bases necesarias en cada nivel. Demasiada información puede hacer que el agente pierda foco en lo relevante para cada momento de la conversación.
+  </Accordion>
+  <Accordion title="Desactiva la herencia con criterio">
+    Solo desactiva la herencia cuando la información global no sea relevante para ese nodo. En la mayoría de casos, mantener la herencia activa y añadir bases específicas es la mejor opción.
+  </Accordion>
+</AccordionGroup>
+
+## Siguientes pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Gestionar bases de conocimiento"
+    icon="book-open"
+    href="/es/build/bases-conocimiento"
+  >
+    Crea, organiza y gestiona las bases de conocimiento de tu proyecto.
+  </Card>
+  <Card
+    title="Caminos conversacionales"
+    icon="/icons/dataflow-04.svg"
+    href="/es/build/agentes/camino-conversacional"
+  >
+    Aprende a construir flujos con nodos y transiciones.
+  </Card>
+</CardGroup>

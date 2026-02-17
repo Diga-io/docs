@@ -1,0 +1,208 @@
+---
+title: "Variables Dinámicas"
+description: "Personaliza las respuestas de tu agente con información contextual usando variables dinámicas"
+---
+
+## Introducción
+
+Las variables dinámicas te permiten inyectar datos personalizados en las respuestas de tu agente para cada llamada específica. Usando la sintaxis `{{nombre_variable}}`, puedes crear agentes que se adaptan a diferentes contextos manteniendo flujos de conversación consistentes.
+
+### Casos de uso comunes
+
+- **Saludos personalizados**: "Hola `{{nombre_cliente}}`, le llamo para confirmar su interés en el formulario de `{{tipo_formulario}}`"
+- **Respuestas contextuales**: "Veo que llamas sobre el pedido `{{numero_pedido}}`"
+- **Información temporal**: Referencia a `{{fecha_cita}}` o `{{fecha_limite} o {{current_time}}}`
+
+### Dónde funcionan las variables
+
+Las variables dinámicas se pueden usar en:
+
+- **Prompt del agente**: Instrucciones y personalidad del agente
+- **Saludo inicial**: Mensaje de bienvenida al usuario
+- **Nodos de conversación**: Instrucciones en un nodo concreto
+
+## Agregar y probar variables
+
+<Steps>
+  <Step title="Agrega variables en tus prompts">
+    Las variables dinámicas son marcadores rodeados por dobles llaves. Por ejemplo:
+
+    ```text
+    Hola {{nombre_cliente}}, entiendo que estás interesado en {{nombre_producto}}.
+    ¿Cómo puedo ayudarte hoy?
+    ```
+
+    Cuando escribas en el editor de prompt o saludo, al escribir `{{` aparecerá un menú con las variables disponibles.
+
+    <Frame>
+      <img src="/images/dynamic-variables-selector.png" alt="Panel de prueba de variables dinámicas" />
+    </Frame>
+  </Step>
+
+  <Step title="Prueba tus variables">
+    Antes de publicar, puedes probar tus variables usando el panel de pruebas. Los valores que ingreses aquí simularán los datos que recibirás en producción.
+
+    <Frame>
+      <img src="/images/dynamic-variables-menu.png" alt="Panel de prueba de variables dinámicas" />
+    </Frame>
+  </Step>
+
+  <Step title="Configura valores por defecto (opcional)">
+    Los valores que establezcas en ese panel a la hora de crear una versión serán los que se usarán por defecto en caso de que no se pasen otros distintos en el momento de realizar la llamada
+  </Step>
+
+  <Step title="Usa en producción">
+    ### Para llamadas salientes
+
+    Al crear una llamada usando la API, incluye tus variables en el campo `dynamic_variables`:
+
+    ```json
+    {
+      "from_number": "+34612345678",
+      "to_number": "+34698765432",
+      "dynamic_variables": {
+        "nombre_cliente": "María García",
+        "numero_pedido": "ORD-12345",
+        "fecha_entrega": "mañana a las 3 PM"
+      }
+    }
+    ```
+
+    ### Para llamadas entrantes
+
+    Usará el valor que hayas establecido por defecto en la versión del agente que esté publicada
+  </Step>
+</Steps>
+
+<Note>
+**Importante:** Todos los valores en `dynamic_variables` deben ser strings (texto). Números, booleanos u otros tipos de datos no están soportados.
+</Note>
+
+## Variables del sistema
+
+Diga proporciona automáticamente estas variables del sistema - no requieren configuración:
+
+| Variable | Descripción | Ejemplo |
+|----------|-------------|---------|
+| `{{agent_name}}` | Nombre del agente configurado | "Asistente de Ventas" |
+| `{{user_phone_number}}` | Número de teléfono del usuario | "+34612345678" |
+| `{{current_time}}` | Hora actual en UTC | "Friday, January 10, 2025 14:30:00 UTC" |
+| `{{current_time[zona_horaria]}}` | Hora actual en zona horaria específica | "Friday, January 10, 2025 15:30:00 CET" |
+
+### Ejemplos de hora con zona horaria
+
+Para obtener la hora en una zona horaria específica, usa la sintaxis `{{current_time[zona_horaria]}}`:
+
+```text
+Hora actual en Madrid: {{current_time[Europe/Madrid]}}
+Hora actual en Ciudad de México: {{current_time[America/Mexico_City]}}
+Hora actual en Buenos Aires: {{current_time[America/Argentina/Buenos_Aires]}}
+Hora actual en Nueva York: {{current_time[America/New_York]}}
+```
+
+<Tip>
+Usa identificadores de zona horaria IANA válidos como `Europe/Madrid`, `America/New_York`, etc. Puedes encontrar la lista completa en [Wikipedia](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+</Tip>
+
+## Precedencia de variables
+
+Cuando una misma variable está definida en múltiples lugares, se aplica la siguiente prioridad (de mayor a menor):
+
+1. **Variables de llamada** (mayor prioridad): Valores específicos para cada llamada
+2. **Variables de agente**: Valores por defecto configurados en el agente. Estas son las variables que hemos configurado previamente en el panel de variables.
+
+<Info>
+Esto significa que puedes establecer valores por defecto a nivel de agente y sobrescribirlos para llamadas específicas cuando sea necesario.
+</Info>
+
+### Ejemplo de precedencia
+
+```text
+# Configuración del agente
+dynamic_variables: {
+  "empresa": "TechCorp",
+  "departamento": "Ventas"
+}
+
+# Variables de la llamada
+dynamic_variables: {
+  "empresa": "ClienteXYZ",
+  "cliente": "Juan Pérez"
+}
+
+# Resultado final (valores que usará el agente)
+{
+  "agent_name": "Asistente Virtual",      # Sistema
+  "user_phone_number": "+34612345678",    # Sistema
+  "empresa": "ClienteXYZ",                # Llamada sobrescribe agente
+  "departamento": "Ventas",               # Agente (no sobrescrito)
+  "cliente": "Juan Pérez"                 # Llamada
+}
+```
+
+## Buenas prácticas
+
+<AccordionGroup>
+  <Accordion title="Define valores por defecto">
+    Configura valores por defecto a nivel de agente para variables que usas frecuentemente. Esto evita que tus prompts muestren variables vacías.
+  </Accordion>
+
+  <Accordion title="Prueba con y sin variables">
+    Siempre prueba tu agente tanto con variables definidas como sin ellas para asegurar que maneja ambos casos correctamente.
+  </Accordion>
+
+  <Accordion title="No almacenes datos sensibles">
+    Evita almacenar información sensible como contraseñas, claves API o datos financieros en variables dinámicas:
+
+    ```text
+    # Evitar
+    {{clave_api}}
+    {{numero_tarjeta}}
+
+    # Mejor: usa solo identificadores
+    {{id_cliente}}
+    {{referencia_pedido}}
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Ejemplos de uso
+
+### Agente de atención al cliente
+
+```text
+Eres un agente de atención al cliente de {{nombre_empresa}}.
+
+Estás realizando una llamada saliente al cliente {{nombre}} con número de cuenta {{numero_cuenta}} para obtener más información sobre su duda de soporte.
+
+Salúdalo por su nombre y ayúdalo con su consulta sobre {{motivo_llamada}}.
+```
+
+### Recordatorio de citas
+
+```text
+Eres un asistente de {{clinica_nombre}} llamando para confirmar una cita.
+
+Información de la cita:
+- Paciente: {{nombre_paciente}}
+- Fecha: {{fecha_cita}}
+- Hora: {{hora_cita}}
+- Doctor: {{nombre_doctor}}
+- Fecha actual: {{current_time}}
+
+Confirma que el paciente puede asistir y recuérdale llegar 15 minutos antes.
+```
+
+### Seguimiento de pedidos
+
+```text
+Eres un agente de soporte de {{tienda_nombre}}.
+
+Información del pedido:
+- Número de pedido: {{numero_pedido}}
+- Estado actual: {{estado_pedido}}
+- Fecha estimada de entrega: {{fecha_entrega}}
+
+Ayuda al cliente con cualquier duda sobre su pedido.
+La hora actual es {{current_time[Europe/Madrid]}}.
+```
