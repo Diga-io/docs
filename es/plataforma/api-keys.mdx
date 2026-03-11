@@ -1,0 +1,144 @@
+---
+title: "API Keys"
+description: "Crea y gestiona claves API para conectarte a la API de Diga y controlar los permisos de acceso."
+---
+
+Las claves API te permiten conectarte a la API de Diga y utilizar sus funciones desde tus propias aplicaciones. Puedes crear varias claves con diferentes niveles de acceso para controlar qué recursos puede utilizar cada una.
+
+Accede a esta sección desde **Ajustes > Proyecto > API Keys**.
+
+<Note>
+Solo los **administradores** del proyecto pueden crear, ver y gestionar claves API. Consulta la página de [Equipo](/es/plataforma/equipo) para más información sobre roles y permisos.
+</Note>
+
+## Vista general
+
+La vista principal muestra una tabla con todas las claves API del proyecto. Para cada clave puedes ver:
+
+- **Nombre** de la clave
+- **ID de clave**
+- **Key** (enmascarada por seguridad)
+- **Fecha de creación**
+- **Permisos de clave** (restringida o no restringida)
+
+Usa el buscador en la parte superior para encontrar claves por nombre. La tabla incluye paginación cuando hay muchas claves.
+
+## Crear una API Key
+
+<Steps>
+  <Step title="Haz clic en Crear API Key">
+    En la esquina superior derecha, haz clic en **Crear API Key**.
+  </Step>
+  <Step title="Introduce un nombre">
+    Escribe un nombre descriptivo para identificar la clave (por ejemplo, "Consulta_CRM" o "App_Reservas").
+  </Step>
+  <Step title="Configura las restricciones">
+    Decide si quieres restringir los permisos de la clave:
+
+    - **Sin restringir**: La clave tiene acceso completo a todos los recursos de la API.
+    - **Restringir clave**: Activa el toggle para configurar permisos granulares por recurso.
+
+    <Warning>
+    Las claves API sin restricciones representan una amenaza. Para mayor seguridad, considera restringir el acceso únicamente a los recursos necesarios.
+    </Warning>
+  </Step>
+  <Step title="Guarda la clave">
+    Haz clic en **Guardar**. Se generará la clave y aparecerá un modal con la **API Key completa**.
+
+    <Warning>
+    La clave no se mostrará de nuevo. Cópiala y guárdala en un lugar seguro antes de cerrar el modal.
+    </Warning>
+  </Step>
+</Steps>
+
+## Restringir permisos
+
+Al activar el toggle **Restringir clave**, puedes configurar el nivel de acceso para cada recurso de la API. Cada recurso tiene tres niveles de permiso:
+
+<Frame>
+  <img src="/images/apikey-restringir.png" alt="Restringir permisos" />
+</Frame>
+
+| Nivel | Descripción |
+|---|---|
+| **Sin acceso** | La clave no puede acceder a este recurso |
+| **Leer** | La clave puede consultar datos pero no modificarlos |
+| **Escribir** | La clave puede consultar y modificar datos |
+
+### Recursos disponibles
+
+Los recursos sobre los que puedes configurar permisos son:
+
+<AccordionGroup>
+  <Accordion title="Comunicación">
+    - **Llamadas** — Gestión de llamadas telefónicas
+    - **Mensajes** — Envío y recepción de mensajes
+    - **Transcripciones** — Acceso a transcripciones de llamadas
+    - **Grabaciones** — Acceso a grabaciones de audio
+  </Accordion>
+  <Accordion title="Configuración de agentes">
+    - **Agentes** — Creación y configuración de agentes
+    - **Rutas conversacionales** — Gestión de caminos conversacionales
+    - **Bases de conocimiento** — Gestión de bases de conocimiento
+    - **Herramientas** — Herramientas de llamada
+    - **Voces** — Configuración de voces
+    - **Integraciones** — Gestión de integraciones externas
+    - **Webhooks** — Configuración de webhooks
+  </Accordion>
+  <Accordion title="Contactos y datos">
+    - **Contactos** — Gestión de contactos
+    - **Estadísticas** — Acceso a datos analíticos
+    - **Verificaciones** — Verificaciones del sistema
+  </Accordion>
+  <Accordion title="Administración">
+    - **Teléfonos** — Gestión de números de teléfono
+    - **Miembros** — Gestión del equipo del proyecto
+    - **Facturación** — Información de facturación y suscripción
+    - **API Keys** — Gestión de otras claves API
+    - **Notificaciones** — Configuración de notificaciones
+  </Accordion>
+</AccordionGroup>
+
+## Eliminar una API Key
+
+<Warning>
+Eliminar una clave API es permanente. Cualquier aplicación o servicio que utilice esta clave dejará de funcionar inmediatamente.
+</Warning>
+
+1. En la tabla de claves, haz clic en el botón de acciones de la clave que quieres eliminar.
+2. Selecciona **Eliminar**.
+3. Confirma la acción en el modal de confirmación haciendo clic en **Eliminar**.
+
+## Buenas prácticas
+
+<AccordionGroup>
+  <Accordion title="Siempre restringe tus claves">
+    Evita usar claves sin restricciones. Asigna a cada clave solo los permisos que necesita para funcionar. Esto limita el impacto en caso de que una clave se vea comprometida.
+  </Accordion>
+  <Accordion title="Usa nombres descriptivos">
+    Nombra las claves según su uso (por ejemplo, "CRM_Producción", "App_Móvil_Staging"). Facilita identificar qué clave corresponde a cada aplicación.
+  </Accordion>
+  <Accordion title="Rota las claves periódicamente">
+    Crea claves nuevas y elimina las antiguas de forma regular. Esto reduce el riesgo de acceso no autorizado con claves que puedan haberse filtrado.
+  </Accordion>
+  <Accordion title="No compartas claves entre entornos">
+    Usa claves diferentes para desarrollo, staging y producción. Si una clave de desarrollo se filtra, tu entorno de producción no se verá afectado.
+  </Accordion>
+</AccordionGroup>
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Cuántas claves API puedo crear?">
+    No hay un límite fijo en la cantidad de claves que puedes crear por proyecto.
+  </Accordion>
+  <Accordion title="¿Puedo editar los permisos de una clave existente?">
+    No. Si necesitas cambiar los permisos de una clave, debes eliminarla y crear una nueva con la configuración deseada.
+  </Accordion>
+  <Accordion title="¿Qué pasa si pierdo una clave API?">
+    No es posible recuperar una clave una vez cerrado el modal de creación. Deberás crear una nueva clave y actualizar la configuración en tus aplicaciones.
+  </Accordion>
+  <Accordion title="¿Quién puede ver y gestionar las claves API?">
+    Solo los usuarios con rol de **Administrador** en el proyecto pueden acceder a la sección de API Keys.
+  </Accordion>
+</AccordionGroup>

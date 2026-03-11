@@ -1,71 +1,82 @@
 ---
 title: "Personalización de Llamadas"
-description: "Configura el idioma, velocidad de voz, detección de inactividad y límites de duración para optimizar la experiencia de tus agentes telefónicos"
+description: "Configura la **identidad**, el **comportamiento** y los **ajustes técnicos** de tu agente para optimizar la experiencia en llamadas telefónicas."
 ---
 
 ## Introducción
 
-Además del prompt y las herramientas, puedes personalizar múltiples aspectos técnicos de cómo tu agente maneja las llamadas. Esta configuración te permite adaptar el comportamiento del agente a diferentes contextos: ajustar la velocidad de habla para distintas audiencias, configurar recordatorios para mantener al usuario comprometido, y establecer límites de tiempo para proteger tu presupuesto.
+Además del prompt y las herramientas, Diga permite configurar distintos aspectos del comportamiento del agente durante una llamada.
 
 <Note>
 **Alcance de la personalización**
-
 Todas estas configuraciones se aplican de forma global al agente, sin importar si usas modo de Prompt Único o Camino Conversacional. No necesitas ajustarlas en cada nodo individualmente.
 </Note>
 
-## Parámetros de voz
+## Identidad del agente
+Define los datos básicos que identifican a tu agente y cómo se comunica por voz.
+- **Descripción** del agente. Escribe una breve descripción del propósito del agente. Esta información te ayudará únicamente a **identificarlo fácilmente dentro de la plataforma**, en ningún caso influye el comportamiento del agente.
+- **Idioma** del agente. Selecciona el idioma en el que el agente entenderá y hablará durante la llamada.  Este ajuste afecta **tanto al reconocimiento de voz como a la síntesis de voz**, pero no a la generación de texto del modelo de lenguaje. Es importante que el idioma seleccionado coincida con el indicado en el prompt del agente.
+- **Voz** del agente. Selecciona la voz que utilizará el agente al hablar. La voz define el **timbre y el estilo de comunicación** durante la llamada.
 
-### Idioma
-
-Define el idioma en el que el agente entendera durante la llamada. El idioma seleccionado afecta tanto el reconocimiento de voz como la síntesis de voz, pero no a la generación de texto del modelo de lenguaje. Por ello es imprescindible indicar al agente el idioma correcto en el prompt.
+## Directrices del agente
+Configura directrices generales y el manejo de términos específicos durante la conversación.
+- **Instrucciones globales**. Define instrucciones generales que orienten el comportamiento del agente durante la llamada.  Estas directrices complementan el prompt y **se aplican de forma consistente a todas las interacciones**.
+- **Términos preferentes**. Añade palabras, expresiones o nombres propios que el agente debe reconocer correctamente. Este campo es especialmente útil para:
+  - Vocabulario específico de un sector
+  - Nombres de marcas o personas
+  - Términos técnicos o poco comunes
+- **Definición de pronunciación**. Permite definir cómo debe pronunciar o reconocer ciertas palabras mediante su transcripción fonética. Esto mejora la comprensión y pronunciación de términos complejos o poco comunes.
 
 <Frame>
-    <img src="/images/agent-language-configuration.png" alt="Captura de pantalla mostrando la configuración de idioma en el panel del agente" />
+  <img src="/images/directrices-agente.png" alt="Diagrama de flujo mostrando el sistema de detección de inactividad con recordatorios progresivos" />
 </Frame>
 
+## Ajustes de llamada
+Controla el comportamiento del agente durante la llamada, incluyendo ritmo de voz, sonido ambiente y gestión de silencios.
 
-### Velocidad de voz
-
-Controla qué tan rápido habla el agente. Este parámetro es especialmente útil para adaptar el ritmo de conversación según tu audiencia.
-
-- **Rango de valores:** `0.25` a `2.0`
-- **Valor por defecto:** `1.0` (velocidad normal)
-
-## Sistema de detección de inactividad
+- **Sonido de fondo**. Añade un sonido ambiente mientras el agente ejecuta acciones o espera respuesta, para evitar silencios prolongados.
+- **Velocidad de la voz**. Controla qué tan rápido habla el agente durante la llamada.
+  - Rango: 0.25× a 2.0×
+  - Valor por defecto: 1.0× (velocidad normal)
+Este ajuste permite adaptar el ritmo de conversación según tu audiencia.
+- **Sistema de detección de inactividad**. Define cómo debe actuar el agente cuando no detecta respuesta del usuario.
+ - **Tiempo de espera**. Indica cuánto tiempo debe pasar sin respuesta antes de que el agente actúe.
+   - Valor por defecto: 7 segundos
+   - **Recomendación**: evitar valores demasiado bajos para no interrumpir al usuario.
 
 El sistema de detección de inactividad ayuda a mantener la conversación activa cuando el usuario deja de responder. Este mecanismo es fundamental para evitar silencios largos que terminan con la llamada o generan una mala experiencia.
 
-### Cómo funciona
-
-Cuando el usuario deja de hablar durante cierto tiempo, el agente envía un mensaje de recordatorio para verificar si sigue en la línea. Si después de varios recordatorios no hay respuesta, la llamada se termina automáticamente.
-
 <Frame>
-  <img src="/images/inactivity-detection-flow.png" alt="Diagrama de flujo mostrando el sistema de detección de inactividad con recordatorios progresivos" />
+  <img src="/images/recordatorio-inactividad.png" alt="Diagrama de flujo mostrando el sistema de detección de inactividad con recordatorios progresivos" />
 </Frame>
 
-### Parámetros configurables
+- **Mensajes en caso de silencio**. Configura los mensajes que el agente podrá usar cuando no haya respuesta.
+  - **Mensajes fijos:** Una lista de frases específicas que el agente usará de manera aleatoria
+  - **Mensajes generados:** El agente generará mensajes naturales basándose en el contexto. Este es el enfoque recomendado para una experiencia más humana.
 
-#### Mensajes de recordatorio
-
-Define qué frases usará el agente para comprobar si el usuario sigue en la línea. Puedes definir:
-
-- **Mensajes fijos:** Una lista de frases específicas que el agente usará de manera aleatoria
-- **Mensajes generados:** El agente generará mensajes naturales basándose en el contexto. Este es el enfoque recomendado para una experiencia más humana.
-
-#### Frecuencia de recordatorios
-
-Define cada cuánto tiempo (en milisegundos) el agente debe enviar un recordatorio si no detecta actividad.
-
-- **Valor por defecto:** `7500` (7.5 segundos)
-- **Rango recomendado:** `5000` a `15000` ms
+- **Frecuencia de recordatorios**. Define cada cuánto tiempo (en milisegundos) el agente debe enviar un recordatorio si no detecta actividad.
+  - **Valor por defecto:** `7500` (7.5 segundos)
+  - **Rango recomendado:** `5000` a `15000` ms
 
 <Warning>
 **Evita valores muy bajos**: Frecuencias menores a 5 segundos pueden hacer que el agente interrumpa al usuario mientras piensa su respuesta, generando una experiencia frustrante.
 </Warning>
 
-#### Número máximo de recordatorios
+- **Número máximo de recordatorios**. Especifica cuántos recordatorios enviará el agente antes de terminar la llamada por inactividad.
+  - **Valor por defecto:** `3`
+  - **Rango recomendado:** `2` a `5`
 
-Especifica cuántos recordatorios enviará el agente antes de terminar la llamada por inactividad.
+## Bases de conocimiento
+Vincula documentos a tu agente para que pueda consultar información relevante durante la llamada. Esta funcionalidad utiliza RAG (Retrieval-Augmented Generation) para dar contexto adicional al agente a partir de tus archivos.
+- **Formatos soportados**: PDF, TXT, URL
+- **Cómo funciona**
+1. Haz clic en **Vincular documentos**.
+2. Busca y selecciona los documentos o colecciones que quieras asociar al agente, o sube uno nuevo.
+3. Los documentos vinculados aparecerán listados y podrás eliminarlos en cualquier momento.
 
-- **Valor por defecto:** `3`
-- **Rango recomendado:** `2` a `5`
+Una vez vinculados, el agente consultará automáticamente estos documentos cuando necesite información adicional para responder durante la llamada.
+
+<Note>
+Para aprender a crear y gestionar tus bases de conocimiento, consulta la [guía de Bases de conocimiento](/ruta-a-la-guia).
+</Note>
+

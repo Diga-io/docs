@@ -4,7 +4,35 @@ description: "Release notes and platform improvements for Diga"
 rss: true
 ---
 
-<Update label="December 2025" description="v1.0.0" tags={["Launch", "Agents", "Integrations", "Telephony"]}>
+<Update label="February 17, 2026" description="v1.1.0" tags={["New features"]}>
+
+## Logs, RAG, and Workflows
+
+### Call Logs
+
+- **Detailed event logging**: Every call generates structured logs covering its full lifecycle — from connection to completion
+- **10 event categories**: Call lifecycle, user messages, agent responses, call tools, integrations, conversational paths, transfers, and webhooks
+- **Customer-facing logs**: Dual logging system that automatically filters out internal technical data and exposes only relevant events to users via the API
+- **Full traceability**: Each event includes timestamps, trace IDs, and contextual data to debug and analyze agent behavior
+
+### RAG (Retrieval-Augmented Generation)
+
+- **Knowledge base for agents**: Upload documents and URLs so your agents can access relevant information during conversations
+- **Semantic search**: The system automatically indexes and searches your content to provide accurate, contextual responses
+- **Multiple sources**: Ingest files, URLs, and text, with automatic page discovery from a domain
+- **Knowledge management**: Add, update, and delete items from your agents' knowledge base
+
+### Workflows
+
+- **Visual automation**: Create no-code workflows that run during or after calls
+- **Post-call workflows**: Automate tasks after a call ends, such as updating a CRM, sending emails, or logging data
+- **During-call workflows**: Allow your agent to execute tools in real time, like scheduling appointments or looking up data
+- **Sync and async execution**: Choose whether the agent waits for the workflow response or continues the conversation
+- **Pre-built templates**: Use ready-made templates to quickly set up common workflows
+
+</Update>
+
+<Update label="December 17, 2025" description="v1.0.0" tags={["New features"]}>
 
 ## Diga Initial Launch
 

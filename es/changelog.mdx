@@ -4,7 +4,35 @@ description: "Registro de actualizaciones y mejoras de la plataforma Diga"
 rss: true
 ---
 
-<Update label="Diciembre 2025" description="v1.0.0" tags={["Lanzamiento", "Agentes", "Integraciones", "Telefonía"]}>
+<Update label="17 de febrero de 2026" description="v1.1.0" tags={["Nuevas features"]}>
+
+## Logs, RAG y Workflows
+
+### Logs de llamadas
+
+- **Registro detallado de eventos**: Cada llamada genera logs estructurados que cubren todo su ciclo de vida — desde la conexión hasta la finalización
+- **10 categorías de eventos**: Ciclo de vida de la llamada, mensajes del usuario, respuestas del agente, herramientas de llamada, integraciones, caminos conversacionales, transferencias y webhooks
+- **Logs externos para clientes**: Sistema de logs dual que filtra automáticamente la información técnica interna y expone solo los eventos relevantes para el usuario a través de la API
+- **Trazabilidad completa**: Cada evento incluye timestamps, IDs de traza, y datos contextuales para depurar y analizar el comportamiento del agente
+
+### RAG (Retrieval-Augmented Generation)
+
+- **Base de conocimiento para agentes**: Sube documentos y URLs para que tus agentes accedan a información relevante durante las conversaciones
+- **Búsqueda semántica**: El sistema indexa y busca automáticamente en tu contenido para dar respuestas precisas y contextuales
+- **Múltiples fuentes**: Ingesta archivos, URLs y texto, con descubrimiento automático de páginas desde un dominio
+- **Gestión de conocimiento**: Añade, actualiza y elimina elementos de la base de conocimiento de tus agentes
+
+### Workflows
+
+- **Automatización visual**: Crea flujos de trabajo sin código que se ejecutan durante o después de las llamadas
+- **Workflows post-llamada**: Automatiza tareas al finalizar una llamada, como actualizar un CRM, enviar emails o registrar datos
+- **Workflows durante la llamada**: Permite al agente ejecutar herramientas en tiempo real, como agendar citas o consultar datos
+- **Ejecución síncrona y asíncrona**: Elige si el agente espera la respuesta del workflow o continúa la conversación
+- **Plantillas predefinidas**: Usa plantillas listas para configurar workflows comunes rápidamente
+
+</Update>
+
+<Update label="17 de diciembre de 2025" description="v1.0.0" tags={["Nuevas features"]}>
 
 ## Lanzamiento inicial de Diga
 

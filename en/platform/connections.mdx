@@ -1,0 +1,110 @@
+---
+title: "Connections"
+description: "Manage and maintain all external connections integrated with your project."
+---
+
+# Connections
+
+From the Connections section you can **view, reconnect, and rename** all external connections linked to your project. Connections are automatically generated when you configure an integration in a flow.
+
+Access this section from **Settings > Project > Connections**.
+
+<Note>
+All project members can view connections, but only **administrators** can reconnect or rename them. See the [Team](/en/platform/team) page for more information about roles and permissions.
+</Note>
+
+## Overview
+
+The main view shows a table with all connections in the project. For each connection you can see:
+
+- **Provider** — icon and type of connected service (for example, Google Calendar, Trello, Microsoft Outlook).
+- **Name** — name assigned to the connection.
+- **Status** — indicates whether the connection is **Active** or **Inactive**.
+- **Flows** — number of flows using this connection. Clicking the number redirects to the flows page filtered by that connection.
+- **Connected on** — date and time the connection was established.
+- **Actions** — buttons to reconnect or rename the connection.
+
+### Filter connections
+
+You can filter connections in two ways:
+
+- **By status:** use the **Status** dropdown to show only active, inactive, or all connections.
+- **By name:** use the search bar to find a specific connection by name.
+
+## Reconnect a connection
+
+If a connection stops working (for example, because the API key expired or permissions were revoked), you can reconnect it without having to delete and recreate it.
+
+<Steps>
+  <Step title="Click the reconnect button">
+    In the **Actions** column of the connection you need to reconnect, click the reconnect icon.
+  </Step>
+  <Step title="Update credentials">
+    A modal will open where you can see the **connection name** and update the **API Key** or other necessary credentials.
+  </Step>
+  <Step title="Save changes">
+    Click **Save** to apply the new credentials. The connection will return to **Active** status if the credentials are valid.
+  </Step>
+</Steps>
+
+<Warning>
+If a connection is in **Inactive** status, flows using it won't be able to execute actions linked to that integration until it's reconnected.
+</Warning>
+
+## Rename a connection
+
+You can change a connection's name to identify it more easily, without affecting its functionality.
+
+<Steps>
+  <Step title="Click the rename button">
+    In the **Actions** column, click the rename icon.
+  </Step>
+  <Step title="Enter the new name">
+    A modal will open with the current name. Type the new descriptive name you want to assign.
+  </Step>
+  <Step title="Save changes">
+    Click **Save** to confirm the change. If you prefer not to make changes, click **Go Back**.
+  </Step>
+</Steps>
+
+## Connection statuses
+
+| Status | Description |
+|---|---|
+| **Active** | The connection is working correctly and flows can use it |
+| **Inactive** | The connection has stopped working and needs to be reconnected |
+
+<Note>
+A connection can become **Inactive** when credentials expire, permissions are revoked from the external service, or the provider changes its access configuration.
+</Note>
+
+## Best practices
+
+<AccordionGroup>
+  <Accordion title="Use descriptive names">
+    Rename connections to reflect their purpose (for example, "Google Calendar - Bookings" or "Trello - Support"). This makes it easy to identify which connection corresponds to each use.
+  </Accordion>
+  <Accordion title="Review inactive connections regularly">
+    Monitor the status of your connections to detect problems quickly. An inactive connection can affect multiple flows.
+  </Accordion>
+  <Accordion title="Reconnect before it's urgent">
+    If you receive a notice that an API key is about to expire, reconnect proactively to avoid interruptions in your flows.
+  </Accordion>
+</AccordionGroup>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Can I create connections from this page?">
+    No. Connections are automatically generated when you configure an integration within a flow. From this page you can manage them (reconnect and rename), but not create them.
+  </Accordion>
+  <Accordion title="What happens if I reconnect a connection that's active?">
+    You can reconnect an active connection without issues. This is useful, for example, to update an API key before it expires.
+  </Accordion>
+  <Accordion title="Does deleting a connection affect the flows that use it?">
+    Currently it's not possible to delete connections from this page. If you need to disconnect a service, you can do so from the integration configuration in the corresponding flow.
+  </Accordion>
+  <Accordion title="Why does a connection appear as inactive?">
+    A connection can become inactive if credentials expire, permissions are revoked from the external service, or the provider changes its access configuration. Reconnect it to restore functionality.
+  </Accordion>
+</AccordionGroup>
