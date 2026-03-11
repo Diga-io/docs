@@ -127,12 +127,6 @@
                   "es/despliegue/logs-llamadas",
                   "es/despliegue/trazas-llamadas"
                 ]
-              },
-              {
-                "group": "Guías avanzadas",
-                "pages": [
-                  "es/plantilla/reservascitas"
-                ]
               }
             ]
           },
@@ -230,12 +224,6 @@
                   "en/deployment/monitoring-logs",
                   "en/deployment/call-logs",
                   "en/deployment/call-traces"
-                ]
-              },
-              {
-                "group": "Advanced Guides",
-                "pages": [
-                  "en/templates/appointment-booking"
                 ]
               }
             ]
