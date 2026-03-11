@@ -1,0 +1,133 @@
+---
+title: Call Logs
+description: View detailed events from each call to understand what happened at every moment
+---
+
+## What are call logs?
+
+Call logs are a detailed record of all events that occur during a call. Every action — from when the call starts to when it ends — generates an event with contextual information that lets you understand exactly what happened and when.
+
+You can view the logs for each call from the call details view in the **Call Log** section.
+
+## Event categories
+
+Events are organized into categories based on the type of activity:
+
+<AccordionGroup>
+  <Accordion title="Call lifecycle" icon="phone">
+    Events that mark key moments in the call: when recording started, when the call completed, or if it failed.
+
+    | Event | Description |
+    |-------|-------------|
+    | Recording Started | Call recording was initiated |
+    | Call Completed | The call ended successfully |
+    | Call Failed | The call failed due to an error |
+  </Accordion>
+
+  <Accordion title="User messages" icon="user">
+    Events related to what the contact says during the call.
+
+    | Event | Description |
+    |-------|-------------|
+    | User Message Received | A message from the contact was received (transcription completed) |
+    | User Started Speaking | The contact started speaking |
+    | User Stopped Speaking | The contact stopped speaking |
+  </Accordion>
+
+  <Accordion title="Agent responses" icon="bot">
+    Events about the agent's behavior and responses during the conversation.
+
+    | Event | Description |
+    |-------|-------------|
+    | Agent Initialized | The agent was initialized for the call |
+    | Greeting Sent | The agent sent its welcome message |
+    | Agent Message Sent | The agent generated and sent a response |
+    | Agent Started Speaking | The agent started speaking |
+    | Agent Ended Speaking | The agent finished speaking |
+    | Agent Interrupted | The contact interrupted the agent |
+    | Reminder Message Sent | The agent sent an inactivity reminder |
+  </Accordion>
+
+  <Accordion title="Call tools" icon="wrench">
+    Events about native tools the agent executes during the call: transfers, hangups, adding participants.
+
+    | Event | Description |
+    |-------|-------------|
+    | Transfer Tool Invoked | A call transfer was requested |
+    | Transfer Tool Completed | The transfer completed successfully |
+    | Transfer Tool Failed | The transfer failed |
+    | Hangup Tool Invoked | A hangup was requested |
+    | Hangup Tool Completed | The call was hung up successfully |
+  </Accordion>
+
+  <Accordion title="Integrations" icon="plug">
+    Events about the execution of integration tools (HTTP, MCP) configured by you.
+
+    | Event | Description |
+    |-------|-------------|
+    | Integration Tool Invoked | The agent executed an integration tool |
+    | Approval Requested | The tool requires confirmation from the contact |
+    | Approval Granted | The contact confirmed the execution |
+    | Approval Denied | The contact denied the execution |
+    | Integration Tool Completed | The integration executed successfully |
+    | Integration Tool Failed | The integration failed |
+  </Accordion>
+
+  <Accordion title="Conversational paths" icon="route">
+    Events about transitions between nodes in agents with conversational paths.
+
+    | Event | Description |
+    |-------|-------------|
+    | Path Transition | The agent moved from one node to another |
+    | Node Generation Started | The agent started generating a response at a node |
+    | Path Error | An error occurred during path execution |
+  </Accordion>
+
+  <Accordion title="Transfers" icon="phone-forwarded">
+    Events about the process of transferring to a human agent.
+
+    | Event | Description |
+    |-------|-------------|
+    | Human Participant Dialing | The human agent is being called |
+    | Human Participant Answered | The human agent answered |
+    | Human Participant Disconnected | The human agent disconnected |
+    | Transfer Completed | The transfer was completed |
+  </Accordion>
+
+  <Accordion title="Webhooks" icon="webhook">
+    Events about webhook deliveries to your endpoints.
+
+    | Event | Description |
+    |-------|-------------|
+    | Webhook Queued | The webhook was queued for delivery |
+    | Webhook Sent | The webhook HTTP request was sent |
+    | Webhook Response Success | The webhook received a successful response |
+    | Webhook Response Failed | The webhook received an error response |
+    | Webhook Retry Exhausted | All webhook retries were exhausted |
+  </Accordion>
+</AccordionGroup>
+
+## Event information
+
+Each event in the log includes:
+
+| Field | Description |
+|-------|-------------|
+| **Timestamp** | Exact date and time of the event |
+| **Level** | Event severity: INFO, WARNING, ERROR, or CRITICAL |
+| **Category** | Which category it belongs to (lifecycle, agent, etc.) |
+| **Event** | Specific event name |
+| **Data** | Contextual information depending on the event type |
+
+### Severity levels
+
+| Level | Meaning |
+|-------|---------|
+| **INFO** | Normal, expected behavior |
+| **WARNING** | Something unexpected happened but recovered automatically |
+| **ERROR** | An operation failed (e.g., integration timeout, failed transfer) |
+| **CRITICAL** | A severe failure that affected the entire call |
+
+<Info>
+Logs are designed to give you visibility into what happened during each call without exposing internal infrastructure details.
+</Info>
