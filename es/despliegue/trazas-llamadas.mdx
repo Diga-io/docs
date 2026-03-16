@@ -1,0 +1,83 @@
+---
+title: Trazas de llamadas
+description: Visualiza el flujo completo de una llamada con trazas distribuidas para analizar tiempos y comportamiento
+---
+
+## ¿Qué son las trazas?
+
+Las trazas te permiten ver el flujo completo de una llamada desglosado en pasos individuales llamados **spans**. Cada span representa una operación concreta — como un turno de conversación, una respuesta del agente o la ejecución de una herramienta — con su duración exacta.
+
+Mientras que los [logs de llamadas](/es/despliegue/logs-llamadas) te dicen **qué pasó**, las trazas te dicen **cuánto tardó cada paso** y **cómo se relacionan entre sí**.
+
+## Estructura de una traza
+
+Cada llamada genera una traza con una estructura jerárquica. El span raíz representa la sesión completa, y dentro de él se anidan los pasos individuales:
+
+```
+Sesión del agente (llamada completa)
+├── Turno del usuario
+│   └── Usuario hablando
+├── Turno del agente
+│   ├── Generación LLM (respuesta de la IA)
+│   ├── Síntesis de voz (texto a audio)
+│   ├── Herramienta ejecutada (si aplica)
+│   └── Agente hablando
+├── Transición de camino (si usa caminos conversacionales)
+└── ...más turnos
+```
+
+## Tipos de spans
+
+| Span | Qué representa |
+|------|----------------|
+| **Sesión del agente** | La llamada completa de inicio a fin |
+| **Turno del usuario** | Un turno completo del contacto hablando |
+| **Turno del agente** | Un turno completo del agente respondiendo |
+| **Generación LLM** | El tiempo que tardó la IA en generar la respuesta |
+| **Síntesis de voz** | El tiempo de conversión de texto a audio |
+| **Herramienta ejecutada** | La ejecución de una herramienta (integración, transferencia, etc.) |
+| **Transición de camino** | Un cambio de nodo en agentes con caminos conversacionales |
+
+## Información disponible en cada span
+
+Dependiendo del tipo de span, puedes ver diferentes atributos:
+
+### Turnos de conversación
+
+| Atributo | Descripción |
+|----------|-------------|
+| **Mensaje del usuario** | Lo que dijo el contacto |
+| **Respuesta del agente** | Lo que respondió el agente |
+| **Interrumpido** | Si el contacto interrumpió al agente |
+
+### Herramientas ejecutadas
+
+| Atributo | Descripción |
+|----------|-------------|
+| **Nombre de la herramienta** | Qué herramienta se ejecutó |
+| **Argumentos** | Con qué parámetros se llamó |
+
+### Transiciones de camino
+
+| Atributo | Descripción |
+|----------|-------------|
+| **Nodo origen** | Desde qué nodo se hizo la transición |
+| **Nodo destino** | A qué nodo se movió el agente |
+| **Tipo de nodo** | El tipo del nodo destino |
+
+## Casos de uso
+
+<CardGroup cols={2}>
+  <Card title="Diagnosticar llamadas lentas" icon="gauge">
+    Identifica qué paso está tardando más: ¿la generación de la IA? ¿La síntesis de voz? ¿Una integración externa?
+  </Card>
+  <Card title="Verificar flujos conversacionales" icon="route">
+    Confirma que los caminos conversacionales siguen las transiciones esperadas entre nodos.
+  </Card>
+  <Card title="Analizar herramientas" icon="wrench">
+    Revisa qué herramientas se ejecutaron, con qué parámetros y cuánto tardaron.
+  </Card>
+  <Card title="Entender interrupciones" icon="hand">
+    Detecta en qué momentos los contactos interrumpieron al agente y cómo respondió.
+  </Card>
+</CardGroup>

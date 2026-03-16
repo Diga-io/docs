@@ -123,13 +123,9 @@
               {
                 "group": "Analitícas",
                 "pages": [
-                  "es/despliegue/monitoreo-logs"
-                ]
-              },
-              {
-                "group": "Guías avanzadas",
-                "pages": [
-                  "es/plantilla/reservascitas"
+                  "es/despliegue/monitoreo-logs",
+                  "es/despliegue/logs-llamadas",
+                  "es/despliegue/trazas-llamadas"
                 ]
               }
             ]
@@ -225,13 +221,9 @@
               {
                 "group": "Analytics",
                 "pages": [
-                  "en/deployment/monitoring-logs"
-                ]
-              },
-              {
-                "group": "Advanced Guides",
-                "pages": [
-                  "en/templates/appointment-booking"
+                  "en/deployment/monitoring-logs",
+                  "en/deployment/call-logs",
+                  "en/deployment/call-traces"
                 ]
               }
             ]

@@ -1,0 +1,133 @@
+---
+title: Logs de llamadas
+description: Consulta los eventos detallados de cada llamada para entender qué ocurrió en cada momento
+---
+
+## ¿Qué son los logs de llamadas?
+
+Los logs de llamadas son un registro detallado de todos los eventos que ocurren durante una llamada. Cada acción — desde que se inicia la llamada hasta que finaliza — genera un evento con información contextual que te permite entender exactamente qué pasó y en qué momento.
+
+Puedes consultar los logs de cada llamada desde la vista de detalles de la llamada en el **Registro de Llamadas**.
+
+## Categorías de eventos
+
+Los eventos se organizan en categorías según el tipo de actividad:
+
+<AccordionGroup>
+  <Accordion title="Ciclo de vida de la llamada" icon="phone">
+    Eventos que marcan los momentos clave de la llamada: cuándo se inició la grabación, cuándo se completó la llamada o si falló.
+
+    | Evento | Descripción |
+    |--------|-------------|
+    | Grabación iniciada | Se inició la grabación de la llamada |
+    | Llamada completada | La llamada finalizó correctamente |
+    | Llamada fallida | La llamada falló por un error |
+  </Accordion>
+
+  <Accordion title="Mensajes del usuario" icon="user">
+    Eventos relacionados con lo que dice el contacto durante la llamada.
+
+    | Evento | Descripción |
+    |--------|-------------|
+    | Mensaje del usuario recibido | Se recibió un mensaje del contacto (transcripción completada) |
+    | El usuario comenzó a hablar | El contacto comenzó a hablar |
+    | El usuario dejó de hablar | El contacto dejó de hablar |
+  </Accordion>
+
+  <Accordion title="Respuestas del agente" icon="bot">
+    Eventos sobre el comportamiento y las respuestas del agente durante la conversación.
+
+    | Evento | Descripción |
+    |--------|-------------|
+    | Agente inicializado | El agente se inicializó para la llamada |
+    | Saludo enviado | El agente envió su mensaje de bienvenida |
+    | Mensaje del agente enviado | El agente generó y envió una respuesta |
+    | El agente comenzó a hablar | El agente comenzó a hablar |
+    | El agente terminó de hablar | El agente terminó de hablar |
+    | Agente interrumpido | El contacto interrumpió al agente |
+    | Recordatorio enviado | El agente envió un recordatorio por inactividad |
+  </Accordion>
+
+  <Accordion title="Herramientas de llamada" icon="wrench">
+    Eventos sobre las herramientas nativas que el agente ejecuta durante la llamada: transferencias, colgar, añadir participantes.
+
+    | Evento | Descripción |
+    |--------|-------------|
+    | Transferencia solicitada | Se solicitó una transferencia de llamada |
+    | Transferencia completada | La transferencia se completó |
+    | Transferencia fallida | La transferencia falló |
+    | Colgar solicitado | Se solicitó colgar la llamada |
+    | Llamada colgada | La llamada se colgó correctamente |
+  </Accordion>
+
+  <Accordion title="Integraciones" icon="plug">
+    Eventos sobre la ejecución de herramientas de integración (HTTP, MCP) configuradas por ti.
+
+    | Evento | Descripción |
+    |--------|-------------|
+    | Integración ejecutada | El agente ejecutó una herramienta de integración |
+    | Aprobación solicitada | La herramienta requiere confirmación del contacto |
+    | Aprobación concedida | El contacto confirmó la ejecución |
+    | Aprobación denegada | El contacto rechazó la ejecución |
+    | Integración completada | La integración se ejecutó correctamente |
+    | Integración fallida | La integración falló |
+  </Accordion>
+
+  <Accordion title="Caminos conversacionales" icon="route">
+    Eventos sobre las transiciones entre nodos en agentes con caminos conversacionales.
+
+    | Evento | Descripción |
+    |--------|-------------|
+    | Transición de camino | El agente se movió de un nodo a otro |
+    | Generación de nodo iniciada | El agente comenzó a generar una respuesta en un nodo |
+    | Error de camino | Ocurrió un error durante la ejecución del camino |
+  </Accordion>
+
+  <Accordion title="Transferencias" icon="phone-forwarded">
+    Eventos sobre el proceso de transferencia a un agente humano.
+
+    | Evento | Descripción |
+    |--------|-------------|
+    | Participante humano marcando | Se está llamando al agente humano |
+    | Participante humano contestó | El agente humano contestó |
+    | Participante humano desconectado | El agente humano se desconectó |
+    | Transferencia completada | La transferencia se completó |
+  </Accordion>
+
+  <Accordion title="Webhooks" icon="webhook">
+    Eventos sobre el envío de webhooks a tus endpoints.
+
+    | Evento | Descripción |
+    |--------|-------------|
+    | Webhook en cola | El webhook se puso en cola para envío |
+    | Webhook enviado | Se envió la petición HTTP del webhook |
+    | Respuesta exitosa | El webhook recibió respuesta exitosa |
+    | Respuesta fallida | El webhook recibió una respuesta de error |
+    | Reintentos agotados | Se agotaron los reintentos del webhook |
+  </Accordion>
+</AccordionGroup>
+
+## Información de cada evento
+
+Cada evento en el log incluye:
+
+| Campo | Descripción |
+|-------|-------------|
+| **Timestamp** | Fecha y hora exacta del evento |
+| **Nivel** | Severidad del evento: INFO, WARNING, ERROR o CRITICAL |
+| **Categoría** | A qué categoría pertenece (ciclo de vida, agente, etc.) |
+| **Evento** | Nombre específico del evento |
+| **Datos** | Información contextual según el tipo de evento |
+
+### Niveles de severidad
+
+| Nivel | Significado |
+|-------|-------------|
+| **INFO** | Comportamiento normal y esperado |
+| **WARNING** | Algo inesperado ocurrió pero se recuperó automáticamente |
+| **ERROR** | Una operación falló (ej: integración con timeout, transferencia fallida) |
+| **CRITICAL** | Un fallo grave que afectó la llamada completa |
+
+<Info>
+Los logs están diseñados para darte visibilidad sobre lo que ocurrió en cada llamada sin exponerte a detalles de infraestructura internos.
+</Info>

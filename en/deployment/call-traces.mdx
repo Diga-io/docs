@@ -1,0 +1,83 @@
+---
+title: Call Traces
+description: Visualize the complete flow of a call with distributed traces to analyze timing and behavior
+---
+
+## What are traces?
+
+Traces let you see the complete flow of a call broken down into individual steps called **spans**. Each span represents a specific operation — like a conversation turn, an agent response, or a tool execution — with its exact duration.
+
+While [call logs](/en/deployment/call-logs) tell you **what happened**, traces tell you **how long each step took** and **how they relate to each other**.
+
+## Trace structure
+
+Each call generates a trace with a hierarchical structure. The root span represents the entire session, and individual steps are nested within it:
+
+```
+Agent session (full call)
+├── User turn
+│   └── User speaking
+├── Agent turn
+│   ├── LLM generation (AI response)
+│   ├── Voice synthesis (text to audio)
+│   ├── Tool executed (if applicable)
+│   └── Agent speaking
+├── Path transition (if using conversational paths)
+└── ...more turns
+```
+
+## Span types
+
+| Span | What it represents |
+|------|-------------------|
+| **Agent session** | The entire call from start to finish |
+| **User turn** | A complete turn of the contact speaking |
+| **Agent turn** | A complete turn of the agent responding |
+| **LLM generation** | The time the AI took to generate a response |
+| **Voice synthesis** | The time to convert text to audio |
+| **Tool executed** | The execution of a tool (integration, transfer, etc.) |
+| **Path transition** | A node change in agents with conversational paths |
+
+## Information available in each span
+
+Depending on the span type, you can see different attributes:
+
+### Conversation turns
+
+| Attribute | Description |
+|-----------|-------------|
+| **User message** | What the contact said |
+| **Agent response** | What the agent replied |
+| **Interrupted** | Whether the contact interrupted the agent |
+
+### Executed tools
+
+| Attribute | Description |
+|-----------|-------------|
+| **Tool name** | Which tool was executed |
+| **Arguments** | The parameters it was called with |
+
+### Path transitions
+
+| Attribute | Description |
+|-----------|-------------|
+| **Source node** | Which node the transition was made from |
+| **Destination node** | Which node the agent moved to |
+| **Node type** | The type of the destination node |
+
+## Use cases
+
+<CardGroup cols={2}>
+  <Card title="Diagnose slow calls" icon="gauge">
+    Identify which step is taking the longest: AI generation? Voice synthesis? An external integration?
+  </Card>
+  <Card title="Verify conversational flows" icon="route">
+    Confirm that conversational paths follow the expected transitions between nodes.
+  </Card>
+  <Card title="Analyze tools" icon="wrench">
+    Review which tools were executed, with what parameters, and how long they took.
+  </Card>
+  <Card title="Understand interruptions" icon="hand">
+    Detect when contacts interrupted the agent and how it responded.
+  </Card>
+</CardGroup>
