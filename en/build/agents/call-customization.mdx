@@ -1,80 +1,90 @@
 ---
 title: "Call Customization"
-description: "Configure language, speech speed, inactivity detection, and duration limits to optimize your phone agents' experience"
+description: "Configure your agent's **identity**, **behavior**, and **technical settings** to optimize the phone call experience."
 ---
 
 ## Introduction
 
-Beyond the prompt and tools, you can customize multiple technical aspects of how your agent handles calls. This configuration allows you to adapt the agent's behavior to different contexts: adjust speech speed for different audiences, configure reminders to keep users engaged, and set time limits to protect your budget.
+Beyond the prompt and tools, Diga allows you to configure various aspects of the agent's behavior during a call.
 
 <Note>
 **Customization Scope**
-
 All these settings apply globally to the agent, regardless of whether you use Single Prompt or Conversational Path mode. You don't need to adjust them in each node individually.
 </Note>
 
-## Voice Parameters
-
-### Language
-
-Defines the language the agent will understand during the call. The selected language affects both speech recognition and voice synthesis, but not the language model's text generation. Therefore, it's essential to indicate the correct language to the agent in the prompt.
+## Agent Identity
+Define the basic data that identifies your agent and how it communicates by voice.
+- **Description**. Write a brief description of the agent's purpose. This information will only help you **easily identify it within the platform** and does not influence the agent's behavior in any way.
+- **Language**. Select the language the agent will understand and speak during the call. This setting affects **both speech recognition and voice synthesis**, but not the language model's text generation. It's important that the selected language matches the one indicated in the agent's prompt.
+- **Voice**. Select the voice the agent will use when speaking. The voice defines the **timbre and communication style** during the call. When you click on the voice selector, a modal opens with the full **ElevenLabs** voice catalog, where you can:
+  - **Filter** voices by gender, language, and accent.
+  - **Search** voices by ID.
+  - **Preview** each voice before selecting it.
+  - **Save voices to favorites** for quick access to the ones you use most.
 
 <Frame>
-    <img src="/images/agent-language-configuration.png" alt="Screenshot showing language configuration in the agent panel" />
+  <img src="/images/voces-agente.png" alt="Agent voices" />
 </Frame>
 
+  Once a voice is selected, you can adjust the following parameters:
+  - **Voice speed**: controls how fast the agent speaks (default: x1).
+  - **Voice volume**: adjusts the voice volume level (default: 0.5).
+  - **Voice temperature**: regulates the variability and naturalness of the voice. Higher values produce more expressive and varied speech, while lower values produce a more consistent and predictable tone (default: 0.5).
 
-### Speech Speed
+## Agent Guidelines
+Configure general guidelines and the handling of specific terms during the conversation.
+- **Global Instructions**. Define general instructions that guide the agent's behavior during the call. These guidelines complement the prompt and **are applied consistently across all interactions**.
+- **Preferred Terms**. Add words, expressions, or proper nouns that the agent should recognize correctly. This field is especially useful for:
+  - Industry-specific vocabulary
+  - Brand or personal names
+  - Technical or uncommon terms
+- **Pronunciation Definition**. Define how certain words should be pronounced or recognized through their phonetic transcription. This improves the comprehension and pronunciation of complex or uncommon terms.
 
-Controls how fast the agent speaks. This parameter is especially useful for adapting the conversation pace according to your audience.
+<Frame>
+  <img src="/images/directrices-agente.png" alt="Agent guidelines configuration" />
+</Frame>
 
-- **Value range:** `0.25` to `2.0`
-- **Default value:** `1.0` (normal speed)
+## Call Settings
+Control the agent's behavior during the call, including background sound and silence management.
 
-## Inactivity Detection System
+- **Background Sound**. Add ambient sound while the agent executes actions or waits for a response, to avoid prolonged silences.
+- **Inactivity Detection System**. Define how the agent should act when it detects no response from the user.
+ - **Wait Time**. Indicate how long should pass without a response before the agent acts.
+   - Default value: 7 seconds
+   - **Recommendation**: avoid very low values to prevent interrupting the user.
 
 The inactivity detection system helps keep the conversation active when the user stops responding. This mechanism is fundamental to avoid long silences that end the call or create a poor experience.
 
-### How it Works
-
-When the user stops speaking for a certain time, the agent sends a reminder message to verify they're still on the line. If after several reminders there's no response, the call is automatically terminated.
-
 <Frame>
-  <img src="/images/inactivity-detection-flow.png" alt="Flow diagram showing the inactivity detection system with progressive reminders" />
+  <img src="/images/recordatorio-inactividad.png" alt="Flow diagram showing the inactivity detection system with progressive reminders" />
 </Frame>
 
-### Configurable Parameters
+- **Silence Messages**. Configure the messages the agent can use when there is no response.
+  - **Fixed messages:** A list of specific phrases the agent will use randomly.
+  - **Generated messages:** The agent will generate natural messages based on context. This is the recommended approach for a more human experience.
 
-#### Reminder Messages
-
-Define what phrases the agent will use to check if the user is still on the line. You can define:
-
-- **Fixed messages:** A list of specific phrases the agent will use randomly
-- **Generated messages:** The agent will generate natural messages based on context. This is the recommended approach for a more human experience.
-
-#### Reminder Frequency
-
-Defines how often (in milliseconds) the agent should send a reminder if it detects no activity.
-
-- **Default value:** `7500` (7.5 seconds)
-- **Recommended range:** `5000` to `15000` ms
+- **Reminder Frequency**. Define how often (in milliseconds) the agent should send a reminder if it detects no activity.
+  - **Default value:** `7500` (7.5 seconds)
+  - **Recommended range:** `5000` to `15000` ms
 
 <Warning>
 **Avoid very low values**: Frequencies below 5 seconds can cause the agent to interrupt the user while they're thinking of their response, creating a frustrating experience.
 </Warning>
 
-#### Maximum Number of Reminders
+- **Maximum Number of Reminders**. Specify how many reminders the agent will send before ending the call due to inactivity.
+  - **Default value:** `3`
+  - **Recommended range:** `2` to `5`
 
-Specifies how many reminders the agent will send before ending the call due to inactivity.
+## Knowledge Bases
+Link documents to your agent so it can consult relevant information during the call. This feature uses RAG (Retrieval-Augmented Generation) to provide additional context to the agent from your files.
+- **Supported formats**: PDF, TXT, URL
+- **How it works**
+1. Click on **Link documents**.
+2. Search and select the documents or collections you want to associate with the agent, or upload a new one.
+3. Linked documents will appear listed and you can remove them at any time.
 
-- **Default value:** `3`
-- **Recommended range:** `2` to `5`
+Once linked, the agent will automatically consult these documents when it needs additional information to respond during the call.
 
-
-## Duration Limits
-
-### Maximum Call Duration
-
-Sets the maximum time a call can last before it's automatically terminated.
-
-**Default value:** `14400000` (4 hours)
+<Note>
+To learn how to create and manage your knowledge bases, see the [Knowledge Bases guide](/ruta-a-la-guia).
+</Note>

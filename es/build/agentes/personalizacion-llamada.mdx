@@ -16,7 +16,20 @@ Todas estas configuraciones se aplican de forma global al agente, sin importar s
 Define los datos básicos que identifican a tu agente y cómo se comunica por voz.
 - **Descripción** del agente. Escribe una breve descripción del propósito del agente. Esta información te ayudará únicamente a **identificarlo fácilmente dentro de la plataforma**, en ningún caso influye el comportamiento del agente.
 - **Idioma** del agente. Selecciona el idioma en el que el agente entenderá y hablará durante la llamada.  Este ajuste afecta **tanto al reconocimiento de voz como a la síntesis de voz**, pero no a la generación de texto del modelo de lenguaje. Es importante que el idioma seleccionado coincida con el indicado en el prompt del agente.
-- **Voz** del agente. Selecciona la voz que utilizará el agente al hablar. La voz define el **timbre y el estilo de comunicación** durante la llamada.
+- **Voz** del agente. Selecciona la voz que utilizará el agente al hablar. La voz define el **timbre y el estilo de comunicación** durante la llamada. Al hacer clic en el selector de voz, se abre un modal con el catálogo completo de voces de **ElevenLabs**, donde puedes:
+  - **Filtrar** voces por género, idioma y acento.
+  - **Buscar** voces por ID.
+  - **Previsualizar** cada voz antes de seleccionarla.
+  - **Guardar voces en favoritos** para acceder rápidamente a las que más usas.
+
+<Frame>
+  <img src="/images/voces-agente.png" alt="Voces del agente" />
+</Frame>
+
+  Una vez seleccionada la voz, puedes ajustar los siguientes parámetros:
+  - **Velocidad de la voz**: controla qué tan rápido habla el agente (valor por defecto: x1).
+  - **Volumen de la voz**: ajusta el nivel de volumen de la voz (valor por defecto: 0,5).
+  - **Temperatura de la voz**: regula la variabilidad y naturalidad de la voz. Valores más altos generan un habla más expresiva y variada, mientras que valores más bajos producen un tono más consistente y predecible (valor por defecto: 0,5).
 
 ## Directrices del agente
 Configura directrices generales y el manejo de términos específicos durante la conversación.
@@ -32,13 +45,9 @@ Configura directrices generales y el manejo de términos específicos durante la
 </Frame>
 
 ## Ajustes de llamada
-Controla el comportamiento del agente durante la llamada, incluyendo ritmo de voz, sonido ambiente y gestión de silencios.
+Controla el comportamiento del agente durante la llamada, incluyendo sonido ambiente y gestión de silencios.
 
 - **Sonido de fondo**. Añade un sonido ambiente mientras el agente ejecuta acciones o espera respuesta, para evitar silencios prolongados.
-- **Velocidad de la voz**. Controla qué tan rápido habla el agente durante la llamada.
-  - Rango: 0.25× a 2.0×
-  - Valor por defecto: 1.0× (velocidad normal)
-Este ajuste permite adaptar el ritmo de conversación según tu audiencia.
 - **Sistema de detección de inactividad**. Define cómo debe actuar el agente cuando no detecta respuesta del usuario.
  - **Tiempo de espera**. Indica cuánto tiempo debe pasar sin respuesta antes de que el agente actúe.
    - Valor por defecto: 7 segundos
