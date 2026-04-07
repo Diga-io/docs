@@ -1,45 +1,69 @@
 ---
-title: Test your agent
-description: Learn how to test your agent before publishing it without leaving the editor.
+title: Test Your Agent
+description: Learn how to test your agent directly from the editor before publishing, without leaving your browser.
 ---
+## Introduction
+Before putting an agent into production, it's common to want to verify it works correctly or experiment with new changes without needing to create and publish a new version for every iteration.
 
-It is common to want to ensure that an agent works correctly before putting it into production, or simply to test new ideas without having to create a new version for every change. To achieve this, the agent editor includes an integrated testing feature that allows you to simulate calls directly from the editor, without leaving your browser.
+For this, Diga's agent editor includes an integrated testing feature that lets you simulate calls. This way, you can **interact with the agent you're editing in real time, without leaving your browser or publishing changes**.
 
-## Why test your agent?
+<Frame>
+  <img src="/images/agent-test.png" alt="Agent modal showing the test section to test your agent" />
+</Frame>
 
-Testing your agent directly from the editor allows you to quickly validate changes made to the conversational flow, the agent's responses, and the integration with external services. This is especially useful during the development phase, as you can identify and correct errors or improve the user experience without needing to publish a new version of the agent every time you make a change. Additionally, this feature is available without needing to [import](/en/telephony/sip-trunks) or [buy](/en/telephony/buy-numbers) any phone number.
+## What is it for?
+
+Testing your agent from the editor allows you to:
+
+- Validate changes in the conversational flow.
+- Check the agent's responses.
+- Verify the behavior of tools and external integrations.
+
+This feature is especially useful during the development phase, as it allows you to **detect errors and improve the call experience** without needing to publish a new version of the agent for every change.
+
+<Note>
+You don't need to buy or link any phone number to run tests.
+</Note>
+
+## Usage and metrics considerations
+
+- Test calls **do not generate logs or metrics** in the system, as they are intended solely for development and validation.
+- Minutes consumed during tests **do count** towards your plan's minute usage, just like real calls.
+
+## How to test your agent
+
+<Steps>
+  <Step title="Open the test tab">
+    In the side menu of the agent editor, click on the **Test** tab.
+  </Step>
+  <Step title="Start the test call">
+    Click the **play** button. After a short load, a test call will start with the agent's current configuration.
+  </Step>
+  <Step title="End the test">
+    When you're done, click **End test**, located at the bottom of the transcript.
+  </Step>
+</Steps>
+
+There's no need to create or publish any version: you'll be interacting directly with the agent's current configuration.
 
 <Warning>
-Keep in mind that tests performed from the editor do not generate call logs or system metrics, as they are intended solely for development and validation purposes.
+Before starting the test, make sure your microphone and speakers are correctly configured in your browser.
 </Warning>
 
-<Note>
-Minutes consumed during tests in the editor will count towards your plan's usage calculation, just like real calls.
-</Note>
+## Differences with a real call
 
-## How to test your agent?
+Test calls are not real phone calls, so some features behave differently in the testing environment.
 
-In the side menu of the agent editor, you will find a tab called "Test". Clicking on it will open the test section.
+<AccordionGroup>
+  <Accordion title="Hanging up a call">
+    - **Real call:** the call ends when the user hangs up.
+    - **Test environment:** clicking **End test** ends the call, but you can continue viewing the transcript until you close the test tab or start a new call.
+  </Accordion>
+  <Accordion title="Call transfer">
+    **Real call:**
+    - If someone answers, the call continues with the new speaker.
+    - If no one answers, the call returns to the agent.
 
-<Frame>
-  <img src="/images/test-agente-0.png" alt="Image pointing out where to find the test tab" />
-</Frame>
-
-Once inside this section, you will find a large button with a <i>play</i> symbol. Clicking this button, after a short load, will start a test call with the agent you are editing. There is no need to create any version or publish it; you will be interacting directly with the agent currently open in the editor.
-
-<Note>
-Ensure you have a microphone and speakers connected and configured in your browser to interact with the agent during the test call.
-</Note>
-
-<Frame>
-  <img src="/images/test-agente.png" alt="Image of the agent editor menu" />
-</Frame>
-
-When you have finished testing the agent, click the "End test" button, located at the bottom of the call transcript.
-
-## Final considerations
-
-Please note that tests performed in the editor are not real phone calls, so features specific to telephony (such as call transfers) work differently in the testing environment. Below are some important differences:
-
-- **Hanging up a call**: In a real call, once the call is over, the user hangs up and the call terminates. In the test environment, clicking "End test" will end the call, but you will still be able to view the transcript until you close the test tab or start a new test call.
-- **Call transfer**: In a real call, if the agent transfers the call to another number, the call is redirected to that number; if someone answers, the call continues with the new speaker; if no one answers, the call returns to the agent. In the test environment, when reaching a transfer node, the call is always continued by the agent, as if no one had answered the transfer.
+    **Test environment:** when the agent reaches a transfer node, the call always continues with the agent, as if the transfer was not answered. This allows you to keep observing the conversational behavior during the test.
+  </Accordion>
+</AccordionGroup>

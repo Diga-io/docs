@@ -3,20 +3,22 @@ title: "Crea tu primer agente"
 description: "Guia paso a paso para crear tu primer agente en Diga"
 ---
 
-Diga facilita la creación de agentes conversacionales que pueden atender llamadas de manera natural. En esta guía rápida, te mostraremos:
+Diga facilita la creación de agentes conversacionales que pueden atender llamadas de manera natural. Puedes empezar desde cero o usar una **plantilla predefinida** para acelerar la configuración. En esta guía rápida, te mostraremos:
 - Cómo crear un nuevo agente en la plataforma Diga.
+- Cómo elegir entre empezar desde cero o usar una plantilla.
 - Cómo configurar lo básico del agente.
 - Cómo asignar un número de teléfono al agente.
 - Cómo probar tu agente realizando una llamada.
 
 > **¿No tienes una cuenta?** [Regístrate aquí](https://app.diga.io/dashboard) para comenzar.
 
-## Pasos para crear tu primer agente
+## Crear un agente desde cero
 
 <Steps>
     <Step title="Crea un nuevo agente">
         1. Navega a "Agente" en el panel lateral izquierdo.
         2. Haz clic en el botón "Crear Agente".
+        3. Selecciona **Empezar desde cero**.
         <Frame>
         <img src="/images/Agentes empty state.png" alt="Crear agente" />
         </Frame>
@@ -36,7 +38,8 @@ Diga facilita la creación de agentes conversacionales que pueden atender llamad
         <Frame>
         <img src="/images/agente-prompt-hecho.png" alt="Configura agente" />
         </Frame>
-    </Step>   <Step title="Publica el agente en un número de teléfono">
+    </Step>
+    <Step title="Publica el agente en un número de teléfono">
         1. Haz clic en "Crear Versión" en la esquina superior derecha.
         2. Selecciona "Publicar al crear version".
         3. Selecciona un número existente o [compra uno nuevo](/es/telefonia/comprar-numeros).
@@ -47,14 +50,26 @@ Diga facilita la creación de agentes conversacionales que pueden atender llamad
     </Step>
 </Steps>
 
-<Icon icon="party-popper" iconType="solid" /> ¡Felicidades! Has creado y publicado tu primer agente en Diga. Este agente esta listo para recibir llamadas en el número asignado.
+## Crear un agente desde una plantilla
+
+También puedes empezar con un agente preconfigurado. Al hacer clic en **Crear Agente**, selecciona **Empezar desde una plantilla**, elige la que mejor se adapte a tu caso de uso, previsualízala y haz clic en **Usar plantilla**. Solo tendrás que conectar tus propias credenciales, bases de conocimiento y ajustar el prompt a tu negocio.
+
+<Card
+    title="Guía completa de plantillas de agente"
+    icon="copy"
+    href="/es/build/agentes/plantillas-agente"
+  >
+    Aprende a usar, previsualizar y personalizar plantillas de agente paso a paso.
+</Card>
+
+<Icon icon="party-popper" iconType="solid" /> ¡Felicidades! Has creado y publicado tu primer agente en Diga. Este agente está listo para recibir llamadas en el número asignado.
 
 ## Siguientes pasos
 
-Ahora que has creado tu primer agente, puedes explorar las siguientes guías para mejorar y personalizar tu agente segúen el caso de uso:
+Ahora que has creado tu primer agente, puedes explorar las siguientes guías para mejorar y personalizar tu agente según el caso de uso:
 <Columns cols={2}>
   <Card
-    title="Constuir prompts efectivos"
+    title="Construir prompts efectivos"
     icon="wand-sparkles"
     href="/es/build/agentes/prompt-unico"
   >
@@ -65,9 +80,9 @@ Ahora que has creado tu primer agente, puedes explorar las siguientes guías par
     icon="/icons/dataflow-04.svg"
     href="/es/build/agentes/camino-conversacional"
   >
-   Construye flujos complejos para interacciones avanzadas. 
+   Construye flujos complejos para interacciones avanzadas.
   </Card>
-</Columns> 
+</Columns>
 <Card
     title="Añade integraciones externas"
     icon="cable"

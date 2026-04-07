@@ -70,6 +70,7 @@
                         ]
                       },
                       "es/build/agentes/personalizacion-llamada",
+                      "es/build/agentes/plantillas-agente",
                       "es/build/agentes/variables-dinamicas",
                       "es/build/agentes/control-versiones",
                       "es/build/agentes/herramientas-llamada",
@@ -172,6 +173,7 @@
                         ]
                       },
                       "en/build/agents/call-customization",
+                      "en/build/agents/agent-templates",
                       "en/build/agents/dynamic-variables",
                       "en/build/agents/version-control",
                       "en/build/agents/call-tools",

@@ -1,0 +1,75 @@
+---
+title: "Plantillas de Agente"
+description: "Empieza rápido con agentes preconfigurados que incluyen prompt, flujos, integraciones y bases de conocimiento listas para personalizar"
+---
+
+## ¿Qué son las plantillas de agente?
+
+Las plantillas son agentes preconfigurados diseñados para casos de uso comunes. Cada plantilla incluye un **prompt**, un **toolkit asociado** (flujos, integraciones, bases de conocimiento) y una estructura lista para que la personalices con tus propios datos.
+
+En lugar de construir todo desde cero, puedes seleccionar una plantilla, revisar su configuración y adaptarla a tu negocio en minutos.
+
+## Cómo usar una plantilla
+
+<Steps>
+    <Step title="Accede al selector de plantillas">
+        1. Navega a "Agente" en el panel lateral izquierdo.
+        2. Haz clic en el botón **Crear Agente**.
+        3. Selecciona **Empezar desde una plantilla**.
+    </Step>
+    <Step title="Explora y elige una plantilla">
+        Verás las plantillas disponibles organizadas por caso de uso. Cada una muestra una breve descripción de lo que hace y el tipo de agente (prompt único o camino conversacional).
+     <Frame>
+  <img src="/images/templates.png" alt="templates" />
+</Frame>
+    </Step>
+    <Step title="Previsualiza la plantilla">
+        Antes de usarla, haz clic en una plantilla para ver su configuración completa:
+        - **Prompt o camino conversacional**: la lógica de conversación preconfigurada.
+        - **Flujos**: automatizaciones pre y post-llamada incluidas.
+        - **Integraciones**: conexiones a servicios externos que utiliza el agente.
+        - **Bases de conocimiento**: documentos de referencia vinculados.
+
+        Esto te permite evaluar si la plantilla se adapta a tu caso de uso antes de empezar.
+    </Step>
+    <Step title="Usa la plantilla">
+        Cuando estés listo, haz clic en **Usar plantilla**. El agente se cargará en el constructor con toda la configuración de la plantilla aplicada.
+    </Step>
+</Steps>
+
+## Personalizar una plantilla
+
+Una vez cargada la plantilla, el agente está listo para que lo adaptes. La plantilla señala los campos que necesitan tu configuración para que el agente esté operativo.
+
+### Conexiones
+
+Los flujos e integraciones incluidos en la plantilla necesitan tus propias credenciales para funcionar. Conecta tus cuentas de los servicios externos que utiliza el agente (CRM, email, hojas de cálculo, etc.).
+
+<Tip>
+Si aún no has configurado conexiones, consulta la guía de [Conexiones](/es/plataforma/conexiones) para aprender a autorizarlas.
+</Tip>
+
+### Bases de conocimiento
+
+Añade los documentos relevantes para tu caso de uso. Las plantillas suelen indicar qué tipo de información necesita el agente para responder correctamente.
+
+En agentes de **camino conversacional**, la plantilla señala en qué nodo es recomendable vincular cada base de conocimiento, para que la información esté disponible en el momento adecuado de la conversación.
+
+### Flujos
+
+Si la plantilla incluye flujos (automatizaciones pre o post-llamada), revisa que estén conectados a tus servicios y ajusta los pasos según tus necesidades.
+
+### Prompt e instrucciones
+
+Adapta el contenido del prompt a tu negocio: nombre de la empresa, tono de comunicación, información específica de tus productos o servicios, y cualquier instrucción particular.
+
+## Publicar el agente
+
+Una vez que hayas personalizado la plantilla:
+
+1. Haz clic en **Crear Versión** en la esquina superior derecha.
+2. Selecciona **Publicar al crear versión**.
+3. Selecciona un número existente o [compra uno nuevo](/es/telefonia/comprar-numeros).
+4. Dale a publicar.
+
+<Icon icon="party-popper" iconType="solid" /> Tu agente basado en plantilla está listo para recibir llamadas.
