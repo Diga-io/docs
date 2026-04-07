@@ -1,0 +1,135 @@
+---
+title: "Introducción a los Flujos"
+description: "Orquesta automatizaciones multi-paso antes, durante y después de las llamadas de tus agentes"
+---
+
+## ¿Qué son los Flujos?
+
+Los flujos son automatizaciones multi-paso que conectan las llamadas de tus agentes con servicios externos a través de un constructor visual. Donde una [integración](/es/build/integraciones/introduccion) gestiona una sola llamada a la API, un flujo te permite encadenar múltiples pasos entre distintos servicios, con lógica y condiciones entre ellos.
+
+Por ejemplo, cuando una llamada termina, un flujo puede extraer los puntos clave de la transcripción, crear un trato en HubSpot, añadir una fila a Google Sheets y notificar a tu equipo en Slack, todo como una secuencia automatizada.
+
+<Note>
+  Los flujos son opcionales. Tus agentes funcionan sin ellos. Úsalos cuando necesites orquestar múltiples pasos o servicios, no solo llamar a un endpoint.
+</Note>
+
+## Flujos vs Integraciones
+
+Ambas herramientas conectan tus agentes con servicios externos, pero sirven propósitos distintos:
+
+| | Integraciones | Flujos |
+|---|---|---|
+| **Qué hacen** | Llaman a un endpoint de API | Encadenan múltiples pasos entre servicios |
+| **Cuándo se ejecutan** | Solo durante la llamada | Antes, durante o después de la llamada |
+| **Configuración** | Configuras endpoint + parámetros | Constructor visual con más de 200 piezas |
+| **Lógica** | Ninguna | Condiciones, bucles, retrasos, código |
+| **Ideal para** | Consultar o escribir datos en un sistema | Orquestar entre múltiples sistemas |
+
+**Usa una integración** cuando tu agente necesite consultar un endpoint y devolver el resultado a la conversación. Por ejemplo, verificar el estado de un pedido en tu base de datos o crear un ticket en tu CRM.
+
+**Usa un flujo** cuando necesites algo más: varios servicios implicados, procesamiento post-llamada, campañas de llamadas salientes, o cualquier lógica que vaya más allá de una sola solicitud.
+
+## Tipos de Flujos
+
+<CardGroup cols={3}>
+  <Card title="Post-llamada" icon="circle-check">
+    Se ejecutan automáticamente cuando una llamada termina. Ideales para registrar, notificar y actualizar sistemas con los datos de la llamada.
+  </Card>
+  <Card title="Durante llamada" icon="bolt">
+    Se ejecutan como herramientas del agente en mitad de la conversación. Úsalos cuando una sola llamada a la API no es suficiente y necesitas encadenar pasos o transformar datos.
+  </Card>
+  <Card title="Pre-llamada" icon="phone-outgoing">
+    Inician llamadas salientes desde un flujo. Se disparan por eventos externos como formularios completados, actualizaciones en el CRM o una programación horaria.
+  </Card>
+</CardGroup>
+
+### Post-llamada
+
+Los flujos post-llamada se activan automáticamente cuando una llamada finaliza. El flujo recibe todos los datos de la llamada: transcripción, duración, información del contacto, variables dinámicas e historial completo de mensajes.
+
+**Casos de uso comunes:**
+- Resumir la llamada y enviarlo por email
+- Actualizar un registro en tu CRM (HubSpot, Salesforce, etc.) y crear una tarea de seguimiento
+- Crear un ticket de soporte y adjuntar la transcripción
+- Registrar datos estructurados en Google Sheets y lanzar una notificación en Slack
+- Ejecutar lógica condicional, por ejemplo para escalar a un humano solo si la llamada terminó sin resolución
+
+### Durante llamada
+
+Los flujos durante llamada actúan como herramientas que el agente puede invocar mientras habla con el usuario. El agente detecta cuando necesita información externa, ejecuta el flujo y usa la respuesta para continuar la conversación.
+
+Usa un flujo aquí (en lugar de una integración) cuando necesites hacer más de una cosa: por ejemplo, buscar la cuenta de un cliente, luego verificar sus pedidos abiertos, y después formatear los datos combinados antes de devolverlos al agente.
+
+**Casos de uso comunes:**
+- Consultar múltiples sistemas y combinar los resultados
+- Obtener datos y ramificar condicionalmente según la respuesta
+- Transformar o enriquecer datos antes de devolverlos al agente
+- Realizar una reserva que requiere llamar a varias APIs en secuencia
+
+<Tip>
+  Los flujos durante llamada admiten modo **síncrono** (el agente espera) y modo **asíncrono** (el agente sigue hablando mientras se ejecuta). Consulta la [Pieza de Diga](/es/build/flujos/pieza-diga) para más detalles.
+</Tip>
+
+### Pre-llamada
+
+Los flujos pre-llamada utilizan la acción **Hacer llamada** de la pieza de Diga para iniciar llamadas salientes. Pueden ser disparados por cualquier evento externo: un cambio en un registro del CRM, un formulario completado, una hora programada o un webhook.
+
+**Casos de uso comunes:**
+- Llamar a leads automáticamente después de que completen un formulario
+- Campañas de seguimiento programadas
+- Llamadas de confirmación después de una reserva
+- Recordatorios de citas disparados por tu sistema de calendario
+
+## Conceptos Clave
+
+### Piezas
+
+Las piezas son los conectores que proporcionan triggers y acciones para servicios específicos. Hay más de 200 disponibles: Google Sheets, Slack, HubSpot, Gmail, Stripe y muchos más. La [pieza de Diga](/es/build/flujos/pieza-diga) es la que conecta los flujos con tus llamadas.
+
+### Triggers
+
+Un trigger es el evento que inicia un flujo. Cada flujo tiene exactamente uno. La pieza de Diga proporciona dos triggers específicos para llamadas:
+
+- **Llamada finalizada**: se activa cuando una llamada termina
+- **Llamada a función**: se activa en mitad de la llamada cuando el agente necesita ejecutar una acción
+
+### Acciones
+
+Las acciones son los pasos que se ejecutan después del trigger. Cada acción recibe los datos de todos los pasos anteriores, por lo que la información fluye a través de la cadena. Puedes usar la transcripción del paso 1 en el email del paso 4, por ejemplo.
+
+### Conexiones
+
+Las conexiones son las credenciales que las piezas usan para acceder a servicios externos (claves de API, tokens OAuth). Las autorizas una vez y las reutilizas en todos tus flujos. Consulta [Conexiones](/es/build/flujos/conexiones) para más detalles.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Crear un flujo"
+    icon="plus"
+    href="/es/build/flujos/crear-flujos"
+  >
+    Construye tu primer flujo paso a paso en el constructor visual.
+  </Card>
+  <Card
+    title="Usar plantillas"
+    icon="copy"
+    href="/es/build/flujos/plantillas"
+  >
+    Empieza rápido con flujos pre-configurados.
+  </Card>
+  <Card
+    title="Asignar flujos a agentes"
+    icon="link"
+    href="/es/build/flujos/asignar-agentes"
+  >
+    Conecta tus flujos con agentes para que se ejecuten.
+  </Card>
+  <Card
+    title="La pieza de Diga"
+    icon="puzzle"
+    href="/es/build/flujos/pieza-diga"
+  >
+    Triggers y acciones específicos para llamadas de Diga.
+  </Card>
+</CardGroup>

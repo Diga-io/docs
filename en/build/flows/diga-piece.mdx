@@ -1,0 +1,250 @@
+---
+title: "The Diga Piece"
+description: "Complete reference for Diga triggers and actions to connect workflows with calls"
+---
+
+## What is the Diga Piece?
+
+The Diga piece is the component that connects your workflows with your agent calls. It provides triggers to react to call events and actions to interact with Diga's telephony system.
+
+<CardGroup cols={2}>
+  <Card title="Triggers" icon="zap">
+    Start a workflow when a call event occurs
+  </Card>
+  <Card title="Actions" icon="play">
+    Execute operations within a running workflow
+  </Card>
+</CardGroup>
+
+## Triggers
+
+### Call Finished
+
+Activates automatically when a call ends. This is the main trigger for **post-call** workflows.
+
+#### Data received
+
+When this trigger fires, the workflow receives all call information:
+
+| Field | Description |
+|---|---|
+| `call_id` | Unique call identifier |
+| `status` | Final call status |
+| `duration` | Duration in seconds |
+| `type` | Call type (`inbound` or `outbound`) |
+| `end_reason` | Reason the call ended |
+| `phone_number` | Contact's phone number |
+| `contact_id` | Contact identifier |
+| `agent_id` | Agent identifier |
+| `start_time` | Start date and time |
+| `end_time` | End date and time |
+| `dynamic_variables` | Dynamic variables passed to the agent |
+| `messages` | Complete message history (transcription) |
+
+Each message in the `messages` array includes:
+- `role` — Who spoke (`user` or `assistant`)
+- `content` — The message text
+- `created_date` — When it was sent
+
+<Tip>
+  You can use any of these fields in your workflow actions. For example, insert the full transcription into an email or send the duration to a spreadsheet.
+</Tip>
+
+#### Configuration
+
+This trigger requires no additional configuration. You just need to [assign the workflow to an agent](/en/build/flows/assign-agents) for it to activate.
+
+---
+
+### Function Call
+
+Activates during a call when the agent decides to execute a function. This is the trigger for **during-call** workflows. The agent uses it as another tool, similar to [integrations](/en/build/integrations/introduction).
+
+#### Configuration
+
+| Field | Description |
+|---|---|
+| **Function description** | Natural language instruction telling the agent when to use this function. Example: "Use this function when the user wants to check appointment availability" |
+| **Parameters** | Data the agent should extract from the conversation. For each parameter you define: name, data type, whether it's required, and a description |
+| **Execution mode** | Synchronous or asynchronous (see below) |
+| **User confirmation** | Whether the agent should ask for confirmation before executing |
+
+#### Parameters
+
+Parameters define what information the agent extracts from the conversation to send to the workflow. For example, for a "Check availability" workflow:
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `date` | Text | Yes | The date to check availability for |
+| `service` | Text | No | The type of service requested |
+
+The agent automatically extracts these values from the conversation context and sends them to the workflow.
+
+#### Data received
+
+| Field | Description |
+|---|---|
+| `call_id` | Identifier of the ongoing call |
+| `function_name` | Name of the executed function |
+| `arguments` | Parameters extracted by the agent |
+| `agent_id` | Agent identifier |
+| `contact_id` | Contact identifier |
+| `dynamic_variables` | Dynamic variables from the call |
+| `timestamp` | Execution timestamp |
+
+#### Synchronous vs Asynchronous Mode
+
+<AccordionGroup>
+  <Accordion title="Synchronous mode">
+    The agent **waits** for the workflow to finish and receives the response. Use this when the agent needs the information to continue the conversation.
+
+    **Example**: Check appointment availability. The agent asks for the date, executes the workflow, waits for the response, and tells the user the available time slots.
+
+    **Important**: In synchronous mode, the workflow must include the **Return Response** action as the last step to send data back to the agent. The maximum wait time is 60 seconds.
+
+    <Warning>
+      If the workflow takes more than 60 seconds or doesn't include the **Return Response** action, the agent will receive an error and continue the conversation without the data.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="Asynchronous mode">
+    The agent **doesn't wait** for the response and continues the conversation. Use this for actions where you don't need an immediate response.
+
+    **Example**: Log an incident in a ticketing system. The agent confirms to the user that it's been logged and continues, without waiting for the workflow to complete all actions.
+  </Accordion>
+</AccordionGroup>
+
+#### User confirmation
+
+When you enable user confirmation, the agent explains to the user what action it's about to perform and asks for confirmation before executing the workflow. This is useful for sensitive actions like processing payments or making bookings.
+
+**Example conversation:**
+```
+User: "I'd like to book an appointment for tomorrow at 10"
+Agent: "Sure, I'll book an appointment for tomorrow Thursday at 10:00. Can you confirm?"
+User: "Yes, go ahead"
+Agent: [executes the workflow]
+```
+
+## Actions
+
+### Make Call
+
+Initiates an outbound call from a workflow. This action turns any workflow into a call trigger, allowing you to create automated campaigns or calls reactive to external events.
+
+#### Configuration
+
+| Field | Description |
+|---|---|
+| **From number** | The Diga phone number the call will be made from. Selected from your project's available numbers |
+| **To number** | The number to call. Can be a fixed or dynamic value (data from a previous step) |
+| **Agent version** | The agent version that will handle the call (optional) |
+| **Dynamic variables** | Variables to pass to the agent during the call (optional) |
+
+#### Use cases
+
+<AccordionGroup>
+  <Accordion title="Lead follow-up">
+    Connect a CRM trigger (new lead created) with the Make Call action to automatically contact new leads.
+
+    ```
+    Trigger: New lead in HubSpot
+    → Action: Make call to lead's number
+       - Agent: "Qualification agent"
+       - Variables: lead name, source, product of interest
+    ```
+  </Accordion>
+
+  <Accordion title="Appointment reminders">
+    Use a schedule trigger to call clients and remind them of their appointments.
+
+    ```
+    Trigger: Schedule (24h before each appointment)
+    → Action: Look up next day's appointments
+    → Action: Make call to each contact
+       - Agent: "Reminder agent"
+       - Variables: appointment date, service, address
+    ```
+  </Accordion>
+
+  <Accordion title="Post-form calls">
+    Connect a webhook with the Make Call action to contact users who complete a web form.
+
+    ```
+    Trigger: Webhook (form completed)
+    → Action: Make call to form's phone number
+       - Agent: "Sales agent"
+       - Variables: name, email, inquiry
+    ```
+  </Accordion>
+</AccordionGroup>
+
+---
+
+### Return Response
+
+Returns data to the agent during a call. This action is **required** in during-call workflows with **synchronous** mode. It's the last step of the workflow and contains the information the agent needs to continue the conversation.
+
+#### Configuration
+
+| Field | Description |
+|---|---|
+| **Response type** | JSON or plain text |
+| **Content** | The data to return. Can include data from previous steps |
+
+#### Example
+
+A workflow that checks appointment availability:
+
+```
+Trigger: Function Call (parameters: date, service)
+→ Action: Query calendar API (HTTP request)
+→ Action: Return Response
+   - Type: JSON
+   - Content: { "slots": ["10:00", "11:30", "15:00"], "service": "General consultation" }
+```
+
+The agent receives this data and tells the user: "I have availability at 10:00, 11:30, and 15:00 for a general consultation. Which would you prefer?"
+
+## Referencing Data Between Steps
+
+In any action, you can use data from previous steps. Click on an input field to see the available data from all previous steps.
+
+**Reference examples:**
+- Trigger data: transcription, duration, function parameters
+- Previous action data: API response, query result
+
+This lets you build workflows where information flows naturally from one step to the next.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Create workflows"
+    icon="plus"
+    href="/en/build/flows/creating-workflows"
+  >
+    Put these triggers and actions into practice by creating your first workflow.
+  </Card>
+  <Card
+    title="Assign to agents"
+    icon="link"
+    href="/en/build/flows/assign-agents"
+  >
+    Connect your workflows with agents to activate them.
+  </Card>
+  <Card
+    title="Templates"
+    icon="copy"
+    href="/en/build/flows/templates"
+  >
+    Use templates that already include the Diga piece configured.
+  </Card>
+  <Card
+    title="Integrations"
+    icon="plug"
+    href="/en/build/integrations/introduction"
+  >
+    Compare workflows with direct integrations in the agent.
+  </Card>
+</CardGroup>

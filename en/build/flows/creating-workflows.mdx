@@ -1,0 +1,171 @@
+---
+title: "Creating Workflows"
+description: "Step-by-step guide to creating automation workflows in the visual builder"
+---
+
+## Accessing the Workflow Builder
+
+To start creating workflows, go to the **Workflows** section from the dashboard sidebar. Here you'll see all your existing workflows and can create new ones.
+
+<Frame>
+  <img src="/images/flujos-lista-placeholder.png" alt="Workflow list in the dashboard" />
+</Frame>
+
+## Creating a Workflow from Scratch
+
+<Steps>
+  <Step title="Create a new workflow">
+    Click **Create workflow** in the top right corner. The visual builder will open with an empty workflow.
+  </Step>
+
+  <Step title="Select a trigger">
+    The first step in any workflow is the trigger: the event that starts it. Click the trigger block and select the piece you want to use.
+
+    For workflows connected to Diga calls, select the **Diga piece** and choose one of its triggers:
+
+    - **Call Finished** — For post-call workflows
+    - **Function Call** — For during-call workflows
+
+    If you want to create a pre-call workflow, you can use any external trigger (time schedule, webhook, CRM event, etc.) and then add the Diga **Make Call** action.
+
+    <Frame>
+      <img src="/images/flujos-trigger-placeholder.png" alt="Trigger selection in the workflow builder" />
+    </Frame>
+  </Step>
+
+  <Step title="Configure the trigger">
+    Each trigger has configuration options. For example, the **Function Call** trigger lets you define:
+
+    - When the agent should execute this function (natural language description)
+    - What parameters to extract from the conversation
+    - Whether execution is synchronous or asynchronous
+    - Whether user confirmation is required
+
+    See the [Diga Piece](/en/build/flows/diga-piece) for details on each trigger.
+  </Step>
+
+  <Step title="Test the trigger">
+    Before continuing, test the trigger to generate sample data. This data will be used to configure subsequent steps. Click **Test trigger** and follow the instructions for your trigger type.
+  </Step>
+
+  <Step title="Add actions">
+    Click the **+** button below the trigger to add actions. Select a piece and the specific action you want to perform.
+
+    For example:
+    - **Google Sheets** → Add row (to log call data)
+    - **Slack** → Send message (to notify your team)
+    - **HTTP** → Make request (to call any API)
+
+    <Frame>
+      <img src="/images/flujos-acciones-placeholder.png" alt="Adding actions to the workflow" />
+    </Frame>
+  </Step>
+
+  <Step title="Connect data between steps">
+    Each action can use data from previous steps. When configuring a field, click on it to open the **available data** panel. You'll see the output data from all previous steps.
+
+    For example, you can insert the call transcription (from the trigger) into the body of an email (in a Gmail action).
+
+    <Tip>
+      Test each step individually to verify data flows correctly before moving to the next one.
+    </Tip>
+  </Step>
+
+  <Step title="Publish the workflow">
+    When you've finished configuring all actions, click **Publish**. This creates a published version of the workflow that's ready to execute.
+  </Step>
+</Steps>
+
+## Draft vs Published
+
+Workflows have a versioning system with two states:
+
+<CardGroup cols={2}>
+  <Card title="Draft" icon="pencil">
+    The version you're editing. Changes in the draft don't affect the workflow running in production. You can experiment without risk.
+  </Card>
+  <Card title="Published" icon="circle-check">
+    The active version that executes when the trigger fires. Once published, this version is frozen.
+  </Card>
+</CardGroup>
+
+This means you can keep editing a workflow while the published version continues running normally. When you're satisfied with your changes, publish again to update the active version.
+
+<Note>
+  A workflow must be **published** before it can be enabled. If you try to enable a draft-only workflow, it won't activate.
+</Note>
+
+## Enabling and Disabling Workflows
+
+Once published, you can enable or disable a workflow at any time:
+
+- **Enabled**: The workflow executes when the trigger fires
+- **Disabled**: The workflow exists but doesn't execute
+
+This is useful for temporarily pausing a workflow without losing its configuration.
+
+## Logic and Flow Control
+
+Beyond linear actions, you can add logic to your workflows:
+
+<AccordionGroup>
+  <Accordion title="Conditions (Branch)">
+    Add if/else branches to execute different actions based on conditions. For example, send a different email depending on whether the call lasted more or less than 5 minutes.
+  </Accordion>
+
+  <Accordion title="Loops">
+    Iterate over a list of items. Useful when you need to process multiple records, like sending messages to a list of contacts.
+  </Accordion>
+
+  <Accordion title="Delays">
+    Pause workflow execution for a set time. Useful for waiting before executing a follow-up action.
+  </Accordion>
+
+  <Accordion title="Custom code">
+    If you need specific logic, you can add a JavaScript/TypeScript code step to transform data or perform custom operations.
+  </Accordion>
+</AccordionGroup>
+
+## Execution History
+
+Every time a workflow executes, it's recorded in the execution history. From here you can see:
+
+- The status of each execution (successful or failed)
+- The input and output data of each step
+- The exact time of each execution
+- Detailed errors if any step failed
+
+This is very useful for debugging issues and verifying your workflows work correctly.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Use templates"
+    icon="copy"
+    href="/en/build/flows/templates"
+  >
+    Get started quickly with pre-configured workflows.
+  </Card>
+  <Card
+    title="Assign to agents"
+    icon="link"
+    href="/en/build/flows/assign-agents"
+  >
+    Connect your workflows with agents so they execute.
+  </Card>
+  <Card
+    title="The Diga piece"
+    icon="puzzle"
+    href="/en/build/flows/diga-piece"
+  >
+    Learn about Diga's triggers and actions.
+  </Card>
+  <Card
+    title="Introduction to workflows"
+    icon="book-open"
+    href="/en/build/flows/introduction"
+  >
+    Review the fundamental workflow concepts.
+  </Card>
+</CardGroup>

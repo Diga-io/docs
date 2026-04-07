@@ -1,0 +1,84 @@
+---
+title: "Plantillas de Flujos"
+description: "Usa flujos pre-configurados para empezar rápidamente con automatizaciones probadas"
+---
+
+## ¿Qué son las Plantillas?
+
+Las plantillas son flujos pre-configurados que puedes copiar a tu proyecto con un solo clic. Cada plantilla incluye el trigger, las acciones y la lógica necesaria para un caso de uso específico. Solo necesitas completar las variables (como claves de API o IDs) y estarás listo para empezar.
+
+<Note>
+  Cuando copias una plantilla, se crea una copia independiente en tu proyecto. Puedes modificarla libremente sin afectar la plantilla original.
+</Note>
+
+## Usar una Plantilla
+
+<Steps>
+  <Step title="Accede a las plantillas">
+    Desde la sección **Flujos** del dashboard, haz clic en **Plantillas** para ver el catálogo de plantillas disponibles.
+
+    <Frame>
+      <img src="/images/flujos-plantillas-placeholder.png" alt="Catálogo de plantillas de flujos" />
+    </Frame>
+  </Step>
+
+  <Step title="Selecciona una plantilla">
+    Haz clic en la plantilla que quieras usar para ver sus detalles: qué hace, qué piezas utiliza y qué variables necesitas configurar.
+  </Step>
+
+
+  <Step title="Copia la plantilla">
+    Haz clic en **Usar Plantilla** para crear el flujo en tu proyecto. El flujo se creará en estado **deshabilitado** para que puedas revisarlo antes de activarlo.
+  </Step>
+
+  <Step title="Configura las variables">
+    Cada plantilla puede tener variables que necesitas rellenar antes de copiar. Por ejemplo:
+
+    - Una clave de API para conectar con un servicio externo
+    - Una URL de webhook
+    - Un ID de canal de Slack o spreadsheet de Google
+
+  </Step>
+
+  <Step title="Configura las conexiones">
+    Si la plantilla usa piezas que requieren autenticación (Gmail, Slack, HubSpot, etc.), se te pedirá que configures las conexiones necesarias. Esto autoriza a la pieza a acceder a tu cuenta del servicio.
+  </Step>
+
+  <Step title="Revisa y habilita">
+    Revisa que la configuración sea correcta y publícalo. Una vez publicado, habilítalo para que empiece a ejecutarse.
+  </Step>
+</Steps>
+
+<Warning>
+  Recuerda que después de copiar la plantilla necesitas **publicar** y luego **habilitar** el flujo. También debes [asignar el flujo a un agente](/es/build/flujos/asignar-agentes) si usa triggers de Diga (Llamada finalizada o Llamada a función).
+</Warning>
+
+## Modificar una Plantilla Copiada
+
+Una vez copiada, la plantilla es un flujo normal que puedes modificar como quieras:
+
+- Añadir o eliminar acciones
+- Cambiar la lógica de las condiciones
+- Ajustar los datos que se envían a cada servicio
+- Agregar pasos adicionales
+
+Esto te permite usar la plantilla como punto de partida y personalizarla según tus necesidades.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Crear flujos desde cero"
+    icon="plus"
+    href="/es/build/flujos/crear-flujos"
+  >
+    Aprende a construir flujos personalizados paso a paso.
+  </Card>
+  <Card
+    title="Asignar flujos a agentes"
+    icon="link"
+    href="/es/build/flujos/asignar-agentes"
+  >
+    Conecta tus flujos con agentes para activarlos.
+  </Card>
+</CardGroup>

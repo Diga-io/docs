@@ -1,0 +1,171 @@
+---
+title: "Crear Flujos"
+description: "Guía paso a paso para crear flujos de automatización en el constructor visual"
+---
+
+## Acceder al Constructor de Flujos
+
+Para empezar a crear flujos, accede a la sección **Flujos** desde el menú lateral del dashboard. Aquí verás todos tus flujos existentes y podrás crear nuevos.
+
+<Frame>
+  <img src="/images/flujos-lista-placeholder.png" alt="Lista de flujos en el dashboard" />
+</Frame>
+
+## Crear un Flujo desde Cero
+
+<Steps>
+  <Step title="Crea un nuevo flujo">
+    Haz clic en **Crear flujo** en la esquina superior derecha. Se abrirá el constructor visual con un flujo vacío.
+  </Step>
+
+  <Step title="Selecciona un trigger">
+    El primer paso de cualquier flujo es el trigger: el evento que lo inicia. Haz clic en el bloque de trigger y selecciona la pieza que quieres usar.
+
+    Para flujos conectados a llamadas de Diga, selecciona la **pieza de Diga** y elige uno de sus triggers:
+
+    - **Llamada finalizada** — Para flujos post-llamada
+    - **Llamada a función** — Para flujos durante llamada
+
+    Si quieres crear un flujo pre-llamada, puedes usar cualquier trigger externo (programación horaria, webhook, evento de CRM, etc.) y luego añadir la acción **Hacer llamada** de Diga.
+
+    <Frame>
+      <img src="/images/flujos-trigger-placeholder.png" alt="Selección de trigger en el constructor de flujos" />
+    </Frame>
+  </Step>
+
+  <Step title="Configura el trigger">
+    Cada trigger tiene opciones de configuración. Por ejemplo, el trigger de **Llamada a función** te permite definir:
+
+    - Cuándo el agente debe ejecutar esta función (descripción en lenguaje natural)
+    - Qué parámetros debe extraer de la conversación
+    - Si la ejecución es síncrona o asíncrona
+    - Si requiere confirmación del usuario
+
+    Consulta la [Pieza de Diga](/es/build/flujos/pieza-diga) para detalles de cada trigger.
+  </Step>
+
+  <Step title="Prueba el trigger">
+    Antes de continuar, prueba el trigger para generar datos de ejemplo. Estos datos se usarán para configurar los pasos siguientes. Haz clic en **Probar trigger** y sigue las instrucciones según el tipo de trigger.
+  </Step>
+
+  <Step title="Añade acciones">
+    Haz clic en el botón **+** debajo del trigger para añadir acciones. Selecciona una pieza y la acción específica que quieres realizar.
+
+    Por ejemplo:
+    - **Google Sheets** → Añadir fila (para registrar datos de la llamada)
+    - **Slack** → Enviar mensaje (para notificar al equipo)
+    - **HTTP** → Hacer petición (para llamar a cualquier API)
+
+    <Frame>
+      <img src="/images/flujos-acciones-placeholder.png" alt="Añadir acciones al flujo" />
+    </Frame>
+  </Step>
+
+  <Step title="Conecta datos entre pasos">
+    Cada acción puede usar datos de los pasos anteriores. Al configurar un campo, haz clic en él para abrir el panel de **datos disponibles**. Verás los datos de salida de todos los pasos anteriores.
+
+    Por ejemplo, puedes insertar la transcripción de la llamada (del trigger) en el cuerpo de un email (en una acción de Gmail).
+
+    <Tip>
+      Prueba cada paso individualmente para verificar que los datos fluyen correctamente antes de continuar al siguiente.
+    </Tip>
+  </Step>
+
+  <Step title="Publica el flujo">
+    Cuando hayas terminado de configurar todas las acciones, haz clic en **Publicar**. Esto crea una versión publicada del flujo que está lista para ejecutarse.
+  </Step>
+</Steps>
+
+## Borrador vs Publicado
+
+Los flujos tienen un sistema de versiones con dos estados:
+
+<CardGroup cols={2}>
+  <Card title="Borrador" icon="pencil">
+    La versión que estás editando. Los cambios en borrador no afectan al flujo que está en producción. Puedes experimentar sin riesgo.
+  </Card>
+  <Card title="Publicado" icon="circle-check">
+    La versión activa que se ejecuta cuando se dispara el trigger. Una vez publicada, esta versión queda congelada.
+  </Card>
+</CardGroup>
+
+Esto significa que puedes seguir editando un flujo mientras la versión publicada sigue funcionando normalmente. Cuando estés satisfecho con los cambios, publica de nuevo para actualizar la versión activa.
+
+<Note>
+  Un flujo debe estar **publicado** antes de poder habilitarlo. Si intentas habilitar un flujo que solo tiene borrador, no se activará.
+</Note>
+
+## Habilitar y Deshabilitar Flujos
+
+Una vez publicado, puedes habilitar o deshabilitar un flujo en cualquier momento:
+
+- **Habilitado**: El flujo se ejecuta cuando se dispara el trigger
+- **Deshabilitado**: El flujo existe pero no se ejecuta
+
+Esto es útil para pausar temporalmente un flujo sin perder su configuración.
+
+## Lógica y Control de Flujo
+
+Además de acciones lineales, puedes añadir lógica a tus flujos:
+
+<AccordionGroup>
+  <Accordion title="Condiciones (Branch)">
+    Añade bifurcaciones con lógica if/else para ejecutar diferentes acciones según las condiciones. Por ejemplo, enviar un email diferente según si la llamada duró más o menos de 5 minutos.
+  </Accordion>
+
+  <Accordion title="Bucles (Loop)">
+    Itera sobre una lista de elementos. Útil cuando necesitas procesar múltiples registros, como enviar mensajes a una lista de contactos.
+  </Accordion>
+
+  <Accordion title="Esperas (Delay)">
+    Pausa la ejecución del flujo durante un tiempo determinado. Útil para esperar antes de ejecutar una acción de seguimiento.
+  </Accordion>
+
+  <Accordion title="Código personalizado">
+    Si necesitas lógica específica, puedes añadir un paso de código JavaScript/TypeScript para transformar datos o realizar operaciones personalizadas.
+  </Accordion>
+</AccordionGroup>
+
+## Historial de Ejecuciones
+
+Cada vez que un flujo se ejecuta, se registra en el historial de ejecuciones. Desde aquí puedes ver:
+
+- El estado de cada ejecución (exitosa o fallida)
+- Los datos de entrada y salida de cada paso
+- El momento exacto de cada ejecución
+- Errores detallados si algún paso falló
+
+Esto es muy útil para depurar problemas y verificar que tus flujos funcionan correctamente.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Usar plantillas"
+    icon="copy"
+    href="/es/build/flujos/plantillas"
+  >
+    Empieza rápido con flujos pre-configurados.
+  </Card>
+  <Card
+    title="Asignar a agentes"
+    icon="link"
+    href="/es/build/flujos/asignar-agentes"
+  >
+    Conecta tus flujos con agentes para que se ejecuten.
+  </Card>
+  <Card
+    title="La pieza de Diga"
+    icon="puzzle"
+    href="/es/build/flujos/pieza-diga"
+  >
+    Aprende sobre los triggers y acciones de Diga.
+  </Card>
+  <Card
+    title="Introducción a los flujos"
+    icon="book-open"
+    href="/es/build/flujos/introduccion"
+  >
+    Repasa los conceptos fundamentales de los flujos.
+  </Card>
+</CardGroup>
