@@ -1,0 +1,114 @@
+---
+title: "Assign Workflows to Agents"
+description: "Connect your workflows with specific agents so they execute during or after calls"
+---
+
+## Why Assign Workflows?
+
+Workflows with Diga triggers (Call Finished and Function Call) only execute for agents they're assigned to. This lets you:
+
+- Use different workflows for different agents
+- Control which automations execute for each agent
+- Test workflows with a specific agent before applying them to others
+
+<Warning>
+  This page applies to **single-prompt agents** only. If your agent uses [conversational paths](/en/build/agents/conversational-paths), workflows are assigned directly through [flow nodes](/en/build/agents/conversational-paths/node-types#flow-node) in the path editor instead.
+</Warning>
+
+<Note>
+  **Prerequisite**: The workflow must be **published** and **enabled** before assigning it to an agent. If you need to create a workflow first, see [Creating Workflows](/en/build/flows/creating-workflows).
+</Note>
+
+## Assigning a Workflow
+
+<Steps>
+  <Step title="Access your agent">
+    From the dashboard, go to the **Agents** section and select the agent you want to assign workflows to.
+  </Step>
+
+  <Step title="Go to the Workflows section">
+    In the agent configuration, find the **Workflows** section. Here you'll see currently assigned workflows and can add new ones.
+
+    <Frame>
+      <img src="/images/flujos-asignar-placeholder.png" alt="Workflows section in agent configuration" />
+    </Frame>
+  </Step>
+
+  <Step title="Assign post-call workflows">
+    Select the workflows you want to execute when this agent's calls end. You can assign **multiple post-call workflows** to the same agent — all of them will execute when the call ends.
+  </Step>
+
+  <Step title="Assign during-call workflows">
+    Select the workflows you want the agent to use as tools during conversations. You can assign **multiple during-call workflows** to the same agent.
+
+    Each during-call workflow appears as an available tool for the agent. The agent will decide which one to use based on the conversation context and the description you configured in the Function Call trigger.
+  </Step>
+
+  <Step title="Save changes">
+    Changes are saved automatically. Assigned workflows will be active on the agent's next call.
+  </Step>
+</Steps>
+
+## Post-call vs During call
+
+| Feature | Post-call | During call |
+|---|---|---|
+| **When it executes** | When the call ends | In the middle of the conversation |
+| **Quantity per agent** | Multiple | Multiple |
+| **Agent waits for response** | No | Yes (synchronous) or No (asynchronous) |
+| **User notices anything** | No, it's transparent | Yes, the agent may mention the wait |
+| **Trigger** | Call Finished | Function Call |
+
+## Workflows and Agent Versions
+
+Workflows are assigned to **specific agent versions**. This means:
+
+- Different versions of the same agent can have different workflows
+- You can test new workflows on a development version without affecting the production version
+- When creating a new version, assigned workflows are not automatically copied
+
+<Tip>
+  Use [version control](/en/build/agents/version-control) together with workflow assignment to safely test new automations.
+</Tip>
+
+## Verifying the Assignment
+
+After assigning workflows, verify everything works correctly:
+
+1. Make a [test call](/en/build/agents/test-calls) with the agent
+2. For **post-call** workflows: verify the action executed after hanging up (email sent, record created, etc.)
+3. For **during-call** workflows: during the call, ask the agent to execute the action (e.g., "check my availability for tomorrow")
+4. Check the workflow execution history to confirm it ran successfully
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="The Diga piece"
+    icon="puzzle"
+    href="/en/build/flows/diga-piece"
+  >
+    Learn about the available triggers and actions in detail.
+  </Card>
+  <Card
+    title="Test calls"
+    icon="phone"
+    href="/en/build/agents/test-calls"
+  >
+    Test your agents with assigned workflows.
+  </Card>
+  <Card
+    title="Create workflows"
+    icon="plus"
+    href="/en/build/flows/creating-workflows"
+  >
+    Create new workflows for your agents.
+  </Card>
+  <Card
+    title="Version control"
+    icon="/icons/layers-three-02.svg"
+    href="/en/build/agents/version-control"
+  >
+    Manage agent versions with different workflows.
+  </Card>
+</CardGroup>

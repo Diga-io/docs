@@ -13,9 +13,7 @@
   "paths": {
     "/v1/call/": {
       "get": {
-        "tags": [
-          "Calls"
-        ],
+        "tags": ["Calls"],
         "summary": "List all calls",
         "description": "Retrieve a paginated list of calls for the company. Supports filtering by status, date range, and other criteria. Includes recording URLs when available.",
         "operationId": "list_calls_v1_call__get",
@@ -93,10 +91,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -294,9 +289,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Calls"
-        ],
+        "tags": ["Calls"],
         "summary": "Make outbound call",
         "description": "Initiate an outbound call using the outbound agent associated with the specified phone number. Only Spanish phone numbers are supported.",
         "operationId": "make_call_v1_call__post",
@@ -386,6 +379,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -400,25 +403,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/call/{id}": {
       "get": {
-        "tags": [
-          "Calls"
-        ],
+        "tags": ["Calls"],
         "summary": "Get call by ID",
         "description": "Retrieve detailed information about a specific call including transcription summary, duration, cost, and recording URL if available.",
         "operationId": "get_call_v1_call__id__get",
@@ -482,6 +473,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -496,25 +497,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/call/{id}/message": {
       "get": {
-        "tags": [
-          "Calls"
-        ],
+        "tags": ["Calls"],
         "summary": "Get call messages/transcription",
         "description": "Retrieve the paginated transcription messages for a specific call, showing the conversation between the agent and the caller.",
         "operationId": "get_call_messages_v1_call__id__message_get",
@@ -604,10 +593,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -720,9 +706,7 @@
     },
     "/v1/recording/{call_id}": {
       "get": {
-        "tags": [
-          "Recordings"
-        ],
+        "tags": ["Recordings"],
         "summary": "Get Recording",
         "description": "Retrieve a call recording by its id.",
         "operationId": "get_recording_v1_recording__call_id__get",
@@ -771,9 +755,7 @@
     },
     "/v1/recording/bulk": {
       "post": {
-        "tags": [
-          "Recordings"
-        ],
+        "tags": ["Recordings"],
         "summary": "Bulk download recordings",
         "description": "Download multiple call recordings as a ZIP file.",
         "operationId": "bulk_download_recordings_v1_recording_bulk_post",
@@ -792,9 +774,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-
-                }
+                "schema": {}
               }
             }
           },
@@ -828,6 +808,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -842,16 +832,6 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         },
         "security": [
@@ -863,9 +843,7 @@
     },
     "/v1/project/": {
       "get": {
-        "tags": [
-          "Projects"
-        ],
+        "tags": ["Projects"],
         "summary": "List Projects",
         "description": "Retrieve a paginated list of all projects where the authenticated user is a member.",
         "operationId": "list_projects_v1_project__get",
@@ -943,10 +921,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -1012,9 +987,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Projects"
-        ],
+        "tags": ["Projects"],
         "summary": "Create Project",
         "description": "Create a new project and automatically assign the authenticated user as admin.",
         "operationId": "create_project_v1_project__post",
@@ -1044,6 +1017,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -1058,25 +1041,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/project/{id}": {
       "get": {
-        "tags": [
-          "Projects"
-        ],
+        "tags": ["Projects"],
         "summary": "Get Project",
         "description": "Retrieve detailed information about a specific project by its ID.",
         "operationId": "get_project_v1_project__id__get",
@@ -1123,6 +1094,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -1137,23 +1118,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "patch": {
-        "tags": [
-          "Projects"
-        ],
+        "tags": ["Projects"],
         "summary": "Update Project",
         "description": "Update an existing project's information. Only the fields provided will be updated.",
         "operationId": "update_project_v1_project__id__patch",
@@ -1225,6 +1194,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -1239,23 +1218,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "delete": {
-        "tags": [
-          "Projects"
-        ],
+        "tags": ["Projects"],
         "summary": "Delete Project",
         "description": "Permanently delete a project and all associated data.",
         "operationId": "delete_project_v1_project__id__delete",
@@ -1325,6 +1292,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -1339,25 +1316,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/project/{project_id}/member/me": {
       "get": {
-        "tags": [
-          "Project Members"
-        ],
+        "tags": ["Project Members"],
         "summary": "Get current member",
         "description": "Retrieve the current user's membership details, role, and permissions for the project.",
         "operationId": "get_current_member_v1_project__project_id__member_me_get",
@@ -1404,6 +1369,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -1418,25 +1393,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/project/{project_id}/member/{profile_id}": {
       "get": {
-        "tags": [
-          "Project Members"
-        ],
+        "tags": ["Project Members"],
         "summary": "Get project member",
         "description": "Retrieve details of a specific member in a project, including their assigned role and permissions.",
         "operationId": "get_project_member_v1_project__project_id__member__profile_id__get",
@@ -1508,6 +1471,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -1522,23 +1495,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "delete": {
-        "tags": [
-          "Project Members"
-        ],
+        "tags": ["Project Members"],
         "summary": "Remove project member",
         "description": "Remove a member from the project permanently.",
         "operationId": "remove_project_member_v1_project__project_id__member__profile_id__delete",
@@ -1603,6 +1564,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -1617,25 +1588,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/project/{project_id}/member": {
       "get": {
-        "tags": [
-          "Project Members"
-        ],
+        "tags": ["Project Members"],
         "summary": "List project members",
         "description": "Retrieve a paginated list of all members in a project with their assigned roles and permissions.",
         "operationId": "list_project_members_v1_project__project_id__member_get",
@@ -1723,10 +1682,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -1774,6 +1730,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -1788,25 +1754,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/project/{project_id}/member/{profile_id}/role": {
       "patch": {
-        "tags": [
-          "Project Members"
-        ],
+        "tags": ["Project Members"],
         "summary": "Update member role",
         "description": "Change a project member's role (e.g., from member to admin or vice versa).",
         "operationId": "update_member_role_v1_project__project_id__member__profile_id__role_patch",
@@ -1881,6 +1835,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -1895,25 +1859,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/project/invitation/{invitation_id}": {
       "get": {
-        "tags": [
-          "Project Invitations"
-        ],
+        "tags": ["Project Invitations"],
         "summary": "Get invitation details",
         "description": "Retrieve detailed information about a specific project invitation.",
         "operationId": "get_invitation_v1_project_invitation__invitation_id__get",
@@ -1970,6 +1922,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -1984,23 +1946,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "delete": {
-        "tags": [
-          "Project Invitations"
-        ],
+        "tags": ["Project Invitations"],
         "summary": "Delete invitation",
         "description": "Remove a pending invitation from the project.",
         "operationId": "delete_invitation_v1_project_invitation__invitation_id__delete",
@@ -2040,9 +1990,7 @@
     },
     "/v1/project/invitation/send": {
       "post": {
-        "tags": [
-          "Project Invitations"
-        ],
+        "tags": ["Project Invitations"],
         "summary": "Send project invitation",
         "description": "Send an email invitation to a user to join your project.",
         "operationId": "send_invitation_mail_v1_project_invitation_send_post",
@@ -2112,6 +2060,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -2126,16 +2084,6 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         },
         "security": [
@@ -2147,9 +2095,7 @@
     },
     "/v1/project/invitation/send/bulk": {
       "post": {
-        "tags": [
-          "Project Invitations"
-        ],
+        "tags": ["Project Invitations"],
         "summary": "Send bulk project invitations",
         "description": "Send multiple email invitations to users to join your project. Uses batch email sending to avoid rate limits.",
         "operationId": "send_bulk_invitation_mail_v1_project_invitation_send_bulk_post",
@@ -2189,6 +2135,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -2203,16 +2159,6 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         },
         "security": [
@@ -2224,9 +2170,7 @@
     },
     "/v1/project/invitation/{invitation_id}/join": {
       "post": {
-        "tags": [
-          "Project Invitations"
-        ],
+        "tags": ["Project Invitations"],
         "summary": "Accept invitation and join project",
         "description": "Accept a project invitation and become a member of the project.",
         "operationId": "join_project_v1_project_invitation__invitation_id__join_post",
@@ -2273,6 +2217,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -2287,25 +2241,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/project/{project_id}/invitation/{invitation_id}/role": {
       "patch": {
-        "tags": [
-          "Project Invitations"
-        ],
+        "tags": ["Project Invitations"],
         "summary": "Update invitation role",
         "description": "Change the role assigned to a pending invitation before it's accepted.",
         "operationId": "change_invitation_role_v1_project__project_id__invitation__invitation_id__role_patch",
@@ -2365,6 +2307,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -2379,25 +2331,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/role/": {
       "get": {
-        "tags": [
-          "Roles"
-        ],
+        "tags": ["Roles"],
         "summary": "List all available roles",
         "description": "Retrieve a complete list of all roles available in the system with their permissions.",
         "operationId": "list_roles_v1_role__get",
@@ -2431,22 +2371,22 @@
               }
             }
           },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
                 }
               }
             }
@@ -2461,9 +2401,7 @@
     },
     "/v1/role/{role_id}": {
       "get": {
-        "tags": [
-          "Roles"
-        ],
+        "tags": ["Roles"],
         "summary": "Get role details",
         "description": "Retrieve detailed information about a specific role by its ID.",
         "operationId": "get_role_v1_role__role_id__get",
@@ -2520,16 +2458,6 @@
               }
             }
           },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -2539,15 +2467,23 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
           }
         }
       }
     },
     "/v1/knowledge/usage": {
       "get": {
-        "tags": [
-          "Knowledge"
-        ],
+        "tags": ["Knowledge"],
         "summary": "Get Knowledge Usage",
         "description": "Get knowledge storage usage for the current company.\nReturns used bytes, limit bytes, and item count.",
         "operationId": "get_knowledge_usage_v1_knowledge_usage_get",
@@ -2582,9 +2518,7 @@
     },
     "/v1/knowledge/base/": {
       "get": {
-        "tags": [
-          "Knowledge Bases"
-        ],
+        "tags": ["Knowledge Bases"],
         "summary": "List Knowledge Bases",
         "description": "List all knowledge bases for the current company with pagination.\n\nFilters:\n    - name: case-insensitive partial match",
         "operationId": "list_knowledge_bases_v1_knowledge_base__get",
@@ -2662,10 +2596,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -2729,9 +2660,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Knowledge Bases"
-        ],
+        "tags": ["Knowledge Bases"],
         "summary": "Create Knowledge Base",
         "description": "Create a new knowledge base from existing knowledge items",
         "operationId": "create_knowledge_base_v1_knowledge_base__post",
@@ -2776,9 +2705,7 @@
     },
     "/v1/knowledge/base/{id}": {
       "get": {
-        "tags": [
-          "Knowledge Bases"
-        ],
+        "tags": ["Knowledge Bases"],
         "summary": "Get Knowledge Base",
         "description": "Retrieve a specific knowledge base by ID",
         "operationId": "get_knowledge_base_v1_knowledge_base__id__get",
@@ -2823,9 +2750,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Knowledge Bases"
-        ],
+        "tags": ["Knowledge Bases"],
         "summary": "Update Knowledge Base",
         "description": "Update a knowledge base",
         "operationId": "update_knowledge_base_v1_knowledge_base__id__patch",
@@ -2880,9 +2805,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Knowledge Bases"
-        ],
+        "tags": ["Knowledge Bases"],
         "summary": "Delete Knowledge Base",
         "description": "Delete a knowledge base.\n\nIf the base contains knowledge items, returns 409 Conflict unless force=true.\nWhen force=true, the base and all its items are deleted.",
         "operationId": "delete_knowledge_base_v1_knowledge_base__id__delete",
@@ -2918,9 +2841,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-
-                }
+                "schema": {}
               }
             }
           },
@@ -2939,9 +2860,7 @@
     },
     "/v1/knowledge/item/": {
       "get": {
-        "tags": [
-          "Knowledge Items"
-        ],
+        "tags": ["Knowledge Items"],
         "summary": "List Knowledge Items",
         "description": "List all knowledge items for the current company with pagination.\n\nFilters:\n    - status: filter items by status (indexing, uploaded, error)\n    - category: filter items by category (file, txt, url)\n    - name: case-insensitive partial match",
         "operationId": "list_knowledge_items_v1_knowledge_item__get",
@@ -3019,10 +2938,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -3120,9 +3036,7 @@
     },
     "/v1/knowledge/item/file": {
       "post": {
-        "tags": [
-          "Knowledge Items"
-        ],
+        "tags": ["Knowledge Items"],
         "summary": "Upload Knowledge Items",
         "description": "Upload knowledge files to the system.\nSend as multipart/form-data with one or more of:\n- File upload: name, category, file",
         "operationId": "upload_knowledge_items_v1_knowledge_item_file_post",
@@ -3157,9 +3071,7 @@
     },
     "/v1/knowledge/item/url": {
       "post": {
-        "tags": [
-          "Knowledge Items"
-        ],
+        "tags": ["Knowledge Items"],
         "summary": "Upload Url Items",
         "description": "Index web URLs as knowledge items.\nEach URL is crawled, parsed, and indexed asynchronously.",
         "operationId": "upload_url_items_v1_knowledge_item_url_post",
@@ -3204,9 +3116,7 @@
     },
     "/v1/knowledge/item/text": {
       "post": {
-        "tags": [
-          "Knowledge Items"
-        ],
+        "tags": ["Knowledge Items"],
         "summary": "Upload Text Item",
         "description": "Create a knowledge item from raw text content.\nThe text is stored in the database and indexed asynchronously.",
         "operationId": "upload_text_item_v1_knowledge_item_text_post",
@@ -3251,9 +3161,7 @@
     },
     "/v1/knowledge/item/{id}": {
       "get": {
-        "tags": [
-          "Knowledge Items"
-        ],
+        "tags": ["Knowledge Items"],
         "summary": "Get Knowledge Item",
         "description": "Retrieve a specific knowledge item by ID",
         "operationId": "get_knowledge_item_v1_knowledge_item__id__get",
@@ -3317,9 +3225,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Knowledge Items"
-        ],
+        "tags": ["Knowledge Items"],
         "summary": "Delete Knowledge Item",
         "description": "Delete a knowledge item",
         "operationId": "delete_knowledge_item_v1_knowledge_item__id__delete",
@@ -3345,9 +3251,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-
-                }
+                "schema": {}
               }
             }
           },
@@ -3364,9 +3268,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Knowledge Items"
-        ],
+        "tags": ["Knowledge Items"],
         "summary": "Update Knowledge Base",
         "description": "Update a knowledge item",
         "operationId": "update_knowledge_base_v1_knowledge_item__id__patch",
@@ -3442,9 +3344,7 @@
     },
     "/v1/agent-template/": {
       "get": {
-        "tags": [
-          "Agent Templates"
-        ],
+        "tags": ["Agent Templates"],
         "summary": "List agent templates",
         "description": "List available agent templates with pagination. Templates are global and visible to all users.",
         "operationId": "list_agent_templates_v1_agent_template__get",
@@ -3522,10 +3422,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -3568,11 +3465,9 @@
     },
     "/v1/agent-template/{template_id}/apply": {
       "post": {
-        "tags": [
-          "Agent Templates"
-        ],
+        "tags": ["Agent Templates"],
         "summary": "Apply agent template",
-        "description": "Create a new agent from a template, substituting \u003C\u003Cvariable\u003E\u003E placeholders with provided values.",
+        "description": "Create a new agent from a template, substituting <<variable>> placeholders with provided values.",
         "operationId": "apply_agent_template_v1_agent_template__template_id__apply_post",
         "security": [
           {
@@ -3657,9 +3552,7 @@
     },
     "/v1/agent/": {
       "post": {
-        "tags": [
-          "Agents"
-        ],
+        "tags": ["Agents"],
         "summary": "Create a new agent",
         "description": "Create a new agent. By default, creates a new version (v1) and a draft. If is_draft is true, creates only a draft.",
         "operationId": "create_agent_v1_agent__post",
@@ -3733,6 +3626,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -3747,23 +3650,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "get": {
-        "tags": [
-          "Agents"
-        ],
+        "tags": ["Agents"],
         "summary": "List all agents",
         "description": "Retrieve a paginated list of agents for the company. By default, retrieves only draft versions. Supports cursor-based and page-based pagination.",
         "operationId": "list_agents_v1_agent__get",
@@ -3841,10 +3732,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -3953,9 +3841,7 @@
     },
     "/v1/agent/versions-dropdown/dashboard": {
       "get": {
-        "tags": [
-          "Agents"
-        ],
+        "tags": ["Agents"],
         "summary": "Get Agents Versions Dropdown",
         "description": "Retrieve all agents with their versions for dropdowns.",
         "operationId": "get_agents_versions_dropdown_v1_agent_versions_dropdown_dashboard_get",
@@ -3994,9 +3880,7 @@
     },
     "/v1/agent/{agent_id}": {
       "get": {
-        "tags": [
-          "Agents"
-        ],
+        "tags": ["Agents"],
         "summary": "Get agent by ID",
         "description": "Retrieve a specific agent by ID. By default, retrieves the draft version. Optionally specify a version_id or is_published to retrieve a specific version.",
         "operationId": "get_agent_v1_agent__agent_id__get",
@@ -4104,6 +3988,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -4118,23 +4012,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "patch": {
-        "tags": [
-          "Agents"
-        ],
+        "tags": ["Agents"],
         "summary": "Update agent draft",
         "description": "Update the draft version of an existing agent with new configuration, prompts, or settings.",
         "operationId": "update_agent_v1_agent__agent_id__patch",
@@ -4221,6 +4103,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -4235,23 +4127,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "delete": {
-        "tags": [
-          "Agents"
-        ],
+        "tags": ["Agents"],
         "summary": "Delete agent",
         "description": "Delete an agent by ID. Cannot delete agents with published versions.",
         "operationId": "delete_agent_v1_agent__agent_id__delete",
@@ -4321,6 +4201,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -4335,25 +4225,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/agent/{agent_id}/version": {
       "post": {
-        "tags": [
-          "Agents"
-        ],
+        "tags": ["Agents"],
         "summary": "Launch new agent version",
         "description": "Launch a new version of an existing agent based on the current draft. Creates a numbered version (e.g., v2, v3) that can be published.",
         "operationId": "launch_agent_version_v1_agent__agent_id__version_post",
@@ -4440,6 +4318,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -4454,23 +4342,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "get": {
-        "tags": [
-          "Agents"
-        ],
+        "tags": ["Agents"],
         "summary": "List agent versions",
         "description": "Retrieve a paginated list of all versions for a specific agent, including draft and published versions.",
         "operationId": "list_agent_version_v1_agent__agent_id__version_get",
@@ -4558,10 +4434,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -4635,6 +4508,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -4649,25 +4532,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/agent/{agent_id}/version/{version_id}": {
       "delete": {
-        "tags": [
-          "Agents"
-        ],
+        "tags": ["Agents"],
         "summary": "Delete agent version",
         "description": "Delete a specific version of an agent. Cannot delete published or draft versions that are currently in use.",
         "operationId": "delete_agent_version_v1_agent__agent_id__version__version_id__delete",
@@ -4747,6 +4618,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -4761,25 +4642,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/agent/{agent_id}/published_version": {
       "patch": {
-        "tags": [
-          "Agents"
-        ],
+        "tags": ["Agents"],
         "summary": "Publish agent version",
         "description": "Publish a specific version of an agent and associate it with phone numbers. Phone numbers can be inbound, outbound, or both. If version_id is None, unpublishes the current published version.",
         "operationId": "publish_agent_version_v1_agent__agent_id__published_version_patch",
@@ -4866,6 +4735,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -4874,6 +4753,133 @@
                   "status": "error",
                   "error_code": "INTERNAL_SERVER_ERROR",
                   "message": "Error: Internal Server Error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/voice/resolve": {
+      "post": {
+        "tags": ["Voices"],
+        "summary": "Resolve Voice",
+        "description": "Resolve a provider voice ID to a system voice.",
+        "operationId": "resolve_voice_v1_voice_resolve_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResolveVoiceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoiceResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Voice Provider Validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                },
+                "example": {
+                  "status": "error",
+                  "error_code": "VOICE_PROVIDER_VALIDATION",
+                  "message": "Voice not found in provider"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                },
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/voice/favourite/{voice_id}": {
+      "post": {
+        "tags": ["Voices"],
+        "summary": "Add Favourite Voice",
+        "description": "Add a voice to the company's favourites",
+        "operationId": "add_favourite_voice_v1_voice_favourite__voice_id__post",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "voice_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Voice Id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoiceResponseSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Voice Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "VOICE_NOT_FOUND",
+                  "message": "Voice not found"
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponseSchema"
@@ -4890,18 +4896,99 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Voices"],
+        "summary": "Remove Favourite Voice",
+        "description": "Remove a voice from the company's favourites",
+        "operationId": "remove_favourite_voice_v1_voice_favourite__voice_id__delete",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "voice_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Voice Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "description": "Voice Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "VOICE_NOT_FOUND",
+                  "message": "Voice not found in favourites"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/v1/voice/": {
+    "/v1/voice/favourite": {
       "get": {
-        "tags": [
-          "Voices"
-        ],
-        "summary": "Get Voices",
-        "description": "Retrieve information about",
-        "operationId": "get_voices_v1_voice__get",
+        "tags": ["Voices"],
+        "summary": "List Favourite Voices",
+        "description": "List the company's favourite voices",
+        "operationId": "list_favourite_voices_v1_voice_favourite_get",
         "security": [
           {
             "CustomHTTPBearer": []
@@ -4976,10 +5063,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -4997,29 +5081,14 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden - Insufficient permissions",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Missing required permissions"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
           "422": {
-            "description": "Unprocessable entity - Invalid pagination",
+            "description": "Invalid Pagination Parameters",
             "content": {
               "application/json": {
                 "example": {
                   "status": "error",
                   "error_code": "INVALID_PAGINATION_PARAMETERS",
-                  "message": "Cannot specify both 'before' and 'after' parameters"
+                  "message": "Invalid pagination parameters"
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponseSchema"
@@ -5041,33 +5110,16 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Not Valid Field",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "NOT_VALID_FIELD",
-                  "message": "Invalid field value in query parameters"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
           }
         }
       }
     },
-    "/v1/voice/{id}": {
+    "/v1/voice/{voice_id}": {
       "get": {
-        "tags": [
-          "Voices"
-        ],
+        "tags": ["Voices"],
         "summary": "Get Voice",
-        "description": "Retrieve information about {id}",
-        "operationId": "get_voice_v1_voice__id__get",
+        "description": "Get a voice by its ID",
+        "operationId": "get_voice_v1_voice__voice_id__get",
         "security": [
           {
             "CustomHTTPBearer": []
@@ -5075,13 +5127,13 @@
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "voice_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
               "format": "uuid",
-              "title": "Id"
+              "title": "Voice Id"
             }
           }
         ],
@@ -5096,36 +5148,6 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden - Insufficient permissions",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Missing required permissions"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Error: Internal Server Error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
           "404": {
             "description": "Voice Not Found",
             "content": {
@@ -5133,7 +5155,7 @@
                 "example": {
                   "status": "error",
                   "error_code": "VOICE_NOT_FOUND",
-                  "message": "Error from VoiceNotFoundException"
+                  "message": "Voice not found"
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponseSchema"
@@ -5150,15 +5172,28 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
           }
         }
       }
     },
     "/v1/integration": {
       "get": {
-        "tags": [
-          "Integration"
-        ],
+        "tags": ["Integration"],
         "summary": "List integrations",
         "description": "Retrieve a paginated list of all integrations (HTTP and MCP) configured for the company.",
         "operationId": "list_integrations_v1_integration_get",
@@ -5236,10 +5271,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -5288,6 +5320,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -5302,23 +5344,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "post": {
-        "tags": [
-          "Integration"
-        ],
+        "tags": ["Integration"],
         "summary": "Create integration",
         "description": "Create a new HTTP or MCP integration. For MCP integrations, tools are automatically synced from the MCP server. Authentication is validated during creation.",
         "operationId": "create_integration_v1_integration_post",
@@ -5378,6 +5408,31 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
           "502": {
             "description": "Bad gateway - MCP server error",
             "content": {
@@ -5407,40 +5462,13 @@
                 }
               }
             }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Error: Internal Server Error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/integration/{integration_id}": {
       "get": {
-        "tags": [
-          "Integration"
-        ],
+        "tags": ["Integration"],
         "summary": "Get integration details",
         "description": "Retrieve detailed information about a specific integration by ID, including configuration and type.",
         "operationId": "get_integration_v1_integration__integration_id__get",
@@ -5504,6 +5532,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -5518,23 +5556,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "patch": {
-        "tags": [
-          "Integration"
-        ],
+        "tags": ["Integration"],
         "summary": "Update integration",
         "description": "Update integration configuration. For MCP integrations, tools are automatically re-synced if base_url or auth_key changes. Authentication is revalidated.",
         "operationId": "update_integration_v1_integration__integration_id__patch",
@@ -5623,6 +5649,31 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
           "502": {
             "description": "Bad gateway - MCP server error",
             "content": {
@@ -5652,38 +5703,11 @@
                 }
               }
             }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Error: Internal Server Error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "delete": {
-        "tags": [
-          "Integration"
-        ],
+        "tags": ["Integration"],
         "summary": "Delete integration",
         "description": "Permanently delete an integration and all associated tools. For MCP integrations, clears the tool cache. For HTTP integrations, cascade deletes all HTTP tools.",
         "operationId": "delete_integration_v1_integration__integration_id__delete",
@@ -5740,6 +5764,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -5754,25 +5788,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/integration/{integration_id}/tool": {
       "post": {
-        "tags": [
-          "Integration"
-        ],
+        "tags": ["Integration"],
         "summary": "Create HTTP tool",
         "description": "Create a new custom HTTP tool for an HTTP integration. Only works with HTTP integrations. MCP tools are synced automatically from the MCP server.",
         "operationId": "create_integration_tool_v1_integration__integration_id__tool_post",
@@ -5891,6 +5913,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -5905,23 +5937,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "get": {
-        "tags": [
-          "Integration"
-        ],
+        "tags": ["Integration"],
         "summary": "List integration tools",
         "description": "List all tools from an integration. For MCP: fetches from MCP server with name-based cursors. For HTTP: returns tools from database with UUID cursors. Automatically syncs MCP tools.",
         "operationId": "list_tools_v1_integration__integration_id__tool_get",
@@ -6011,10 +6031,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -6092,6 +6109,31 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
           "502": {
             "description": "Bad gateway - MCP server error",
             "content": {
@@ -6121,40 +6163,13 @@
                 }
               }
             }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Error: Internal Server Error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/integration/{integration_id}/tool/{tool_id}": {
       "get": {
-        "tags": [
-          "Integration"
-        ],
+        "tags": ["Integration"],
         "summary": "Get integration tool",
         "description": "Retrieve details of a specific tool. For HTTP integrations: use tool UUID. For MCP integrations: use tool ID (maps to name internally).",
         "operationId": "get_integration_tool_v1_integration__integration_id__tool__tool_id__get",
@@ -6275,6 +6290,31 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
           "502": {
             "description": "Bad gateway - MCP server error",
             "content": {
@@ -6304,38 +6344,11 @@
                 }
               }
             }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Error: Internal Server Error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "patch": {
-        "tags": [
-          "Integration"
-        ],
+        "tags": ["Integration"],
         "summary": "Update HTTP tool",
         "description": "Update an existing HTTP tool's configuration. Only works with HTTP integrations. MCP tools cannot be updated directly.",
         "operationId": "update_integration_tool_v1_integration__integration_id__tool__tool_id__patch",
@@ -6466,6 +6479,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -6480,23 +6503,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "delete": {
-        "tags": [
-          "Integration"
-        ],
+        "tags": ["Integration"],
         "summary": "Delete HTTP tool",
         "description": "Delete an HTTP tool from an integration. Only works with HTTP integrations. MCP tools are managed by the MCP server and cannot be deleted.",
         "operationId": "delete_integration_tool_v1_integration__integration_id__tool__tool_id__delete",
@@ -6580,6 +6591,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -6594,25 +6615,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/integration/{integration_id}/tool-approval": {
       "patch": {
-        "tags": [
-          "Integration"
-        ],
+        "tags": ["Integration"],
         "summary": "Update tool approval settings",
         "description": "Batch update approval_required settings for multiple tools. Works with both HTTP and MCP tools. Tools requiring approval need explicit user confirmation before execution.",
         "operationId": "update_tools_approval_v1_integration__integration_id__tool_approval_patch",
@@ -6679,6 +6688,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -6693,25 +6712,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/phone/": {
       "get": {
-        "tags": [
-          "Phones"
-        ],
+        "tags": ["Phones"],
         "summary": "List Phones",
         "description": "Retrieve a list of phones, optionally filtered by agent ID.",
         "operationId": "list_phones_v1_phone__get",
@@ -6789,10 +6796,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -6894,6 +6898,21 @@
               }
             }
           },
+          "400": {
+            "description": "Not Valid Field",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "NOT_VALID_FIELD",
+                  "message": "Invalid field value in query parameters"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden - Insufficient permissions",
             "content": {
@@ -6924,21 +6943,6 @@
               }
             }
           },
-          "400": {
-            "description": "Not Valid Field",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "NOT_VALID_FIELD",
-                  "message": "Invalid field value in query parameters"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -6959,9 +6963,7 @@
     },
     "/v1/phone/{phone_id}": {
       "get": {
-        "tags": [
-          "Phones"
-        ],
+        "tags": ["Phones"],
         "summary": "Get Phone",
         "description": "Retrieve one of your phones by its id",
         "operationId": "get_phone_v1_phone__phone_id__get",
@@ -7008,9 +7010,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Phones"
-        ],
+        "tags": ["Phones"],
         "summary": "Update Phone",
         "description": "Update a phone's configuration (nickname and/or agent assignments).\n\nAgent assignment behavior:\n- Provide `inbound_version_id` to set which agent handles incoming calls\n- Provide `outbound_version_id` to set which agent handles outgoing calls\n- Assigning a version publishes it; if the agent already has a different\npublished version in another phone, the request will fail since an agent\ncan only have one published version at a time.",
         "operationId": "update_phone_v1_phone__phone_id__patch",
@@ -7067,9 +7067,7 @@
     },
     "/v1/phone/{id}": {
       "delete": {
-        "tags": [
-          "Phones"
-        ],
+        "tags": ["Phones"],
         "summary": "Release Phone Number",
         "description": "Release a phone number.\n\n- For Netelip (purchased) numbers: Orders the release of the number which will take effect once the subscription cycle ends\n- For custom (imported) numbers: Deletes it automatically\n\nNote: Phones in RESERVED status (pending verification) cannot be released.",
         "operationId": "release_phone_number_v1_phone__id__delete",
@@ -7109,9 +7107,7 @@
     },
     "/v1/phone/import": {
       "post": {
-        "tags": [
-          "Phones"
-        ],
+        "tags": ["Phones"],
         "summary": "Import Phone Number",
         "description": "Import a phone number from an external SIP provider.\n\nThis endpoint allows you to use your own phone numbers with custom SIP trunks",
         "operationId": "import_phone_number_v1_phone_import_post",
@@ -7156,9 +7152,7 @@
     },
     "/v1/webhook/": {
       "get": {
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "summary": "Get Webhooks",
         "description": "Retrieve information about",
         "operationId": "get_webhooks_v1_webhook__get",
@@ -7236,10 +7230,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -7273,6 +7264,21 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PaginatedResponse_WebhookResponse_"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Not Valid Field",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "NOT_VALID_FIELD",
+                  "message": "Invalid field value in query parameters"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
                 }
               }
             }
@@ -7321,28 +7327,11 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Not Valid Field",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "NOT_VALID_FIELD",
-                  "message": "Invalid field value in query parameters"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
           }
         }
       },
       "post": {
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "summary": "Create Webhook",
         "description": "Create a new",
         "operationId": "create_webhook_v1_webhook__post",
@@ -7387,6 +7376,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -7401,25 +7400,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/webhook/{id}": {
       "get": {
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "summary": "Get Webhook",
         "description": "Retrieve information about {id}",
         "operationId": "get_webhook_v1_webhook__id__get",
@@ -7468,21 +7455,6 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Error: Internal Server Error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
           "404": {
             "description": "Webhook Not Found",
             "content": {
@@ -7507,13 +7479,26 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
           }
         }
       },
       "patch": {
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "summary": "Update Webhook",
         "description": "Update an existing {id}",
         "operationId": "update_webhook_v1_webhook__id__patch",
@@ -7572,21 +7557,6 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Error: Internal Server Error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
           "404": {
             "description": "Webhook Not Found",
             "content": {
@@ -7611,13 +7581,26 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
           }
         }
       },
       "delete": {
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "summary": "Delete Webhook",
         "description": "Delete a webhook record by ID.",
         "operationId": "delete_webhook_v1_webhook__id__delete",
@@ -7645,9 +7628,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-
-                }
+                "schema": {}
               }
             }
           },
@@ -7666,9 +7647,7 @@
     },
     "/v1/path/": {
       "post": {
-        "tags": [
-          "Conversational Paths"
-        ],
+        "tags": ["Conversational Paths"],
         "summary": "Create Path",
         "description": "Create a new",
         "operationId": "create_path_v1_path__post",
@@ -7698,21 +7677,6 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden - Insufficient permissions",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Missing required permissions"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Parameter",
             "content": {
@@ -7728,14 +7692,14 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
             "content": {
               "application/json": {
                 "example": {
                   "status": "error",
                   "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Error: Internal Server Error"
+                  "message": "Missing required permissions"
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponseSchema"
@@ -7767,13 +7731,26 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
           }
         }
       },
       "get": {
-        "tags": [
-          "Conversational Paths"
-        ],
+        "tags": ["Conversational Paths"],
         "summary": "List Paths",
         "description": "Retrieve information about",
         "operationId": "list_paths_v1_path__get",
@@ -7851,10 +7828,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -7868,6 +7842,21 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PaginatedResponse_PathResponseSchema_"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Parameter",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "BAD_PARAMETER",
+                  "message": "Invalid parameter value provided"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
                 }
               }
             }
@@ -7902,21 +7891,6 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Parameter",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "BAD_PARAMETER",
-                  "message": "Invalid parameter value provided"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -7937,9 +7911,7 @@
     },
     "/v1/path/{id}": {
       "get": {
-        "tags": [
-          "Conversational Paths"
-        ],
+        "tags": ["Conversational Paths"],
         "summary": "Get Path",
         "description": "Retrieve information about {id}",
         "operationId": "get_path_v1_path__id__get",
@@ -7971,6 +7943,21 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Parameter",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "BAD_PARAMETER",
+                  "message": "Invalid parameter value provided"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden - Insufficient permissions",
             "content": {
@@ -7986,17 +7973,12 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Parameter",
+          "422": {
+            "description": "Validation Error",
             "content": {
               "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "BAD_PARAMETER",
-                  "message": "Invalid parameter value provided"
-                },
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -8015,23 +7997,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "delete": {
-        "tags": [
-          "Conversational Paths"
-        ],
+        "tags": ["Conversational Paths"],
         "summary": "Delete Path",
         "description": "Delete {id}",
         "operationId": "delete_path_v1_path__id__delete",
@@ -8056,6 +8026,21 @@
           "204": {
             "description": "Successful Response"
           },
+          "400": {
+            "description": "Bad Parameter",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "BAD_PARAMETER",
+                  "message": "Invalid parameter value provided"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden - Insufficient permissions",
             "content": {
@@ -8071,17 +8056,12 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Parameter",
+          "422": {
+            "description": "Validation Error",
             "content": {
               "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "BAD_PARAMETER",
-                  "message": "Invalid parameter value provided"
-                },
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -8100,23 +8080,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "patch": {
-        "tags": [
-          "Conversational Paths"
-        ],
+        "tags": ["Conversational Paths"],
         "summary": "Update Path",
         "description": "Update an existing {id}",
         "operationId": "update_path_v1_path__id__patch",
@@ -8158,21 +8126,6 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden - Insufficient permissions",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Missing required permissions"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Parameter",
             "content": {
@@ -8188,14 +8141,14 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
             "content": {
               "application/json": {
                 "example": {
                   "status": "error",
                   "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Error: Internal Server Error"
+                  "message": "Missing required permissions"
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponseSchema"
@@ -8227,15 +8180,28 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
           }
         }
       }
     },
     "/v1/api_key/": {
       "get": {
-        "tags": [
-          "API Keys"
-        ],
+        "tags": ["API Keys"],
         "summary": "List Api Keys",
         "description": "Retrieve information about",
         "operationId": "list_api_keys_v1_api_key__get",
@@ -8313,10 +8279,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -8382,9 +8345,7 @@
         }
       },
       "post": {
-        "tags": [
-          "API Keys"
-        ],
+        "tags": ["API Keys"],
         "summary": "Create Api Key",
         "description": "Create a new",
         "operationId": "create_api_key_v1_api_key__post",
@@ -8429,6 +8390,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -8443,25 +8414,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/api_key/{id}": {
       "get": {
-        "tags": [
-          "API Keys"
-        ],
+        "tags": ["API Keys"],
         "summary": "Get Api Key",
         "description": "Retrieve information about {id}",
         "operationId": "get_api_key_v1_api_key__id__get",
@@ -8525,6 +8484,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -8539,23 +8508,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "patch": {
-        "tags": [
-          "API Keys"
-        ],
+        "tags": ["API Keys"],
         "summary": "Update Api Key",
         "description": "Update an existing {id}",
         "operationId": "update_api_key_v1_api_key__id__patch",
@@ -8629,6 +8586,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -8643,23 +8610,11 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       },
       "delete": {
-        "tags": [
-          "API Keys"
-        ],
+        "tags": ["API Keys"],
         "summary": "Delete Api Key",
         "description": "Delete {id}",
         "operationId": "delete_api_key_v1_api_key__id__delete",
@@ -8687,9 +8642,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-
-                }
+                "schema": {}
               }
             }
           },
@@ -8723,6 +8676,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -8737,25 +8700,13 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         }
       }
     },
     "/v1/billing/customer/": {
       "patch": {
-        "tags": [
-          "Billing - Customers"
-        ],
+        "tags": ["Billing - Customers"],
         "summary": "Update Customer",
         "description": "Update an existing",
         "operationId": "update_customer_v1_billing_customer__patch",
@@ -8795,6 +8746,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Default Payment Method Not Allowed On Create",
             "content": {
@@ -8809,16 +8770,6 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         },
         "security": [
@@ -8830,9 +8781,7 @@
     },
     "/v1/billing/payment_method/": {
       "get": {
-        "tags": [
-          "Billing - Payment Methods"
-        ],
+        "tags": ["Billing - Payment Methods"],
         "summary": "Get Payment Methods",
         "description": "Get all payment methods associated with the company's current Stripe customer.",
         "operationId": "get_payment_methods_v1_billing_payment_method__get",
@@ -8871,9 +8820,7 @@
     },
     "/v1/verification/": {
       "post": {
-        "tags": [
-          "Verification"
-        ],
+        "tags": ["Verification"],
         "summary": "Create Verification",
         "description": "Create a new verification by uploading a signed document.\n\nThe signed document will be stored and an admin will review the verification.\nOnce reviewed, the verification status will be updated to VERIFIED or REJECTED.",
         "operationId": "create_verification_v1_verification__post",
@@ -8916,9 +8863,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Verification"
-        ],
+        "tags": ["Verification"],
         "summary": "List Verifications",
         "description": "List all verifications for the authenticated company.",
         "operationId": "list_verifications_v1_verification__get",
@@ -8996,10 +8941,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -9032,9 +8974,7 @@
     },
     "/v1/billing/subscription/": {
       "get": {
-        "tags": [
-          "Billing - Subscriptions"
-        ],
+        "tags": ["Billing - Subscriptions"],
         "summary": "Get Subscription",
         "description": "Retrieve information about",
         "operationId": "get_subscription_v1_billing_subscription__get",
@@ -9064,6 +9004,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -9075,16 +9025,6 @@
                   "status": "error",
                   "error_code": "INTERNAL_SERVER_ERROR",
                   "message": "Error: Internal Server Error"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -9099,9 +9039,7 @@
     },
     "/v1/notification/usage_alert": {
       "get": {
-        "tags": [
-          "Notifications"
-        ],
+        "tags": ["Notifications"],
         "summary": "Get Usage Alert Config",
         "description": "Retrieve information about usage_alert",
         "operationId": "get_usage_alert_config_v1_notification_usage_alert_get",
@@ -9112,36 +9050,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UsageAlertConfigurationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden - Insufficient permissions",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                },
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Missing required permissions"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                },
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Error: Internal Server Error"
                 }
               }
             }
@@ -9161,12 +9069,42 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                },
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Missing required permissions"
+                }
+              }
+            }
+          },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                },
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
                 }
               }
             }
@@ -9179,9 +9117,7 @@
         ]
       },
       "post": {
-        "tags": [
-          "Notifications"
-        ],
+        "tags": ["Notifications"],
         "summary": "Update Usage Alert Config",
         "description": "Create a new usage_alert",
         "operationId": "update_usage_alert_config_v1_notification_usage_alert_post",
@@ -9206,6 +9142,21 @@
               }
             }
           },
+          "400": {
+            "description": "Not Valid Field",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                },
+                "example": {
+                  "status": "error",
+                  "error_code": "NOT_VALID_FIELD",
+                  "message": "Invalid field value in query parameters"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden - Insufficient permissions",
             "content": {
@@ -9217,6 +9168,16 @@
                   "status": "error",
                   "error_code": "INTERNAL_SERVER_ERROR",
                   "message": "Missing required permissions"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -9235,31 +9196,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Not Valid Field",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                },
-                "example": {
-                  "status": "error",
-                  "error_code": "NOT_VALID_FIELD",
-                  "message": "Invalid field value in query parameters"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
         },
         "security": [
@@ -9271,9 +9207,7 @@
     },
     "/v1/workflow/": {
       "get": {
-        "tags": [
-          "Workflows"
-        ],
+        "tags": ["Workflows"],
         "summary": "List All Flows",
         "description": "List ALL flows from the user's workflow project.\n\nThis endpoint fetches flows directly from the workflow API (not cached) and\nsupports filtering by status and trigger type.\n\nArgs:\n    params: Query parameters including pagination and filters\n    auth_context: Authentication context\n    session: Database session\n\nReturns:\n    Paginated list of flows",
         "operationId": "list_all_flows_v1_workflow__get",
@@ -9430,9 +9364,7 @@
     },
     "/v1/workflow/templates": {
       "get": {
-        "tags": [
-          "Workflows"
-        ],
+        "tags": ["Workflows"],
         "summary": "List Flow Templates",
         "description": "List available workflow templates.\n\nTemplates are pre-configured workflow examples that users can browse\nto find starting points for their own workflows. Templates are global\n(not per-company).\n\nSupports filtering by:\n- digaTriggerType: Filter by Diga trigger type (call_finished, function_call)\n- usesMakeCallAction: Filter by whether template uses makeCall action\n\nArgs:\n    params: Query parameters including pagination and filters\n    auth: Authentication context\n    session: Database session\n\nReturns:\n    Paginated list of flow templates",
         "operationId": "list_flow_templates_v1_workflow_templates_get",
@@ -9510,10 +9442,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -9572,9 +9501,7 @@
     },
     "/v1/workflow/templates/{template_id}/copy": {
       "post": {
-        "tags": [
-          "Workflows"
-        ],
+        "tags": ["Workflows"],
         "summary": "Copy Template",
         "description": "Copy a workflow template to the user's project.\n\nThis creates a new flow in the user's project with the template content.\nThe flow will be created in a disabled state for the user to configure.\n\nArgs:\n    template_id: ID of the template to copy\n    request: Optional request body with custom flow name\n    auth_context: Authentication context\n    session: Database session\n\nReturns:\n    CopyTemplateResponse with flow_id, flow_name, and edit_url",
         "operationId": "copy_template_v1_workflow_templates__template_id__copy_post",
@@ -9623,14 +9550,11 @@
               }
             }
           },
-          "404": {
-            "description": "Template not found"
-          },
           "400": {
             "description": "Invalid template"
           },
-          "503": {
-            "description": "Workflow service unavailable"
+          "404": {
+            "description": "Template not found"
           },
           "422": {
             "description": "Validation Error",
@@ -9641,15 +9565,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Workflow service unavailable"
           }
         }
       }
     },
     "/v1/workflow/{flow_id}": {
       "get": {
-        "tags": [
-          "Workflows"
-        ],
+        "tags": ["Workflows"],
         "summary": "Get Flow By Id",
         "description": "Get a single flow by ID.\n\nArgs:\n    flow_id: The workflow flow ID.\n    auth_context: Authentication context.\n    session: Database session.\n\nReturns:\n    Flow details.",
         "operationId": "get_flow_by_id_v1_workflow__flow_id__get",
@@ -9695,9 +9620,7 @@
     },
     "/v1/log/call/{call_id}": {
       "get": {
-        "tags": [
-          "Logs"
-        ],
+        "tags": ["Logs"],
         "summary": "Get logs for a call",
         "description": "Retrieve external logs for a specific call. Returns customer-visible logs only.",
         "operationId": "get_call_logs_v1_log_call__call_id__get",
@@ -9787,10 +9710,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string",
               "default": "desc",
               "title": "Order"
@@ -9890,9 +9810,7 @@
     },
     "/v1/trace/call/{call_id}": {
       "get": {
-        "tags": [
-          "Traces"
-        ],
+        "tags": ["Traces"],
         "summary": "Get trace for a call",
         "description": "Retrieve the distributed trace data for a specific call from Tempo.",
         "operationId": "get_call_trace_v1_trace_call__call_id__get",
@@ -9941,6 +9859,16 @@
               }
             }
           },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
           "503": {
             "description": "Service unavailable - Cannot connect to Tempo",
             "content": {
@@ -9967,16 +9895,6 @@
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -10061,10 +9979,7 @@
       },
       "AgentMode": {
         "type": "string",
-        "enum": [
-          "free",
-          "path"
-        ],
+        "enum": ["free", "path"],
         "title": "AgentMode",
         "description": "Enum for Agent Modes."
       },
@@ -10142,7 +10057,23 @@
             "minimum": 0.8,
             "title": "Voice Speed",
             "description": "The speed of the voice used by the agent, beeing 1.0 the normal speed. Values lower than 1.0 will make the voice slower, while values higher than 1.0 will make the voice faster",
-            "default": 1
+            "default": 1.0
+          },
+          "voice_temperature": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Voice Temperature",
+            "description": "Controls voice expressiveness. Higher values produce more emotional/expressive speech, lower values produce more stable/consistent speech.",
+            "default": 0.5
+          },
+          "volume": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Volume",
+            "description": "Controls the output volume of the agent's voice. 50 is the default (no change), 0 is silent, 100 is maximum gain.",
+            "default": 50
           },
           "boosted_keywords": {
             "anyOf": [
@@ -10166,14 +10097,14 @@
           },
           "max_reminder_count": {
             "type": "integer",
-            "minimum": 0,
+            "minimum": 0.0,
             "title": "Max Reminder Count",
             "description": "The maximum number of reminders that can be sent to the caller. If not provided, the default value is 3. When reached the last reminder, the call gets hang up. Set this value to 0 to disable reminders",
             "default": 3
           },
           "reminder_frequency_ms": {
             "type": "integer",
-            "minimum": 1000,
+            "minimum": 1000.0,
             "title": "Reminder Frequency",
             "description": "The frequency in milliseconds to send reminders to the caller. If not provided, the default value is 7500. Set this value to 0 to disable reminders",
             "default": 7500
@@ -10305,6 +10236,7 @@
           "dynamic_variables": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -10313,9 +10245,7 @@
             ],
             "title": "Dynamic Variables",
             "description": "Agent-level dynamic variables for template interpolation",
-            "default": {
-
-            }
+            "default": {}
           },
           "background_audio": {
             "anyOf": [
@@ -10362,10 +10292,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "voice_id",
-          "language"
-        ],
+        "required": ["voice_id", "language"],
         "title": "AgentRequest"
       },
       "AgentResponseSchema": {
@@ -10500,7 +10427,23 @@
             "minimum": 0.8,
             "title": "Voice Speed",
             "description": "The speed of the voice used by the agent, beeing 1.0 the normal speed. Values lower than 1.0 will make the voice slower, while values higher than 1.0 will make the voice faster",
-            "default": 1
+            "default": 1.0
+          },
+          "voice_temperature": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Voice Temperature",
+            "description": "Controls voice expressiveness. Higher values produce more emotional/expressive speech, lower values produce more stable/consistent speech.",
+            "default": 0.5
+          },
+          "volume": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Volume",
+            "description": "Controls the output volume of the agent's voice. 50 is the default (no change), 0 is silent, 100 is maximum gain.",
+            "default": 50
           },
           "boosted_keywords": {
             "anyOf": [
@@ -10524,7 +10467,7 @@
           },
           "max_reminder_count": {
             "type": "integer",
-            "minimum": 0,
+            "minimum": 0.0,
             "title": "Max Reminder Count",
             "description": "The maximum number of reminders that can be sent to the caller. If not provided, the default value is 3. Set this value to 0 to disable reminders",
             "default": 3
@@ -10635,6 +10578,7 @@
           "dynamic_variables": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -10643,9 +10587,7 @@
             ],
             "title": "Dynamic Variables",
             "description": "Agent-level dynamic variables for template interpolation. Overridden by call-level variables.",
-            "default": {
-
-            }
+            "default": {}
           },
           "background_audio": {
             "anyOf": [
@@ -10736,6 +10678,7 @@
             "title": "Setup Guide Url"
           },
           "template": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Template"
           },
@@ -10745,16 +10688,11 @@
             },
             "type": "array",
             "title": "Variables",
-            "description": "List of \u003C\u003Cvariable\u003E\u003E placeholders found in the template"
+            "description": "List of <<variable>> placeholders found in the template"
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "name",
-          "language",
-          "template"
-        ],
+        "required": ["id", "name", "language", "template"],
         "title": "AgentTemplateResponse",
         "description": "Response model for agent templates."
       },
@@ -10830,6 +10768,16 @@
             "type": "number",
             "title": "Voice Speed",
             "description": "The speed of the voice used by the agent, beeing 1.0 the normal speed. Values lower than 1.0 will make the voice slower, while values higher than 1.0 will make the voice faster"
+          },
+          "voice_temperature": {
+            "type": "number",
+            "title": "Voice Temperature",
+            "description": "Controls voice expressiveness. Higher values produce more emotional/expressive speech, lower values produce more stable/consistent speech."
+          },
+          "volume": {
+            "type": "integer",
+            "title": "Volume",
+            "description": "Controls the output volume of the agent's voice. 50 is the default (no change), 0 is silent, 100 is maximum gain."
           },
           "boosted_keywords": {
             "anyOf": [
@@ -10970,6 +10918,7 @@
           "dynamic_variables": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -11055,10 +11004,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "agent_id",
-          "versions"
-        ],
+        "required": ["agent_id", "versions"],
         "title": "AgentWithVersionsDropdownResponse"
       },
       "ApiKeyRequestSchema": {
@@ -11103,10 +11049,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "restricted"
-        ],
+        "required": ["name", "restricted"],
         "title": "ApiKeyRequestSchema"
       },
       "ApiKeyResponse": {
@@ -11216,11 +11159,7 @@
       },
       "AppRole": {
         "type": "string",
-        "enum": [
-          "admin",
-          "member",
-          "reader"
-        ],
+        "enum": ["admin", "member", "reader"],
         "title": "AppRole"
       },
       "ApplyAgentTemplateRequest": {
@@ -11240,6 +11179,7 @@
           "variables": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -11247,7 +11187,7 @@
               }
             ],
             "title": "Variables",
-            "description": "Values to replace \u003C\u003Cvariable\u003E\u003E placeholders in the template."
+            "description": "Values to replace <<variable>> placeholders in the template."
           },
           "is_draft": {
             "type": "boolean",
@@ -11285,10 +11225,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "agent_id",
-          "version_id"
-        ],
+        "required": ["agent_id", "version_id"],
         "title": "ApplyAgentTemplateResponse",
         "description": "Response after applying a template to create an agent."
       },
@@ -11434,10 +11371,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "data_type"
-        ],
+        "required": ["name", "data_type"],
         "title": "BodyParamSchema",
         "description": "Schema for defining parameters with specific validations."
       },
@@ -11515,10 +11449,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "data_type"
-        ],
+        "required": ["name", "data_type"],
         "title": "BodyParamSchema",
         "description": "Schema for defining parameters with specific validations."
       },
@@ -11545,9 +11476,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "signed_document"
-        ],
+        "required": ["signed_document"],
         "title": "Body_create_verification_v1_verification__post"
       },
       "BranchCreateSchema": {
@@ -11562,10 +11491,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "to_node",
-          "condition"
-        ],
+        "required": ["to_node", "condition"],
         "title": "BranchCreateSchema",
         "description": "Defines a route between two nodes."
       },
@@ -11581,10 +11507,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "to_node",
-          "condition"
-        ],
+        "required": ["to_node", "condition"],
         "title": "BranchSchema",
         "description": "Defines a route between two nodes."
       },
@@ -11599,9 +11522,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "invitations"
-        ],
+        "required": ["invitations"],
         "title": "BulkInvitationCreateSchema"
       },
       "BulkInvitationResponseSchema": {
@@ -11622,10 +11543,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "successful",
-          "failed"
-        ],
+        "required": ["successful", "failed"],
         "title": "BulkInvitationResponseSchema"
       },
       "BulkRecordingRequest": {
@@ -11643,9 +11561,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "call_ids"
-        ],
+        "required": ["call_ids"],
         "title": "BulkRecordingRequest"
       },
       "CallLogResponse": {
@@ -11705,6 +11621,7 @@
           "data": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -11716,13 +11633,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "timestamp",
-          "level",
-          "category",
-          "event"
-        ],
+        "required": ["id", "timestamp", "level", "category", "event"],
         "title": "CallLogResponse",
         "description": "Response schema for call log entries.\n\nNote: message_text and error details (failure_reason) are stored\nin the `data` field, not as separate fields."
       },
@@ -11741,6 +11652,7 @@
           "dynamic_variables": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -11765,10 +11677,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "from_number",
-          "to_number"
-        ],
+        "required": ["from_number", "to_number"],
         "title": "CallRequest"
       },
       "CallResponse": {
@@ -11898,6 +11807,7 @@
           "dynamic_variables": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -11953,6 +11863,7 @@
             "description": "The name of the tool to call. It can be `transfer`, `hangup` or `detect_answering_machine`."
           },
           "payload": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Payload",
             "description": "Information that has been important during the tool call, such as the parameters passed to the tool, the tool results, errors, etc."
@@ -11966,29 +11877,18 @@
           },
           "status": {
             "type": "string",
-            "enum": [
-              "error",
-              "success",
-              "cancelled"
-            ],
+            "enum": ["error", "success", "cancelled"],
             "title": "Status",
             "description": "The status of the tool call, which can be `started`, `error`, `success` or `cancelled`."
           }
         },
         "type": "object",
-        "required": [
-          "tool_name",
-          "payload",
-          "status"
-        ],
+        "required": ["tool_name", "payload", "status"],
         "title": "CallToolSchema"
       },
       "CallType": {
         "type": "string",
-        "enum": [
-          "inbound",
-          "outbound"
-        ],
+        "enum": ["inbound", "outbound"],
         "title": "CallType"
       },
       "Card": {
@@ -12015,12 +11915,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "brand",
-          "last4",
-          "exp_month",
-          "exp_year"
-        ],
+        "required": ["brand", "last4", "exp_month", "exp_year"],
         "title": "Card",
         "description": "Schema representing a card object (a type of payment method - the only allowed in the app).\nCheck more at https://docs.stripe.com/api/cards?api-version=2025-04-30.preview"
       },
@@ -12031,17 +11926,12 @@
           }
         },
         "type": "object",
-        "required": [
-          "role"
-        ],
+        "required": ["role"],
         "title": "ChangeInvitationRoleSchema"
       },
       "Channel": {
         "type": "string",
-        "enum": [
-          "call",
-          "web"
-        ],
+        "enum": ["call", "web"],
         "title": "Channel"
       },
       "ConnectionCredential": {
@@ -12058,10 +11948,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "key",
-          "value"
-        ],
+        "required": ["key", "value"],
         "title": "ConnectionCredential",
         "description": "Credentials for a single connection."
       },
@@ -12091,12 +11978,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "created_date",
-          "identifier",
-          "contact_type"
-        ],
+        "required": ["id", "created_date", "identifier", "contact_type"],
         "title": "ContactResponseSchema"
       },
       "ConversationNodeCreateSchema": {
@@ -12253,10 +12135,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "prompt"
-        ],
+        "required": ["name", "prompt"],
         "title": "ConversationNodeCreateSchema"
       },
       "ConversationNodeResponseSchema": {
@@ -12413,10 +12292,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "prompt"
-        ],
+        "required": ["name", "prompt"],
         "title": "ConversationNodeResponseSchema",
         "description": "Defines a conversation node/state with all its properties."
       },
@@ -12437,6 +12313,7 @@
           "variables": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -12444,7 +12321,7 @@
               }
             ],
             "title": "Variables",
-            "description": "Values to replace \u003C\u003Cvariable\u003E\u003E placeholders. Supports string, number, boolean."
+            "description": "Values to replace <<variable>> placeholders. Supports string, number, boolean."
           },
           "connections": {
             "anyOf": [
@@ -12485,11 +12362,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "flow_id",
-          "flow_name",
-          "edit_url"
-        ],
+        "required": ["flow_id", "flow_name", "edit_url"],
         "title": "CopyTemplateResponse",
         "description": "Response after copying a template."
       },
@@ -12595,22 +12468,14 @@
           },
           "pre_speech": {
             "type": "string",
-            "enum": [
-              "auto",
-              "force"
-            ],
+            "enum": ["auto", "force"],
             "title": "Pre-Speech",
             "description": "Whether agent should speak before executing: 'auto' or 'force'",
             "default": "auto"
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "description",
-          "endpoint_path",
-          "method"
-        ],
+        "required": ["name", "description", "endpoint_path", "method"],
         "title": "CreateHttpToolRequestSchema"
       },
       "CreateIntegrationRequest": {
@@ -12670,11 +12535,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "base_url",
-          "integration_type"
-        ],
+        "required": ["name", "base_url", "integration_type"],
         "title": "CreateIntegrationRequest",
         "description": "Request schema for creating an integration."
       },
@@ -12756,9 +12617,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "title": "CreatePathRequestSchema",
         "description": "Request model for create or update path."
       },
@@ -12783,9 +12642,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "title": "CreateProjectRequest"
       },
       "CreateVerificationResponseSchema": {
@@ -12797,9 +12654,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "verification_id"
-        ],
+        "required": ["verification_id"],
         "title": "CreateVerificationResponseSchema",
         "description": "Response schema after creating a verification."
       },
@@ -12857,6 +12712,7 @@
           "metadata": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -12936,6 +12792,7 @@
           "metadata": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -12964,20 +12821,12 @@
           }
         },
         "type": "object",
-        "required": [
-          "id"
-        ],
+        "required": ["id"],
         "title": "CustomerResponseSchema"
       },
       "DataTypes": {
         "type": "string",
-        "enum": [
-          "string",
-          "integer",
-          "number",
-          "boolean",
-          "object"
-        ],
+        "enum": ["string", "integer", "number", "boolean", "object"],
         "title": "DataTypes"
       },
       "DetectAnsweringMachineToolSchema": {
@@ -12996,9 +12845,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "title": "DetectAnsweringMachineToolSchema",
         "description": "Settings schema for the detect answering machine call-tool."
       },
@@ -13076,9 +12923,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "title": "EndNodeCreateSchema"
       },
       "EndNodeResponseSchema": {
@@ -13155,9 +13000,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "title": "EndNodeResponseSchema",
         "description": "Defines an end node with all its properties."
       },
@@ -13191,19 +13034,13 @@
           }
         },
         "type": "object",
-        "required": [
-          "error_code",
-          "message"
-        ],
+        "required": ["error_code", "message"],
         "title": "ErrorResponseSchema",
         "description": "Standard error response format for all API errors."
       },
       "ExecutionAudio": {
         "type": "string",
-        "enum": [
-          "waiting_music",
-          "typing"
-        ],
+        "enum": ["waiting_music", "typing"],
         "title": "ExecutionAudio"
       },
       "FailedKnowledgeItem": {
@@ -13220,10 +13057,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "error"
-        ],
+        "required": ["name", "error"],
         "title": "FailedKnowledgeItem"
       },
       "FileKnowledgeItemResponse": {
@@ -13288,13 +13122,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "name",
-          "created_date",
-          "status",
-          "url"
-        ],
+        "required": ["id", "name", "created_date", "status", "url"],
         "title": "FileKnowledgeItemResponse"
       },
       "FileUploadResponse": {
@@ -13317,10 +13145,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "successful_items",
-          "failed_items"
-        ],
+        "required": ["successful_items", "failed_items"],
         "title": "FileUploadResponse"
       },
       "FlowAllResponse": {
@@ -13382,22 +13207,13 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "created",
-          "updated"
-        ],
+        "required": ["id", "created", "updated"],
         "title": "FlowAllResponse",
         "description": "Flow response."
       },
       "FlowCategory": {
         "type": "string",
-        "enum": [
-          "post_call",
-          "during_call",
-          "pre_call",
-          "empty"
-        ],
+        "enum": ["post_call", "during_call", "pre_call", "empty"],
         "title": "FlowCategory"
       },
       "FlowNodeCreateSchema": {
@@ -13478,10 +13294,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "flow_id"
-        ],
+        "required": ["name", "flow_id"],
         "title": "FlowNodeCreateSchema"
       },
       "FlowNodeResponseSchema": {
@@ -13569,17 +13382,12 @@
           }
         },
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "title": "FlowNodeResponseSchema"
       },
       "FlowStatus": {
         "type": "string",
-        "enum": [
-          "ENABLED",
-          "DISABLED"
-        ],
+        "enum": ["ENABLED", "DISABLED"],
         "title": "FlowStatus"
       },
       "FlowTemplateResponse": {
@@ -13635,6 +13443,7 @@
             "description": "URL to documentation or setup guide"
           },
           "template": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Template",
             "description": "Flow template JSON"
@@ -13660,16 +13469,11 @@
             },
             "type": "array",
             "title": "Variables",
-            "description": "List of \u003C\u003Cvariable\u003E\u003E placeholders found in the template"
+            "description": "List of <<variable>> placeholders found in the template"
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "name",
-          "language",
-          "template"
-        ],
+        "required": ["id", "name", "language", "template"],
         "title": "FlowTemplateResponse",
         "description": "Response model for flow templates."
       },
@@ -13681,17 +13485,14 @@
             "description": "The name of the function to call."
           },
           "payload": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Payload",
             "description": "The payload to pass to the function during the call."
           },
           "status": {
             "type": "string",
-            "enum": [
-              "error",
-              "success",
-              "cancelled"
-            ],
+            "enum": ["error", "success", "cancelled"],
             "title": "Status",
             "description": "The status of the function call, which can be `started`, `error`, `success` or `cancelled`."
           },
@@ -13704,11 +13505,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "function_name",
-          "payload",
-          "status"
-        ],
+        "required": ["function_name", "payload", "status"],
         "title": "FunctionSchema"
       },
       "HTTPValidationError": {
@@ -13752,21 +13549,13 @@
           }
         },
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "title": "HangUpToolSchema",
         "description": "Settings schema for the hang-up call-tool."
       },
       "HttpMethods": {
         "type": "string",
-        "enum": [
-          "GET",
-          "POST",
-          "PUT",
-          "DELETE",
-          "PATCH"
-        ],
+        "enum": ["GET", "POST", "PUT", "DELETE", "PATCH"],
         "title": "HttpMethods"
       },
       "HttpToolResponseSchema": {
@@ -13897,30 +13686,19 @@
           },
           "pre_speech": {
             "type": "string",
-            "enum": [
-              "auto",
-              "force"
-            ],
+            "enum": ["auto", "force"],
             "title": "Pre-Speech",
             "description": "Whether agent should speak before executing: 'auto' or 'force'",
             "default": "auto"
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "name",
-          "headers",
-          "method"
-        ],
+        "required": ["id", "name", "headers", "method"],
         "title": "HttpToolResponseSchema"
       },
       "IntegrationAuthType": {
         "type": "string",
-        "enum": [
-          "NONE",
-          "API_KEY"
-        ],
+        "enum": ["NONE", "API_KEY"],
         "title": "IntegrationAuthType"
       },
       "IntegrationResponse": {
@@ -14023,10 +13801,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "integration_id",
-          "tool_ids"
-        ],
+        "required": ["integration_id", "tool_ids"],
         "title": "IntegrationToolsRequest",
         "description": "Request schema for assigning tools from an integration to an agent."
       },
@@ -14054,20 +13829,13 @@
           }
         },
         "type": "object",
-        "required": [
-          "integration_id",
-          "integration_name",
-          "tool_ids"
-        ],
+        "required": ["integration_id", "integration_name", "tool_ids"],
         "title": "IntegrationToolsResponse",
         "description": "Response schema for integration and its assigned tools."
       },
       "IntegrationType": {
         "type": "string",
-        "enum": [
-          "HTTP",
-          "MCP"
-        ],
+        "enum": ["HTTP", "MCP"],
         "title": "IntegrationType",
         "description": "Integration type enum"
       },
@@ -14083,9 +13851,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "email"
-        ],
+        "required": ["email"],
         "title": "InvitationCreateSchema"
       },
       "InvitationResponseSchema": {
@@ -14195,10 +13961,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "email",
-          "success"
-        ],
+        "required": ["email", "success"],
         "title": "InvitationResultSchema"
       },
       "KnowledgeBaseCreateSchema": {
@@ -14237,9 +14000,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "title": "KnowledgeBaseCreateSchema"
       },
       "KnowledgeBaseResponseSchema": {
@@ -14296,12 +14057,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "name",
-          "knowledge_item_ids",
-          "item_count"
-        ],
+        "required": ["id", "name", "knowledge_item_ids", "item_count"],
         "title": "KnowledgeBaseResponseSchema"
       },
       "KnowledgeBaseUpdateSchema": {
@@ -14344,20 +14100,12 @@
       },
       "KnowledgeItemCategory": {
         "type": "string",
-        "enum": [
-          "file",
-          "txt",
-          "url"
-        ],
+        "enum": ["file", "txt", "url"],
         "title": "KnowledgeItemCategory"
       },
       "KnowledgeItemStatus": {
         "type": "string",
-        "enum": [
-          "indexing",
-          "uploaded",
-          "error"
-        ],
+        "enum": ["indexing", "uploaded", "error"],
         "title": "KnowledgeItemStatus"
       },
       "KnowledgeItemUpdate": {
@@ -14404,10 +14152,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "used_bytes",
-          "item_count"
-        ],
+        "required": ["used_bytes", "item_count"],
         "title": "KnowledgeStorageUsageResponse"
       },
       "LaunchVersionRequest": {
@@ -14437,9 +14182,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "email"
-        ],
+        "required": ["email"],
         "title": "Link",
         "description": "Schema representing a link object (a type of payment method).\nCheck more at https://docs.stripe.com/api/payment_methods/object?api-version=2025-04-30.preview#payment_method_object-link"
       },
@@ -14464,13 +14207,7 @@
       },
       "LogLevel": {
         "type": "string",
-        "enum": [
-          "DEBUG",
-          "INFO",
-          "WARNING",
-          "ERROR",
-          "CRITICAL"
-        ],
+        "enum": ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
         "title": "LogLevel",
         "description": "Log severity levels with numeric codes."
       },
@@ -14508,6 +14245,7 @@
           "parameters": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -14525,10 +14263,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "description"
-        ],
+        "required": ["name", "description"],
         "title": "McpToolSchema"
       },
       "MemberResponseSchema": {
@@ -14581,12 +14316,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "email",
-          "role",
-          "added_at"
-        ],
+        "required": ["id", "email", "role", "added_at"],
         "title": "MemberResponseSchema",
         "description": "Schema for member information including their role in the project."
       },
@@ -14638,20 +14368,12 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "created_date",
-          "role"
-        ],
+        "required": ["id", "created_date", "role"],
         "title": "MessageResponse"
       },
       "MessageRole": {
         "type": "string",
-        "enum": [
-          "user",
-          "assistant",
-          "tool"
-        ],
+        "enum": ["user", "assistant", "tool"],
         "title": "MessageRole"
       },
       "PaginatedResponseStrId_FlowAllResponse_": {
@@ -14713,10 +14435,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponseStrId[FlowAllResponse]"
       },
       "PaginatedResponse_AgentResponseSchema_": {
@@ -14780,10 +14499,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[AgentResponseSchema]"
       },
       "PaginatedResponse_AgentTemplateResponse_": {
@@ -14847,10 +14563,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[AgentTemplateResponse]"
       },
       "PaginatedResponse_Annotated_Union_FileKnowledgeItemResponse__URLKnowledgeItemResponse__TextKnowledgeItemResponse___FieldInfo_annotation_NoneType__required_True__discriminator__category____": {
@@ -14932,10 +14645,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[Annotated[Union[FileKnowledgeItemResponse, URLKnowledgeItemResponse, TextKnowledgeItemResponse], FieldInfo(annotation=NoneType, required=True, discriminator='category')]]"
       },
       "PaginatedResponse_CallLogResponse_": {
@@ -14999,10 +14709,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[CallLogResponse]"
       },
       "PaginatedResponse_CallResponse_": {
@@ -15066,10 +14773,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[CallResponse]"
       },
       "PaginatedResponse_FlowTemplateResponse_": {
@@ -15133,10 +14837,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[FlowTemplateResponse]"
       },
       "PaginatedResponse_IntegrationResponse_": {
@@ -15200,10 +14901,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[IntegrationResponse]"
       },
       "PaginatedResponse_KnowledgeBaseResponseSchema_": {
@@ -15267,10 +14965,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[KnowledgeBaseResponseSchema]"
       },
       "PaginatedResponse_MemberResponseSchema_": {
@@ -15334,10 +15029,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[MemberResponseSchema]"
       },
       "PaginatedResponse_MessageResponse_": {
@@ -15401,10 +15093,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[MessageResponse]"
       },
       "PaginatedResponse_PathResponseSchema_": {
@@ -15468,10 +15157,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[PathResponseSchema]"
       },
       "PaginatedResponse_PhoneRegisterResponseSchema_": {
@@ -15535,10 +15221,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[PhoneRegisterResponseSchema]"
       },
       "PaginatedResponse_ProjectResponseSchema_": {
@@ -15602,10 +15285,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[ProjectResponseSchema]"
       },
       "PaginatedResponse_RedactedApiKeyResponseSchema_": {
@@ -15669,10 +15349,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[RedactedApiKeyResponseSchema]"
       },
       "PaginatedResponse_Union_HttpToolResponseSchema__McpToolSchema__": {
@@ -15743,10 +15420,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[Union[HttpToolResponseSchema, McpToolSchema]]"
       },
       "PaginatedResponse_VerificationResponseSchema_": {
@@ -15810,10 +15484,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[VerificationResponseSchema]"
       },
       "PaginatedResponse_VoiceResponseSchema_": {
@@ -15877,10 +15548,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[VoiceResponseSchema]"
       },
       "PaginatedResponse_WebhookResponse_": {
@@ -15944,19 +15612,12 @@
           }
         },
         "type": "object",
-        "required": [
-          "data",
-          "has_more"
-        ],
+        "required": ["data", "has_more"],
         "title": "PaginatedResponse[WebhookResponse]"
       },
       "ParamValueSource": {
         "type": "string",
-        "enum": [
-          "llm",
-          "fixed",
-          "dynamic"
-        ],
+        "enum": ["llm", "fixed", "dynamic"],
         "title": "ParamValueSource"
       },
       "PathResponseSchema": {
@@ -16043,11 +15704,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "name",
-          "nodes"
-        ],
+        "required": ["id", "name", "nodes"],
         "title": "PathResponseSchema",
         "description": "Response model for path"
       },
@@ -16095,11 +15752,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "type",
-          "card"
-        ],
+        "required": ["id", "type", "card"],
         "title": "PaymentMethodResponseSchema",
         "description": "Schema representing a payment method object.\nCheck more at https://docs.stripe.com/api/payment_methods?api-version=2025-04-30.preview"
       },
@@ -16274,22 +15927,12 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "number",
-          "telephony_provider",
-          "status"
-        ],
+        "required": ["id", "number", "telephony_provider", "status"],
         "title": "PhoneRegisterResponseSchema"
       },
       "PhoneRegisterStatus": {
         "type": "string",
-        "enum": [
-          "reserved",
-          "assigned",
-          "released",
-          "finished"
-        ],
+        "enum": ["reserved", "assigned", "released", "finished"],
         "title": "PhoneRegisterStatus",
         "description": "Enum representing the status of a phone number register. The cycle is as follows:\n- RESERVED: The phone number is reserved for a certain amount of time before being assigned\n- ASSIGNED: The phone number is assigned to a company\n- RELEASED: The phone number is released from the company and is pending availability for purchase (30 days before it can be purchased again)\n- FINISHED: The phone register process is finished, and the phone number is available for purchase again. Once a phone number reaches this status, it cannot return to previous statuses."
       },
@@ -16342,8 +15985,8 @@
           "phone_number": {
             "type": "string",
             "format": "phone",
-            "title": "Phone Numbers",
-            "description": "List of phone numbers to be imported"
+            "title": "Phone Number",
+            "description": "Phone number to be imported"
           },
           "nickname": {
             "anyOf": [
@@ -16371,9 +16014,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "phone_number"
-        ],
+        "required": ["phone_number"],
         "title": "PostImportPhoneNumberRequestSchema"
       },
       "ProjectResponseSchema": {
@@ -16415,10 +16056,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "members_count"
-        ],
+        "required": ["name", "members_count"],
         "title": "ProjectResponseSchema"
       },
       "PublishAgentRequest": {
@@ -16515,9 +16153,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "agent_id"
-        ],
+        "required": ["agent_id"],
         "title": "PublishAgentResponse"
       },
       "QueryParamSchema": {
@@ -16579,10 +16215,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "data_type"
-        ],
+        "required": ["name", "data_type"],
         "title": "QueryParamSchema",
         "description": "Schema for defining parameters with specific validations."
       },
@@ -16595,9 +16228,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "recording_url"
-        ],
+        "required": ["recording_url"],
         "title": "RecordingResponse"
       },
       "RedactedApiKeyResponseSchema": {
@@ -16662,6 +16293,23 @@
         ],
         "title": "RedactedApiKeyResponseSchema"
       },
+      "ResolveVoiceRequest": {
+        "properties": {
+          "provider_voice_id": {
+            "type": "string",
+            "title": "Provider Voice Id",
+            "description": "The voice ID from the provider"
+          },
+          "provider": {
+            "$ref": "#/components/schemas/VoiceProvider",
+            "description": "The voice provider",
+            "default": "elevenlabs"
+          }
+        },
+        "type": "object",
+        "required": ["provider_voice_id"],
+        "title": "ResolveVoiceRequest"
+      },
       "RoleResponseSchema": {
         "properties": {
           "id": {
@@ -16685,22 +16333,13 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "name",
-          "permissions"
-        ],
+        "required": ["id", "name", "permissions"],
         "title": "RoleResponseSchema",
         "description": "Schema for role information including associated permissions."
       },
       "SimpleDataTypes": {
         "type": "string",
-        "enum": [
-          "string",
-          "integer",
-          "number",
-          "boolean"
-        ],
+        "enum": ["string", "integer", "number", "boolean"],
         "title": "SimpleDataTypes"
       },
       "SipConfig": {
@@ -16709,10 +16348,7 @@
             "type": "string",
             "title": "Termination URI",
             "description": "SIP termination URI for the imported phone number. Used for making outbound calls. Mandatory if sip_config is provided",
-            "examples": [
-              "mysipuri.pstn.twilio.com",
-              "mysipuri.netelip.com"
-            ]
+            "examples": ["mysipuri.pstn.twilio.com", "mysipuri.netelip.com"]
           },
           "username": {
             "anyOf": [
@@ -16740,9 +16376,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "termination_uri"
-        ],
+        "required": ["termination_uri"],
         "title": "SipConfig"
       },
       "SpanResponse": {
@@ -16798,6 +16432,7 @@
             "description": "The status of the span (OK, ERROR, etc.)."
           },
           "tags": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Tags",
             "description": "Key-value pairs of span attributes/tags."
@@ -16919,9 +16554,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "title": "StartNodeCreateSchema"
       },
       "StartNodeResponseSchema": {
@@ -17014,9 +16647,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "title": "StartNodeResponseSchema",
         "description": "Defines a start node with all its properties."
       },
@@ -17165,6 +16796,7 @@
           "input": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -17176,6 +16808,7 @@
           "propertySettings": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -17187,6 +16820,7 @@
           "sampleData": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -17199,6 +16833,7 @@
             "anyOf": [
               {
                 "items": {
+                  "additionalProperties": true,
                   "type": "object"
                 },
                 "type": "array"
@@ -17234,10 +16869,7 @@
           },
           "period": {
             "type": "string",
-            "enum": [
-              "month",
-              "year"
-            ],
+            "enum": ["month", "year"],
             "title": "Period",
             "description": "Billing period of the next subscription plan"
           },
@@ -17248,11 +16880,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "period",
-          "price"
-        ],
+        "required": ["name", "period", "price"],
         "title": "SubscriptionPhaseSchema"
       },
       "SubscriptionSchema": {
@@ -17322,12 +16950,7 @@
           },
           "period": {
             "type": "string",
-            "enum": [
-              "month",
-              "year",
-              "day",
-              "week"
-            ],
+            "enum": ["month", "year", "day", "week"],
             "title": "Period",
             "description": "Billing period of the subscription plan"
           },
@@ -17396,6 +17019,12 @@
             "type": "integer",
             "title": "Knowledge Items Count",
             "description": "Total number of knowledge items"
+          },
+          "copilot_usage_percent": {
+            "type": "number",
+            "title": "Copilot Usage Percent",
+            "description": "Percentage of weekly copilot budget used (0-100)",
+            "default": 0.0
           }
         },
         "type": "object",
@@ -17421,10 +17050,7 @@
       },
       "TelephonyProvider": {
         "type": "string",
-        "enum": [
-          "netelip",
-          "custom"
-        ],
+        "enum": ["netelip", "custom"],
         "title": "TelephonyProvider"
       },
       "TemplateConnectionInfo": {
@@ -17463,12 +17089,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "key",
-          "name",
-          "piece_name",
-          "auth_type"
-        ],
+        "required": ["key", "name", "piece_name", "auth_type"],
         "title": "TemplateConnectionInfo",
         "description": "Information about a connection required by a template."
       },
@@ -17499,10 +17120,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "content"
-        ],
+        "required": ["name", "content"],
         "title": "TextKnowledgeItemRequest"
       },
       "TextKnowledgeItemResponse": {
@@ -17574,12 +17192,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "name",
-          "created_date",
-          "status"
-        ],
+        "required": ["id", "name", "created_date", "status"],
         "title": "TextKnowledgeItemResponse"
       },
       "ToolApprovalUpdate": {
@@ -17597,10 +17210,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "tool_id",
-          "approval_required"
-        ],
+        "required": ["tool_id", "approval_required"],
         "title": "ToolApprovalUpdate",
         "description": "Single tool approval update."
       },
@@ -17688,11 +17298,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "integration_id",
-          "tool_id"
-        ],
+        "required": ["name", "integration_id", "tool_id"],
         "title": "ToolNodeCreateSchema"
       },
       "ToolNodeResponseSchema": {
@@ -17779,11 +17385,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "integration_id",
-          "tool_id"
-        ],
+        "required": ["name", "integration_id", "tool_id"],
         "title": "ToolNodeResponseSchema"
       },
       "TraceResponse": {
@@ -17871,10 +17473,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "span_count"
-        ],
+        "required": ["id", "span_count"],
         "title": "TraceResponse",
         "description": "Response schema for a complete trace."
       },
@@ -17918,19 +17517,14 @@
           },
           "transfer_type": {
             "type": "string",
-            "enum": [
-              "transfer",
-              "invite"
-            ],
+            "enum": ["transfer", "invite"],
             "title": "Transfer Type",
             "description": "The type of transfer to perform: 'transfer' for a SIP-transfer, or 'invite' for a SIP-invite.",
             "default": "transfer"
           }
         },
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "title": "TransferCallToolSchema",
         "description": "Settings schema for the transfer call-tool."
       },
@@ -18012,10 +17606,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "phone_number"
-        ],
+        "required": ["name", "phone_number"],
         "title": "TransferNodeCreateSchema"
       },
       "TransferNodeResponseSchema": {
@@ -18096,10 +17687,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "name",
-          "phone_number"
-        ],
+        "required": ["name", "phone_number"],
         "title": "TransferNodeResponseSchema",
         "description": "Defines a transfer call node with all its properties."
       },
@@ -18212,6 +17800,7 @@
           "input": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -18223,6 +17812,7 @@
           "propertySettings": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -18234,6 +17824,7 @@
           "sampleData": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -18268,9 +17859,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "url"
-        ],
+        "required": ["url"],
         "title": "URLKnowledgeItem"
       },
       "URLKnowledgeItemRequest": {
@@ -18298,9 +17887,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "items"
-        ],
+        "required": ["items"],
         "title": "URLKnowledgeItemRequest"
       },
       "URLKnowledgeItemResponse": {
@@ -18365,13 +17952,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "name",
-          "created_date",
-          "status",
-          "url"
-        ],
+        "required": ["id", "name", "created_date", "status", "url"],
         "title": "URLKnowledgeItemResponse"
       },
       "URLUploadResponse": {
@@ -18394,10 +17975,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "successful_items",
-          "failed_items"
-        ],
+        "required": ["successful_items", "failed_items"],
         "title": "URLUploadResponse"
       },
       "UpdateHttpToolRequestSchema": {
@@ -18507,10 +18085,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "enum": [
-                  "auto",
-                  "force"
-                ]
+                "enum": ["auto", "force"]
               },
               {
                 "type": "null"
@@ -18588,9 +18163,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "role"
-        ],
+        "required": ["role"],
         "title": "UpdateMemberRoleRequest",
         "description": "Request to update a member's role in the project."
       },
@@ -18711,9 +18284,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "tools"
-        ],
+        "required": ["tools"],
         "title": "UpdateToolsApprovalRequest",
         "description": "Request to bulk update approval settings for tools."
       },
@@ -18732,8 +18303,8 @@
           },
           "percent": {
             "type": "integer",
-            "maximum": 99,
-            "minimum": 1,
+            "maximum": 99.0,
+            "minimum": 1.0,
             "title": "Threshold Percent",
             "description": "Percentage of included minutes USED at which the alert is triggered (1-99)",
             "examples": [80, 75]
@@ -18746,12 +18317,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "enabled",
-          "percent",
-          "updated_at"
-        ],
+        "required": ["id", "enabled", "percent", "updated_at"],
         "title": "UsageAlertConfigurationResponse"
       },
       "UsageAlertNotificationRequest": {
@@ -18764,8 +18330,8 @@
           },
           "percent": {
             "type": "integer",
-            "maximum": 99,
-            "minimum": 1,
+            "maximum": 99.0,
+            "minimum": 1.0,
             "title": "Threshold Percent",
             "description": "Percentage of included minutes USED at which the alert will fire (1-99)",
             "examples": [80]
@@ -18775,17 +18341,11 @@
             "format": "email",
             "title": "Notification Email",
             "description": "The email address to send usage alert notifications to",
-            "examples": [
-              "contact@diga.io"
-            ]
+            "examples": ["contact@diga.io"]
           }
         },
         "type": "object",
-        "required": [
-          "enabled",
-          "percent",
-          "notification_email"
-        ],
+        "required": ["enabled", "percent", "notification_email"],
         "title": "UsageAlertNotificationRequest"
       },
       "ValidationError": {
@@ -18814,11 +18374,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "loc",
-          "msg",
-          "type"
-        ],
+        "required": ["loc", "msg", "type"],
         "title": "ValidationError"
       },
       "VerificationResponseSchema": {
@@ -18856,20 +18412,13 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "status"
-        ],
+        "required": ["id", "status"],
         "title": "VerificationResponseSchema",
         "description": "Response schema for verification info."
       },
       "VerificationStatus": {
         "type": "string",
-        "enum": [
-          "pending",
-          "verified",
-          "rejected"
-        ],
+        "enum": ["pending", "verified", "rejected"],
         "title": "VerificationStatus"
       },
       "VersionItem": {
@@ -18911,11 +18460,13 @@
           }
         },
         "type": "object",
-        "required": [
-          "version_id",
-          "version_number"
-        ],
+        "required": ["version_id", "version_number"],
         "title": "VersionItem"
+      },
+      "VoiceProvider": {
+        "type": "string",
+        "enum": ["elevenlabs"],
+        "title": "VoiceProvider"
       },
       "VoiceResponseSchema": {
         "properties": {
@@ -18923,7 +18474,7 @@
             "type": "string",
             "format": "uuid",
             "title": "Voice Id",
-            "description": "The unique identifier for the voice"
+            "description": "The unique identifier for the voice in Diga"
           },
           "name": {
             "type": "string",
@@ -18942,6 +18493,16 @@
             "title": "Description",
             "description": "The description given to the voice"
           },
+          "provider": {
+            "$ref": "#/components/schemas/VoiceProvider",
+            "title": "Provider",
+            "description": "The voice provider"
+          },
+          "provider_voice_id": {
+            "type": "string",
+            "title": "Provider Voice Id",
+            "description": "The voice ID in the provider's system"
+          },
           "preview_url": {
             "anyOf": [
               {
@@ -18953,20 +18514,75 @@
             ],
             "title": "Preview URL",
             "description": "A URL to a preview audio file for the voice"
+          },
+          "gender": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gender",
+            "description": "The gender of the voice"
+          },
+          "language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Language",
+            "description": "The language of the voice"
+          },
+          "accent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Accent",
+            "description": "The accent of the voice"
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags",
+            "description": "Voice tags (e.g. age, descriptive, use_case)"
+          },
+          "is_favourite": {
+            "type": "boolean",
+            "title": "Is Favourite",
+            "description": "Whether the voice is a favourite for the current company"
           }
         },
         "type": "object",
         "required": [
           "id",
-          "name"
+          "name",
+          "provider",
+          "provider_voice_id",
+          "is_favourite"
         ],
         "title": "VoiceResponseSchema"
       },
       "WebhookEvent": {
         "type": "string",
-        "enum": [
-          "status_changed"
-        ],
+        "enum": ["status_changed"],
         "title": "WebhookEvent"
       },
       "WebhookRequest": {
@@ -18988,10 +18604,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "url",
-          "subscribed_events"
-        ],
+        "required": ["url", "subscribed_events"],
         "title": "WebhookRequest"
       },
       "WebhookResponse": {
@@ -19023,12 +18636,7 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "url",
-          "subscribed_events",
-          "created_date"
-        ],
+        "required": ["id", "url", "subscribed_events", "created_date"],
         "title": "WebhookResponse"
       },
       "WebhookUpdateRequest": {

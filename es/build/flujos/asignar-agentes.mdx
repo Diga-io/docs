@@ -1,0 +1,114 @@
+---
+title: "Asignar Flujos a Agentes"
+description: "Conecta tus flujos con agentes específicos para que se ejecuten durante o después de las llamadas"
+---
+
+## ¿Por qué Asignar Flujos?
+
+Los flujos con triggers de Diga (Llamada finalizada y Llamada a función) solo se ejecutan para los agentes a los que están asignados. Esto te permite:
+
+- Usar flujos diferentes para agentes diferentes
+- Controlar qué automatizaciones se ejecutan para cada agente
+- Probar flujos con un agente específico antes de aplicarlos a otros
+
+<Warning>
+  Esta página aplica solo a **agentes de prompt único**. Si tu agente usa [caminos conversacionales](/es/build/agentes/camino-conversacional), los flujos se asignan directamente a través de [nodos de flujo](/es/build/agentes/camino-conversacional/tipos-nodos#nodo-de-flujo) en el editor de caminos.
+</Warning>
+
+<Note>
+  **Prerequisito**: El flujo debe estar **publicado** y **habilitado** antes de asignarlo a un agente. Si necesitas crear un flujo primero, consulta [Crear Flujos](/es/build/flujos/crear-flujos).
+</Note>
+
+## Asignar un Flujo
+
+<Steps>
+  <Step title="Accede a tu agente">
+    Desde el dashboard, ve a la sección **Agentes** y selecciona el agente al que quieres asignar flujos.
+  </Step>
+
+  <Step title="Ve a la sección de Flujos">
+    En la configuración del agente, busca la sección **Flujos**. Aquí verás los flujos actualmente asignados y podrás añadir nuevos.
+
+    <Frame>
+      <img src="/images/flujos-asignar-placeholder.png" alt="Sección de flujos en la configuración del agente" />
+    </Frame>
+  </Step>
+
+  <Step title="Asigna flujos post-llamada">
+    Selecciona los flujos que quieres que se ejecuten cuando las llamadas de este agente finalicen. Puedes asignar **múltiples flujos post-llamada** al mismo agente — todos se ejecutarán cuando la llamada termine.
+  </Step>
+
+  <Step title="Asigna flujos durante llamada">
+    Selecciona los flujos que quieres que el agente pueda usar como herramientas durante la conversación. Puedes asignar **múltiples flujos durante llamada** al mismo agente.
+
+    Cada flujo durante llamada aparece como una herramienta disponible para el agente. El agente decidirá cuál usar según el contexto de la conversación y la descripción que configuraste en el trigger de Llamada a función.
+  </Step>
+
+  <Step title="Guarda los cambios">
+    Los cambios se guardan automáticamente. Los flujos asignados estarán activos en la siguiente llamada del agente.
+  </Step>
+</Steps>
+
+## Post-llamada vs Durante llamada
+
+| Característica | Post-llamada | Durante llamada |
+|---|---|---|
+| **Cuándo se ejecuta** | Al terminar la llamada | En medio de la conversación |
+| **Cantidad por agente** | Múltiples | Múltiples |
+| **El agente espera respuesta** | No | Sí (modo síncrono) o No (modo asíncrono) |
+| **El usuario nota algo** | No, es transparente | Sí, el agente puede informar de la espera |
+| **Trigger** | Llamada finalizada | Llamada a función |
+
+## Flujos y Versiones de Agente
+
+Los flujos se asignan a **versiones específicas** de un agente. Esto significa que:
+
+- Diferentes versiones del mismo agente pueden tener flujos diferentes
+- Puedes probar nuevos flujos en una versión de desarrollo sin afectar la versión de producción
+- Al crear una nueva versión, los flujos asignados no se copian automáticamente
+
+<Tip>
+  Usa el [control de versiones](/es/build/agentes/control-versiones) junto con la asignación de flujos para probar nuevas automatizaciones de forma segura.
+</Tip>
+
+## Verificar la Asignación
+
+Después de asignar flujos, verifica que todo funcione correctamente:
+
+1. Realiza una [llamada de prueba](/es/build/agentes/llamadas-test) con el agente
+2. Para flujos **post-llamada**: verifica que la acción se ejecutó después de colgar (email enviado, registro creado, etc.)
+3. Para flujos **durante llamada**: durante la llamada, pide al agente que ejecute la acción (ej. "consulta mi disponibilidad para mañana")
+4. Revisa el historial de ejecuciones del flujo para confirmar que se ejecutó correctamente
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="La pieza de Diga"
+    icon="puzzle"
+    href="/es/build/flujos/pieza-diga"
+  >
+    Conoce en detalle los triggers y acciones disponibles.
+  </Card>
+  <Card
+    title="Llamadas de prueba"
+    icon="phone"
+    href="/es/build/agentes/llamadas-test"
+  >
+    Prueba tus agentes con flujos asignados.
+  </Card>
+  <Card
+    title="Crear flujos"
+    icon="plus"
+    href="/es/build/flujos/crear-flujos"
+  >
+    Crea nuevos flujos para tus agentes.
+  </Card>
+  <Card
+    title="Control de versiones"
+    icon="/icons/layers-three-02.svg"
+    href="/es/build/agentes/control-versiones"
+  >
+    Gestiona versiones de agentes con diferentes flujos.
+  </Card>
+</CardGroup>

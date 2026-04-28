@@ -1,0 +1,135 @@
+---
+title: "Introduction to Workflows"
+description: "Orchestrate multi-step automations before, during, and after your agent calls"
+---
+
+## What are Workflows?
+
+Workflows are multi-step automations that connect your agent calls with external services through a visual builder. Where an [integration](/en/build/integrations/introduction) handles a single API call, a workflow lets you chain multiple steps together across different services, with logic and conditions in between.
+
+For example, when a call ends a workflow can extract the key points from the transcript, create a deal in HubSpot, add a row to a Google Sheet, and notify your team on Slack, all as a single automated sequence.
+
+<Note>
+  Workflows are optional. Your agents work without them. Use them when you need to orchestrate multiple steps or services, not just call a single endpoint.
+</Note>
+
+## Workflows vs Integrations
+
+Both tools connect your agents with external services, but they serve different purposes:
+
+| | Integrations | Workflows |
+|---|---|---|
+| **What they do** | Call a single API endpoint | Chain multiple steps across services |
+| **When they run** | During a call only | Before, during, or after a call |
+| **Setup** | Configure endpoint + parameters | Visual builder with 200+ pieces |
+| **Logic** | None | Conditions, loops, delays, code |
+| **Best for** | Looking up or writing data to one system | Orchestrating across multiple systems |
+
+**Use an integration** when your agent needs to hit one endpoint and return the result to the conversation. For example, checking order status in your database or creating a ticket in your CRM.
+
+**Use a workflow** when you need more than that: multiple services involved, post-call processing, outbound call campaigns, or any logic that goes beyond a single request.
+
+## Types of Workflows
+
+<CardGroup cols={3}>
+  <Card title="Post-call" icon="circle-check">
+    Execute automatically when a call ends. Ideal for logging, notifications, and updating systems with call data.
+  </Card>
+  <Card title="During call" icon="bolt">
+    Execute as agent tools mid-conversation. Use when a single API call isn't enough and you need to chain steps or transform data.
+  </Card>
+  <Card title="Pre-call" icon="phone-outgoing">
+    Initiate outbound calls from a workflow. Triggered by external events like form submissions, CRM updates, or a schedule.
+  </Card>
+</CardGroup>
+
+### Post-call
+
+Post-call workflows activate automatically when a call ends. The workflow receives all call data: transcript, duration, contact information, dynamic variables, and the full message history.
+
+**Common use cases:**
+- Summarize the call and send it by email
+- Update a record in your CRM (HubSpot, Salesforce, etc.) and create a follow-up task
+- Create a support ticket and attach the transcript
+- Log structured data to Google Sheets and trigger a Slack notification
+- Run conditional logic, for example to escalate to a human only if the call ended without resolution
+
+### During call
+
+During-call workflows act as tools the agent can invoke while speaking with the user. The agent detects when it needs external information, executes the workflow, and uses the response to continue the conversation.
+
+Use a workflow here (instead of an integration) when you need to do more than one thing: for example, look up a customer's account, then check their open orders, then format the combined data before returning it to the agent.
+
+**Common use cases:**
+- Query multiple systems and merge the results
+- Look up data and conditionally branch based on the response
+- Transform or enrich data before returning it to the agent
+- Perform a booking that requires calling several APIs in sequence
+
+<Tip>
+  During-call workflows support **synchronous** mode (the agent waits) and **asynchronous** mode (the agent keeps talking while it runs). See [The Diga Piece](/en/build/flows/diga-piece) for details.
+</Tip>
+
+### Pre-call
+
+Pre-call workflows use the **Make Call** action from the Diga piece to initiate outbound calls. They can be triggered by any external event: a CRM record change, a form submission, a scheduled time, or a webhook.
+
+**Common use cases:**
+- Call leads automatically after they complete a form
+- Scheduled follow-up campaigns
+- Confirmation calls after a booking
+- Appointment reminders triggered by your calendar system
+
+## Key Concepts
+
+### Pieces
+
+Pieces are connectors that provide triggers and actions for specific services. There are over 200 pieces available: Google Sheets, Slack, HubSpot, Gmail, Stripe, and many more. The [Diga piece](/en/build/flows/diga-piece) is the one that connects workflows with your calls.
+
+### Triggers
+
+A trigger is the event that starts a workflow. Each workflow has exactly one. The Diga piece provides two call-specific triggers:
+
+- **Call Finished**: fires when a call ends
+- **Function Call**: fires mid-call when the agent needs to run an action
+
+### Actions
+
+Actions are the steps that execute after the trigger. Each action receives data from all previous steps, so information flows through the chain. You can pass the transcript from step 1 into the email in step 4, for example.
+
+### Connections
+
+Connections are the credentials pieces use to access external services (API keys, OAuth tokens). You authorize them once and reuse them across all workflows. See [Connections](/en/build/flows/connections) for details.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Create a workflow"
+    icon="plus"
+    href="/en/build/flows/creating-workflows"
+  >
+    Build your first workflow step by step in the visual builder.
+  </Card>
+  <Card
+    title="Use templates"
+    icon="copy"
+    href="/en/build/flows/templates"
+  >
+    Get started quickly with pre-configured workflows.
+  </Card>
+  <Card
+    title="Assign workflows to agents"
+    icon="link"
+    href="/en/build/flows/assign-agents"
+  >
+    Connect your workflows with agents so they execute.
+  </Card>
+  <Card
+    title="The Diga piece"
+    icon="puzzle"
+    href="/en/build/flows/diga-piece"
+  >
+    Triggers and actions specific to Diga calls.
+  </Card>
+</CardGroup>

@@ -1,6 +1,6 @@
 ---
 title: "Node Types"
-description: "Complete guide to the five types of nodes available in conversational paths and when to use each one"
+description: "Complete guide to the six types of nodes available in conversational paths and when to use each one"
 ---
 
 ## Introduction
@@ -16,6 +16,9 @@ Nodes are the fundamental building blocks of a conversational path. Each node ty
   </Card>
   <Card title="Tool Node" icon="wrench" color="#A3A9C2">
     Executes API calls
+  </Card>
+  <Card title="Flow Node" icon="git-branch" color="#343E96">
+    Executes a workflow
   </Card>
   <Card title="Transfer Node" icon="arrow-right-left" color="#f59e0b">
     Transfers to another number
@@ -98,6 +101,36 @@ In this node, you must choose the tool to use. The tool is selected from created
 - **No direct dialogue**: Doesn't generate conversation
 - **Data processing**: Receives and processes responses from external services
 - **Result-based transitions**: Following actions depend on the call's result
+
+## Flow Node
+
+### Description
+
+Flow nodes execute [workflows](/en/build/flows/introduction) within the conversational path. Unlike tool nodes, which call a single API endpoint, flow nodes run multi-step automations that can chain multiple services together with logic and conditions.
+
+<Frame>
+  <img src="/images/nodo-flujo-placeholder.png" alt="Conversational flow example with flow node executing a workflow" />
+</Frame>
+
+Flow nodes can be used in two ways depending on where they appear in the path:
+
+- **During call**: when placed in the regular flow of the conversation, they act like tool nodes but execute a full workflow instead of a single API call. The assigned workflow must use a **Function Call** trigger.
+- **Post-call**: when connected after an End node, they execute automatically once the call finishes. The assigned workflow must use a **Call Finished** trigger.
+
+### Features
+
+- **Multi-step execution**: runs an entire workflow, not just a single API call
+- **No direct dialogue**: does not generate conversation (same as tool nodes)
+- **During-call or post-call**: behavior depends on its position in the path
+- **One workflow per node**: each flow node references a single workflow
+
+### Configuration
+
+- **Workflow**: select the workflow to execute from the list of available workflows in your project
+
+<Note>
+Post-call flow nodes are terminal and cannot have outgoing branches. During-call flow nodes support result-based transitions like tool nodes.
+</Note>
 
 ## Transfer Node
 

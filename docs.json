@@ -75,7 +75,8 @@
                       "es/build/agentes/herramientas-llamada",
                       "es/build/agentes/bases-conocimiento",
                       "es/build/agentes/anadir-integraciones",
-											"es/build/agentes/llamadas-test"
+											"es/build/agentes/llamadas-test",
+											"es/build/agentes/plantillas"
                     ]
                   },
                   {
@@ -84,6 +85,17 @@
                       "es/build/integraciones/introduccion",
                       "es/build/integraciones/integraciones-http",
                       "es/build/integraciones/integraciones-mcp"
+                    ]
+                  },
+                  {
+                    "group": "Flujos",
+                    "pages": [
+                      "es/build/flujos/introduccion",
+                      "es/build/flujos/crear-flujos",
+                      "es/build/flujos/plantillas",
+                      "es/build/flujos/asignar-agentes",
+                      "es/build/flujos/pieza-diga",
+                      "es/build/flujos/conexiones"
                     ]
                   },
                   "es/build/bases-conocimiento"
@@ -173,7 +185,8 @@
                       "en/build/agents/call-tools",
                       "en/build/agents/knowledge-bases",
                       "en/build/agents/add-integrations",
-											"en/build/agents/test-calls"
+											"en/build/agents/test-calls",
+											"en/build/agents/templates"
                     ]
                   },
                   {
@@ -182,6 +195,17 @@
                       "en/build/integrations/introduction",
                       "en/build/integrations/http-integrations",
                       "en/build/integrations/mcp-integrations"
+                    ]
+                  },
+                  {
+                    "group": "Workflows",
+                    "pages": [
+                      "en/build/flows/introduction",
+                      "en/build/flows/creating-workflows",
+                      "en/build/flows/templates",
+                      "en/build/flows/assign-agents",
+                      "en/build/flows/diga-piece",
+                      "en/build/flows/connections"
                     ]
                   },
                   "en/build/knowledge-bases"

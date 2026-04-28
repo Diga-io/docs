@@ -1,6 +1,6 @@
 ---
 title: "Tipos de Nodos"
-description: "Guía completa de los cinco tipos de nodos disponibles en caminos conversacionales y cuándo usar cada uno"
+description: "Guía completa de los seis tipos de nodos disponibles en caminos conversacionales y cuándo usar cada uno"
 ---
 
 ## Introducción
@@ -16,6 +16,9 @@ Los nodos son los bloques fundamentales de un camino conversacional. Cada tipo d
   </Card>
   <Card title="Nodo de Herramienta" icon="wrench" color="#A3A9C2">
     Ejecuta llamadas API
+  </Card>
+  <Card title="Nodo de Flujo" icon="git-branch" color="#343E96">
+    Ejecuta un flujo de trabajo
   </Card>
   <Card title="Nodo de Transferencia" icon="arrow-right-left" color="#f59e0b">
     Transfiere a otro número
@@ -102,6 +105,36 @@ En este nodo debes elegir la herramienta a usar. La herramienta se elige a parti
 - **Sin diálogo directo**: No genera conversación
 - **Procesamiento de datos**: Recibe y procesa respuestas de servicios externos
 - **Transiciones basadas en resultado**: Las siguientes acciones dependen del resultado de la llamada
+
+## Nodo de Flujo
+
+### Descripción
+
+Los nodos de flujo ejecutan [flujos de trabajo](/es/build/flujos/introduccion) dentro del camino conversacional. A diferencia de los nodos de herramienta, que llaman a un solo endpoint de API, los nodos de flujo ejecutan automatizaciones multi-paso que pueden encadenar múltiples servicios con lógica y condiciones.
+
+<Frame>
+  <img src="/images/nodo-flujo-placeholder.png" alt="Ejemplo de flujo conversacional con nodo de flujo ejecutando un workflow" />
+</Frame>
+
+Los nodos de flujo se pueden usar de dos formas según su posición en el camino:
+
+- **Durante la llamada**: cuando se colocan en el flujo regular de la conversación, actúan como nodos de herramienta pero ejecutan un flujo completo en lugar de una sola llamada a la API. El flujo asignado debe usar el trigger **Llamada a función**.
+- **Post-llamada**: cuando se conectan después de un nodo de Terminar, se ejecutan automáticamente una vez que la llamada finaliza. El flujo asignado debe usar el trigger **Llamada finalizada**.
+
+### Características
+
+- **Ejecución multi-paso**: ejecuta un flujo completo, no solo una llamada a la API
+- **Sin diálogo directo**: no genera conversación (igual que los nodos de herramienta)
+- **Durante llamada o post-llamada**: el comportamiento depende de su posición en el camino
+- **Un flujo por nodo**: cada nodo de flujo referencia un único flujo de trabajo
+
+### Configuración
+
+- **Flujo de trabajo**: selecciona el flujo a ejecutar de la lista de flujos disponibles en tu proyecto
+
+<Note>
+Los nodos de flujo post-llamada son terminales y no pueden tener ramas de salida. Los nodos de flujo durante llamada admiten transiciones basadas en resultado, igual que los nodos de herramienta.
+</Note>
 
 ## Nodo de Transferencia
 

@@ -1,0 +1,109 @@
+---
+title: "Conexiones"
+description: "Conecta servicios externos a tus flujos mediante claves de API o OAuth"
+---
+
+## ¿Qué son las conexiones?
+
+Una conexión es la credencial que permite a una pieza acceder a un servicio externo en tu nombre. Cuando añades una acción como **Enviar correo (Gmail)**, **Crear evento (Google Calendar)** o **Actualizar contacto (HubSpot)** a un flujo, la pieza necesita autorización para actuar en ese servicio. Esa autorización se almacena como una conexión.
+
+Las conexiones tienen alcance de proyecto: una vez creadas, cualquier flujo del proyecto puede reutilizar la misma conexión.
+
+<Note>
+Las credenciales de las conexiones se cifran y almacenan en el motor de flujos. Diga nunca almacena tus claves de API, tokens de OAuth ni contraseñas.
+</Note>
+
+## Tipos de autenticación
+
+Distintas piezas requieren distintos tipos de credenciales:
+
+| Tipo | Cómo funciona | Ejemplos |
+|------|--------------|---------|
+| **API Key** | Pegas una clave secreta de los ajustes del servicio | Cal.com, Airtable, Notion |
+| **OAuth** | Autorizas a Diga desde la pantalla de inicio de sesión del propio servicio | Gmail, Google Calendar, HubSpot, Slack |
+| **Autenticación básica** | Usuario y contraseña | APIs personalizadas |
+| **Personalizada** | Campos específicos del servicio | Varía |
+
+## Crear una conexión
+
+Las conexiones se crean dentro del constructor de flujos al configurar una pieza que requiere autenticación.
+
+<Steps>
+  <Step title="Añade una acción que requiera autenticación">
+    Al añadir una acción de una pieza (por ejemplo, **Gmail → Enviar correo**), el panel de configuración mostrará un campo **Conexión** en la parte superior.
+  </Step>
+
+  <Step title="Haz clic en 'Crear conexión'">
+    Si aún no existe ninguna conexión para esta pieza, haz clic en **Crear conexión** en el desplegable. Se abrirá un diálogo para configurar las credenciales.
+  </Step>
+
+  <Step title="Asigna un nombre">
+    Dale a la conexión un nombre descriptivo para identificarla más adelante (por ejemplo, "Gmail - Cuenta de soporte" o "HubSpot - Producción").
+  </Step>
+
+  <Step title="Autoriza el servicio">
+    Según el tipo de autenticación:
+
+    **Para API Key, autenticación básica o personalizada:** introduce las credenciales directamente en los campos proporcionados.
+
+    **Para OAuth:** haz clic en el botón **Conectar**. Se abrirá una ventana emergente con la pantalla de autorización del servicio (por ejemplo, el selector de cuentas de Google). Inicia sesión y concede los permisos solicitados. Una vez que autorices, la ventana se cierra automáticamente y la conexión estará lista.
+
+    <Frame>
+      <img src="/images/flujos-conexion-oauth-placeholder.png" alt="Ventana emergente de autorización OAuth" />
+    </Frame>
+  </Step>
+
+  <Step title="Guarda">
+    Haz clic en **Guardar**. La conexión ya está disponible en el desplegable **Conexión** para cualquier pieza del mismo tipo.
+  </Step>
+</Steps>
+
+## Cómo funciona OAuth
+
+Cuando autorizas una conexión OAuth, el proceso es el siguiente:
+
+1. Diga abre una ventana emergente con la pantalla de consentimiento del servicio (Google, Slack, HubSpot, etc.)
+2. Inicias sesión y apruebas los permisos solicitados
+3. El servicio redirige de vuelta con un código de autorización temporal
+4. La ventana se cierra y el motor de flujos intercambia ese código por un token de acceso y un token de refresco
+5. Los tokens se cifran y almacenan. No necesitas gestionarlos manualmente
+
+Los tokens de OAuth expiran periódicamente. El motor de flujos los renueva automáticamente antes de cada ejecución, por lo que tus flujos siguen funcionando sin interrupciones. Si un token ya no puede renovarse (por ejemplo, revocaste el acceso desde los ajustes del servicio), la conexión pasa a estado **Inactiva** y necesita reconectarse.
+
+## Reutilizar conexiones
+
+Después de crear una conexión, aparece en el desplegable **Conexión** de cualquier acción de la misma pieza. Puedes usar la misma conexión de Gmail en múltiples flujos sin volver a autorizar.
+
+<Tip>
+Si usas el mismo servicio para distintos propósitos, crea conexiones separadas con nombres claros. Por ejemplo, dos conexiones de Google Calendar, una para cada calendario que gestiones.
+</Tip>
+
+## Gestionar conexiones
+
+Puedes ver y gestionar todas las conexiones de tu proyecto en **Ajustes > Proyecto > Conexiones**. Desde allí puedes:
+
+- Ver qué flujos usan cada conexión
+- Filtrar por estado **Activa** o **Inactiva**
+- Reconectar una conexión cuyas credenciales hayan expirado
+- Renombrar conexiones
+
+Consulta [Conexiones](/es/plataforma/conexiones) para más detalles.
+
+## Siguientes pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Crear flujos"
+    icon="plus"
+    href="/es/build/flujos/crear-flujos"
+  >
+    Aprende a construir flujos paso a paso.
+  </Card>
+  <Card
+    title="Plantillas de flujos"
+    icon="copy"
+    href="/es/build/flujos/plantillas"
+  >
+    Usa flujos pre-configurados como punto de partida.
+  </Card>
+</CardGroup>

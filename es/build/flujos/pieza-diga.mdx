@@ -1,0 +1,250 @@
+---
+title: "La Pieza de Diga"
+description: "Referencia completa de los triggers y acciones de Diga para conectar flujos con llamadas"
+---
+
+## ¿Qué es la Pieza de Diga?
+
+La pieza de Diga es el componente que conecta tus flujos con las llamadas de tus agentes. Proporciona triggers para reaccionar a eventos de llamadas y acciones para interactuar con el sistema de telefonía de Diga.
+
+<CardGroup cols={2}>
+  <Card title="Triggers" icon="zap">
+    Inician un flujo cuando ocurre un evento en una llamada
+  </Card>
+  <Card title="Acciones" icon="play">
+    Ejecutan operaciones dentro de un flujo en ejecución
+  </Card>
+</CardGroup>
+
+## Triggers
+
+### Llamada Finalizada
+
+Se activa automáticamente cuando una llamada termina. Es el trigger principal para flujos **post-llamada**.
+
+#### Datos que recibe
+
+Cuando se dispara este trigger, el flujo recibe toda la información de la llamada:
+
+| Campo | Descripción |
+|---|---|
+| `call_id` | Identificador único de la llamada |
+| `status` | Estado final de la llamada |
+| `duration` | Duración en segundos |
+| `type` | Tipo de llamada (`inbound` o `outbound`) |
+| `end_reason` | Razón por la que terminó la llamada |
+| `phone_number` | Número de teléfono del contacto |
+| `contact_id` | Identificador del contacto |
+| `agent_id` | Identificador del agente |
+| `start_time` | Fecha y hora de inicio |
+| `end_time` | Fecha y hora de fin |
+| `dynamic_variables` | Variables dinámicas pasadas al agente |
+| `messages` | Historial completo de mensajes (transcripción) |
+
+Cada mensaje en el array `messages` incluye:
+- `role` — Quién habló (`user` o `assistant`)
+- `content` — El texto del mensaje
+- `created_date` — Cuándo se envió
+
+<Tip>
+  Puedes usar cualquiera de estos campos en las acciones de tu flujo. Por ejemplo, insertar la transcripción completa en un email o enviar la duración a una hoja de cálculo.
+</Tip>
+
+#### Configuración
+
+Este trigger no requiere configuración adicional. Solo necesitas [asignar el flujo al agente](/es/build/flujos/asignar-agentes) para que se active.
+
+---
+
+### Llamada a Función
+
+Se activa durante una llamada cuando el agente decide ejecutar una función. Es el trigger para flujos **durante llamada**. El agente lo usa como una herramienta más, de forma similar a las [integraciones](/es/build/integraciones/introduccion).
+
+#### Configuración
+
+| Campo | Descripción |
+|---|---|
+| **Descripción de la función** | Instrucción en lenguaje natural que indica al agente cuándo usar esta función. Ejemplo: "Usa esta función cuando el usuario quiera consultar la disponibilidad de citas" |
+| **Parámetros** | Los datos que el agente debe extraer de la conversación. Para cada parámetro defines: nombre, tipo de dato, si es obligatorio y una descripción |
+| **Modo de ejecución** | Síncrono o asíncrono (ver más abajo) |
+| **Confirmación de usuario** | Si el agente debe pedir confirmación antes de ejecutar |
+
+#### Parámetros
+
+Los parámetros definen qué información extrae el agente de la conversación para enviarla al flujo. Por ejemplo, para un flujo de "Consultar disponibilidad":
+
+| Parámetro | Tipo | Obligatorio | Descripción |
+|---|---|---|---|
+| `fecha` | Texto | Sí | La fecha para consultar disponibilidad |
+| `servicio` | Texto | No | El tipo de servicio solicitado |
+
+El agente extrae estos valores automáticamente del contexto de la conversación y los envía al flujo.
+
+#### Datos que recibe
+
+| Campo | Descripción |
+|---|---|
+| `call_id` | Identificador de la llamada en curso |
+| `function_name` | Nombre de la función ejecutada |
+| `arguments` | Los parámetros extraídos por el agente |
+| `agent_id` | Identificador del agente |
+| `contact_id` | Identificador del contacto |
+| `dynamic_variables` | Variables dinámicas de la llamada |
+| `timestamp` | Momento de la ejecución |
+
+#### Modo Síncrono vs Asíncrono
+
+<AccordionGroup>
+  <Accordion title="Modo síncrono">
+    El agente **espera** a que el flujo termine y recibe la respuesta. Úsalo cuando el agente necesita la información para continuar la conversación.
+
+    **Ejemplo**: Consultar disponibilidad de citas. El agente pregunta la fecha, ejecuta el flujo, espera la respuesta y le dice al usuario los horarios disponibles.
+
+    **Importante**: En modo síncrono, el flujo debe incluir la acción **Devolver respuesta** como último paso para enviar datos de vuelta al agente. El tiempo máximo de espera es de 60 segundos.
+
+    <Warning>
+      Si el flujo tarda más de 60 segundos o no incluye la acción **Devolver respuesta**, el agente recibirá un error y continuará la conversación sin los datos.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="Modo asíncrono">
+    El agente **no espera** la respuesta y continúa la conversación. Úsalo para acciones donde no necesitas una respuesta inmediata.
+
+    **Ejemplo**: Registrar una incidencia en un sistema de tickets. El agente confirma al usuario que se ha registrado y continúa, sin esperar a que el flujo complete todas las acciones.
+  </Accordion>
+</AccordionGroup>
+
+#### Confirmación de usuario
+
+Cuando activas la confirmación de usuario, el agente le explica al usuario qué acción va a realizar y le pide confirmación antes de ejecutar el flujo. Esto es útil para acciones sensibles como procesar pagos o hacer reservas.
+
+**Ejemplo de conversación:**
+```
+Usuario: "Quiero reservar una cita para mañana a las 10"
+Agente: "Perfecto, voy a reservar una cita para mañana jueves a las 10:00. ¿Confirmas?"
+Usuario: "Sí, confirma"
+Agente: [ejecuta el flujo]
+```
+
+## Acciones
+
+### Hacer Llamada
+
+Inicia una llamada saliente desde un flujo. Esta acción convierte cualquier flujo en un disparador de llamadas, permitiéndote crear campañas automatizadas o llamadas reactivas a eventos externos.
+
+#### Configuración
+
+| Campo | Descripción |
+|---|---|
+| **Número de origen** | El número de teléfono de Diga desde el que se realizará la llamada. Se selecciona de los números disponibles en tu proyecto |
+| **Número de destino** | El número al que se va a llamar. Puede ser un valor fijo o dinámico (datos de un paso anterior) |
+| **Versión del agente** | La versión del agente que gestionará la llamada (opcional) |
+| **Variables dinámicas** | Variables que se pasarán al agente durante la llamada (opcional) |
+
+#### Casos de uso
+
+<AccordionGroup>
+  <Accordion title="Seguimiento de leads">
+    Conecta un trigger de tu CRM (nuevo lead creado) con la acción de hacer llamada para contactar automáticamente a nuevos leads.
+
+    ```
+    Trigger: Nuevo lead en HubSpot
+    → Acción: Hacer llamada al número del lead
+       - Agente: "Agente de cualificación"
+       - Variables: nombre del lead, fuente, producto de interés
+    ```
+  </Accordion>
+
+  <Accordion title="Recordatorios de citas">
+    Usa un trigger de programación para llamar a clientes y recordarles sus citas.
+
+    ```
+    Trigger: Programación (24h antes de cada cita)
+    → Acción: Buscar citas del día siguiente
+    → Acción: Hacer llamada a cada contacto
+       - Agente: "Agente de recordatorios"
+       - Variables: fecha de cita, servicio, dirección
+    ```
+  </Accordion>
+
+  <Accordion title="Llamadas post-formulario">
+    Conecta un webhook con la acción de hacer llamada para contactar a usuarios que completan un formulario web.
+
+    ```
+    Trigger: Webhook (formulario completado)
+    → Acción: Hacer llamada al número del formulario
+       - Agente: "Agente de ventas"
+       - Variables: nombre, email, consulta
+    ```
+  </Accordion>
+</AccordionGroup>
+
+---
+
+### Devolver Respuesta
+
+Devuelve datos al agente durante una llamada. Esta acción es **obligatoria** en flujos durante llamada con modo **síncrono**. Es el último paso del flujo y contiene la información que el agente necesita para continuar la conversación.
+
+#### Configuración
+
+| Campo | Descripción |
+|---|---|
+| **Tipo de respuesta** | JSON o texto plano |
+| **Contenido** | Los datos a devolver. Puede incluir datos de pasos anteriores |
+
+#### Ejemplo
+
+Un flujo que consulta disponibilidad de citas:
+
+```
+Trigger: Llamada a función (parámetros: fecha, servicio)
+→ Acción: Consultar API de calendario (HTTP request)
+→ Acción: Devolver respuesta
+   - Tipo: JSON
+   - Contenido: { "slots": ["10:00", "11:30", "15:00"], "service": "Consulta general" }
+```
+
+El agente recibe estos datos y le dice al usuario: "Tengo disponibilidad a las 10:00, 11:30 y 15:00 para una consulta general. ¿Cuál prefieres?"
+
+## Referenciar Datos entre Pasos
+
+En cualquier acción, puedes usar datos de pasos anteriores. Haz clic en un campo de entrada para ver los datos disponibles de todos los pasos previos.
+
+**Ejemplos de referencia:**
+- Datos del trigger: transcripción, duración, parámetros de la función
+- Datos de acciones anteriores: respuesta de una API, resultado de una consulta
+
+Esto te permite construir flujos donde la información fluye naturalmente de un paso al siguiente.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Crear flujos"
+    icon="plus"
+    href="/es/build/flujos/crear-flujos"
+  >
+    Pon en práctica estos triggers y acciones creando tu primer flujo.
+  </Card>
+  <Card
+    title="Asignar a agentes"
+    icon="link"
+    href="/es/build/flujos/asignar-agentes"
+  >
+    Conecta tus flujos con agentes para activarlos.
+  </Card>
+  <Card
+    title="Plantillas"
+    icon="copy"
+    href="/es/build/flujos/plantillas"
+  >
+    Usa plantillas que ya incluyen la pieza de Diga configurada.
+  </Card>
+  <Card
+    title="Integraciones"
+    icon="plug"
+    href="/es/build/integraciones/introduccion"
+  >
+    Compara flujos con integraciones directas en el agente.
+  </Card>
+</CardGroup>
