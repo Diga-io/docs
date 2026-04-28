@@ -1,0 +1,38 @@
+---
+title: "About Melo"
+description: "Why Melo can occasionally provide incorrect responses and how to use it effectively"
+---
+
+# Melo can make mistakes
+
+Melo is the AI assistant inside Diga's dashboard. It helps you build, test, and operate your voice agents — answering questions, suggesting changes, and guiding you through the platform.
+
+Like any frontier AI assistant, Melo can occasionally produce responses that are **incorrect or misleading**. This is a known limitation of generative AI models — sometimes called **"hallucination"** — and it's worth keeping in mind whenever you act on Melo's output.
+
+## Why this happens
+
+A few situations where Melo's response may not be reliable:
+
+- **Outdated information.** Melo may not have been trained on the latest changes to Diga, third-party integrations, or external services, and it can get confused when asked about very recent updates.
+- **Plausible but inaccurate detail.** Melo can produce prompts, configuration values, or numbers that look authoritative but aren't grounded in your actual project.
+- **Limited project context.** Even when Melo has access to your project state, it may miss context that lives outside the dashboard — your team's conventions, an external system's behavior, or a custom workflow.
+- **Ambiguous prompts.** Vague questions tend to produce vague or speculative answers. The more specific your question, the more reliable Melo's reply will be.
+
+## How to use Melo well
+
+<Note>
+Treat Melo as a **knowledgeable collaborator**, not a singular source of truth. The final decision — and the responsibility for what runs in production — is yours.
+</Note>
+
+A few practical habits:
+
+- **Verify high-stakes advice.** Anything that touches a live agent, billing, telephony routing, or a published workflow should be double-checked against the relevant page in this documentation or with your team.
+- **Cross-check generated content.** If Melo writes a prompt, a tool definition, or a configuration value, read it before saving. A response that *looks* correct can still be subtly wrong.
+- **Provide context.** Reference the agent, project, or feature you're working on. The richer the context, the better the response.
+
+## Send feedback
+
+If a particular response was unhelpful or wrong, let us know — your feedback helps us improve Melo over time.
+
+- Use the **thumbs-down** button on any chat message to flag the issue.
+- Or email us at [contact@diga.io](mailto:contact@diga.io) with details and suggestions.
