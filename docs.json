@@ -129,7 +129,8 @@
                       "es/plataforma/api-keys",
                       "es/plataforma/conexiones"
                     ]
-                  }
+                  },
+                  "es/plataforma/melo"
                 ]
               },
               {
@@ -239,7 +240,8 @@
                       "en/platform/api-keys",
                       "en/platform/connections"
                     ]
-                  }
+                  },
+                  "en/platform/melo"
                 ]
               },
               {
