@@ -94,6 +94,15 @@ Events are organized into categories based on the type of activity:
     | Transfer Completed | The transfer was completed |
   </Accordion>
 
+  <Accordion title="Turn detection" icon="ear-listen">
+    Events related to how the system detects when the user has finished speaking, useful for diagnosing cases where the agent doesn't respond.
+
+    | Event | Description |
+    |-------|-------------|
+    | VAD Speech Ended | The voice activity detector (VAD) detected that the user stopped speaking |
+    | End of Utterance | The turn detector confirmed the user's turn is complete and the agent should respond |
+  </Accordion>
+
   <Accordion title="Webhooks" icon="webhook">
     Events about webhook deliveries to your endpoints.
 

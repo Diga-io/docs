@@ -94,6 +94,15 @@ Los eventos se organizan en categorías según el tipo de actividad:
     | Transferencia completada | La transferencia se completó |
   </Accordion>
 
+  <Accordion title="Detección de turno" icon="ear-listen">
+    Eventos relacionados con cómo el sistema detecta cuándo el usuario ha terminado de hablar, útiles para diagnosticar casos en los que el agente no responde.
+
+    | Evento | Descripción |
+    |--------|-------------|
+    | Silencio detectado (VAD) | El detector de actividad de voz (VAD) detectó que el usuario dejó de hablar |
+    | Turno del usuario finalizado | El detector de turno confirmó que el turno del usuario terminó y el agente debe responder |
+  </Accordion>
+
   <Accordion title="Webhooks" icon="webhook">
     Eventos sobre el envío de webhooks a tus endpoints.
 
