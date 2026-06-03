@@ -1,0 +1,141 @@
+---
+title: "Duplicar Agentes Entre Proyectos"
+description: "Reutiliza la configuración de un agente en otro proyecto sin copiar datos de clientes ni secretos"
+---
+
+## Introducción
+
+Duplicar un agente te permite reutilizar una configuración que ya funciona en otro proyecto. Es especialmente útil para agencias que construyen y prueban agentes en un proyecto interno de desarrollo, y luego crean un proyecto separado para cada cliente cuando la configuración está lista.
+
+El agente original no cambia. Diga crea un nuevo agente en borrador en el proyecto destino para que puedas revisarlo, ajustarlo, probarlo y publicarlo cuando esté listo.
+
+<Note>
+  Duplicar no es lo mismo que mover. El proyecto origen mantiene su agente y sus recursos originales.
+</Note>
+
+## Cuándo duplicar un agente
+
+Usa la duplicación cuando quieras:
+
+- Empezar un nuevo proyecto de cliente desde una configuración ya probada.
+- Reutilizar un flujo conversacional similar entre varios clientes.
+- Mantener un proyecto de desarrollo de pago para hacer pruebas y copiar después el agente terminado al proyecto del cliente.
+- Crear un borrador seguro en otro proyecto sin afectar llamadas en vivo del proyecto origen.
+
+## Qué se copia
+
+El agente duplicado incluye la configuración operativa necesaria para seguir construyendo en el proyecto destino:
+
+| Recurso | Qué ocurre |
+| --- | --- |
+| Borrador del agente | Se copian el prompt, la voz, el idioma, las variables dinámicas, la configuración de llamada, las herramientas de llamada y el resto de configuración del borrador. |
+| Camino conversacional | Se recrean nodos, ramas, prompts, posiciones, herramientas, referencias a conocimiento y referencias a workflows con nuevos IDs. |
+| Bases de conocimiento | Se copian al proyecto destino las bases e items de conocimiento usados por el agente, y se procesan de nuevo. |
+| Integraciones | Se copia la estructura de la integración, herramientas, parámetros, aprobaciones, audios y headers públicos. |
+| Workflows | Los workflows usados se copian al proyecto destino cuando es posible y se enlazan al nuevo borrador del agente. |
+
+## Qué no se copia
+
+La duplicación no copia datos de clientes ni histórico operativo:
+
+- Llamadas
+- Contactos
+- Transcripciones
+- Grabaciones
+- Números de teléfono
+- Facturación o configuración de suscripción
+- Estado publicado
+- Claves API del proyecto
+- API keys o secretos guardados en integraciones
+
+El agente duplicado se crea como borrador. No gestionará llamadas en vivo hasta que lo revises y lo publiques.
+
+## Credenciales de integraciones y API keys
+
+Las integraciones se copian como configuración reutilizable, pero Diga no copia credenciales almacenadas.
+
+En integraciones HTTP, Diga copia:
+
+- Nombre y descripción de la integración
+- URL base
+- Tipo de integración y tipo de autenticación
+- Headers públicos
+- Herramientas y parámetros de herramientas
+- Configuración de aprobaciones
+- Configuración de audio de las herramientas
+
+Diga no copia:
+
+- API keys guardadas
+- Secretos cifrados
+- Credenciales privadas
+
+Si la integración original necesita una API key u otra credencial, la integración duplicada requerirá configuración en el proyecto destino. Esto mantiene los proyectos de cada cliente aislados y evita reutilizar secretos de un proyecto en otro sin revisión.
+
+<Warning>
+  Vuelve a conectar o introducir las credenciales de integración en el proyecto destino antes de publicar el agente duplicado.
+</Warning>
+
+<Tip>
+  Usa los campos de credenciales de la integración para secretos como API keys o tokens de autorización. Los headers deberían contener solo valores no sensibles que sea seguro reutilizar entre proyectos.
+</Tip>
+
+## Bases de conocimiento y almacenamiento
+
+Solo se copian los recursos de conocimiento usados por el agente. Los archivos, URLs y textos se recrean en el proyecto destino y se procesan de nuevo para que el nuevo agente tenga su propio conocimiento consultable.
+
+Las copias de conocimiento cuentan para los límites de almacenamiento del proyecto destino. Si el proyecto destino no tiene almacenamiento disponible suficiente, la duplicación no podrá completarse hasta liberar espacio o actualizar el plan.
+
+## Después de duplicar
+
+Antes de publicar el nuevo agente:
+
+<Steps>
+  <Step title="Revisa el borrador del agente">
+    Comprueba el prompt, la voz, el idioma, las variables dinámicas, las herramientas de llamada y la configuración general.
+  </Step>
+
+  <Step title="Revisa el camino conversacional">
+    Confirma que los nodos, ramas, herramientas, referencias a conocimiento y workflows siguen teniendo sentido para el cliente destino.
+  </Step>
+
+  <Step title="Configura las integraciones">
+    Vuelve a introducir las API keys o credenciales de las integraciones que requieran configuración. Los headers públicos se copian, pero los secretos no.
+  </Step>
+
+  <Step title="Comprueba el procesamiento del conocimiento">
+    Espera a que las bases e items de conocimiento copiados terminen de procesarse antes de depender de ellos en llamadas.
+  </Step>
+
+  <Step title="Haz llamadas de prueba">
+    Prueba el agente en el proyecto destino y verifica integraciones, workflows y respuestas basadas en conocimiento.
+  </Step>
+
+  <Step title="Publica cuando esté listo">
+    Publica el borrador duplicado solo después de revisar la configuración para el proyecto destino.
+  </Step>
+</Steps>
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Duplicar un agente afecta al agente original?">
+    No. El agente origen y sus recursos se mantienen sin cambios.
+  </Accordion>
+
+  <Accordion title="¿Se copian llamadas o grabaciones?">
+    No. Las llamadas, contactos, transcripciones y grabaciones se quedan en el proyecto origen.
+  </Accordion>
+
+  <Accordion title="¿Se copian los números de teléfono?">
+    No. Los números de teléfono siguen vinculados a su proyecto original. Asigna o compra números por separado en el proyecto destino.
+  </Accordion>
+
+  <Accordion title="¿Se copian las API keys de integraciones?">
+    No. Se copian los headers públicos, pero no las API keys ni secretos guardados. Las integraciones que necesiten credenciales deben configurarse de nuevo en el proyecto destino.
+  </Accordion>
+
+  <Accordion title="¿Puedo publicar el agente duplicado inmediatamente?">
+    El agente duplicado se crea como borrador. Revisa credenciales, procesamiento de conocimiento, workflows y llamadas de prueba antes de publicarlo.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,141 @@
+---
+title: "Duplicate Agents Across Projects"
+description: "Reuse an agent configuration in another project without copying customer data or secrets"
+---
+
+## Introduction
+
+Duplicating an agent lets you reuse a working configuration in another project. This is especially useful for agencies that build and test agents in an internal development project, then create a separate project for each client once the setup is ready.
+
+The original agent stays unchanged. Diga creates a new draft agent in the destination project so you can review, adjust, test, and publish it when it is ready.
+
+<Note>
+  Duplicating is not the same as moving. The source project keeps its original agent and resources.
+</Note>
+
+## When to duplicate an agent
+
+Use duplication when you want to:
+
+- Start a new client project from a tested agent configuration.
+- Reuse a similar conversational flow across multiple clients.
+- Keep a paid development project for testing, then copy the finished agent into the client's project.
+- Create a safe draft in another project without affecting live calls in the source project.
+
+## What gets copied
+
+The duplicated agent includes the operational configuration needed to keep building in the destination project:
+
+| Resource | What happens |
+| --- | --- |
+| Agent draft | The prompt, voice, language, dynamic variables, call settings, call tools, and other draft configuration are copied. |
+| Conversational path | Nodes, branches, prompts, positions, tools, knowledge references, and workflow references are recreated with new IDs. |
+| Knowledge bases | Referenced knowledge bases and items are copied into the destination project and processed again. |
+| Integrations | Integration structure, tools, tool parameters, approvals, audio settings, and public headers are copied. |
+| Workflows | Referenced workflows are copied into the destination project when possible and linked to the new agent draft. |
+
+## What does not get copied
+
+Duplicating an agent does not copy customer or operational history:
+
+- Calls
+- Contacts
+- Transcriptions
+- Recordings
+- Phone numbers
+- Billing or subscription settings
+- Published state
+- Project API keys
+- Stored integration API keys or secrets
+
+The duplicated agent starts as a draft. It will not handle live calls until you review it and publish it.
+
+## Integration credentials and API keys
+
+Integrations are copied as reusable configuration, but Diga does not copy stored credentials.
+
+For HTTP integrations, Diga copies:
+
+- Integration name and description
+- Base URL
+- Integration type and auth type
+- Public headers
+- Tools and tool parameters
+- Approval settings
+- Tool audio settings
+
+Diga does not copy:
+
+- Stored API keys
+- Encrypted secrets
+- Private credentials
+
+If the source integration requires an API key or another credential, the duplicated integration will require setup in the destination project. This keeps client projects isolated and prevents secrets from one project being reused in another without review.
+
+<Warning>
+  Always reconnect or re-enter integration credentials in the destination project before publishing the duplicated agent.
+</Warning>
+
+<Tip>
+  Use integration credential fields for secrets such as API keys or authorization tokens. Headers should only contain non-sensitive values that are safe to reuse across projects.
+</Tip>
+
+## Knowledge bases and storage
+
+Only knowledge resources used by the agent are copied. Files, URLs, and text items are recreated under the destination project and processed again so the new agent has its own searchable knowledge.
+
+Knowledge copies count toward the destination project's storage limits. If the destination project does not have enough available storage, the duplication cannot complete until storage is freed or the plan is updated.
+
+## After duplicating
+
+Before publishing the new agent:
+
+<Steps>
+  <Step title="Review the agent draft">
+    Check the prompt, voice, language, dynamic variables, call tools, and general settings.
+  </Step>
+
+  <Step title="Review the conversational path">
+    Confirm that nodes, branches, tools, knowledge references, and workflow references still make sense for the destination client.
+  </Step>
+
+  <Step title="Set up integrations">
+    Re-enter API keys or credentials for integrations that require setup. Public headers are copied, but secrets are not.
+  </Step>
+
+  <Step title="Check knowledge processing">
+    Wait for copied knowledge bases and items to finish processing before relying on them in calls.
+  </Step>
+
+  <Step title="Run test calls">
+    Test the agent in the destination project and verify integrations, workflows, and knowledge responses.
+  </Step>
+
+  <Step title="Publish when ready">
+    Publish the duplicated draft only after reviewing the setup for the destination project.
+  </Step>
+</Steps>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Does duplicating an agent affect the original agent?">
+    No. The source agent and its resources remain unchanged.
+  </Accordion>
+
+  <Accordion title="Are calls or recordings copied?">
+    No. Calls, contacts, transcriptions, and recordings stay in the source project.
+  </Accordion>
+
+  <Accordion title="Are phone numbers copied?">
+    No. Phone numbers remain linked to their original project. Assign or buy numbers separately in the destination project.
+  </Accordion>
+
+  <Accordion title="Are integration API keys copied?">
+    No. Public headers are copied, but stored API keys and secrets are not. Integrations that need credentials must be configured again in the destination project.
+  </Accordion>
+
+  <Accordion title="Can I publish the duplicated agent immediately?">
+    The duplicated agent is created as a draft. Review credentials, knowledge processing, workflows, and test calls before publishing it.
+  </Accordion>
+</AccordionGroup>
