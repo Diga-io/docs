@@ -1,0 +1,186 @@
+---
+title: "Agent Templates"
+description: "Create pre-configured agents in seconds using ready-to-use templates"
+---
+
+## What are Agent Templates?
+
+Agent templates are pre-built configurations that let you create complete agents in a single step. Each template includes the prompt, voice, language, tools, and in some cases a complete conversational path — all ready to work.
+
+You just need to fill in the **variables** specific to your business (like phone numbers or department names) and you'll have a working agent in seconds.
+
+<Note>
+  Templates are a starting point. Once the agent is created, you can customize any aspect of its configuration as if you had created it from scratch.
+</Note>
+
+## Using a Template
+
+<Steps>
+  <Step title="Access the template catalog">
+    From the **Agents** section of the dashboard, click **Create Agent**. You'll see the catalog of available templates along with the option to create an agent from scratch.
+
+    <Frame>
+      <img src="/images/agentes-plantillas-catalogo-placeholder.png" alt="Agent templates catalog" />
+    </Frame>
+  </Step>
+
+  <Step title="Select a template">
+    Browse the available templates. Each one shows:
+
+    - **Name** and **description** of the use case
+    - **Agent type**: single prompt or conversational path
+    - **Variables** you need to configure
+
+    Click on the template you want to use to see its details.
+  </Step>
+
+  <Step title="Configure the variables">
+    Each template may include variables that you need to fill in with your business information. These variables use the `<<variable_name>>` format and are automatically substituted when the agent is created.
+
+    Common variable examples:
+    - `<<company_name>>` — Your company name
+    - `<<sales_phone>>` — Sales department number
+    - `<<business_hours>>` — Customer service hours
+
+    <Frame>
+      <img src="/images/agentes-plantillas-variables-placeholder.png" alt="Template variables configuration" />
+    </Frame>
+  </Step>
+
+  <Step title="Create the agent">
+    Click **Use template** to create the agent. It will be created in **draft** state so you can review and adjust it before publishing.
+  </Step>
+
+  <Step title="Review and customize">
+    The agent opens in the editor with the full template configuration applied. Review:
+
+    - The **prompt** or **conversational path** to make sure it fits your use case
+    - The **voice** and **language** selected
+    - The **call tools** enabled (transfer, hang up, etc.)
+
+    Modify whatever you need before publishing.
+  </Step>
+
+  <Step title="Configure pending resources">
+    Some templates include **pending resources** that you need to configure:
+
+    - **Integrations**: Connections to external services that require your credentials (API keys, tokens)
+    - **Workflows**: Automations that need to be enabled in the workflow builder
+    - **Knowledge bases**: Data sources that you need to add
+
+    These resources appear marked as pending in the agent configuration. Configure them before publishing.
+
+    <Warning>
+      You won't be able to publish the agent until all pending resources are properly configured.
+    </Warning>
+  </Step>
+
+  <Step title="Publish the agent">
+    Once satisfied with the configuration, [create a version and publish](/en/build/agents/version-control) the agent so it starts receiving calls.
+  </Step>
+</Steps>
+
+## Template Types
+
+Templates can be one of two types based on the agent mode:
+
+<CardGroup cols={2}>
+  <Card title="Single prompt" icon="wand-sparkles">
+    Templates based on general instructions. The agent follows a prompt that defines its global behavior. Ideal for simple and straightforward use cases.
+  </Card>
+  <Card title="Conversational path" icon="/icons/dataflow-04.svg">
+    Templates with a predefined step-by-step conversation flow. They include nodes, branches, and specific actions. Ideal for structured processes.
+  </Card>
+</CardGroup>
+
+## Variables
+
+Variables allow a single template to adapt to different businesses and use cases. When you create an agent from a template, variables are automatically replaced with the values you provide.
+
+### How they work
+
+- Defined using the `<<variable_name>>` format
+- Substituted throughout the agent: prompt, greeting, conversational path nodes, etc.
+- Preserve the original data type (text, number, boolean)
+
+### Example
+
+A call routing template might have these variables:
+
+| Variable | Description | Example |
+|---|---|---|
+| `<<company_name>>` | Your company name | "Downtown Dental Clinic" |
+| `<<sales_phone>>` | Sales number | "+1 555 123 4567" |
+| `<<support_phone>>` | Support number | "+1 555 123 4568" |
+| `<<business_hours>>` | Business hours | "Monday to Friday, 9 AM to 6 PM" |
+
+The template prompt:
+```
+You are the virtual receptionist for <<company_name>>. 
+Our business hours are <<business_hours>>.
+If the customer wants to speak with sales, transfer them to <<sales_phone>>.
+```
+
+Becomes:
+```
+You are the virtual receptionist for Downtown Dental Clinic. 
+Our business hours are Monday to Friday, 9 AM to 6 PM.
+If the customer wants to speak with sales, transfer them to +1 555 123 4567.
+```
+
+<Tip>
+  You don't have to fill in all variables before creating the agent. Unsubstituted variables remain as `<<name>>` in the configuration and you can edit them later from the agent editor.
+</Tip>
+
+## Pending Resources
+
+Some advanced templates include resources that need additional configuration after creating the agent. These resources are automatically created as **placeholders** that you need to complete.
+
+### Pending integrations
+
+If the template uses integrations with external services, placeholder integrations are created that you need to configure with your credentials. For example:
+
+- A CRM integration (you need your API key)
+- A calendar connection (you need to authorize your account)
+- A webhook to your internal system (you need the URL)
+
+### Pending workflows
+
+If the template includes automation workflows, placeholder workflows are created that you need to review and enable in the [workflow builder](/en/build/flows/creating-workflows).
+
+### Suggested knowledge bases
+
+Some templates suggest knowledge bases that would improve the agent. You can [create a knowledge base](/en/build/knowledge-bases) and assign it to the agent.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Create agent from scratch"
+    icon="plus"
+    href="/en/create-agent"
+  >
+    Learn to create and configure an agent step by step.
+  </Card>
+  <Card
+    title="Conversational paths"
+    icon="/icons/dataflow-04.svg"
+    href="/en/build/agents/conversational-paths"
+  >
+    Customize your agent's conversation flow.
+  </Card>
+  <Card
+    title="Version control"
+    icon="/icons/layers-three-02.svg"
+    href="/en/build/agents/version-control"
+  >
+    Publish and manage versions of your agent.
+  </Card>
+  <Card
+    title="Add integrations"
+    icon="plug"
+    href="/en/build/agents/add-integrations"
+  >
+    Configure the integrations your agent needs.
+  </Card>
+</CardGroup>

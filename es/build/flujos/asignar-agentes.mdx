@@ -5,14 +5,14 @@ description: "Conecta tus flujos con agentes específicos para que se ejecuten d
 
 ## ¿Por qué Asignar Flujos?
 
-Los flujos con triggers de Diga (Llamada finalizada y Llamada a función) solo se ejecutan para los agentes a los que están asignados. Esto te permite:
+Los flujos con triggers de Diga (Pre-llamada, Llamada finalizada y Llamada a función) solo se ejecutan para los agentes a los que están asignados. Esto te permite:
 
 - Usar flujos diferentes para agentes diferentes
 - Controlar qué automatizaciones se ejecutan para cada agente
 - Probar flujos con un agente específico antes de aplicarlos a otros
 
 <Warning>
-  Esta página aplica solo a **agentes de prompt único**. Si tu agente usa [caminos conversacionales](/es/build/agentes/camino-conversacional), los flujos se asignan directamente a través de [nodos de flujo](/es/build/agentes/camino-conversacional/tipos-nodos#nodo-de-flujo) en el editor de caminos.
+  Esta página aplica solo a **agentes de prompt único**. Si tu agente usa [caminos conversacionales](/es/build/agentes/camino-conversacional), los flujos se asignan directamente en el editor de caminos — los flujos durante llamada y post-llamada a través de [nodos de flujo](/es/build/agentes/camino-conversacional/tipos-nodos#nodo-de-flujo), y los flujos pre-llamada a través del [nodo de flujos pre-llamada](/es/build/agentes/camino-conversacional/tipos-nodos#flujos-pre-llamada).
 </Warning>
 
 <Note>
@@ -34,14 +34,24 @@ Los flujos con triggers de Diga (Llamada finalizada y Llamada a función) solo s
     </Frame>
   </Step>
 
+  <Step title="Asigna flujos pre-llamada">
+    Selecciona los flujos que quieres que se ejecuten antes de que empiece cada llamada. Aparecen con una etiqueta **Pre-llamada**. Los flujos pre-llamada se ejecutan antes de que el agente salude y pueden personalizar el prompt, definir variables dinámicas o bloquear la llamada. Puedes asignar **múltiples flujos pre-llamada** al mismo agente.
+
+    Para saber cómo funcionan, consulta [Flujos Pre-llamada](/es/build/flujos/flujos-pre-llamada).
+  </Step>
+
   <Step title="Asigna flujos post-llamada">
     Selecciona los flujos que quieres que se ejecuten cuando las llamadas de este agente finalicen. Puedes asignar **múltiples flujos post-llamada** al mismo agente — todos se ejecutarán cuando la llamada termine.
+
+    Para saber cómo funcionan, consulta [Flujos Post-llamada](/es/build/flujos/flujos-post-llamada).
   </Step>
 
   <Step title="Asigna flujos durante llamada">
     Selecciona los flujos que quieres que el agente pueda usar como herramientas durante la conversación. Puedes asignar **múltiples flujos durante llamada** al mismo agente.
 
     Cada flujo durante llamada aparece como una herramienta disponible para el agente. El agente decidirá cuál usar según el contexto de la conversación y la descripción que configuraste en el trigger de Llamada a función.
+
+    Para saber cómo funcionan, consulta [Flujos Durante Llamada](/es/build/flujos/flujos-durante-llamada).
   </Step>
 
   <Step title="Guarda los cambios">
@@ -55,7 +65,7 @@ Los flujos con triggers de Diga (Llamada finalizada y Llamada a función) solo s
 |---|---|---|
 | **Cuándo se ejecuta** | Al terminar la llamada | En medio de la conversación |
 | **Cantidad por agente** | Múltiples | Múltiples |
-| **El agente espera respuesta** | No | Sí (modo síncrono) o No (modo asíncrono) |
+| **El agente espera respuesta** | No | Sí |
 | **El usuario nota algo** | No, es transparente | Sí, el agente puede informar de la espera |
 | **Trigger** | Llamada finalizada | Llamada a función |
 

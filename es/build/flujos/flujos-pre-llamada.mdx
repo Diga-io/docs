@@ -1,0 +1,216 @@
+---
+title: "Flujos Pre-llamada"
+description: "Ejecuta un flujo antes de que empiece la conversación para validar, personalizar y controlar cada llamada"
+---
+
+## ¿Qué son los Flujos Pre-llamada?
+
+Un flujo pre-llamada es un flujo que se ejecuta **en el momento en que empieza una llamada, antes de que el agente diga su primera palabra**. El agente espera a que el flujo termine y usa su resultado para dar forma a la conversación que está a punto de comenzar.
+
+Esto te permite preparar cada llamada con información fresca y actualizada:
+
+- **Buscar al contacto** en tu CRM o base de datos y saludarlo por su nombre
+- **Inyectar contexto** en el prompt del agente para esta llamada concreta
+- **Definir variables dinámicas** que el agente usará durante toda la conversación
+- **Controlar la llamada**: decidir si debe continuar o no (por ejemplo, bloquear un número que no esté en tu lista de permitidos)
+
+<Note>
+  Los flujos pre-llamada son el extremo opuesto de la llamada respecto a los [flujos post-llamada](/es/build/flujos/introduccion#post-llamada). Un flujo pre-llamada se ejecuta **antes** de que el agente salude; uno post-llamada se ejecuta **después** de que la llamada termina.
+</Note>
+
+<Warning>
+  No confundas los flujos **Pre-llamada** con los flujos **Lanzador de llamadas**. Un flujo pre-llamada se ejecuta *dentro* de una llamada que ya está empezando, para prepararla. Un [lanzador de llamadas](/es/build/flujos/pieza-diga#hacer-llamada) usa la acción **Hacer llamada** para *iniciar* una llamada saliente completamente nueva a partir de un evento externo.
+</Warning>
+
+## Cómo funciona
+
+Cuando entra una llamada (o se conecta una llamada saliente), Diga ejecuta cada flujo pre-llamada asignado al agente, espera su respuesta, aplica el resultado y solo entonces deja que el agente comience:
+
+<Steps>
+  <Step title="Empieza la llamada">
+    Un contacto marca tu número, o se realiza una llamada saliente. El agente todavía no saluda.
+  </Step>
+  <Step title="Se ejecutan los flujos pre-llamada">
+    Diga envía los datos de la llamada a cada flujo pre-llamada asignado y espera una respuesta. Tu flujo puede consultar cualquier servicio externo, ejecutar lógica y decidir qué debe saber el agente.
+  </Step>
+  <Step title="El flujo devuelve datos">
+    Cada flujo termina con la acción **Devolver datos de llamada**, enviando de vuelta un texto adicional para el prompt (opcional) y un conjunto de variables dinámicas.
+  </Step>
+  <Step title="Empieza la conversación">
+    Diga fusiona los datos devueltos en la llamada y el agente saluda al contacto, ahora con el prompt y las variables que tu flujo le proporcionó.
+  </Step>
+</Steps>
+
+El contacto no oye nada durante este paso. En llamadas entrantes y web hay un breve momento de silencio mientras el flujo se ejecuta; en llamadas salientes los flujos se ejecutan antes de marcar el número, por lo que el teléfono del contacto simplemente suena con normalidad.
+
+## Crear un Flujo Pre-llamada
+
+<Steps>
+  <Step title="Crea un flujo">
+    Desde la sección **Flujos**, crea un nuevo flujo (desde cero o a partir de una plantilla). Consulta [Crear Flujos](/es/build/flujos/crear-flujos).
+  </Step>
+
+  <Step title="Selecciona el trigger Pre-llamada">
+    Elige la pieza de **Diga** y selecciona el trigger **Pre-llamada**. Esto le indica a Diga que ejecute el flujo al inicio de una llamada y espere su resultado.
+  </Step>
+
+  <Step title="Configura el trigger">
+    El trigger Pre-llamada tiene dos opciones:
+
+    | Campo | Descripción |
+    |---|---|
+    | **Tiempo de espera (segundos)** | Tiempo máximo que el agente espera a este flujo antes de continuar (o abortar). Por defecto son **30 segundos** y está limitado a **55 segundos**. |
+    | **Abortar llamada si falla** | Si está activado, la llamada se cuelga cuando este flujo falla, agota el tiempo de espera o devuelve datos no válidos. Si está desactivado (por defecto), la llamada continúa sin la salida del flujo. |
+  </Step>
+
+  <Step title="Añade tus pasos">
+    Añade las acciones que necesites: consultar una base de datos, llamar a tu CRM, ejecutar una condición, transformar datos. Usa los datos de la llamada del trigger (como el número de teléfono del contacto) para buscar el registro correcto.
+  </Step>
+
+  <Step title="Termina con Devolver datos de llamada">
+    El **último** paso debe ser la acción **Devolver datos de llamada** de Diga. Es lo que envía el texto adicional del prompt y las variables dinámicas de vuelta al agente.
+
+    <Warning>
+      El flujo **debe** terminar con **Devolver datos de llamada**. La pieza genérica **Respond** no funcionará — su respuesta nunca llega al agente, y la llamada se tratará como si el flujo hubiera fallado.
+    </Warning>
+  </Step>
+
+  <Step title="Publica y habilita">
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo y asegúrate de que esté **habilitado**. Luego asígnalo a un agente (ver más abajo).
+  </Step>
+</Steps>
+
+## La acción Devolver datos de llamada
+
+Esta acción define lo que el flujo devuelve al agente. Ambos campos son opcionales — usa uno, los dos o ninguno.
+
+| Campo | Descripción |
+|---|---|
+| **Texto adicional del prompt** | Texto que se añade al prompt de sistema del agente para esta llamada. Puede contener marcadores `{{variable}}`. Úsalo para añadir instrucciones o contexto por llamada. |
+| **Variables dinámicas** | Pares clave/valor que se fusionan con las [variables dinámicas](/es/build/agentes/variables-dinamicas) de la llamada. Tienen prioridad sobre cualquier valor definido a nivel de llamada. |
+
+### Ejemplo
+
+Un flujo que busca al contacto en un CRM y personaliza al agente:
+
+```
+Trigger: Pre-llamada
+→ Acción: Buscar contacto en HubSpot (por número de teléfono)
+→ Acción: Devolver datos de llamada
+   - Texto adicional del prompt: "Estás hablando con un cliente premium recurrente.
+     Sé especialmente atento y menciona su pedido reciente si es relevante."
+   - Variables dinámicas:
+     - nombre_cliente: {{paso_2.first_name}}
+     - plan: {{paso_2.plan}}
+     - ultimo_pedido: {{paso_2.last_order_id}}
+```
+
+El agente ahora inicia la llamada conociendo ya el nombre del contacto, su plan y su último pedido — y puedes usar `{{nombre_cliente}}`, `{{plan}}` y `{{ultimo_pedido}}` en cualquier parte del prompt, el saludo, los nodos de conversación o las condiciones de las ramas.
+
+## Asignar Flujos Pre-llamada a un Agente
+
+Cómo asignas un flujo pre-llamada depende del tipo de agente.
+
+<Tabs>
+  <Tab title="Agentes de prompt único">
+    Abre el agente y ve a su sección **Flujos**. Añade ahí el flujo pre-llamada, igual que añades los flujos post-llamada y durante llamada. Cada flujo muestra una etiqueta **Pre-llamada** para que puedas distinguirlos.
+
+    Puedes asignar **múltiples flujos pre-llamada** al mismo agente.
+  </Tab>
+
+  <Tab title="Agentes con caminos conversacionales">
+    Los caminos usan un nodo dedicado de **Flujos pre-llamada**, que se muestra encima del nodo de **Inicio** en el editor de caminos. Haz clic en él (o en su botón **Añadir**) para abrir el selector, que solo lista flujos pre-llamada. Los flujos que añadas se ejecutan antes de que se ejecute el nodo de inicio del camino.
+
+    Consulta [Tipos de Nodos](/es/build/agentes/camino-conversacional/tipos-nodos#flujos-pre-llamada) para más detalles.
+
+    <Frame>
+      <img src="/images/nodo-pre-llamada-placeholder.png" alt="Nodo de flujos pre-llamada encima del nodo de inicio en el editor de caminos" />
+    </Frame>
+  </Tab>
+</Tabs>
+
+<Note>
+  Como el resto de flujos, los flujos pre-llamada se asignan por [versión de agente](/es/build/agentes/control-versiones). El flujo debe estar **publicado** y **habilitado** para que se ejecute.
+</Note>
+
+### Múltiples flujos pre-llamada
+
+Puedes asignar más de un flujo pre-llamada al mismo agente o camino. Todos se ejecutan, y sus resultados se fusionan:
+
+- Los **textos adicionales del prompt** se combinan entre sí.
+- Las **variables dinámicas** se fusionan. Si dos flujos definen la misma variable, la fusión sigue un orden consistente, de modo que los flujos posteriores tienen prioridad sobre los anteriores.
+
+## Controlar una llamada
+
+Los flujos pre-llamada pueden detener una llamada antes de que empiece. Esto se controla por flujo con la opción **Abortar llamada si falla**:
+
+<AccordionGroup>
+  <Accordion title="Abortar llamada si falla — activado">
+    Si el flujo falla, agota el tiempo de espera o devuelve datos no válidos, la **llamada se termina de inmediato**. En una llamada entrante el contacto se desconecta; en una saliente, el número nunca se marca.
+
+    Úsalo cuando el flujo sea un requisito obligatorio — por ejemplo, una comprobación de elegibilidad o lista de permitidos que debe pasar antes de que nadie hable con el agente.
+  </Accordion>
+
+  <Accordion title="Abortar llamada si falla — desactivado (por defecto)">
+    Si el flujo falla o agota el tiempo de espera, la **llamada continúa con normalidad**, solo que sin la salida de ese flujo. El contacto no nota nada.
+
+    Úsalo cuando el flujo solo enriquece la llamada (contexto opcional) y no deba bloquear la conversación si tu servicio externo está lento o caído.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Mantén los flujos pre-llamada rápidos. El contacto está esperando (en silencio) mientras se ejecutan, y el agente puede esperar como máximo 55 segundos. Si una consulta es lenta, baja el tiempo de espera para que la llamada falle rápido y continúe, o mueve el trabajo no esencial a un [flujo post-llamada](/es/build/flujos/introduccion#post-llamada).
+</Tip>
+
+## Casos de uso comunes
+
+<AccordionGroup>
+  <Accordion title="Personalizar el saludo">
+    Busca al contacto por su número de teléfono y devuelve su nombre y datos de cuenta como variables dinámicas, para que el agente pueda saludarlo personalmente desde la primera frase.
+  </Accordion>
+
+  <Accordion title="Enrutar según el contexto">
+    Comprueba el estado del contacto (VIP, factura pendiente, ticket abierto) y devuelve variables que tu [camino conversacional](/es/build/agentes/camino-conversacional) use en sus condiciones de rama para enviar la llamada por el camino correcto.
+  </Accordion>
+
+  <Accordion title="Permitir o bloquear llamadas">
+    Valida al contacto contra una lista de permitidos, una lista de bloqueados o un horario de atención. Activa **Abortar llamada si falla** para que las llamadas que no cumplan nunca lleguen al agente.
+  </Accordion>
+
+  <Accordion title="Añadir instrucciones por llamada">
+    Devuelve un texto adicional para el prompt que adapte el comportamiento del agente a esta llamada concreta — por ejemplo, cambiar el tono ante una reclamación, o añadir lenguaje de cumplimiento normativo para ciertas regiones.
+  </Accordion>
+</AccordionGroup>
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="La pieza de Diga"
+    icon="puzzle"
+    href="/es/build/flujos/pieza-diga"
+  >
+    Referencia completa del trigger Pre-llamada y la acción Devolver datos de llamada.
+  </Card>
+  <Card
+    title="Variables dinámicas"
+    icon="brackets-curly"
+    href="/es/build/agentes/variables-dinamicas"
+  >
+    Usa las variables que produce tu flujo en toda la conversación.
+  </Card>
+  <Card
+    title="Tipos de nodos"
+    icon="diagram-project"
+    href="/es/build/agentes/camino-conversacional/tipos-nodos#flujos-pre-llamada"
+  >
+    El nodo de flujos pre-llamada en el editor de caminos conversacionales.
+  </Card>
+  <Card
+    title="Crear flujos"
+    icon="plus"
+    href="/es/build/flujos/crear-flujos"
+  >
+    Construye el flujo paso a paso en el constructor visual.
+  </Card>
+</CardGroup>

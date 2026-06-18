@@ -32,16 +32,33 @@ Ambas herramientas conectan tus agentes con servicios externos, pero sirven prop
 ## Tipos de Flujos
 
 <CardGroup cols={1}>
+  <Card title="Pre-llamada" icon="phone-incoming" horizontal iconAlign="top">
+    Se ejecutan antes de que el agente salude para validar, personalizar o bloquear la llamada. Buscan datos e inyectan el prompt y las variables con las que el agente empieza.
+  </Card>
   <Card title="Post-llamada" icon="circle-check" horizontal iconAlign="top">
     Se ejecutan automáticamente cuando una llamada termina. Ideales para registrar, notificar y actualizar sistemas con los datos de la llamada.
   </Card>
   <Card title="Durante llamada" icon="bolt" horizontal iconAlign="top">
     Se ejecutan como herramientas del agente en mitad de la conversación. Úsalos cuando una sola llamada a la API no es suficiente y necesitas encadenar pasos o transformar datos.
   </Card>
-  <Card title="Pre-llamada" icon="phone-outgoing" horizontal iconAlign="top">
+  <Card title="Lanzador de llamadas" icon="phone-outgoing" horizontal iconAlign="top">
     Inician llamadas salientes desde un flujo. Se disparan por eventos externos como formularios completados, actualizaciones en el CRM o una programación horaria.
   </Card>
 </CardGroup>
+
+### Pre-llamada
+
+Los flujos pre-llamada se ejecutan en el momento en que empieza una llamada, **antes de que el agente salude**. El agente espera a que terminen y usa su resultado para preparar la conversación — buscando al contacto, añadiendo contexto al prompt, definiendo variables dinámicas o incluso decidiendo si la llamada debe continuar.
+
+**Casos de uso comunes:**
+- Buscar al contacto en tu CRM y saludarlo por su nombre
+- Definir variables dinámicas (estado de cuenta, plan, tickets abiertos) que el agente usa durante toda la llamada
+- Añadir instrucciones por llamada al prompt del agente
+- Validar al contacto contra una lista de permitidos o un horario de atención y bloquear las llamadas que no cumplan
+
+<Tip>
+  Los flujos pre-llamada usan el trigger **Pre-llamada** y deben terminar con la acción **Devolver datos de llamada**. Consulta [Flujos Pre-llamada](/es/build/flujos/flujos-pre-llamada) para la guía completa.
+</Tip>
 
 ### Post-llamada
 
@@ -53,6 +70,10 @@ Los flujos post-llamada se activan automáticamente cuando una llamada finaliza.
 - Crear un ticket de soporte y adjuntar la transcripción
 - Registrar datos estructurados en Google Sheets y lanzar una notificación en Slack
 - Ejecutar lógica condicional, por ejemplo para escalar a un humano solo si la llamada terminó sin resolución
+
+<Tip>
+  Los flujos post-llamada usan el trigger **Llamada finalizada**. Consulta [Flujos Post-llamada](/es/build/flujos/flujos-post-llamada) para la guía completa.
+</Tip>
 
 ### Durante llamada
 
@@ -67,12 +88,12 @@ Usa un flujo aquí (en lugar de una integración) cuando necesites hacer más de
 - Realizar una reserva que requiere llamar a varias APIs en secuencia
 
 <Tip>
-  Los flujos durante llamada admiten modo **síncrono** (el agente espera) y modo **asíncrono** (el agente sigue hablando mientras se ejecuta). Consulta la [Pieza de Diga](/es/build/flujos/pieza-diga) para más detalles.
+  Los flujos durante llamada usan el trigger **Llamada a función**. El agente espera el resultado y lo usa para seguir hablando. Consulta [Flujos Durante Llamada](/es/build/flujos/flujos-durante-llamada) para la guía completa.
 </Tip>
 
-### Pre-llamada
+### Lanzador de llamadas
 
-Los flujos pre-llamada utilizan la acción **Hacer llamada** de la pieza de Diga para iniciar llamadas salientes. Pueden ser disparados por cualquier evento externo: un cambio en un registro del CRM, un formulario completado, una hora programada o un webhook.
+Los flujos lanzadores de llamadas utilizan la acción **Hacer llamada** de la pieza de Diga para iniciar llamadas salientes. Pueden ser disparados por cualquier evento externo: un cambio en un registro del CRM, un formulario completado, una hora programada o un webhook.
 
 **Casos de uso comunes:**
 - Llamar a leads automáticamente después de que completen un formulario
@@ -88,8 +109,9 @@ Las piezas son los conectores que proporcionan triggers y acciones para servicio
 
 ### Triggers
 
-Un trigger es el evento que inicia un flujo. Cada flujo tiene exactamente uno. La pieza de Diga proporciona dos triggers específicos para llamadas:
+Un trigger es el evento que inicia un flujo. Cada flujo tiene exactamente uno. La pieza de Diga proporciona tres triggers específicos para llamadas:
 
+- **Pre-llamada**: se activa cuando una llamada empieza, antes de que el agente salude
 - **Llamada finalizada**: se activa cuando una llamada termina
 - **Llamada a función**: se activa en mitad de la llamada cuando el agente necesita ejecutar una acción
 

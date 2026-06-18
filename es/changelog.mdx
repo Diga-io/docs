@@ -4,6 +4,29 @@ description: "Registro de actualizaciones y mejoras de la plataforma Diga"
 rss: true
 ---
 
+<Update label="17 de junio de 2026" description="v1.1.16" tags={["Nuevas features"]}>
+
+## Flujos pre-llamada y variables impulsadas por flujos
+
+### Flujos pre-llamada
+
+- **Prepara cada llamada antes de que empiece**: el nuevo trigger **Pre-llamada** ejecuta un flujo en el momento en que empieza una llamada, antes de que el agente salude. El agente espera el resultado y lo usa para personalizar la conversación.
+- **Acción Devolver datos de llamada**: envía un texto adicional para el prompt y variables dinámicas de vuelta al agente, para que empiece la llamada conociendo ya el nombre, la cuenta o el contexto del contacto.
+- **Controla las llamadas**: opcionalmente aborta una llamada si el flujo falla o agota el tiempo de espera — útil para listas de permitidos, comprobaciones de elegibilidad u horarios de atención. El tiempo de espera es configurable por flujo (hasta 55 segundos).
+- **Asígnalos donde quieras**: añade flujos pre-llamada a agentes de prompt único en la sección Flujos, o a caminos conversacionales mediante el nuevo nodo **Flujos pre-llamada** encima del nodo de inicio.
+
+### Variables dinámicas impulsadas por flujos
+
+- **Variables proporcionadas por flujos**: las variables que produce un flujo pre-llamada ahora aparecen en el panel de variables dinámicas del agente como solo lectura, con la etiqueta "Proporcionada por [flujo]", y en el autocompletado de `{{`.
+- **Parámetros dinámicos para flujos durante llamada**: un parámetro de Llamada a función ahora puede tomar su valor de una variable dinámica en lugar de ser extraído por el agente — configura su **Origen del valor** como **Variable dinámica**.
+- **Variables en los caminos**: las variables dinámicas ahora se interpolan en los prompts de los nodos de conversación y en las condiciones de las ramas.
+
+### Categorías de flujos
+
+- **Nueva categoría "Lanzador de llamadas"**: los flujos que inician llamadas salientes con la acción Hacer llamada ahora se etiquetan como **Lanzador de llamadas**, distintos de los nuevos flujos **Pre-llamada**.
+
+</Update>
+
 <Update label="11 de marzo de 2026" description="v1.1.6" tags={["Nuevas features"]}>
 
 ## Voces mejoradas, sonido en herramientas y pieza de Holded

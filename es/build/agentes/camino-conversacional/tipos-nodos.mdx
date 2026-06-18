@@ -56,6 +56,33 @@ Cada camino conversacional debe tener exactamente un nodo de comienzo. No puedes
 - **Tiempo de espera**: Tiempo en milisegundos hasta que el agente hable
 
 
+## Flujos Pre-llamada
+
+### Descripción
+
+El nodo de **Flujos pre-llamada** se sitúa justo encima del [nodo de inicio](#nodo-de-inicio). No es uno de los bloques que colocas dentro de la conversación — en su lugar, contiene los [flujos pre-llamada](/es/build/flujos/flujos-pre-llamada) que se ejecutan **antes de que empiece el camino**, en el momento en que comienza la llamada. Es el equivalente, para agentes con camino, a asignar flujos pre-llamada en la sección Flujos de un agente de prompt único.
+
+<Frame>
+  <img src="/images/nodo-pre-llamada-placeholder.png" alt="Nodo de flujos pre-llamada encima del nodo de inicio" />
+</Frame>
+
+### Características
+
+- **Siempre presente**: se muestra en todos los caminos y no se puede eliminar (incluso sin flujos añadidos)
+- **Se ejecuta antes del camino**: sus flujos se ejecutan antes del nodo de inicio, mientras la llamada se está conectando
+- **Múltiples flujos**: puedes añadir más de un flujo pre-llamada
+- **Personaliza la llamada**: los flujos pre-llamada pueden añadir texto al prompt del agente y definir variables dinámicas que se usan durante todo el camino
+
+### Configuración
+
+- Haz clic en el nodo (o en su botón **Añadir**) para abrir el selector, que solo lista flujos pre-llamada — flujos que usan el trigger **Pre-llamada**.
+- Añade los flujos que quieras ejecutar. Cada uno debe estar **publicado** y **habilitado**.
+
+<Note>
+  Los flujos pre-llamada pueden devolver variables dinámicas que luego usas en los prompts de los nodos y en las condiciones de las ramas con la sintaxis `{{variable}}`. Consulta [Flujos Pre-llamada](/es/build/flujos/flujos-pre-llamada) y [Variables Dinámicas](/es/build/agentes/variables-dinamicas).
+</Note>
+
+
 ## Nodo de Conversación
 
 ### Descripción
@@ -118,8 +145,8 @@ Los nodos de flujo ejecutan [flujos de trabajo](/es/build/flujos/introduccion) d
 
 Los nodos de flujo se pueden usar de dos formas según su posición en el camino:
 
-- **Durante la llamada**: cuando se colocan en el flujo regular de la conversación, actúan como nodos de herramienta pero ejecutan un flujo completo en lugar de una sola llamada a la API. El flujo asignado debe usar el trigger **Llamada a función**.
-- **Post-llamada**: cuando se conectan después de un nodo de Terminar, se ejecutan automáticamente una vez que la llamada finaliza. El flujo asignado debe usar el trigger **Llamada finalizada**.
+- **[Durante la llamada](/es/build/flujos/flujos-durante-llamada)**: cuando se colocan en el flujo regular de la conversación, actúan como nodos de herramienta pero ejecutan un flujo completo en lugar de una sola llamada a la API. El flujo asignado debe usar el trigger **Llamada a función**.
+- **[Post-llamada](/es/build/flujos/flujos-post-llamada)**: cuando se conectan después de un nodo de Terminar, se ejecutan automáticamente una vez que la llamada finaliza. El flujo asignado debe usar el trigger **Llamada finalizada**.
 
 ### Características
 

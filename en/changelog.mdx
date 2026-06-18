@@ -4,6 +4,29 @@ description: "Release notes and platform improvements for Diga"
 rss: true
 ---
 
+<Update label="June 17, 2026" description="v1.1.16" tags={["New features"]}>
+
+## Pre-call flows and flow-driven variables
+
+### Pre-call flows
+
+- **Prepare every call before it starts**: the new **Pre-Call** trigger runs a workflow the moment a call begins, before the agent greets. The agent waits for the result and uses it to personalize the conversation.
+- **Return Call Data action**: send a prompt addition and dynamic variables back to the agent, so it can start the call already knowing the caller's name, account, or context.
+- **Gate calls**: optionally abort a call if the flow fails or times out — useful for allowlists, eligibility checks, or business hours. Timeout is configurable per flow (up to 55 seconds).
+- **Assign anywhere**: add pre-call flows to single-prompt agents in the Workflows section, or to conversational paths through the new **Pre-call flows** node above the start node.
+
+### Flow-driven dynamic variables
+
+- **Variables provided by flows**: variables a pre-call flow produces now appear in the agent's dynamic variables panel as read-only, labeled "Provided by [flow]", and in the `{{` autocomplete.
+- **Dynamic parameters for during-call flows**: a Function Call parameter can now take its value from a dynamic variable instead of being extracted by the agent — set its **Value Source** to **Dynamic Variable**.
+- **Variables in paths**: dynamic variables now interpolate in conversation node prompts and branch conditions.
+
+### Workflow categories
+
+- **New "Call launcher" category**: workflows that start outbound calls with the Make Call action are now labeled **Call launcher**, distinct from the new **Pre-call** flows.
+
+</Update>
+
 <Update label="March 11, 2026" description="v1.1.6" tags={["New features"]}>
 
 ## Improved voices, tool sounds, and Holded piece

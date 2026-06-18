@@ -25,10 +25,11 @@ When you click **Create workflow** in the top right corner, a modal will open wh
 
     For workflows connected to Diga calls, select the **Diga piece** and choose one of its triggers:
 
+    - **Pre-Call** — For [pre-call workflows](/en/build/flows/pre-call-flows) that run before the agent greets
     - **Call Finished** — For post-call workflows
     - **Function Call** — For during-call workflows
 
-    If you want to create a pre-call workflow, you can use any external trigger (time schedule, webhook, CRM event, etc.) and then add the Diga **Make Call** action.
+    To build a **call launcher** workflow that starts outbound calls, use any external trigger (time schedule, webhook, CRM event, etc.) and then add the Diga **Make Call** action.
 
     <Frame>
       <img src="/images/flujos-trigger-placeholder.png" alt="Trigger selection in the workflow builder" />
@@ -40,7 +41,6 @@ When you click **Create workflow** in the top right corner, a modal will open wh
 
     - When the agent should execute this function (natural language description)
     - What parameters to extract from the conversation
-    - Whether execution is synchronous or asynchronous
     - Whether user confirmation is required
 
     See the [Diga Piece](/en/build/flows/diga-piece) for details on each trigger.

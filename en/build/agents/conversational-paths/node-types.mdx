@@ -56,6 +56,33 @@ Each conversational path must have exactly one start node. You cannot have multi
 - **Wait time**: Time in milliseconds until the agent speaks
 
 
+## Pre-call Flows
+
+### Description
+
+The **Pre-call flows** node sits directly above the [start node](#start-node). It isn't one of the building blocks you place inside the conversation — instead, it holds the [pre-call flows](/en/build/flows/pre-call-flows) that run **before the path begins**, the moment the call starts. It's the path-agent equivalent of assigning pre-call flows in a single-prompt agent's Workflows section.
+
+<Frame>
+  <img src="/images/nodo-pre-llamada-placeholder.png" alt="Pre-call flows node above the start node" />
+</Frame>
+
+### Features
+
+- **Always present**: shown on every path and can't be deleted (even with no flows added)
+- **Runs before the path**: its flows execute before the start node, while the call is connecting
+- **Multiple flows**: you can add more than one pre-call flow
+- **Personalizes the call**: pre-call flows can add to the agent's prompt and set dynamic variables used throughout the path
+
+### Configuration
+
+- Click the node (or its **Add** button) to open the picker, which lists only pre-call flows — workflows that use the **Pre-Call** trigger.
+- Add the flows you want to run. Each must be **published** and **enabled**.
+
+<Note>
+  Pre-call flows can return dynamic variables that you then use in node prompts and branch conditions with the `{{variable}}` syntax. See [Pre-call Flows](/en/build/flows/pre-call-flows) and [Dynamic Variables](/en/build/agents/dynamic-variables).
+</Note>
+
+
 ## Conversation Node
 
 ### Description
@@ -114,8 +141,8 @@ Flow nodes execute [workflows](/en/build/flows/introduction) within the conversa
 
 Flow nodes can be used in two ways depending on where they appear in the path:
 
-- **During call**: when placed in the regular flow of the conversation, they act like tool nodes but execute a full workflow instead of a single API call. The assigned workflow must use a **Function Call** trigger.
-- **Post-call**: when connected after an End node, they execute automatically once the call finishes. The assigned workflow must use a **Call Finished** trigger.
+- **[During call](/en/build/flows/during-call-flows)**: when placed in the regular flow of the conversation, they act like tool nodes but execute a full workflow instead of a single API call. The assigned workflow must use a **Function Call** trigger.
+- **[Post-call](/en/build/flows/post-call-flows)**: when connected after an End node, they execute automatically once the call finishes. The assigned workflow must use a **Call Finished** trigger.
 
 ### Features
 

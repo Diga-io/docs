@@ -18,6 +18,41 @@ La pieza de Diga es el componente que conecta tus flujos con las llamadas de tus
 
 ## Triggers
 
+### Pre-llamada
+
+Se activa cuando una llamada empieza, **antes de que el agente salude**. Es el trigger para los [flujos pre-llamada](/es/build/flujos/flujos-pre-llamada). El agente espera la salida del flujo y la usa para personalizar la conversación antes de decir su primera palabra.
+
+<Warning>
+  Un flujo pre-llamada **debe terminar con la acción [Devolver datos de llamada](#devolver-datos-de-llamada)** para que el agente reciba el texto adicional del prompt y las variables dinámicas. La pieza genérica **Respond** no funcionará — su respuesta nunca llega al agente.
+</Warning>
+
+#### Configuración
+
+| Campo | Descripción |
+|---|---|
+| **Tiempo de espera (segundos)** | Tiempo máximo que el agente espera a este flujo antes de continuar (o abortar). Por defecto son **30 segundos** y está limitado a **55 segundos**. |
+| **Abortar llamada si falla** | Si está activado, la llamada se cuelga cuando el flujo falla, agota el tiempo de espera o devuelve datos no válidos. Desactivado por defecto, en cuyo caso la llamada continúa sin la salida del flujo. |
+
+#### Datos que recibe
+
+Cuando se dispara este trigger, el flujo recibe los datos de la llamada que está empezando, que puedes usar para buscar el registro correcto:
+
+| Campo | Descripción |
+|---|---|
+| `call_id` | Identificador único de la llamada |
+| `type` | Tipo de llamada (`inbound` o `outbound`) |
+| `phone_number` | Número de teléfono del contacto |
+| `contact_id` | Identificador del contacto |
+| `agent_id` | Identificador del agente |
+| `start_time` | Fecha y hora de inicio |
+| `dynamic_variables` | Variables dinámicas ya definidas en la llamada |
+
+<Tip>
+  Consulta [Flujos Pre-llamada](/es/build/flujos/flujos-pre-llamada) para la guía completa, incluido cómo crear, asignar y controlar llamadas con estos flujos.
+</Tip>
+
+---
+
 ### Llamada Finalizada
 
 Se activa automáticamente cuando una llamada termina. Es el trigger principal para flujos **post-llamada**.
@@ -54,11 +89,19 @@ Cada mensaje en el array `messages` incluye:
 
 Este trigger no requiere configuración adicional. Solo necesitas [asignar el flujo al agente](/es/build/flujos/asignar-agentes) para que se active.
 
+<Tip>
+  Consulta [Flujos Post-llamada](/es/build/flujos/flujos-post-llamada) para la guía completa sobre cómo crear y asignar estos flujos.
+</Tip>
+
 ---
 
 ### Llamada a Función
 
 Se activa durante una llamada cuando el agente decide ejecutar una función. Es el trigger para flujos **durante llamada**. El agente lo usa como una herramienta más, de forma similar a las [integraciones](/es/build/integraciones/introduccion).
+
+<Tip>
+  Consulta [Flujos Durante Llamada](/es/build/flujos/flujos-durante-llamada) para la guía completa sobre cómo crear y asignar estos flujos.
+</Tip>
 
 #### Configuración
 
@@ -66,7 +109,6 @@ Se activa durante una llamada cuando el agente decide ejecutar una función. Es 
 |---|---|
 | **Descripción de la función** | Instrucción en lenguaje natural que indica al agente cuándo usar esta función. Ejemplo: "Usa esta función cuando el usuario quiera consultar la disponibilidad de citas" |
 | **Parámetros** | Los datos que el agente debe extraer de la conversación. Para cada parámetro defines: nombre, tipo de dato, si es obligatorio y una descripción |
-| **Modo de ejecución** | Síncrono o asíncrono (ver más abajo) |
 | **Confirmación de usuario** | Si el agente debe pedir confirmación antes de ejecutar |
 
 #### Parámetros
@@ -80,6 +122,15 @@ Los parámetros definen qué información extrae el agente de la conversación p
 
 El agente extrae estos valores automáticamente del contexto de la conversación y los envía al flujo.
 
+##### Origen del valor
+
+Cada parámetro tiene un **Origen del valor** que decide de dónde sale su valor:
+
+- **Extraído por la IA** (por defecto): el agente extrae el valor de la conversación, usando la descripción del parámetro para saber qué buscar.
+- **Variable dinámica**: el valor se toma directamente de una [variable dinámica](/es/build/agentes/variables-dinamicas) en lugar de extraerse. Al elegir esta opción, indica el **Nombre de la variable dinámica** (sin llaves, p. ej. `id_cliente`). No se le pide este parámetro al agente — Diga lo rellena automáticamente con las variables de la llamada.
+
+Usa **Variable dinámica** para datos que ya tienes (definidos por la API o por un [flujo pre-llamada](/es/build/flujos/flujos-pre-llamada)), para que el agente no tenga que volver a pedirlos durante la conversación. Para un paso a paso y un ejemplo, consulta [Rellenar parámetros desde variables dinámicas](/es/build/flujos/flujos-durante-llamada#rellenar-parámetros-desde-variables-dinámicas).
+
 #### Datos que recibe
 
 | Campo | Descripción |
@@ -92,27 +143,17 @@ El agente extrae estos valores automáticamente del contexto de la conversación
 | `dynamic_variables` | Variables dinámicas de la llamada |
 | `timestamp` | Momento de la ejecución |
 
-#### Modo Síncrono vs Asíncrono
+#### Cómo espera el agente
 
-<AccordionGroup>
-  <Accordion title="Modo síncrono">
-    El agente **espera** a que el flujo termine y recibe la respuesta. Úsalo cuando el agente necesita la información para continuar la conversación.
+El agente **espera** a que el flujo termine y recibe la respuesta, y la usa para continuar la conversación.
 
-    **Ejemplo**: Consultar disponibilidad de citas. El agente pregunta la fecha, ejecuta el flujo, espera la respuesta y le dice al usuario los horarios disponibles.
+**Ejemplo**: Consultar disponibilidad de citas. El agente pregunta la fecha, ejecuta el flujo, espera la respuesta y le dice al usuario los horarios disponibles.
 
-    **Importante**: En modo síncrono, el flujo debe incluir la acción **Devolver respuesta** como último paso para enviar datos de vuelta al agente. El tiempo máximo de espera es de 60 segundos.
+**Importante**: El flujo debe incluir la acción **Devolver respuesta** como último paso para enviar datos de vuelta al agente. El tiempo máximo de espera es de 60 segundos.
 
-    <Warning>
-      Si el flujo tarda más de 60 segundos o no incluye la acción **Devolver respuesta**, el agente recibirá un error y continuará la conversación sin los datos.
-    </Warning>
-  </Accordion>
-
-  <Accordion title="Modo asíncrono">
-    El agente **no espera** la respuesta y continúa la conversación. Úsalo para acciones donde no necesitas una respuesta inmediata.
-
-    **Ejemplo**: Registrar una incidencia en un sistema de tickets. El agente confirma al usuario que se ha registrado y continúa, sin esperar a que el flujo complete todas las acciones.
-  </Accordion>
-</AccordionGroup>
+<Warning>
+  Si el flujo tarda más de 60 segundos o no incluye la acción **Devolver respuesta**, el agente recibirá un error y continuará la conversación sin los datos.
+</Warning>
 
 #### Confirmación de usuario
 
@@ -130,7 +171,7 @@ Agente: [ejecuta el flujo]
 
 ### Hacer Llamada
 
-Inicia una llamada saliente desde un flujo. Esta acción convierte cualquier flujo en un disparador de llamadas, permitiéndote crear campañas automatizadas o llamadas reactivas a eventos externos.
+Inicia una llamada saliente desde un flujo. Esta acción convierte cualquier flujo en un disparador de llamadas, permitiéndote crear campañas automatizadas o llamadas reactivas a eventos externos. Los flujos construidos en torno a esta acción se conocen como flujos **lanzadores de llamadas**.
 
 #### Configuración
 
@@ -183,7 +224,7 @@ Inicia una llamada saliente desde un flujo. Esta acción convierte cualquier flu
 
 ### Devolver Respuesta
 
-Devuelve datos al agente durante una llamada. Esta acción es **obligatoria** en flujos durante llamada con modo **síncrono**. Es el último paso del flujo y contiene la información que el agente necesita para continuar la conversación.
+Devuelve datos al agente durante una llamada. Esta acción es **obligatoria** en flujos durante llamada. Es el último paso del flujo y contiene la información que el agente necesita para continuar la conversación.
 
 #### Configuración
 
@@ -205,6 +246,37 @@ Trigger: Llamada a función (parámetros: fecha, servicio)
 ```
 
 El agente recibe estos datos y le dice al usuario: "Tengo disponibilidad a las 10:00, 11:30 y 15:00 para una consulta general. ¿Cuál prefieres?"
+
+---
+
+### Devolver Datos de Llamada
+
+Devuelve datos al agente **antes de que empiece la llamada**. Esta acción es **obligatoria** como último paso de un [flujo pre-llamada](/es/build/flujos/flujos-pre-llamada) — es lo que envía el prompt y las variables de vuelta al agente para que pueda comenzar la conversación.
+
+<Note>
+  No la confundas con **Devolver respuesta**. Devolver datos de llamada se ejecuta al *inicio* de una llamada (flujos pre-llamada); Devolver respuesta se ejecuta *durante* una llamada (flujos durante llamada).
+</Note>
+
+#### Configuración
+
+| Campo | Descripción |
+|---|---|
+| **Texto adicional del prompt** | Texto que se añade al prompt de sistema del agente para esta llamada. Puede contener marcadores `{{variable}}`. Opcional. |
+| **Variables dinámicas** | Pares clave/valor que se fusionan con las variables dinámicas de la llamada. Tienen prioridad sobre los valores definidos a nivel de llamada. Opcional. |
+
+#### Ejemplo
+
+Un flujo pre-llamada que personaliza al agente a partir de una búsqueda en el CRM:
+
+```
+Trigger: Pre-llamada
+→ Acción: Buscar contacto en HubSpot (por número de teléfono)
+→ Acción: Devolver datos de llamada
+   - Texto adicional del prompt: "Estás hablando con un cliente premium recurrente. Sé atento."
+   - Variables dinámicas: { "nombre_cliente": "Jane Doe", "plan": "premium" }
+```
+
+El agente empieza la llamada conociendo ya el nombre y el plan del contacto, y puede usar `{{nombre_cliente}}` y `{{plan}}` en cualquier parte de su prompt, saludo o camino.
 
 ## Referenciar Datos entre Pasos
 

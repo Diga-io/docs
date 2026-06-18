@@ -1,0 +1,186 @@
+---
+title: "Plantillas de Agentes"
+description: "Crea agentes pre-configurados en segundos usando plantillas listas para usar"
+---
+
+## ¿Qué son las Plantillas de Agentes?
+
+Las plantillas de agentes son configuraciones pre-construidas que te permiten crear agentes completos en un solo paso. Cada plantilla incluye el prompt, la voz, el idioma, las herramientas y, en algunos casos, un camino conversacional completo — todo listo para funcionar.
+
+Solo necesitas rellenar las **variables** específicas de tu negocio (como números de teléfono o nombres de departamentos) y tendrás un agente operativo en segundos.
+
+<Note>
+  Las plantillas son un punto de partida. Una vez creado el agente, puedes personalizar cualquier aspecto de su configuración como si lo hubieras creado desde cero.
+</Note>
+
+## Usar una Plantilla
+
+<Steps>
+  <Step title="Accede al catálogo de plantillas">
+    Desde la sección **Agentes** del dashboard, haz clic en **Crear Agente**. Verás el catálogo de plantillas disponibles junto con la opción de crear un agente desde cero.
+
+    <Frame>
+      <img src="/images/agentes-plantillas-catalogo-placeholder.png" alt="Catálogo de plantillas de agentes" />
+    </Frame>
+  </Step>
+
+  <Step title="Selecciona una plantilla">
+    Explora las plantillas disponibles. Cada una muestra:
+
+    - **Nombre** y **descripción** del caso de uso
+    - **Tipo de agente**: prompt único o camino conversacional
+    - **Variables** que necesitas configurar
+
+    Haz clic en la plantilla que quieras usar para ver sus detalles.
+  </Step>
+
+  <Step title="Configura las variables">
+    Cada plantilla puede incluir variables que necesitas completar con información de tu negocio. Estas variables usan el formato `<<nombre_variable>>` y se sustituyen automáticamente al crear el agente.
+
+    Ejemplos comunes de variables:
+    - `<<nombre_empresa>>` — El nombre de tu empresa
+    - `<<telefono_ventas>>` — Número del departamento de ventas
+    - `<<horario_atencion>>` — Horario de atención al cliente
+
+    <Frame>
+      <img src="/images/agentes-plantillas-variables-placeholder.png" alt="Configuración de variables de la plantilla" />
+    </Frame>
+  </Step>
+
+  <Step title="Crea el agente">
+    Haz clic en **Usar plantilla** para crear el agente. Se creará en estado **borrador** para que puedas revisarlo y ajustarlo antes de publicar.
+  </Step>
+
+  <Step title="Revisa y personaliza">
+    El agente se abre en el editor con toda la configuración de la plantilla aplicada. Revisa:
+
+    - El **prompt** o **camino conversacional** para asegurarte de que encaja con tu caso de uso
+    - La **voz** y el **idioma** seleccionados
+    - Las **herramientas de llamada** habilitadas (transferencia, colgar, etc.)
+
+    Modifica lo que necesites antes de publicar.
+  </Step>
+
+  <Step title="Configura los recursos pendientes">
+    Algunas plantillas incluyen **recursos pendientes** que necesitas configurar:
+
+    - **Integraciones**: Conexiones a servicios externos que requieren tus credenciales (API keys, tokens)
+    - **Flujos**: Automatizaciones que necesitan ser habilitadas en el constructor de flujos
+    - **Bases de conocimiento**: Fuentes de datos que necesitas añadir
+
+    Estos recursos aparecen marcados como pendientes en la configuración del agente. Configúralos antes de publicar.
+
+    <Warning>
+      No podrás publicar el agente hasta que todos los recursos pendientes estén configurados correctamente.
+    </Warning>
+  </Step>
+
+  <Step title="Publica el agente">
+    Una vez satisfecho con la configuración, [crea una versión y publica](/es/build/agentes/control-versiones) el agente para que empiece a recibir llamadas.
+  </Step>
+</Steps>
+
+## Tipos de Plantillas
+
+Las plantillas pueden ser de dos tipos según el modo del agente:
+
+<CardGroup cols={2}>
+  <Card title="Prompt único" icon="wand-sparkles">
+    Plantillas basadas en instrucciones generales. El agente sigue un prompt que define su comportamiento global. Ideales para casos de uso simples y directos.
+  </Card>
+  <Card title="Camino conversacional" icon="/icons/dataflow-04.svg">
+    Plantillas con un flujo de conversación predefinido paso a paso. Incluyen nodos, bifurcaciones y acciones específicas. Ideales para procesos estructurados.
+  </Card>
+</CardGroup>
+
+## Variables
+
+Las variables permiten que una misma plantilla se adapte a diferentes empresas y casos de uso. Cuando creas un agente desde una plantilla, las variables se sustituyen automáticamente por los valores que proporcionas.
+
+### Cómo funcionan
+
+- Se definen con el formato `<<nombre_variable>>`
+- Se sustituyen en todo el agente: prompt, saludo, nodos del camino conversacional, etc.
+- Respetan el tipo de dato original (texto, número, booleano)
+
+### Ejemplo
+
+Una plantilla de enrutamiento de llamadas podría tener estas variables:
+
+| Variable | Descripción | Ejemplo |
+|---|---|---|
+| `<<nombre_empresa>>` | Nombre de tu empresa | "Clínica Dental López" |
+| `<<telefono_ventas>>` | Número de ventas | "+34 612 345 678" |
+| `<<telefono_soporte>>` | Número de soporte | "+34 612 345 679" |
+| `<<horario>>` | Horario de atención | "Lunes a Viernes de 9:00 a 18:00" |
+
+El prompt de la plantilla:
+```
+Eres el recepcionista virtual de <<nombre_empresa>>. 
+Nuestro horario de atención es <<horario>>.
+Si el cliente quiere hablar con ventas, transfiérelo al <<telefono_ventas>>.
+```
+
+Se convierte en:
+```
+Eres el recepcionista virtual de Clínica Dental López. 
+Nuestro horario de atención es Lunes a Viernes de 9:00 a 18:00.
+Si el cliente quiere hablar con ventas, transfiérelo al +34 612 345 678.
+```
+
+<Tip>
+  No es obligatorio rellenar todas las variables antes de crear el agente. Las variables no sustituidas se mantienen como `<<nombre>>` en la configuración y puedes editarlas después desde el editor del agente.
+</Tip>
+
+## Recursos Pendientes
+
+Algunas plantillas avanzadas incluyen recursos que necesitan configuración adicional después de crear el agente. Estos recursos se crean automáticamente como **placeholders** que debes completar.
+
+### Integraciones pendientes
+
+Si la plantilla usa integraciones con servicios externos, se crean integraciones placeholder que necesitas configurar con tus credenciales. Por ejemplo:
+
+- Una integración con tu CRM (necesitas tu API key)
+- Una conexión a tu calendario (necesitas autorizar tu cuenta)
+- Un webhook a tu sistema interno (necesitas la URL)
+
+### Flujos pendientes
+
+Si la plantilla incluye flujos de automatización, se crean flujos placeholder que necesitas revisar y habilitar en el [constructor de flujos](/es/build/flujos/crear-flujos).
+
+### Bases de conocimiento sugeridas
+
+Algunas plantillas sugieren bases de conocimiento que mejorarían el agente. Puedes [crear una base de conocimiento](/es/build/bases-conocimiento) y asignarla al agente.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Crear agente desde cero"
+    icon="plus"
+    href="/es/crear-agente"
+  >
+    Aprende a crear y configurar un agente paso a paso.
+  </Card>
+  <Card
+    title="Caminos conversacionales"
+    icon="/icons/dataflow-04.svg"
+    href="/es/build/agentes/camino-conversacional"
+  >
+    Personaliza el flujo conversacional de tu agente.
+  </Card>
+  <Card
+    title="Control de versiones"
+    icon="/icons/layers-three-02.svg"
+    href="/es/build/agentes/control-versiones"
+  >
+    Publica y gestiona versiones de tu agente.
+  </Card>
+  <Card
+    title="Añadir integraciones"
+    icon="plug"
+    href="/es/build/agentes/anadir-integraciones"
+  >
+    Configura las integraciones que tu agente necesita.
+  </Card>
+</CardGroup>

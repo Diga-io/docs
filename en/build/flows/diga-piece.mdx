@@ -18,6 +18,41 @@ The Diga piece is the component that connects your workflows with your agent cal
 
 ## Triggers
 
+### Pre-Call
+
+Activates when a call starts, **before the agent greets**. This is the trigger for [pre-call workflows](/en/build/flows/pre-call-flows). The agent waits for the flow's output and uses it to customize the conversation before saying its first word.
+
+<Warning>
+  A pre-call flow **must end with the [Return Call Data](#return-call-data) action** so the agent receives the prompt addition and dynamic variables. The generic **Respond** piece will not work — its response never reaches the agent.
+</Warning>
+
+#### Configuration
+
+| Field | Description |
+|---|---|
+| **Timeout (seconds)** | Maximum time the agent waits for this flow before continuing (or aborting). Defaults to **30 seconds** and is capped at **55 seconds**. |
+| **Abort call on failure** | If enabled, the call is hung up when the flow fails, times out, or returns invalid data. Disabled by default, in which case the call continues without the flow's output. |
+
+#### Data received
+
+When this trigger fires, the workflow receives the data of the starting call, which you can use to look up the right record:
+
+| Field | Description |
+|---|---|
+| `call_id` | Unique call identifier |
+| `type` | Call type (`inbound` or `outbound`) |
+| `phone_number` | Contact's phone number |
+| `contact_id` | Contact identifier |
+| `agent_id` | Agent identifier |
+| `start_time` | Start date and time |
+| `dynamic_variables` | Dynamic variables already set on the call |
+
+<Tip>
+  See [Pre-call Flows](/en/build/flows/pre-call-flows) for the full guide, including how to build, assign, and gate calls with these flows.
+</Tip>
+
+---
+
 ### Call Finished
 
 Activates automatically when a call ends. This is the main trigger for **post-call** workflows.
@@ -54,11 +89,19 @@ Each message in the `messages` array includes:
 
 This trigger requires no additional configuration. You just need to [assign the workflow to an agent](/en/build/flows/assign-agents) for it to activate.
 
+<Tip>
+  See [Post-call Flows](/en/build/flows/post-call-flows) for the full guide on building and assigning these flows.
+</Tip>
+
 ---
 
 ### Function Call
 
 Activates during a call when the agent decides to execute a function. This is the trigger for **during-call** workflows. The agent uses it as another tool, similar to [integrations](/en/build/integrations/introduction).
+
+<Tip>
+  See [During-call Flows](/en/build/flows/during-call-flows) for the full guide on building and assigning these flows.
+</Tip>
 
 #### Configuration
 
@@ -66,7 +109,6 @@ Activates during a call when the agent decides to execute a function. This is th
 |---|---|
 | **Function description** | Natural language instruction telling the agent when to use this function. Example: "Use this function when the user wants to check appointment availability" |
 | **Parameters** | Data the agent should extract from the conversation. For each parameter you define: name, data type, whether it's required, and a description |
-| **Execution mode** | Synchronous or asynchronous (see below) |
 | **User confirmation** | Whether the agent should ask for confirmation before executing |
 
 #### Parameters
@@ -80,6 +122,15 @@ Parameters define what information the agent extracts from the conversation to s
 
 The agent automatically extracts these values from the conversation context and sends them to the workflow.
 
+##### Value source
+
+Each parameter has a **Value Source** that decides where its value comes from:
+
+- **Extracted by AI** (default): the agent extracts the value from the conversation, using the parameter's description to know what to look for.
+- **Dynamic Variable**: the value is taken directly from a [dynamic variable](/en/build/agents/dynamic-variables) instead of being extracted. When you pick this option, enter the **Dynamic Variable Name** (without braces, e.g. `customer_id`). The agent is not asked for this parameter — Diga fills it in automatically from the call's variables.
+
+Use **Dynamic Variable** for data you already have (set via the API or a [pre-call flow](/en/build/flows/pre-call-flows)), so the agent doesn't have to ask for it again during the conversation. For a step-by-step and example, see [Filling parameters from dynamic variables](/en/build/flows/during-call-flows#filling-parameters-from-dynamic-variables).
+
 #### Data received
 
 | Field | Description |
@@ -92,27 +143,17 @@ The agent automatically extracts these values from the conversation context and 
 | `dynamic_variables` | Dynamic variables from the call |
 | `timestamp` | Execution timestamp |
 
-#### Synchronous vs Asynchronous Mode
+#### How the agent waits
 
-<AccordionGroup>
-  <Accordion title="Synchronous mode">
-    The agent **waits** for the workflow to finish and receives the response. Use this when the agent needs the information to continue the conversation.
+The agent **waits** for the workflow to finish and receives the response, then uses it to continue the conversation.
 
-    **Example**: Check appointment availability. The agent asks for the date, executes the workflow, waits for the response, and tells the user the available time slots.
+**Example**: Check appointment availability. The agent asks for the date, executes the workflow, waits for the response, and tells the user the available time slots.
 
-    **Important**: In synchronous mode, the workflow must include the **Return Response** action as the last step to send data back to the agent. The maximum wait time is 60 seconds.
+**Important**: The workflow must include the **Return Response** action as the last step to send data back to the agent. The maximum wait time is 60 seconds.
 
-    <Warning>
-      If the workflow takes more than 60 seconds or doesn't include the **Return Response** action, the agent will receive an error and continue the conversation without the data.
-    </Warning>
-  </Accordion>
-
-  <Accordion title="Asynchronous mode">
-    The agent **doesn't wait** for the response and continues the conversation. Use this for actions where you don't need an immediate response.
-
-    **Example**: Log an incident in a ticketing system. The agent confirms to the user that it's been logged and continues, without waiting for the workflow to complete all actions.
-  </Accordion>
-</AccordionGroup>
+<Warning>
+  If the workflow takes more than 60 seconds or doesn't include the **Return Response** action, the agent will receive an error and continue the conversation without the data.
+</Warning>
 
 #### User confirmation
 
@@ -130,7 +171,7 @@ Agent: [executes the workflow]
 
 ### Make Call
 
-Initiates an outbound call from a workflow. This action turns any workflow into a call trigger, allowing you to create automated campaigns or calls reactive to external events.
+Initiates an outbound call from a workflow. This action turns any workflow into a call trigger, allowing you to create automated campaigns or calls reactive to external events. Workflows built around this action are known as **call launcher** workflows.
 
 #### Configuration
 
@@ -183,7 +224,7 @@ Initiates an outbound call from a workflow. This action turns any workflow into 
 
 ### Return Response
 
-Returns data to the agent during a call. This action is **required** in during-call workflows with **synchronous** mode. It's the last step of the workflow and contains the information the agent needs to continue the conversation.
+Returns data to the agent during a call. This action is **required** in during-call workflows. It's the last step of the workflow and contains the information the agent needs to continue the conversation.
 
 #### Configuration
 
@@ -205,6 +246,37 @@ Trigger: Function Call (parameters: date, service)
 ```
 
 The agent receives this data and tells the user: "I have availability at 10:00, 11:30, and 15:00 for a general consultation. Which would you prefer?"
+
+---
+
+### Return Call Data
+
+Returns data to the agent **before the call starts**. This action is **required** as the last step of a [pre-call flow](/en/build/flows/pre-call-flows) — it's what sends the prompt and variables back to the agent so it can begin the conversation.
+
+<Note>
+  Don't confuse this with **Return Response**. Return Call Data runs at the *start* of a call (pre-call flows); Return Response runs *during* a call (during-call flows).
+</Note>
+
+#### Configuration
+
+| Field | Description |
+|---|---|
+| **Prompt Addition** | Text appended to the agent's system prompt for this call. May contain `{{variable}}` placeholders. Optional. |
+| **Dynamic Variables** | Key/value pairs merged into the call's dynamic variables. They override values set at the call level. Optional. |
+
+#### Example
+
+A pre-call flow that personalizes the agent based on a CRM lookup:
+
+```
+Trigger: Pre-Call
+→ Action: Find contact in HubSpot (by phone number)
+→ Action: Return Call Data
+   - Prompt Addition: "You're speaking with a returning premium customer. Be attentive."
+   - Dynamic Variables: { "customer_name": "Jane Doe", "plan_tier": "premium" }
+```
+
+The agent begins the call already knowing the caller's name and plan, and can use `{{customer_name}}` and `{{plan_tier}}` anywhere in its prompt, greeting, or path.
 
 ## Referencing Data Between Steps
 
