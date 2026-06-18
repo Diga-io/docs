@@ -5,14 +5,14 @@ description: "Connect your workflows with specific agents so they execute during
 
 ## Why Assign Workflows?
 
-Workflows with Diga triggers (Call Finished and Function Call) only execute for agents they're assigned to. This lets you:
+Workflows with Diga triggers (Pre-Call, Call Finished, and Function Call) only execute for agents they're assigned to. This lets you:
 
 - Use different workflows for different agents
 - Control which automations execute for each agent
 - Test workflows with a specific agent before applying them to others
 
 <Warning>
-  This page applies to **single-prompt agents** only. If your agent uses [conversational paths](/en/build/agents/conversational-paths), workflows are assigned directly through [flow nodes](/en/build/agents/conversational-paths/node-types#flow-node) in the path editor instead.
+  This page applies to **single-prompt agents** only. If your agent uses [conversational paths](/en/build/agents/conversational-paths), workflows are assigned directly in the path editor instead — during-call and post-call flows through [flow nodes](/en/build/agents/conversational-paths/node-types#flow-node), and pre-call flows through the [Pre-call flows node](/en/build/agents/conversational-paths/node-types#pre-call-flows).
 </Warning>
 
 <Note>
@@ -34,14 +34,24 @@ Workflows with Diga triggers (Call Finished and Function Call) only execute for 
     </Frame>
   </Step>
 
+  <Step title="Assign pre-call workflows">
+    Select the workflows you want to run before each call starts. They appear with a **Pre-call** badge. Pre-call flows run before the agent greets and can personalize the prompt, set dynamic variables, or block the call. You can assign **multiple pre-call workflows** to the same agent.
+
+    For how they work, see [Pre-call Flows](/en/build/flows/pre-call-flows).
+  </Step>
+
   <Step title="Assign post-call workflows">
     Select the workflows you want to execute when this agent's calls end. You can assign **multiple post-call workflows** to the same agent — all of them will execute when the call ends.
+
+    For how they work, see [Post-call Flows](/en/build/flows/post-call-flows).
   </Step>
 
   <Step title="Assign during-call workflows">
     Select the workflows you want the agent to use as tools during conversations. You can assign **multiple during-call workflows** to the same agent.
 
     Each during-call workflow appears as an available tool for the agent. The agent will decide which one to use based on the conversation context and the description you configured in the Function Call trigger.
+
+    For how they work, see [During-call Flows](/en/build/flows/during-call-flows).
   </Step>
 
   <Step title="Save changes">
@@ -55,7 +65,7 @@ Workflows with Diga triggers (Call Finished and Function Call) only execute for 
 |---|---|---|
 | **When it executes** | When the call ends | In the middle of the conversation |
 | **Quantity per agent** | Multiple | Multiple |
-| **Agent waits for response** | No | Yes (synchronous) or No (asynchronous) |
+| **Agent waits for response** | No | Yes |
 | **User notices anything** | No, it's transparent | Yes, the agent may mention the wait |
 | **Trigger** | Call Finished | Function Call |
 

@@ -31,17 +31,34 @@ Both tools connect your agents with external services, but they serve different 
 
 ## Types of Workflows
 
-<CardGroup cols={3}>
+<CardGroup cols={2}>
+  <Card title="Pre-call" icon="phone-incoming">
+    Run before the agent greets to validate, personalize, or block the call. Look up data and inject the prompt and variables the agent starts with.
+  </Card>
   <Card title="Post-call" icon="circle-check">
     Execute automatically when a call ends. Ideal for logging, notifications, and updating systems with call data.
   </Card>
   <Card title="During call" icon="bolt">
     Execute as agent tools mid-conversation. Use when a single API call isn't enough and you need to chain steps or transform data.
   </Card>
-  <Card title="Pre-call" icon="phone-outgoing">
+  <Card title="Call launcher" icon="phone-outgoing">
     Initiate outbound calls from a workflow. Triggered by external events like form submissions, CRM updates, or a schedule.
   </Card>
 </CardGroup>
+
+### Pre-call
+
+Pre-call workflows run the moment a call starts, **before the agent greets**. The agent waits for them to finish and uses their result to prepare the conversation — looking up the caller, adding context to the prompt, setting dynamic variables, or even deciding whether the call should continue at all.
+
+**Common use cases:**
+- Look up the caller in your CRM and greet them by name
+- Set dynamic variables (account status, plan, open tickets) the agent uses throughout the call
+- Add per-call instructions to the agent's prompt
+- Validate the caller against an allowlist or business hours and block calls that don't qualify
+
+<Tip>
+  Pre-call flows use the **Pre-Call** trigger and must end with the **Return Call Data** action. See [Pre-call Flows](/en/build/flows/pre-call-flows) for the full guide.
+</Tip>
 
 ### Post-call
 
@@ -53,6 +70,10 @@ Post-call workflows activate automatically when a call ends. The workflow receiv
 - Create a support ticket and attach the transcript
 - Log structured data to Google Sheets and trigger a Slack notification
 - Run conditional logic, for example to escalate to a human only if the call ended without resolution
+
+<Tip>
+  Post-call flows use the **Call Finished** trigger. See [Post-call Flows](/en/build/flows/post-call-flows) for the full guide.
+</Tip>
 
 ### During call
 
@@ -67,12 +88,12 @@ Use a workflow here (instead of an integration) when you need to do more than on
 - Perform a booking that requires calling several APIs in sequence
 
 <Tip>
-  During-call workflows support **synchronous** mode (the agent waits) and **asynchronous** mode (the agent keeps talking while it runs). See [The Diga Piece](/en/build/flows/diga-piece) for details.
+  During-call workflows use the **Function Call** trigger. The agent waits for the result and uses it to keep talking. See [During-call Flows](/en/build/flows/during-call-flows) for the full guide.
 </Tip>
 
-### Pre-call
+### Call launcher
 
-Pre-call workflows use the **Make Call** action from the Diga piece to initiate outbound calls. They can be triggered by any external event: a CRM record change, a form submission, a scheduled time, or a webhook.
+Call launcher workflows use the **Make Call** action from the Diga piece to initiate outbound calls. They can be triggered by any external event: a CRM record change, a form submission, a scheduled time, or a webhook.
 
 **Common use cases:**
 - Call leads automatically after they complete a form
@@ -88,8 +109,9 @@ Pieces are connectors that provide triggers and actions for specific services. T
 
 ### Triggers
 
-A trigger is the event that starts a workflow. Each workflow has exactly one. The Diga piece provides two call-specific triggers:
+A trigger is the event that starts a workflow. Each workflow has exactly one. The Diga piece provides three call-specific triggers:
 
+- **Pre-Call**: fires when a call starts, before the agent greets
 - **Call Finished**: fires when a call ends
 - **Function Call**: fires mid-call when the agent needs to run an action
 

@@ -1,0 +1,193 @@
+---
+title: "During-call Flows"
+description: "Let your agent run a multi-step workflow mid-conversation, as a tool"
+---
+
+## What are During-call Flows?
+
+A during-call flow is a workflow the agent can run **while it's talking to the user**, as if it were a tool. Where an [integration](/en/build/integrations/introduction) calls a single endpoint, a during-call flow runs a full multi-step workflow — and can return the result to the conversation.
+
+Use one when a single API call isn't enough:
+
+- **Look up** a customer, then check their open orders, then format the combined result
+- **Query several systems** and merge the answers
+- **Make a booking** that needs several APIs in sequence
+- **Branch** on a response before returning data to the agent
+
+<Note>
+  During-call flows run *during* the conversation. Compare with [pre-call flows](/en/build/flows/pre-call-flows) (before the agent greets) and [post-call flows](/en/build/flows/post-call-flows) (after the call ends).
+</Note>
+
+## How it works
+
+<Steps>
+  <Step title="The agent decides to act">
+    Mid-conversation, the agent recognizes it needs to do something — check availability, look up an account — based on the function description you wrote.
+  </Step>
+  <Step title="The flow runs">
+    The agent extracts the parameters from the conversation and the Function Call trigger fires, running the workflow.
+  </Step>
+  <Step title="The agent continues">
+    The agent waits for the result and uses it to keep talking.
+  </Step>
+</Steps>
+
+## Build a During-call Flow
+
+<Steps>
+  <Step title="Create a workflow">
+    From the **Workflows** section, create a new workflow (from scratch or a template). See [Creating Workflows](/en/build/flows/creating-workflows).
+  </Step>
+
+  <Step title="Select the Function Call trigger">
+    Choose the **Diga** piece and select the **Function Call** trigger. The agent will treat this flow as a tool it can invoke.
+  </Step>
+
+  <Step title="Configure the trigger">
+    Define how and when the agent uses the flow:
+
+    - **Function description** — when the agent should call it, in natural language
+    - **Parameters** — what the agent should extract from the conversation (and whether each is extracted by the AI or taken from a [dynamic variable](/en/build/agents/dynamic-variables))
+    - **User confirmation** — whether the agent confirms before running
+
+    See [The Diga Piece](/en/build/flows/diga-piece#function-call) for the full field reference.
+  </Step>
+
+  <Step title="Add your actions">
+    Add the steps the flow performs — HTTP requests, database queries, other pieces — using the parameters the agent extracts.
+  </Step>
+
+  <Step title="Return the result">
+    End the flow with the Diga **Return Response** action so the agent receives the data and can continue the conversation.
+
+    <Warning>
+      The flow **must** end with **Return Response**, and respond within 60 seconds. Otherwise the agent receives an error and continues without the data.
+    </Warning>
+  </Step>
+
+  <Step title="Publish and enable">
+    [Publish](/en/build/flows/creating-workflows#draft-vs-published) the workflow and make sure it's **enabled**. Then assign it to an agent (see below).
+  </Step>
+</Steps>
+
+## Parameters
+
+Parameters are the data the agent passes to the flow when it runs. For each parameter you define a name, a data type, whether it's required, and — importantly — a **Value Source** that decides where its value comes from:
+
+- **Extracted by AI** (default): the agent pulls the value from the conversation, using the parameter's description to know what to look for.
+- **Dynamic Variable**: the value comes from a [dynamic variable](/en/build/agents/dynamic-variables) on the call instead of being extracted.
+
+## Filling parameters from dynamic variables
+
+Often you *already have* a value — passed in via the [API](/en/build/agents/dynamic-variables#add-and-test-variables), set as an agent default, or produced by a [pre-call flow](/en/build/flows/pre-call-flows) — and you don't want the agent to ask for it again (or risk getting it wrong). For those parameters, set the **Value Source** to **Dynamic Variable**.
+
+### How to set it up
+
+<Steps>
+  <Step title="Add or edit a parameter">
+    In the **Function Call** trigger, open the parameter you want to fill automatically.
+  </Step>
+  <Step title="Set Value Source to Dynamic Variable">
+    Change **Value Source** from *Extracted by AI* to **Dynamic Variable**. The description field is replaced by a **Dynamic Variable Name** field.
+  </Step>
+  <Step title="Enter the variable name">
+    Type the variable name **without braces** — for example `reservation_id`, not `{{reservation_id}}`.
+  </Step>
+</Steps>
+
+### What happens at call time
+
+- The parameter is **removed from what the agent has to work out** — it's never asked for it and can't fill it incorrectly.
+- When the flow runs, Diga fills that parameter with the current value of the matching dynamic variable on the call and sends it in the workflow payload.
+- Parameters left as *Extracted by AI* keep working as usual, side by side with the dynamic ones.
+
+<Warning>
+  The variable must actually exist on the call. Make sure it's provided by the API, an agent default value, or a pre-call flow — if it's missing, the parameter is sent empty.
+</Warning>
+
+### Example
+
+A "Modify reservation" flow where the reservation ID is already known from a pre-call lookup, so only the rest is left to the agent:
+
+| Parameter | Value source | Value at call time |
+|---|---|---|
+| `reservation_id` | Dynamic Variable → `reservation_id` | Filled from the call's variables — the agent never asks |
+| `action` | Extracted by AI | The agent extracts it ("cancel", "reschedule"…) |
+| `notes` | Extracted by AI | The agent extracts any extra detail |
+
+The caller just says *"I'd like to cancel my reservation."* The agent extracts `action = cancel`, Diga injects `reservation_id` from the dynamic variable, and the flow receives all three values.
+
+<Tip>
+  Parameters you fill this way also show up in the agent's **dynamic variables** panel, where you can give them a test value to try the flow before going live. See [Dynamic Variables](/en/build/agents/dynamic-variables#variables-from-workflows).
+</Tip>
+
+## Assign During-call Flows to an Agent
+
+<Tabs>
+  <Tab title="Single-prompt agents">
+    Open the agent and go to its **Workflows** section. Add the during-call flow there. Each flow shows a **During call** badge.
+
+    You can assign **multiple during-call flows** to the same agent — each becomes a tool the agent can choose to use, based on the function description.
+  </Tab>
+
+  <Tab title="Conversational path agents">
+    Paths run during-call flows through a [flow node](/en/build/agents/conversational-paths/node-types#flow-node) placed in the regular flow of the conversation. Like a tool node, it supports result-based transitions to the next node.
+  </Tab>
+</Tabs>
+
+<Note>
+  Like other flows, during-call flows are assigned per [agent version](/en/build/agents/version-control). The flow must be **published** and **enabled** before it will run.
+</Note>
+
+## Common use cases
+
+<AccordionGroup>
+  <Accordion title="Check availability">
+    The agent asks for a date, runs the flow to query your calendar, and reads back the available slots.
+  </Accordion>
+
+  <Accordion title="Look up an account">
+    Pull a customer's details and recent activity from one or more systems, merge them, and return a clean summary the agent can use.
+  </Accordion>
+
+  <Accordion title="Make a booking">
+    Run the several API calls a reservation needs in sequence, then confirm the result back to the user.
+  </Accordion>
+
+  <Accordion title="Log an incident">
+    Create a ticket in your system, then confirm to the user that it's been logged.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="The Diga piece"
+    icon="puzzle"
+    href="/en/build/flows/diga-piece#function-call"
+  >
+    Full reference for the Function Call trigger and Return Response action.
+  </Card>
+  <Card
+    title="Pre-call flows"
+    icon="phone-incoming"
+    href="/en/build/flows/pre-call-flows"
+  >
+    Prepare and personalize each call before the agent greets.
+  </Card>
+  <Card
+    title="Integrations"
+    icon="plug"
+    href="/en/build/integrations/introduction"
+  >
+    Compare during-call flows with single-endpoint integrations.
+  </Card>
+  <Card
+    title="Assign to agents"
+    icon="link"
+    href="/en/build/flows/assign-agents"
+  >
+    Connect your workflows with agents so they execute.
+  </Card>
+</CardGroup>

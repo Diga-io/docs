@@ -20,6 +20,8 @@ Las variables dinámicas se pueden usar en:
 - **Prompt del agente**: Instrucciones y personalidad del agente
 - **Saludo inicial**: Mensaje de bienvenida al usuario
 - **Nodos de conversación**: Instrucciones en un nodo concreto
+- **Condiciones de rama**: Las condiciones que enrutan entre nodos en un [camino conversacional](/es/build/agentes/camino-conversacional)
+- **Integraciones y flujos**: Pasa valores de variables a los [flujos](/es/build/flujos/introduccion) y sus integraciones para enviar datos personalizados a sistemas externos
 
 ## Agregar y probar variables
 
@@ -104,12 +106,25 @@ Hora actual en Nueva York: {{current_time[America/New_York]}}
 Usa identificadores de zona horaria IANA válidos como `Europe/Madrid`, `America/New_York`, etc. Puedes encontrar la lista completa en [Wikipedia](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 </Tip>
 
+## Variables desde flujos
+
+Los [flujos pre-llamada](/es/build/flujos/flujos-pre-llamada) pueden definir variables dinámicas para una llamada. Por ejemplo, un flujo que busca al contacto en tu CRM puede devolver su nombre, plan o estado de cuenta, y esos valores se convierten en variables que puedes usar en cualquier parte del agente.
+
+Cuando un flujo pre-llamada proporciona una variable, esta aparece en el panel de **variables dinámicas** del agente como **solo lectura**, con la etiqueta **"Proporcionada por [nombre del flujo]"**. No defines su valor aquí — el flujo lo rellena en el momento de la llamada. Para cambiar lo que devuelve el flujo, usa el atajo de edición que tiene al lado para ir al flujo.
+
+Estas variables también aparecen en el autocompletado de `{{` en los editores de prompt y saludo, junto a tus propias variables y las del sistema, para que puedas insertarlas sin escribirlas a mano.
+
+<Tip>
+  Un parámetro de un flujo durante llamada también puede rellenarse desde una variable dinámica en lugar de ser extraído por el agente — útil cuando ya tienes el valor (por ejemplo, de un flujo pre-llamada) y no quieres que el agente vuelva a pedirlo. Consulta [Rellenar parámetros desde variables dinámicas](/es/build/flujos/flujos-durante-llamada#rellenar-parámetros-desde-variables-dinámicas).
+</Tip>
+
 ## Precedencia de variables
 
 Cuando una misma variable está definida en múltiples lugares, se aplica la siguiente prioridad (de mayor a menor):
 
-1. **Variables de llamada** (mayor prioridad): Valores específicos para cada llamada
-2. **Variables de agente**: Valores por defecto configurados en el agente. Estas son las variables que hemos configurado previamente en el panel de variables.
+1. **Variables de flujo pre-llamada** (mayor prioridad): Los valores devueltos por un [flujo pre-llamada](/es/build/flujos/flujos-pre-llamada) tienen prioridad sobre el resto
+2. **Variables de llamada**: Valores específicos para cada llamada, por ejemplo pasados mediante la API
+3. **Variables de agente**: Valores por defecto configurados en el agente. Estas son las variables que hemos configurado previamente en el panel de variables.
 
 <Info>
 Esto significa que puedes establecer valores por defecto a nivel de agente y sobrescribirlos para llamadas específicas cuando sea necesario.

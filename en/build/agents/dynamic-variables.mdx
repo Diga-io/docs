@@ -20,6 +20,8 @@ Dynamic variables can be used in:
 - **Agent prompt**: Instructions and agent personality
 - **Initial greeting**: Welcome message to the user
 - **Conversation nodes**: Instructions in a specific node
+- **Branch conditions**: The conditions that route between nodes in a [conversational path](/en/build/agents/conversational-paths)
+- **Integrations and flows**: Pass variable values into [flows](/en/build/flows/introduction) and their integrations to send personalized data to external systems
 
 ## Add and test variables
 
@@ -104,12 +106,25 @@ Current time in Tokyo: {{current_time[Asia/Tokyo]}}
 Use valid IANA timezone identifiers like `Europe/London`, `America/New_York`, etc. You can find the complete list on [Wikipedia](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 </Tip>
 
+## Variables from workflows
+
+[Pre-call flows](/en/build/flows/pre-call-flows) can set dynamic variables for a call. For example, a flow that looks up the caller in your CRM can return their name, plan, or account status, and those values become variables you can use anywhere in the agent.
+
+When a pre-call flow provides a variable, it appears in the agent's **dynamic variables** panel as **read-only**, labeled **"Provided by [flow name]"**. You don't set its value here — the flow fills it in at call time. To change what the flow returns, use the edit shortcut next to it to jump to the flow.
+
+These variables also show up in the `{{` autocomplete in your prompt and greeting editors, alongside your own variables and the system ones, so you can insert them without typing them by hand.
+
+<Tip>
+  A during-call workflow parameter can also be filled from a dynamic variable instead of being extracted by the agent — useful when you already have the value (for example, from a pre-call flow) and don't want the agent to ask for it again. See [Filling parameters from dynamic variables](/en/build/flows/during-call-flows#filling-parameters-from-dynamic-variables).
+</Tip>
+
 ## Variable precedence
 
 When the same variable is defined in multiple places, the following priority applies (highest to lowest):
 
-1. **Call variables** (highest priority): Specific values for each call
-2. **Agent variables**: Default values configured in the agent. These are the variables previously configured in the variables panel.
+1. **Pre-call flow variables** (highest priority): Values returned by a [pre-call flow](/en/build/flows/pre-call-flows) override everything else
+2. **Call variables**: Specific values for each call, for example passed via the API
+3. **Agent variables**: Default values configured in the agent. These are the variables previously configured in the variables panel.
 
 <Info>
 This means you can set default values at the agent level and override them for specific calls when needed.

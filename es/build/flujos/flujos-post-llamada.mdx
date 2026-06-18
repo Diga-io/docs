@@ -1,0 +1,144 @@
+---
+title: "Flujos Post-llamada"
+description: "Ejecuta un flujo automáticamente cuando una llamada termina para registrar, notificar y actualizar tus sistemas"
+---
+
+## ¿Qué son los Flujos Post-llamada?
+
+Un flujo post-llamada es un flujo que se ejecuta **automáticamente cuando una llamada termina**. Recibe todo lo que ocurrió en la llamada — transcripción, duración, datos del contacto, variables dinámicas — y lo usa para actualizar tus sistemas sin que nadie tenga que mover un dedo.
+
+Aquí es donde ocurre el trabajo posterior a una conversación:
+
+- **Registrar la llamada** y su resultado en tu CRM
+- **Enviar un resumen** por email a tu equipo
+- **Crear un ticket de soporte** con la transcripción adjunta
+- **Enviar datos estructurados** a una hoja de cálculo y notificar a un canal de Slack
+- **Ramificar según el resultado** — por ejemplo, escalar solo cuando la llamada terminó sin resolución
+
+<Note>
+  Los flujos post-llamada son el extremo opuesto de la llamada respecto a los [flujos pre-llamada](/es/build/flujos/flujos-pre-llamada). Un flujo post-llamada se ejecuta **después** de que la llamada termina; uno pre-llamada se ejecuta **antes** de que el agente salude.
+</Note>
+
+## Cómo funciona
+
+<Steps>
+  <Step title="La llamada termina">
+    El contacto cuelga o el agente finaliza la llamada.
+  </Step>
+  <Step title="Se dispara el flujo">
+    Diga envía todos los datos de la llamada a cada flujo post-llamada asignado al agente.
+  </Step>
+  <Step title="Se ejecutan tus acciones">
+    El flujo ejecuta sus pasos — registrar, notificar, actualizar — usando cualquiera de los datos de la llamada.
+  </Step>
+</Steps>
+
+Los flujos post-llamada se ejecutan en segundo plano cuando la llamada ya ha terminado, por lo que nunca añaden retraso a la conversación y el contacto no los nota.
+
+## Crear un Flujo Post-llamada
+
+<Steps>
+  <Step title="Crea un flujo">
+    Desde la sección **Flujos**, crea un nuevo flujo (desde cero o a partir de una plantilla). Consulta [Crear Flujos](/es/build/flujos/crear-flujos).
+  </Step>
+
+  <Step title="Selecciona el trigger Llamada finalizada">
+    Elige la pieza de **Diga** y selecciona el trigger **Llamada finalizada**. Esto ejecuta el flujo automáticamente cada vez que termina una llamada de un agente asignado.
+  </Step>
+
+  <Step title="Prueba el trigger">
+    Haz clic en **Probar trigger** para generar datos de ejemplo de la llamada. Usarás estos datos para configurar los campos de los pasos siguientes.
+  </Step>
+
+  <Step title="Añade tus acciones">
+    Añade los pasos que necesites, usando los datos de la llamada donde quieras:
+
+    - **Google Sheets** → Añadir fila (registrar la llamada)
+    - **Gmail** → Enviar email (la transcripción como resumen)
+    - **Slack** → Enviar mensaje (notificar a tu equipo)
+    - **HTTP** → Hacer petición (actualizar cualquier sistema)
+  </Step>
+
+  <Step title="Publica y habilita">
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo y asegúrate de que esté **habilitado**. Luego asígnalo a un agente (ver más abajo).
+  </Step>
+</Steps>
+
+## Datos disponibles para el flujo
+
+Cuando la llamada termina, el flujo recibe el registro completo de la llamada — incluyendo el `status`, la `duration`, el `end_reason`, el `phone_number` del contacto, las `dynamic_variables` de la llamada y el array completo de `messages` (la transcripción). Consulta el [trigger Llamada finalizada](/es/build/flujos/pieza-diga#llamada-finalizada) para la referencia completa de campos.
+
+<Tip>
+  Usa cualquiera de estos campos en tus acciones. Por ejemplo, inserta la transcripción completa en un email, o envía la duración y el resultado de la llamada a una hoja de cálculo.
+</Tip>
+
+## Asignar Flujos Post-llamada a un Agente
+
+<Tabs>
+  <Tab title="Agentes de prompt único">
+    Abre el agente y ve a su sección **Flujos**. Añade ahí el flujo post-llamada. Cada flujo muestra una etiqueta **Post-llamada** para que puedas distinguirlos.
+
+    Puedes asignar **múltiples flujos post-llamada** al mismo agente — todos se ejecutan cuando la llamada termina.
+  </Tab>
+
+  <Tab title="Agentes con caminos conversacionales">
+    Los caminos asignan los flujos post-llamada mediante un [nodo de flujo](/es/build/agentes/camino-conversacional/tipos-nodos#nodo-de-flujo) conectado **después de un nodo de Terminar**. El flujo se ejecuta cuando el camino llega a ese final. Un nodo de flujo post-llamada es terminal — no puede tener ramas de salida.
+  </Tab>
+</Tabs>
+
+<Note>
+  Como el resto de flujos, los flujos post-llamada se asignan por [versión de agente](/es/build/agentes/control-versiones). El flujo debe estar **publicado** y **habilitado** para que se ejecute.
+</Note>
+
+## Casos de uso comunes
+
+<AccordionGroup>
+  <Accordion title="Resumir y notificar">
+    Envía la transcripción a tu equipo por email o Slack, con la duración y el resultado, para que todos estén al tanto sin escuchar la grabación.
+  </Accordion>
+
+  <Accordion title="Actualizar tu CRM">
+    Busca o crea el contacto en tu CRM, registra la llamada y crea una tarea de seguimiento — todo a partir de los datos de la llamada.
+  </Accordion>
+
+  <Accordion title="Registrar datos estructurados">
+    Añade una fila a una hoja de cálculo o un registro a tu base de datos por cada llamada, para poder analizar volúmenes, motivos y resultados.
+  </Accordion>
+
+  <Accordion title="Escalar condicionalmente">
+    Ramifica según el resultado de la llamada y crea un ticket o avisa a un humano solo cuando la llamada terminó sin resolución.
+  </Accordion>
+</AccordionGroup>
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="La pieza de Diga"
+    icon="puzzle"
+    href="/es/build/flujos/pieza-diga#llamada-finalizada"
+  >
+    Referencia completa del trigger Llamada finalizada y los datos que proporciona.
+  </Card>
+  <Card
+    title="Flujos durante llamada"
+    icon="bolt"
+    href="/es/build/flujos/flujos-durante-llamada"
+  >
+    Ejecuta un flujo en mitad de la conversación, como una herramienta que el agente puede usar.
+  </Card>
+  <Card
+    title="Asignar a agentes"
+    icon="link"
+    href="/es/build/flujos/asignar-agentes"
+  >
+    Conecta tus flujos con agentes para que se ejecuten.
+  </Card>
+  <Card
+    title="Crear flujos"
+    icon="plus"
+    href="/es/build/flujos/crear-flujos"
+  >
+    Construye el flujo paso a paso en el constructor visual.
+  </Card>
+</CardGroup>

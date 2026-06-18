@@ -96,6 +96,9 @@
                       "es/build/flujos/plantillas",
                       "es/build/flujos/asignar-agentes",
                       "es/build/flujos/pieza-diga",
+                      "es/build/flujos/flujos-pre-llamada",
+                      "es/build/flujos/flujos-post-llamada",
+                      "es/build/flujos/flujos-durante-llamada",
                       "es/build/flujos/conexiones"
                     ]
                   },
@@ -208,6 +211,9 @@
                       "en/build/flows/templates",
                       "en/build/flows/assign-agents",
                       "en/build/flows/diga-piece",
+                      "en/build/flows/pre-call-flows",
+                      "en/build/flows/post-call-flows",
+                      "en/build/flows/during-call-flows",
                       "en/build/flows/connections"
                     ]
                   },

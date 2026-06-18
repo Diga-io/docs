@@ -1,0 +1,144 @@
+---
+title: "Post-call Flows"
+description: "Run a workflow automatically after a call ends to log, notify, and update your systems"
+---
+
+## What are Post-call Flows?
+
+A post-call flow is a workflow that runs **automatically when a call ends**. It receives everything that happened on the call — transcript, duration, contact info, dynamic variables — and uses it to update your systems without anyone lifting a finger.
+
+This is where the follow-up work after a conversation happens:
+
+- **Log the call** and its outcome to your CRM
+- **Email a summary** to your team
+- **Create a support ticket** with the transcript attached
+- **Push structured data** to a spreadsheet and notify a Slack channel
+- **Branch on the result** — for example, escalate only when the call ended unresolved
+
+<Note>
+  Post-call flows are the opposite end of the call from [pre-call flows](/en/build/flows/pre-call-flows). A post-call flow runs **after** the call ends; a pre-call flow runs **before** the agent greets.
+</Note>
+
+## How it works
+
+<Steps>
+  <Step title="The call ends">
+    The caller hangs up or the agent ends the call.
+  </Step>
+  <Step title="The flow fires">
+    Diga sends the full call data to every post-call flow assigned to the agent.
+  </Step>
+  <Step title="Your actions run">
+    The flow runs its steps — logging, notifying, updating — using any of the call's data.
+  </Step>
+</Steps>
+
+Post-call flows run in the background after the call is already over, so they never add delay to the conversation and the caller never notices them.
+
+## Build a Post-call Flow
+
+<Steps>
+  <Step title="Create a workflow">
+    From the **Workflows** section, create a new workflow (from scratch or a template). See [Creating Workflows](/en/build/flows/creating-workflows).
+  </Step>
+
+  <Step title="Select the Call Finished trigger">
+    Choose the **Diga** piece and select the **Call Finished** trigger. This runs the flow automatically every time an assigned agent's call ends.
+  </Step>
+
+  <Step title="Test the trigger">
+    Click **Test trigger** to pull in sample call data. You'll use this data to configure the fields in your following steps.
+  </Step>
+
+  <Step title="Add your actions">
+    Add the steps you need, using the call data wherever you want:
+
+    - **Google Sheets** → Add row (log the call)
+    - **Gmail** → Send email (the transcript as a summary)
+    - **Slack** → Send message (notify your team)
+    - **HTTP** → Make request (update any system)
+  </Step>
+
+  <Step title="Publish and enable">
+    [Publish](/en/build/flows/creating-workflows#draft-vs-published) the workflow and make sure it's **enabled**. Then assign it to an agent (see below).
+  </Step>
+</Steps>
+
+## Data available to the flow
+
+When the call ends, the flow receives the complete call record — including the `status`, `duration`, `end_reason`, the contact's `phone_number`, the call's `dynamic_variables`, and the full `messages` array (the transcript). See the [Call Finished trigger](/en/build/flows/diga-piece#call-finished) for the full field reference.
+
+<Tip>
+  Use any of these fields in your actions. For example, insert the full transcript into an email, or send the call duration and outcome to a spreadsheet.
+</Tip>
+
+## Assign Post-call Flows to an Agent
+
+<Tabs>
+  <Tab title="Single-prompt agents">
+    Open the agent and go to its **Workflows** section. Add the post-call flow there. Each flow shows a **Post-call** badge so you can tell them apart.
+
+    You can assign **multiple post-call flows** to the same agent — all of them run when the call ends.
+  </Tab>
+
+  <Tab title="Conversational path agents">
+    Paths assign post-call flows through a [flow node](/en/build/agents/conversational-paths/node-types#flow-node) connected **after an End node**. The flow runs once the path reaches that end. A post-call flow node is terminal — it can't have outgoing branches.
+  </Tab>
+</Tabs>
+
+<Note>
+  Like other flows, post-call flows are assigned per [agent version](/en/build/agents/version-control). The flow must be **published** and **enabled** before it will run.
+</Note>
+
+## Common use cases
+
+<AccordionGroup>
+  <Accordion title="Summarize and notify">
+    Send the transcript to your team by email or Slack, with the duration and outcome, so everyone stays in the loop without listening to the recording.
+  </Accordion>
+
+  <Accordion title="Update your CRM">
+    Find or create the contact in your CRM, log the call, and create a follow-up task — all from the call data.
+  </Accordion>
+
+  <Accordion title="Log structured data">
+    Add a row to a spreadsheet or a record to your database for every call, so you can report on volumes, reasons, and outcomes.
+  </Accordion>
+
+  <Accordion title="Escalate conditionally">
+    Branch on the call result and only create a ticket or alert a human when the call ended without resolution.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="The Diga piece"
+    icon="puzzle"
+    href="/en/build/flows/diga-piece#call-finished"
+  >
+    Full reference for the Call Finished trigger and the data it provides.
+  </Card>
+  <Card
+    title="During-call flows"
+    icon="bolt"
+    href="/en/build/flows/during-call-flows"
+  >
+    Run a workflow mid-conversation, as a tool the agent can call.
+  </Card>
+  <Card
+    title="Assign to agents"
+    icon="link"
+    href="/en/build/flows/assign-agents"
+  >
+    Connect your workflows with agents so they execute.
+  </Card>
+  <Card
+    title="Creating workflows"
+    icon="plus"
+    href="/en/build/flows/creating-workflows"
+  >
+    Build the flow step by step in the visual builder.
+  </Card>
+</CardGroup>

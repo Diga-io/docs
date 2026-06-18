@@ -1,0 +1,193 @@
+---
+title: "Flujos Durante Llamada"
+description: "Permite que tu agente ejecute un flujo multi-paso en mitad de la conversación, como una herramienta"
+---
+
+## ¿Qué son los Flujos Durante Llamada?
+
+Un flujo durante llamada es un flujo que el agente puede ejecutar **mientras habla con el usuario**, como si fuera una herramienta. Donde una [integración](/es/build/integraciones/introduccion) llama a un solo endpoint, un flujo durante llamada ejecuta un flujo multi-paso completo — y puede devolver el resultado a la conversación.
+
+Úsalo cuando una sola llamada a la API no es suficiente:
+
+- **Buscar** un cliente, luego revisar sus pedidos abiertos, y después formatear el resultado combinado
+- **Consultar varios sistemas** y combinar las respuestas
+- **Hacer una reserva** que requiere varias APIs en secuencia
+- **Ramificar** según una respuesta antes de devolver los datos al agente
+
+<Note>
+  Los flujos durante llamada se ejecutan *durante* la conversación. Compáralos con los [flujos pre-llamada](/es/build/flujos/flujos-pre-llamada) (antes de que el agente salude) y los [flujos post-llamada](/es/build/flujos/flujos-post-llamada) (después de que la llamada termina).
+</Note>
+
+## Cómo funciona
+
+<Steps>
+  <Step title="El agente decide actuar">
+    En mitad de la conversación, el agente reconoce que necesita hacer algo — consultar disponibilidad, buscar una cuenta — según la descripción de función que escribiste.
+  </Step>
+  <Step title="Se ejecuta el flujo">
+    El agente extrae los parámetros de la conversación y se dispara el trigger Llamada a función, ejecutando el flujo.
+  </Step>
+  <Step title="El agente continúa">
+    El agente espera el resultado y lo usa para seguir hablando.
+  </Step>
+</Steps>
+
+## Crear un Flujo Durante Llamada
+
+<Steps>
+  <Step title="Crea un flujo">
+    Desde la sección **Flujos**, crea un nuevo flujo (desde cero o a partir de una plantilla). Consulta [Crear Flujos](/es/build/flujos/crear-flujos).
+  </Step>
+
+  <Step title="Selecciona el trigger Llamada a función">
+    Elige la pieza de **Diga** y selecciona el trigger **Llamada a función**. El agente tratará este flujo como una herramienta que puede invocar.
+  </Step>
+
+  <Step title="Configura el trigger">
+    Define cómo y cuándo usa el agente el flujo:
+
+    - **Descripción de la función** — cuándo debe llamarlo el agente, en lenguaje natural
+    - **Parámetros** — qué debe extraer el agente de la conversación (y si cada uno lo extrae la IA o se toma de una [variable dinámica](/es/build/agentes/variables-dinamicas))
+    - **Confirmación de usuario** — si el agente confirma antes de ejecutar
+
+    Consulta [La Pieza de Diga](/es/build/flujos/pieza-diga#llamada-a-función) para la referencia completa de campos.
+  </Step>
+
+  <Step title="Añade tus acciones">
+    Añade los pasos que realiza el flujo — peticiones HTTP, consultas a bases de datos, otras piezas — usando los parámetros que extrae el agente.
+  </Step>
+
+  <Step title="Devuelve el resultado">
+    Termina el flujo con la acción **Devolver respuesta** de Diga para que el agente reciba los datos y pueda continuar la conversación.
+
+    <Warning>
+      El flujo **debe** terminar con **Devolver respuesta** y responder en menos de 60 segundos. De lo contrario el agente recibe un error y continúa sin los datos.
+    </Warning>
+  </Step>
+
+  <Step title="Publica y habilita">
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo y asegúrate de que esté **habilitado**. Luego asígnalo a un agente (ver más abajo).
+  </Step>
+</Steps>
+
+## Parámetros
+
+Los parámetros son los datos que el agente pasa al flujo cuando se ejecuta. Para cada parámetro defines un nombre, un tipo de dato, si es obligatorio y — lo importante — un **Origen del valor** que decide de dónde sale su valor:
+
+- **Extraído por la IA** (por defecto): el agente toma el valor de la conversación, usando la descripción del parámetro para saber qué buscar.
+- **Variable dinámica**: el valor viene de una [variable dinámica](/es/build/agentes/variables-dinamicas) de la llamada en lugar de ser extraído.
+
+## Rellenar parámetros desde variables dinámicas
+
+A menudo *ya tienes* un valor — pasado por la [API](/es/build/agentes/variables-dinamicas), definido como valor por defecto del agente, o producido por un [flujo pre-llamada](/es/build/flujos/flujos-pre-llamada) — y no quieres que el agente vuelva a pedirlo (ni que se arriesgue a equivocarse). Para esos parámetros, configura el **Origen del valor** como **Variable dinámica**.
+
+### Cómo configurarlo
+
+<Steps>
+  <Step title="Añade o edita un parámetro">
+    En el trigger **Llamada a función**, abre el parámetro que quieres rellenar automáticamente.
+  </Step>
+  <Step title="Cambia Origen del valor a Variable dinámica">
+    Cambia **Origen del valor** de *Extraído por la IA* a **Variable dinámica**. El campo de descripción se sustituye por un campo **Nombre de la variable dinámica**.
+  </Step>
+  <Step title="Indica el nombre de la variable">
+    Escribe el nombre de la variable **sin llaves** — por ejemplo `id_reserva`, no `{{id_reserva}}`.
+  </Step>
+</Steps>
+
+### Qué ocurre durante la llamada
+
+- El parámetro se **quita de lo que el agente tiene que deducir** — nunca se le pide y no puede rellenarlo mal.
+- Cuando el flujo se ejecuta, Diga rellena ese parámetro con el valor actual de la variable dinámica correspondiente en la llamada y lo envía en el payload del flujo.
+- Los parámetros que dejas como *Extraído por la IA* siguen funcionando igual, junto a los dinámicos.
+
+<Warning>
+  La variable debe existir realmente en la llamada. Asegúrate de que la proporcione la API, un valor por defecto del agente o un flujo pre-llamada — si falta, el parámetro se envía vacío.
+</Warning>
+
+### Ejemplo
+
+Un flujo de "Modificar reserva" donde el ID de la reserva ya se conoce por una búsqueda pre-llamada, así que solo el resto queda en manos del agente:
+
+| Parámetro | Origen del valor | Valor durante la llamada |
+|---|---|---|
+| `id_reserva` | Variable dinámica → `id_reserva` | Se rellena con las variables de la llamada — el agente nunca pregunta |
+| `accion` | Extraído por la IA | El agente lo extrae ("cancelar", "reprogramar"…) |
+| `notas` | Extraído por la IA | El agente extrae cualquier detalle extra |
+
+El contacto simplemente dice *"Quiero cancelar mi reserva."* El agente extrae `accion = cancelar`, Diga inyecta `id_reserva` desde la variable dinámica, y el flujo recibe los tres valores.
+
+<Tip>
+  Los parámetros que rellenas así también aparecen en el panel de **variables dinámicas** del agente, donde puedes darles un valor de prueba para probar el flujo antes de ponerlo en producción. Consulta [Variables Dinámicas](/es/build/agentes/variables-dinamicas#variables-desde-flujos).
+</Tip>
+
+## Asignar Flujos Durante Llamada a un Agente
+
+<Tabs>
+  <Tab title="Agentes de prompt único">
+    Abre el agente y ve a su sección **Flujos**. Añade ahí el flujo durante llamada. Cada flujo muestra una etiqueta **Durante la llamada**.
+
+    Puedes asignar **múltiples flujos durante llamada** al mismo agente — cada uno se convierte en una herramienta que el agente puede elegir usar, según la descripción de la función.
+  </Tab>
+
+  <Tab title="Agentes con caminos conversacionales">
+    Los caminos ejecutan los flujos durante llamada mediante un [nodo de flujo](/es/build/agentes/camino-conversacional/tipos-nodos#nodo-de-flujo) colocado en el flujo regular de la conversación. Como un nodo de herramienta, admite transiciones basadas en el resultado hacia el siguiente nodo.
+  </Tab>
+</Tabs>
+
+<Note>
+  Como el resto de flujos, los flujos durante llamada se asignan por [versión de agente](/es/build/agentes/control-versiones). El flujo debe estar **publicado** y **habilitado** para que se ejecute.
+</Note>
+
+## Casos de uso comunes
+
+<AccordionGroup>
+  <Accordion title="Consultar disponibilidad">
+    El agente pregunta una fecha, ejecuta el flujo para consultar tu calendario y lee los horarios disponibles.
+  </Accordion>
+
+  <Accordion title="Buscar una cuenta">
+    Obtén los datos y la actividad reciente de un cliente de uno o varios sistemas, combínalos y devuelve un resumen claro que el agente pueda usar.
+  </Accordion>
+
+  <Accordion title="Hacer una reserva">
+    Ejecuta en secuencia las distintas llamadas a la API que requiere una reserva, y luego confirma el resultado al usuario.
+  </Accordion>
+
+  <Accordion title="Registrar una incidencia">
+    Crea un ticket en tu sistema, y luego confirma al usuario que se ha registrado.
+  </Accordion>
+</AccordionGroup>
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="La pieza de Diga"
+    icon="puzzle"
+    href="/es/build/flujos/pieza-diga#llamada-a-función"
+  >
+    Referencia completa del trigger Llamada a función y la acción Devolver respuesta.
+  </Card>
+  <Card
+    title="Flujos pre-llamada"
+    icon="phone-incoming"
+    href="/es/build/flujos/flujos-pre-llamada"
+  >
+    Prepara y personaliza cada llamada antes de que el agente salude.
+  </Card>
+  <Card
+    title="Integraciones"
+    icon="plug"
+    href="/es/build/integraciones/introduccion"
+  >
+    Compara los flujos durante llamada con las integraciones de un solo endpoint.
+  </Card>
+  <Card
+    title="Asignar a agentes"
+    icon="link"
+    href="/es/build/flujos/asignar-agentes"
+  >
+    Conecta tus flujos con agentes para que se ejecuten.
+  </Card>
+</CardGroup>
