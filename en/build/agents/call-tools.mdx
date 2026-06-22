@@ -16,7 +16,7 @@ There are currently three call tools you can enable in your agents:
   <Card title="Hang Up" icon="phone-off">
     Ends the call in a controlled manner
   </Card>
-  <Card title="Voicemail Detection" icon="voicemail">
+  <Card title="Detect answering machine" icon="voicemail">
     Checks if the call was answered by a machine
   </Card>
 </CardGroup>
@@ -56,12 +56,12 @@ When the agent executes the transfer tool:
 To enable transfer in your agent:
 
 1. Access your agent's configuration
-2. Go to the **Call Tools** section
+2. Go to the **Tools** tab
 3. Enable the **Transfer** tool
 4. Configure the tool. You can define:
-    - **Destination number**: The number to which the call will be transferred.
-    - **Extension**: If you use a PBX system, you can define an internal extension. If you don't specify a destination number, the extension will be made with that same number.
-    - **Condition**: Explanation of when the agent should use the tool
+    - **Redirect number**: The number to which the call will be transferred.
+    - **Redirect extension**: If you use a PBX system, you can define an internal extension. If you don't specify a redirect number, the extension will be made with that same number.
+    - **Transfer description**: Explanation of when the agent should use the tool
 
 
 ### Common Use Cases
@@ -119,7 +119,7 @@ The agent can decide to end the call when:
 To enable the hang up function:
 
 1. Access your agent's configuration
-2. Go to the **Call Tools** section
+2. Go to the **Tools** tab
 3. Enable the **Hang Up** tool
 4. Configure the **condition** to define when the agent should use the tool
 
@@ -148,38 +148,42 @@ Goodbye example:
 Never configure the agent to hang up without first confirming with the user. This creates a poor experience and can make users feel ignored.
 </Warning>
 
-## Voicemail Detection
+## Detect answering machine
 
-The voicemail detection tool identifies whether the call was answered by a machine or a real person. This is especially useful for outbound calls.
+The answering machine detection tool helps your agent identify whether the call was answered by a machine or a real person. This is especially useful for outbound calls.
 
 ### How it Works
 
-The system analyzes the first few seconds of audio to determine if:
+This is a tool the **agent decides to call** when it suspects a machine answered the call. It is not automatic answering-machine detection (AMD) that runs in the background.
+
+When the agent suspects the line was picked up by a recording instead of a person, it calls this tool. The tool helps the agent confirm whether:
 
 - A real person answered the phone
 - An answering machine or voicemail answered
 - An IVR (Interactive Voice Response) system answered
 
+Based on the result, the agent can decide how to continue (for example, leave a brief message and hang up, or proceed with the normal script).
+
 ### Configuration
 
-To enable voicemail detection:
+To enable answering machine detection:
 
 1. Access your agent's configuration
-2. Go to the **Call Tools** section
-3. Enable the **Voicemail Detection** tool
+2. Go to the **Tools** tab
+3. Enable the **Detect answering machine** tool
 
 ### Use Cases
 
 <AccordionGroup>
   <Accordion title="Automated outbound calls">
-    In outbound call campaigns, you can configure the agent to only continue the conversation if it detects a real person, or leave a recorded message if it's a voicemail.
+    In outbound call campaigns, you can instruct the agent to only continue the conversation if it confirms a real person, or leave a recorded message if it's a voicemail.
 
     **Configuration example:**
     ```markdown
-    At the start of the call:
-    1. Use the voicemail detection tool
-    2. If you detect a real person: continue with the normal sales script
-    3. If you detect a voicemail: leave a brief message and hang up
+    If you suspect a machine answered instead of a person:
+    1. Use the detect answering machine tool
+    2. If it confirms a real person: continue with the normal sales script
+    3. If it confirms a voicemail: leave a brief message and hang up
 
     Message for voicemail:
     "Hello, this is [Name] from [Company]. We're calling about [reason].

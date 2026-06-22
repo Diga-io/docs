@@ -4,6 +4,46 @@ description: "Registro de actualizaciones y mejoras de la plataforma Diga"
 rss: true
 ---
 
+<Update label="20 de junio de 2026" description="v1.1.17" tags={["Nuevas features"]}>
+
+## Flujos pre-llamada en salientes e interpolación de variables más completa
+
+- **Flujos pre-llamada para llamadas salientes**: los flujos pre-llamada ahora se ejecutan antes de marcar el número en las llamadas salientes, de modo que el agente puede preparar el contexto igual que en las llamadas entrantes.
+- **Variables dinámicas en los nodos de camino**: las variables dinámicas ahora se interpolan dentro de los prompts de los nodos de los caminos conversacionales y en las condiciones de las ramas, lo que te permite personalizar los prompts y el enrutamiento por llamada.
+- **Variables inyectadas en los logs de llamada a función**: las variables inyectadas en una llamada a función durante la llamada ahora se muestran en los logs de llamada a función, lo que facilita depurar qué pasó el agente a cada herramienta.
+
+</Update>
+
+<Update label="19 de junio de 2026" description="Piezas de Activepieces" tags={["Nuevas features", "Mejoras"]}>
+
+## Piezas de workflow nuevas y mejoradas
+
+- **Acciones de leads en Odoo CRM**: nuevas acciones para crear y gestionar leads en Odoo CRM directamente desde tus flujos.
+- **Helper de fechas en español**: la pieza de helper de fechas ahora admite español para interpretar y formatear fechas.
+- **Estilos de formularios**: estilos mejorados para los formularios en el constructor de flujos.
+
+</Update>
+
+<Update label="18 de junio de 2026" description="Copilot IA (Melo)" tags={["Nuevas features"]}>
+
+## Conoce a Melo, tu asistente de IA dentro del panel
+
+- **Asistente Copilot IA**: un nuevo asistente de IA dentro del panel (Melo) te ayuda a construir y gestionar tus agentes, responde preguntas y realiza acciones en toda la plataforma.
+- **Herramientas basadas en MCP**: Melo funciona con herramientas MCP, por lo que puede actuar sobre tus recursos de Diga, no solo responder preguntas.
+- **Uso según el plan**: el uso de Melo está incluido con límites semanales que escalan según tu plan.
+
+</Update>
+
+<Update label="18 de junio de 2026" description="Trazas de llamadas" tags={["Nuevas features"]}>
+
+## Trazas de llamadas con vista en cascada
+
+- **Trazas distribuidas para cada llamada**: cada llamada ahora genera una traza que desglosa la conversación en spans individuales — turnos de conversación, generación de la IA, síntesis de voz, ejecuciones de herramientas y transiciones de camino.
+- **Interfaz en cascada**: visualiza la línea de tiempo completa de la llamada en una vista en cascada para ver exactamente cuánto tardó cada paso y cómo se relacionan entre sí.
+- **Diagnostica el rendimiento**: identifica rápidamente los pasos lentos, verifica los flujos conversacionales y revisa las ejecuciones de herramientas con sus argumentos y tiempos.
+
+</Update>
+
 <Update label="17 de junio de 2026" description="v1.1.16" tags={["Nuevas features"]}>
 
 ## Flujos pre-llamada y variables impulsadas por flujos

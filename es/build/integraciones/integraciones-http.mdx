@@ -81,11 +81,12 @@ Una vez creada la integración, necesitas definir las **herramientas** (acciones
     Para cada parámetro define los siguientes campos:
     - **Nombre**: Identificador único (ej. `customer_id`, `status`). Debe ser el nombre del valor que espera la API.
     - **Descripción**: Qué información representa y cómo obtenerla
-    - **Tipo de Dato**: string, number, boolean, array, object
+    - **Tipo de Dato**: string, integer, number, boolean. Los parámetros del body pueden ser además **object** (con propiedades anidadas).
     - **Obligatorio**: Si es requerido o no
     - **Modo de obtención**: Cómo el agente consigue este valor:
       - Prompt: El agente pregunta al usuario o lo infiere del contexto
       - Valor fijo: Un valor constante que defines al crear la herramienta
+      - Valor dinámico: valor rellenado en tiempo de ejecución desde una plantilla/variable.
 
     <Warning>
       La descripción del parámetro es clave para que el agente entienda qué valor debe proporcionar. Sé claro y específico.

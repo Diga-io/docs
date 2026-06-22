@@ -7,7 +7,7 @@ description: "Crea agentes pre-configurados en segundos usando plantillas listas
 
 Las plantillas de agentes son configuraciones pre-construidas que te permiten crear agentes completos en un solo paso. Cada plantilla incluye el prompt, la voz, el idioma, las herramientas y, en algunos casos, un camino conversacional completo — todo listo para funcionar.
 
-Solo necesitas rellenar las **variables** específicas de tu negocio (como números de teléfono o nombres de departamentos) y tendrás un agente operativo en segundos.
+Las **variables** de la plantilla (como números de teléfono o nombres de departamentos) se crean como `<<placeholders>>`. Una vez creado el agente, las rellenas con la información de tu negocio directamente en el editor.
 
 <Note>
   Las plantillas son un punto de partida. Una vez creado el agente, puedes personalizar cualquier aspecto de su configuración como si lo hubieras creado desde cero.
@@ -29,30 +29,17 @@ Solo necesitas rellenar las **variables** específicas de tu negocio (como núme
 
     - **Nombre** y **descripción** del caso de uso
     - **Tipo de agente**: prompt único o camino conversacional
-    - **Variables** que necesitas configurar
+    - **Variables** que usa la plantilla
 
     Haz clic en la plantilla que quieras usar para ver sus detalles.
   </Step>
 
-  <Step title="Configura las variables">
-    Cada plantilla puede incluir variables que necesitas completar con información de tu negocio. Estas variables usan el formato `<<nombre_variable>>` y se sustituyen automáticamente al crear el agente.
-
-    Ejemplos comunes de variables:
-    - `<<nombre_empresa>>` — El nombre de tu empresa
-    - `<<telefono_ventas>>` — Número del departamento de ventas
-    - `<<horario_atencion>>` — Horario de atención al cliente
-
-    <Frame>
-      <img src="/images/agentes-plantillas-variables-placeholder.png" alt="Configuración de variables de la plantilla" />
-    </Frame>
-  </Step>
-
   <Step title="Crea el agente">
-    Haz clic en **Usar plantilla** para crear el agente. Se creará en estado **borrador** para que puedas revisarlo y ajustarlo antes de publicar.
+    Haz clic en **Usar plantilla** para crear el agente. Se creará en estado **borrador**, con las variables de la plantilla intactas como `<<placeholders>>` para que las rellenes después.
   </Step>
 
-  <Step title="Revisa y personaliza">
-    El agente se abre en el editor con toda la configuración de la plantilla aplicada. Revisa:
+  <Step title="Rellena las variables y personaliza">
+    El agente se abre en el editor con toda la configuración de la plantilla aplicada. Sustituye los `<<placeholders>>` por la información de tu negocio allí donde aparezcan — en el **prompt**, el **saludo** y cualquier **nodo del camino conversacional**. Después revisa:
 
     - El **prompt** o **camino conversacional** para asegurarte de que encaja con tu caso de uso
     - La **voz** y el **idioma** seleccionados
@@ -95,42 +82,43 @@ Las plantillas pueden ser de dos tipos según el modo del agente:
 
 ## Variables
 
-Las variables permiten que una misma plantilla se adapte a diferentes empresas y casos de uso. Cuando creas un agente desde una plantilla, las variables se sustituyen automáticamente por los valores que proporcionas.
+Las variables permiten que una misma plantilla se adapte a diferentes empresas y casos de uso. Marcan los puntos de la configuración que necesitas personalizar.
 
 ### Cómo funcionan
 
 - Se definen con el formato `<<nombre_variable>>`
-- Se sustituyen en todo el agente: prompt, saludo, nodos del camino conversacional, etc.
-- Respetan el tipo de dato original (texto, número, booleano)
+- Cuando creas el agente desde una plantilla, las variables se **mantienen como `<<placeholders>>`** — no se rellenan durante la creación
+- Sustituyes cada placeholder por tu propio valor **después** de crear el agente, directamente en el editor
+- Los placeholders pueden aparecer en cualquier parte del agente: prompt, saludo, nodos del camino conversacional, etc.
 
 ### Ejemplo
 
 Una plantilla de enrutamiento de llamadas podría tener estas variables:
 
-| Variable | Descripción | Ejemplo |
+| Variable | Descripción | Valor de ejemplo |
 |---|---|---|
 | `<<nombre_empresa>>` | Nombre de tu empresa | "Clínica Dental López" |
 | `<<telefono_ventas>>` | Número de ventas | "+34 612 345 678" |
 | `<<telefono_soporte>>` | Número de soporte | "+34 612 345 679" |
 | `<<horario>>` | Horario de atención | "Lunes a Viernes de 9:00 a 18:00" |
 
-El prompt de la plantilla:
+El prompt de la plantilla se crea exactamente así, con los placeholders intactos:
 ```
 Eres el recepcionista virtual de <<nombre_empresa>>. 
 Nuestro horario de atención es <<horario>>.
 Si el cliente quiere hablar con ventas, transfiérelo al <<telefono_ventas>>.
 ```
 
-Se convierte en:
+En el editor, sustituyes cada placeholder por tu valor para que quede así:
 ```
 Eres el recepcionista virtual de Clínica Dental López. 
 Nuestro horario de atención es Lunes a Viernes de 9:00 a 18:00.
 Si el cliente quiere hablar con ventas, transfiérelo al +34 612 345 678.
 ```
 
-<Tip>
-  No es obligatorio rellenar todas las variables antes de crear el agente. Las variables no sustituidas se mantienen como `<<nombre>>` en la configuración y puedes editarlas después desde el editor del agente.
-</Tip>
+<Warning>
+  Recuerda sustituir todos los placeholders antes de publicar. Cualquier `<<nombre>>` que quede sin rellenar será leído literalmente por el agente durante las llamadas.
+</Warning>
 
 ## Recursos Pendientes
 

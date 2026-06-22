@@ -19,26 +19,17 @@ Define los datos básicos que identifican a tu agente y cómo se comunica por vo
 - **Voz** del agente. Selecciona la voz que utilizará el agente al hablar. La voz define el **timbre y el estilo de comunicación** durante la llamada.
 
 ## Directrices del agente
-Configura directrices generales y el manejo de términos específicos durante la conversación.
+Configura directrices generales que orienten el comportamiento del agente durante la conversación.
 - **Instrucciones globales**. Define instrucciones generales que orienten el comportamiento del agente durante la llamada.  Estas directrices complementan el prompt y **se aplican de forma consistente a todas las interacciones**.
-- **Términos preferentes**. Añade palabras, expresiones o nombres propios que el agente debe reconocer correctamente. Este campo es especialmente útil para:
-  - Vocabulario específico de un sector
-  - Nombres de marcas o personas
-  - Términos técnicos o poco comunes
-- **Definición de pronunciación**. Permite definir cómo debe pronunciar o reconocer ciertas palabras mediante su transcripción fonética. Esto mejora la comprensión y pronunciación de términos complejos o poco comunes.
 
 <Frame>
   <img src="/images/directrices-agente.png" alt="Diagrama de flujo mostrando el sistema de detección de inactividad con recordatorios progresivos" />
 </Frame>
 
 ## Ajustes de llamada
-Controla el comportamiento del agente durante la llamada, incluyendo ritmo de voz, sonido ambiente y gestión de silencios.
+Controla el comportamiento del agente durante la llamada, incluyendo el sonido ambiente y la gestión de silencios.
 
 - **Sonido de fondo**. Añade un sonido ambiente mientras el agente ejecuta acciones o espera respuesta, para evitar silencios prolongados.
-- **Velocidad de la voz**. Controla qué tan rápido habla el agente durante la llamada.
-  - Rango: 0.25× a 2.0×
-  - Valor por defecto: 1.0× (velocidad normal)
-Este ajuste permite adaptar el ritmo de conversación según tu audiencia.
 - **Sistema de detección de inactividad**. Define cómo debe actuar el agente cuando no detecta respuesta del usuario.
  - **Tiempo de espera**. Indica cuánto tiempo debe pasar sin respuesta antes de que el agente actúe.
    - Valor por defecto: 7 segundos

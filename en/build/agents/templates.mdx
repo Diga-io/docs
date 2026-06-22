@@ -7,7 +7,7 @@ description: "Create pre-configured agents in seconds using ready-to-use templat
 
 Agent templates are pre-built configurations that let you create complete agents in a single step. Each template includes the prompt, voice, language, tools, and in some cases a complete conversational path — all ready to work.
 
-You just need to fill in the **variables** specific to your business (like phone numbers or department names) and you'll have a working agent in seconds.
+The template's **variables** (like phone numbers or department names) are created as `<<placeholders>>`. After the agent is created, you fill them in with your business information directly in the editor.
 
 <Note>
   Templates are a starting point. Once the agent is created, you can customize any aspect of its configuration as if you had created it from scratch.
@@ -29,30 +29,17 @@ You just need to fill in the **variables** specific to your business (like phone
 
     - **Name** and **description** of the use case
     - **Agent type**: single prompt or conversational path
-    - **Variables** you need to configure
+    - **Variables** used by the template
 
     Click on the template you want to use to see its details.
   </Step>
 
-  <Step title="Configure the variables">
-    Each template may include variables that you need to fill in with your business information. These variables use the `<<variable_name>>` format and are automatically substituted when the agent is created.
-
-    Common variable examples:
-    - `<<company_name>>` — Your company name
-    - `<<sales_phone>>` — Sales department number
-    - `<<business_hours>>` — Customer service hours
-
-    <Frame>
-      <img src="/images/agentes-plantillas-variables-placeholder.png" alt="Template variables configuration" />
-    </Frame>
-  </Step>
-
   <Step title="Create the agent">
-    Click **Use template** to create the agent. It will be created in **draft** state so you can review and adjust it before publishing.
+    Click **Use template** to create the agent. It will be created in **draft** state, with the template's variables left in place as `<<placeholders>>` for you to fill in afterward.
   </Step>
 
-  <Step title="Review and customize">
-    The agent opens in the editor with the full template configuration applied. Review:
+  <Step title="Fill in the variables and customize">
+    The agent opens in the editor with the full template configuration applied. Replace the `<<placeholders>>` with your business information wherever they appear — in the **prompt**, the **greeting**, and any **conversational path nodes**. Then review:
 
     - The **prompt** or **conversational path** to make sure it fits your use case
     - The **voice** and **language** selected
@@ -95,42 +82,43 @@ Templates can be one of two types based on the agent mode:
 
 ## Variables
 
-Variables allow a single template to adapt to different businesses and use cases. When you create an agent from a template, variables are automatically replaced with the values you provide.
+Variables allow a single template to adapt to different businesses and use cases. They mark the spots in the configuration that you need to personalize.
 
 ### How they work
 
 - Defined using the `<<variable_name>>` format
-- Substituted throughout the agent: prompt, greeting, conversational path nodes, etc.
-- Preserve the original data type (text, number, boolean)
+- When you create the agent from a template, the variables are **left in place as `<<placeholders>>`** — they are not filled in during creation
+- You replace each placeholder with your own value **after** the agent is created, directly in the editor
+- Placeholders can appear anywhere in the agent: prompt, greeting, conversational path nodes, etc.
 
 ### Example
 
 A call routing template might have these variables:
 
-| Variable | Description | Example |
+| Variable | Description | Example value |
 |---|---|---|
 | `<<company_name>>` | Your company name | "Downtown Dental Clinic" |
 | `<<sales_phone>>` | Sales number | "+1 555 123 4567" |
 | `<<support_phone>>` | Support number | "+1 555 123 4568" |
 | `<<business_hours>>` | Business hours | "Monday to Friday, 9 AM to 6 PM" |
 
-The template prompt:
+The template prompt is created exactly like this, with the placeholders intact:
 ```
 You are the virtual receptionist for <<company_name>>. 
 Our business hours are <<business_hours>>.
 If the customer wants to speak with sales, transfer them to <<sales_phone>>.
 ```
 
-Becomes:
+In the editor, you replace each placeholder with your value so it reads:
 ```
 You are the virtual receptionist for Downtown Dental Clinic. 
 Our business hours are Monday to Friday, 9 AM to 6 PM.
 If the customer wants to speak with sales, transfer them to +1 555 123 4567.
 ```
 
-<Tip>
-  You don't have to fill in all variables before creating the agent. Unsubstituted variables remain as `<<name>>` in the configuration and you can edit them later from the agent editor.
-</Tip>
+<Warning>
+  Remember to replace every placeholder before publishing. Any `<<name>>` left unfilled will be read literally by the agent during calls.
+</Warning>
 
 ## Pending Resources
 

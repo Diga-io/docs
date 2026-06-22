@@ -14,6 +14,7 @@ At the top of the page you'll see a summary of your active subscription:
 - **Subscribed plan** and monthly price.
 - **Included minutes** in your plan.
 - **Rollover minutes** available.
+- **Melo (Copilot) usage**: how many Melo requests you've used this week, with a **Resets in {time}** counter showing when your weekly allowance refreshes.
 - **Next billing date**.
 
 <Note>
@@ -135,6 +136,10 @@ At the bottom of the page you'll find a table with all your invoices:
 - **Pending**: the payment hasn't been completed yet.
 - **Paid**: the payment was completed successfully.
 - **Declined**: the payment failed. Check your payment method.
+
+<Note>
+These friendly labels map to the underlying Stripe invoice states: **Paid** corresponds to `paid`; **Pending** corresponds to `open` or `draft`; **Declined** corresponds to `uncollectible` or `void`.
+</Note>
 
 <Warning>
 If a payment is repeatedly declined, your subscription may be cancelled after several weeks and your agents will stop accepting calls until the issue is resolved.

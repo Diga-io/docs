@@ -11,11 +11,11 @@ To learn how to create and manage knowledge bases, see the [knowledge bases guid
 
 ## In single prompt agents
 
-In a single prompt agent, knowledge bases are assigned from the agent's **Customize** tab, within the **Knowledge Bases** section.
+In a single prompt agent, knowledge bases are assigned from the agent's **Customization** tab, within the **Knowledge Bases** section.
 
 <Steps>
   <Step title="Open the Knowledge Bases section">
-    Access the agent, go to the **Customize** tab and expand the **Knowledge Bases** section.
+    Access the agent, go to the **Customization** tab and expand the **Knowledge Bases** section.
   </Step>
   <Step title="Link documents">
     Click the **Link Documents** dropdown. A list will appear with the documents and knowledge bases available in the project. You can search by name using the search field.
@@ -26,15 +26,11 @@ In a single prompt agent, knowledge bases are assigned from the agent's **Custom
 
 Linked documents appear listed below, and you can unlink them from your agent by clicking the delete icon next to each one.
 
-### Create documents from the agent
+### Add new content
 
-You don't need to go to the knowledge bases section to add content. From the **Link Documents** dropdown, click **Create New** to access the options:
+The knowledge base control links existing documents and bases; it does not create new content inline. To add new files, texts, or URLs, go to the [Knowledge bases](/en/build/knowledge-bases) section and create them there. They will then be available to link from this dropdown.
 
-- **Upload File** — Upload a file from your computer.
-- **Create a Text** — Write or paste text directly.
-- **Add URL** — Import content from a web page.
-
-The created document will be added to the project and automatically linked to the agent.
+When no knowledge bases exist yet, the empty state links you directly to the Knowledge bases section so you can create your first one.
 
 ## In conversational path agents
 
@@ -42,15 +38,15 @@ Conversational path agents offer greater flexibility with knowledge bases thanks
 
 ### Global level (agent customization)
 
-When you assign knowledge bases from the agent's **Customize** tab, they apply to **all nodes** in the conversational path. The agent will have access to this information at any point in the conversation.
+When you assign knowledge bases from the agent's **Customization** tab, they apply to **all nodes** in the conversational path. The agent will have access to this information at any point in the conversation.
 
-The configuration is identical to a single prompt agent: expand the **Knowledge Bases** section, use the **Link Documents** dropdown to select or create documents.
+The configuration is identical to a single prompt agent: expand the **Knowledge Bases** section, use the **Link Documents** dropdown to select documents.
 
 ### Node level
 
 Within the **Node** tab, in each conversation node's settings, you'll find two ways to provide specific information:
 
-**Contextual knowledge**
+**Context knowledge**
 
 A free text field where you can write relevant information you want to be available only in that node. It's useful for specific data that doesn't need a full document.
 
@@ -67,13 +63,13 @@ Each node has its own **Knowledge Bases** section with the **Link Documents** dr
 
 By default, each node **inherits** the knowledge bases assigned at the global level. This means you don't need to configure bases in each node individually.
 
-If a node doesn't need the global knowledge bases, you can disable the **Inherit knowledge base** toggle in the node's settings. When disabled:
+If a node doesn't need the global knowledge bases, you can disable the **Inherit knowledge** toggle in the node's settings. When disabled:
 
 - The node will no longer have access to global knowledge bases.
 - It will only use bases linked directly to the node itself (if any).
 
 <Note>
-The **Inherit knowledge base** toggle only appears in nodes when there is at least one knowledge base assigned at the agent's global level. If no global bases are configured, this control is not shown.
+The **Inherit knowledge** toggle only appears in nodes when there is at least one knowledge base assigned at the agent's global level. If no global bases are configured, this control is not shown.
 </Note>
 
 | Configuration | Behavior |
@@ -89,7 +85,7 @@ The **Inherit knowledge base** toggle only appears in nodes when there is at lea
   <Accordion title="Use the global level for general information">
     Assign bases at the global level that apply to the entire conversation: company data, general policies, FAQs. Reserve node-level bases for information specific to that moment in the flow.
   </Accordion>
-  <Accordion title="Use 'Contextual knowledge' for specific data">
+  <Accordion title="Use 'Context knowledge' for specific data">
     If you only need the node to know a specific piece of data (a schedule, an address, a price), use the text field instead of creating a full document.
   </Accordion>
   <Accordion title="Don't overload with information">

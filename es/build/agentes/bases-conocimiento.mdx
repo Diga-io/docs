@@ -26,15 +26,11 @@ En un agente de prompt único, las bases de conocimiento se asignan desde la pes
 
 Los documentos vinculados aparecen listados debajo, y puedes desvincularlo de tu agente haciendo clic en el icono de eliminar junto a cada uno.
 
-### Crear documentos desde el agente
+### Añadir contenido nuevo
 
-No necesitas ir a la sección de bases de conocimiento para añadir contenido. Desde el dropdown **Vincular documentos**, haz clic en **Crear nuevo** para acceder a las opciones:
+El control de bases de conocimiento vincula documentos y bases existentes; no crea contenido nuevo directamente desde aquí. Para añadir archivos, textos o URLs nuevos, ve a la sección [Bases de conocimiento](/es/build/bases-conocimiento) y créalos allí. Después estarán disponibles para vincularlos desde este dropdown.
 
-- **Subir Archivo** — Sube un archivo desde tu equipo.
-- **Crear un texto** — Escribe o pega texto directamente.
-- **Añadir URL** — Importa contenido desde una página web.
-
-El documento creado se añadirá al proyecto y se vinculará automáticamente al agente.
+Cuando todavía no existe ninguna base de conocimiento, el estado vacío te lleva directamente a la sección de Bases de conocimiento para que crees la primera.
 
 ## En agentes de camino conversacional
 
@@ -44,7 +40,7 @@ Los agentes de camino conversacional ofrecen mayor flexibilidad con las bases de
 
 Cuando asignas bases de conocimiento desde la pestaña **Personalizar** del agente, estas se aplican a **todos los nodos** del camino conversacional. El agente tendrá acceso a esta información en cualquier punto de la conversación.
 
-La configuración es idéntica a la de un agente de prompt único: despliega la sección **Bases de conocimiento**, usa el dropdown **Vincular documentos** para seleccionar o crear documentos.
+La configuración es idéntica a la de un agente de prompt único: despliega la sección **Bases de conocimiento**, usa el dropdown **Vincular documentos** para seleccionar documentos.
 
 ### Nivel de nodo
 
@@ -67,13 +63,13 @@ Cada nodo tiene su propia sección de **Bases de conocimiento** con el dropdown 
 
 Por defecto, cada nodo **hereda** las bases de conocimiento asignadas a nivel global. Esto significa que no necesitas configurar las bases en cada nodo individualmente.
 
-Si un nodo no necesita las bases de conocimiento globales, puedes desactivar el toggle **Heredar base de conocimiento** en los ajustes del nodo. Al desactivarlo:
+Si un nodo no necesita las bases de conocimiento globales, puedes desactivar el toggle **Heredar conocimiento** en los ajustes del nodo. Al desactivarlo:
 
 - El nodo dejará de tener acceso a las bases de conocimiento globales.
 - Solo utilizará las bases vinculadas directamente al propio nodo (si las hay).
 
 <Note>
-El toggle de **Heredar base de conocimiento** solo aparece en los nodos cuando hay al menos una base de conocimiento asignada a nivel global del agente. Si no hay bases globales configuradas, este control no se muestra.
+El toggle de **Heredar conocimiento** solo aparece en los nodos cuando hay al menos una base de conocimiento asignada a nivel global del agente. Si no hay bases globales configuradas, este control no se muestra.
 </Note>
 
 | Configuración | Comportamiento |

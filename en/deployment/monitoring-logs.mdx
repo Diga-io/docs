@@ -55,6 +55,10 @@ Calls can be in different states:
   <Accordion title="Failed" icon="phone-off">
     The call could not be completed due to a technical error.
   </Accordion>
+
+  <Accordion title="Transferred" icon="phone-forwarded">
+    The call was transferred to a human agent or another number.
+  </Accordion>
 </AccordionGroup>
 
 
@@ -77,7 +81,7 @@ At the top you will find:
 
 <CardGroup cols={2}>
   <Card title="Contact" icon="user">
-    Contact name if available in your CRM or integrations. Shows "Unknown" if no information.
+    The contact's phone number, shown as a clickable `tel:` link. This field is hidden when the call has no associated contact.
   </Card>
   <Card title="End reason" icon="flag">
     Indicates how the call ended: "Customer hung up", "Agent finished", "Transferred", etc.
@@ -91,10 +95,11 @@ Listen to the full call recording:
 - **Playback controls**: Play, pause, and progress bar
 - **Volume control**: Adjust audio level
 - **Time indicator**: Shows current time and total duration
-- **Download**: Option to download the audio file
+
+To download recordings, go back to the call list, select one or more calls using the checkboxes, and use the bulk download action to export them as a ZIP file. There is no per-call download button in the audio player.
 
 <Info>
-Recordings are stored securely and are available for 90 days. You can download them for permanent archiving.
+Recordings are stored securely and are retained according to your plan's storage policy. You can download them for permanent archiving.
 </Info>
 
 ### Call Transcription

@@ -13,21 +13,7 @@ You can learn more about MCP in the [official protocol documentation](https://mo
 
 ## MCP Available in Diga
 
-Diga accepts MCP servers via HTTP with streaming. We support two communication methods:
-
-### Streamable HTTP (`/mcp`)
-
-If your MCP server exposes an endpoint that ends in `/mcp`, Diga will use MCP's native streamable HTTP protocol. This is the recommended method for new implementations.
-
-**Example**: `https://your-server.com/mcp`
-
-### Server-Sent Events (SSE)
-
-If your endpoint doesn't end in `/mcp`, Diga will use Server-Sent Events (SSE) for bidirectional communication with the MCP server.
-
-<Note>
-  Both methods support the same set of MCP capabilities. The protocol choice is automatic based on the URL you provide.
-</Note>
+Diga connects to MCP servers over **Streamable HTTP**. Provide the server's HTTP(S) URL (e.g. `https://your-server.com/mcp`). SSE-only servers are not currently supported.
 
 ## Create an MCP Integration
 
@@ -52,23 +38,23 @@ If your endpoint doesn't end in `/mcp`, Diga will use Server-Sent Events (SSE) f
 
   </Step>
 
-  <Step title="Test the Connection">
-    Click **Test Connection** to verify you can communicate with the MCP server.
+  <Step title="Validate the connection">
+    There's no separate "Test Connection" button. When you save the integration, Diga validates the connection to the MCP server and syncs its tools automatically.
 
-    If it fails:
+    If validation fails:
     - Verify the server URL is correct
     - Confirm the credentials are active
     - Make sure the MCP server is online and accessible
   </Step>
 
   <Step title="Sync Tools">
-    Once connected, Diga automatically:
+    When you save the integration, Diga automatically:
     1. Discovers what tools the server offers
     2. Reads their descriptions and parameters
     3. Displays them in your tools list
 
     <Note>
-      Tools are automatically synced when you list the tools or assign the integration to an agent.
+      The initial tool sync happens when the integration is created. Tools are also re-synced when you list the tools or assign the integration to an agent.
     </Note>
 
   </Step>

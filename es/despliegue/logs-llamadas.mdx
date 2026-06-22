@@ -58,6 +58,9 @@ Los eventos se organizan en categorías según el tipo de actividad:
     | Transferencia fallida | La transferencia falló |
     | Colgar solicitado | Se solicitó colgar la llamada |
     | Llamada colgada | La llamada se colgó correctamente |
+    | Añadir participante solicitado | Se solicitó añadir un participante a la llamada |
+    | Participante añadido | El participante se añadió correctamente |
+    | Añadir participante fallido | No se pudo añadir el participante |
   </Accordion>
 
   <Accordion title="Integraciones" icon="plug">
@@ -71,6 +74,16 @@ Los eventos se organizan en categorías según el tipo de actividad:
     | Aprobación denegada | El contacto rechazó la ejecución |
     | Integración completada | La integración se ejecutó correctamente |
     | Integración fallida | La integración falló |
+  </Accordion>
+
+  <Accordion title="Base de conocimiento (RAG)" icon="book">
+    Eventos sobre las búsquedas que el agente realiza en su base de conocimiento para recuperar información relevante durante la llamada.
+
+    | Evento | Descripción |
+    |--------|-------------|
+    | Búsqueda RAG completada | Una búsqueda en la base de conocimiento devolvió resultados relevantes |
+    | Búsqueda RAG sin resultados | Una búsqueda en la base de conocimiento no devolvió coincidencias |
+    | Búsqueda RAG fallida | Una búsqueda en la base de conocimiento falló |
   </Accordion>
 
   <Accordion title="Caminos conversacionales" icon="route">
@@ -94,16 +107,24 @@ Los eventos se organizan en categorías según el tipo de actividad:
     | Transferencia completada | La transferencia se completó |
   </Accordion>
 
-  <Accordion title="Webhooks" icon="webhook">
-    Eventos sobre el envío de webhooks a tus endpoints.
+  <Accordion title="Workflows / Flujos" icon="diagram-project">
+    Eventos sobre las ejecuciones de flujos (workflows) vinculadas a la llamada: envíos a tus endpoints, flujos pre-llamada y herramientas de workflow invocadas durante la conversación.
 
     | Evento | Descripción |
     |--------|-------------|
-    | Webhook en cola | El webhook se puso en cola para envío |
-    | Webhook enviado | Se envió la petición HTTP del webhook |
-    | Respuesta exitosa | El webhook recibió respuesta exitosa |
-    | Respuesta fallida | El webhook recibió una respuesta de error |
-    | Reintentos agotados | Se agotaron los reintentos del webhook |
+    | Workflow en cola | El workflow se puso en cola para envío |
+    | Workflow enviado | Se envió la petición HTTP del workflow |
+    | Workflow exitoso | El workflow recibió una respuesta exitosa |
+    | Workflow fallido | El workflow recibió una respuesta de error |
+    | Reintentos de workflow agotados | Se agotaron los reintentos del workflow |
+    | Flujo pre-llamada activado | Se activó un flujo pre-llamada antes de iniciar la llamada |
+    | Flujo pre-llamada completado | Un flujo pre-llamada terminó y devolvió sus datos |
+    | Herramienta de workflow invocada | Se invocó una herramienta de workflow durante la llamada |
+    | Herramienta de workflow completada | Una herramienta de workflow terminó correctamente |
+    | Herramienta de workflow fallida | Una herramienta de workflow falló |
+    | Herramienta de workflow interrumpida | Una herramienta de workflow fue interrumpida |
+    | Herramienta de workflow activada | Se activó una herramienta de workflow |
+    | Aprobación de workflow concedida | Se aprobó la ejecución de un workflow |
   </Accordion>
 </AccordionGroup>
 

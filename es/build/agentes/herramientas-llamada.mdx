@@ -56,12 +56,12 @@ Cuando el agente ejecuta la herramienta de transferencia:
 Para habilitar la transferencia en tu agente:
 
 1. Accede a la configuración de tu agente
-2. Ve a la sección **Herramientas de llamada**
+2. Ve a la pestaña **Herramientas**
 3. Activa la herramienta **Transferir**
 4. Configura la herramienta. Puedes definir:
-    - **Número de destino**: El número al que se transferirá la llamada.
-    - **Extensión**: Si usas un sistema PBX, puedes definir una extensión interna. En el caso de que no indiques número de destino, la extensión se realizará con ese mismo número.
-    - **Condición**: Explicacion de cuándo el agente debe usar la herramienta
+    - **Número de redirección**: El número al que se transferirá la llamada.
+    - **Extensión de redirección**: Si usas un sistema PBX, puedes definir una extensión interna. En el caso de que no indiques número de redirección, la extensión se realizará con ese mismo número.
+    - **Descripción de transferencia**: Explicación de cuándo el agente debe usar la herramienta
 
 
 ### Casos de uso comunes
@@ -119,9 +119,9 @@ El agente puede decidir finalizar la llamada cuando:
 Para habilitar la función de colgar:
 
 1. Accede a la configuración de tu agente
-2. Ve a la sección **Herramientas de llamada**
+2. Ve a la pestaña **Herramientas**
 3. Activa la herramienta **Colgar**
-4. Configura la **condicion** para definir cuándo el agente debe usar la herramienta
+4. Configura la **condición** para definir cuándo el agente debe usar la herramienta
 
 
 ### Mejores prácticas
@@ -150,36 +150,40 @@ Nunca configures el agente para colgar sin confirmar primero con el usuario. Est
 
 ## Detección de contestador automático
 
-La herramienta de detección de contestador automático identifica si la llamada fue contestada por una máquina o por una persona real. Esto es especialmente útil para llamadas salientes.
+La herramienta de detección de contestador automático ayuda a tu agente a identificar si la llamada fue contestada por una máquina o por una persona real. Esto es especialmente útil para llamadas salientes.
 
 ### Cómo funciona
 
-El sistema analiza los primeros segundos de audio para determinar si:
+Es una herramienta que el **agente decide usar** cuando sospecha que una máquina contestó la llamada. No es una detección automática de contestador (AMD) que se ejecute en segundo plano.
+
+Cuando el agente sospecha que una grabación contestó en lugar de una persona, usa esta herramienta. La herramienta ayuda al agente a confirmar si:
 
 - Una persona real contestó el teléfono
 - Un contestador automático o buzón de voz contestó
 - Un sistema IVR (Interactive Voice Response) contestó
+
+Según el resultado, el agente puede decidir cómo continuar (por ejemplo, dejar un mensaje breve y colgar, o continuar con el script normal).
 
 ### Configuración
 
 Para habilitar la detección de contestador:
 
 1. Accede a la configuración de tu agente
-2. Ve a la sección **Herramientas de llamada**
+2. Ve a la pestaña **Herramientas**
 3. Activa la herramienta **Detección de contestador**
 
 ### Casos de uso
 
 <AccordionGroup>
   <Accordion title="Llamadas salientes automatizadas">
-    En campañas de llamadas salientes, puedes configurar el agente para que solo continúe la conversación si detecta una persona real, o deje un mensaje grabado si es un contestador.
+    En campañas de llamadas salientes, puedes instruir al agente para que solo continúe la conversación si confirma una persona real, o deje un mensaje grabado si es un contestador.
 
     **Ejemplo de configuración:**
     ```markdown
-    Al inicio de la llamada:
+    Si sospechas que una máquina contestó en lugar de una persona:
     1. Usa la herramienta de detección de contestador
-    2. Si detectas una persona real: continúa con el script de ventas normal
-    3. Si detectas un contestador: deja un mensaje breve y cuelga
+    2. Si confirmas una persona real: continúa con el script de ventas normal
+    3. Si confirmas un contestador: deja un mensaje breve y cuelga
     ```
   </Accordion>
 
