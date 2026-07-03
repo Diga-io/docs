@@ -20,6 +20,7 @@ Events are organized into categories based on the type of activity:
     | Event | Description |
     |-------|-------------|
     | Recording Started | Call recording was initiated |
+    | Answer Type Detected | On outbound calls with detection enabled: what answered the call (person, voicemail, phone menu) and the transcript of what was heard |
     | Call Completed | The call ended successfully |
     | Call Failed | The call failed due to an error |
   </Accordion>
@@ -46,6 +47,10 @@ Events are organized into categories based on the type of activity:
     | Agent Ended Speaking | The agent finished speaking |
     | Agent Interrupted | The contact interrupted the agent |
     | Reminder Message Sent | The agent sent an inactivity reminder |
+    | Voicemail Message Left | The agent left your configured message on an answering machine, with the exact text it spoke |
+    | Phone Menu Navigation Started | The agent started navigating a phone menu, with the goal or key sequence it pursues |
+    | Phone Menu Option Selected | The agent pressed a key: includes the menu it heard, the key chosen and the reasoning behind the decision |
+    | Phone Menu Navigation Finished | How the navigation ended (person reached, no answer, dead end) and the closing reasoning |
   </Accordion>
 
   <Accordion title="Call tools" icon="wrench">
