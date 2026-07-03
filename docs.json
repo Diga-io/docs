@@ -70,14 +70,15 @@
                         ]
                       },
                       "es/build/agentes/personalizacion-llamada",
+                      "es/build/agentes/deteccion-buzon-menu-telefonico",
                       "es/build/agentes/variables-dinamicas",
                       "es/build/agentes/control-versiones",
                       "es/build/agentes/duplicar-agentes",
                       "es/build/agentes/herramientas-llamada",
                       "es/build/agentes/bases-conocimiento",
                       "es/build/agentes/anadir-integraciones",
-											"es/build/agentes/llamadas-test",
-											"es/build/agentes/plantillas"
+                      "es/build/agentes/llamadas-test",
+                      "es/build/agentes/plantillas"
                     ]
                   },
                   {
@@ -153,7 +154,9 @@
           },
           {
             "tab": "Changelog",
-            "pages": ["es/changelog"]
+            "pages": [
+              "es/changelog"
+            ]
           }
         ]
       },
@@ -185,14 +188,15 @@
                         ]
                       },
                       "en/build/agents/call-customization",
+                      "en/build/agents/voicemail-phone-menu-detection",
                       "en/build/agents/dynamic-variables",
                       "en/build/agents/version-control",
                       "en/build/agents/duplicate-agents",
                       "en/build/agents/call-tools",
                       "en/build/agents/knowledge-bases",
                       "en/build/agents/add-integrations",
-											"en/build/agents/test-calls",
-											"en/build/agents/templates"
+                      "en/build/agents/test-calls",
+                      "en/build/agents/templates"
                     ]
                   },
                   {
@@ -268,7 +272,9 @@
           },
           {
             "tab": "Changelog",
-            "pages": ["en/changelog"]
+            "pages": [
+              "en/changelog"
+            ]
           }
         ]
       }
@@ -279,7 +285,12 @@
       "display": "interactive"
     },
     "examples": {
-      "languages": ["python", "javascript", "curl", "go"],
+      "languages": [
+        "python",
+        "javascript",
+        "curl",
+        "go"
+      ],
       "defaults": "all"
     }
   },
@@ -302,15 +313,15 @@
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
