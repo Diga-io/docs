@@ -82,7 +82,7 @@ Every step of the process is visible in the [call logs](/en/deployment/call-logs
 
 - **Give the agent an outbound mission in its prompt.** After navigating a menu, a real person will pick up — if the prompt doesn't say why the agent is calling, the conversation will go nowhere.
 - **Detection takes a few seconds and is not infallible.** A machine locution that opens with a short, human-like phrase can occasionally be classified as a person; the agent then simply behaves as in a normal conversation, which is the safe failure mode.
-- **Voice-driven menus are not supported yet.** Systems that ask you to *say* the reason for your call instead of pressing keys can't be answered — the agent navigates with key presses only. These systems usually route to an operator after not hearing a response, where the agent picks the conversation up. If you need voice-driven menu support, [contact us](mailto:support@diga.io).
+- **Voice-driven systems are not fully supported yet.** The agent navigates menus with key presses only. When a system asks it to *speak* — voice-driven IVRs ("say the reason for your call") or call-screening assistants that record your name before passing you through — the agent treats it as reaching a person and hands the conversation to the voice model, which introduces itself. That often gets through screeners, but strict voice menus may not understand it and route to an operator (or hang up). If voice-driven menu support matters to you, [contact us](mailto:support@diga.io).
 
 <Note>
 **Coming from the "Detect answering machine" call tool?**

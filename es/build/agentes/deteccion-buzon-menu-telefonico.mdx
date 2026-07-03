@@ -82,7 +82,7 @@ Cada paso del proceso es visible en los [logs de llamada](/es/despliegue/logs-ll
 
 - **Dale al agente una misión de llamada saliente en su prompt.** Después de navegar un menú descolgará una persona real — si el prompt no dice por qué llama el agente, la conversación no irá a ninguna parte.
 - **La detección tarda unos segundos y no es infalible.** Una locución de máquina que empieza con una frase corta y de tono humano puede clasificarse ocasionalmente como persona; en ese caso el agente simplemente se comporta como en una conversación normal, que es el modo de fallo seguro.
-- **Los menús por voz aún no están soportados.** Los sistemas que piden *decir* el motivo de la llamada en vez de pulsar teclas no pueden responderse — el agente navega solo con pulsaciones. Estos sistemas suelen derivar a una operadora al no oír respuesta, y ahí el agente retoma la conversación. Si necesitas soporte de menús por voz, [contáctanos](mailto:support@diga.io).
+- **Los sistemas por voz aún no están soportados del todo.** El agente navega los menús solo con pulsaciones. Cuando un sistema le pide *hablar* — menús por voz ("di el motivo de tu llamada") o asistentes de filtrado que graban tu nombre antes de pasarte — el agente lo trata como haber llegado a una persona y cede la conversación al modelo de voz, que se presenta. Eso suele superar los filtros, pero los menús por voz estrictos pueden no entenderle y derivar a una operadora (o colgar). Si el soporte de menús por voz es importante para ti, [contáctanos](mailto:support@diga.io).
 
 <Note>
 **¿Venías de la herramienta "Detectar contestador automático"?**
