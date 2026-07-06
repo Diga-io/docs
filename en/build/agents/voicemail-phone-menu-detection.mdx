@@ -24,6 +24,8 @@ At pickup, the agent listens briefly and classifies the answer as a **person**, 
 - **Unavailable line** — the call ends with the `mailbox_unavailable` end reason.
 - **Uncertain** — the agent gives the benefit of the doubt and treats the answer as a person. It will never hang up on a quiet human.
 
+Classification is highly reliable, but not perfect: there are edge cases worth knowing before you enable it. They are covered in [Good practices and limitations](#good-practices-and-limitations).
+
 <Warning>
 **Answered time is billed time**
 
