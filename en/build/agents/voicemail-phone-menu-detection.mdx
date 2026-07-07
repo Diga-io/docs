@@ -25,7 +25,7 @@ At pickup, the agent listens briefly and classifies the answer as a **person**, 
 
 - **Person** — the conversation starts normally: the agent says its greeting if configured, or responds to whatever the person says.
 - **Voicemail / phone menu** — the agent applies the corresponding configuration described below.
-- **Unavailable line** — the call ends with the `mailbox_unavailable` end reason.
+- **Unavailable line** — the call ends with the `mailbox_unavailable` end reason ("Voicemail mailbox unavailable" in the call logs).
 - **Uncertain** — the agent gives the benefit of the doubt and treats the answer as a person. It will never hang up on a quiet human.
 
 Classification is highly reliable, but not perfect: there are edge cases worth knowing before you enable it. They are covered in [Good practices and limitations](#good-practices-and-limitations).
@@ -40,7 +40,7 @@ The call counts as answered from pickup, whoever — or whatever — picks up. D
 
 When the call lands on an answering machine, the agent applies the action you choose:
 
-- **Leave a message** — the agent speaks your message onto the voicemail and hangs up. The call ends with the `voicemail_left` end reason. The message supports [dynamic variables](/en/build/agents/dynamic-variables), so you can personalize it per call:
+- **Leave a message** — the agent speaks your message onto the voicemail and hangs up. The call ends with the `voicemail_left` end reason ("Voicemail message left" in the call logs). The message supports [dynamic variables](/en/build/agents/dynamic-variables), so you can personalize it per call:
 
   > Hola {{client_name}}, te llamaba de {{company}}. Cuando puedas, devuélveme la llamada.
 
@@ -77,8 +77,8 @@ If you already know the path ("press 1, then 3"), provide the exact keys (`0-9`,
 | End reason | Meaning | Retry? |
 |---|---|---|
 | — (conversation) | A person answered and the agent talked to them | — |
-| `ivr_no_answer` | The menu was navigated correctly, but nobody picked up where the agent was routed | Yes — try another time of day |
-| `ivr_unreachable` | The menu could not lead to a person (dead end, loop) | Review the goal or the number |
+| `ivr_no_answer` ("No answer after the phone menu") | The menu was navigated correctly, but nobody picked up where the agent was routed | Yes — try another time of day |
+| `ivr_unreachable` ("Couldn't navigate the phone menu") | The menu could not lead to a person (dead end, loop) | Review the goal or the number |
 
 ## What you'll see in logs and recordings
 

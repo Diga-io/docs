@@ -25,7 +25,7 @@ Al descolgar, el agente escucha brevemente y clasifica la respuesta como **perso
 
 - **Persona** — la conversación empieza con normalidad: el agente dice su saludo si está configurado, o responde a lo que diga la persona.
 - **Buzón / menú telefónico** — el agente aplica la configuración correspondiente descrita más abajo.
-- **Línea no disponible** — la llamada termina con el end reason `mailbox_unavailable`.
+- **Línea no disponible** — la llamada termina con el end reason `mailbox_unavailable` ("Buzón de voz no disponible" en los logs).
 - **Dudoso** — el agente concede el beneficio de la duda y trata la respuesta como una persona. Nunca colgará a un humano silencioso.
 
 La clasificación es muy fiable, pero no perfecta: hay casos límite que conviene conocer antes de activarla. Los recogemos en [Buenas prácticas y limitaciones](#buenas-prácticas-y-limitaciones).
@@ -40,7 +40,7 @@ La llamada cuenta como contestada desde el descuelgue, sea quien —o lo que— 
 
 Cuando la llamada cae en un contestador, el agente aplica la acción que elijas:
 
-- **Dejar un mensaje** — el agente dice tu mensaje en el buzón y cuelga. La llamada termina con el end reason `voicemail_left`. El mensaje admite [variables dinámicas](/es/build/agentes/variables-dinamicas), así que puedes personalizarlo por llamada:
+- **Dejar un mensaje** — el agente dice tu mensaje en el buzón y cuelga. La llamada termina con el end reason `voicemail_left` ("Mensaje dejado en el buzón de voz" en los logs). El mensaje admite [variables dinámicas](/es/build/agentes/variables-dinamicas), así que puedes personalizarlo por llamada:
 
   > Hola {{client_name}}, te llamaba de {{company}}. Cuando puedas, devuélveme la llamada.
 
@@ -77,8 +77,8 @@ Si ya conoces el camino ("pulsa 1 y luego 3"), indica las teclas exactas (`0-9`,
 | End reason | Significado | ¿Reintentar? |
 |---|---|---|
 | — (conversación) | Descolgó una persona y el agente habló con ella | — |
-| `ivr_no_answer` | El menú se navegó correctamente, pero nadie descolgó donde enrutaron al agente | Sí — prueba a otra hora |
-| `ivr_unreachable` | El menú no podía llevar a una persona (callejón sin salida, bucle) | Revisa el objetivo o el número |
+| `ivr_no_answer` ("Sin respuesta tras el menú telefónico") | El menú se navegó correctamente, pero nadie descolgó donde enrutaron al agente | Sí — prueba a otra hora |
+| `ivr_unreachable` ("No se pudo navegar el menú telefónico") | El menú no podía llevar a una persona (callejón sin salida, bucle) | Revisa el objetivo o el número |
 
 ## Qué verás en los logs y grabaciones
 
