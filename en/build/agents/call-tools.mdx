@@ -7,17 +7,14 @@ Call tools are built-in functions that allow your agent to perform phone actions
 
 ## Available Tools
 
-There are currently three call tools you can enable in your agents:
+There are currently two call tools you can enable in your agents:
 
-<CardGroup cols={3}>
+<CardGroup cols={2}>
   <Card title="Transfer" icon="/icons/phone-outgoing-01.svg">
     Transfers the call to another phone number
   </Card>
   <Card title="Hang Up" icon="phone-off">
     Ends the call in a controlled manner
-  </Card>
-  <Card title="Detect answering machine" icon="voicemail">
-    Checks if the call was answered by a machine
   </Card>
 </CardGroup>
 
@@ -148,53 +145,11 @@ Goodbye example:
 Never configure the agent to hang up without first confirming with the user. This creates a poor experience and can make users feel ignored.
 </Warning>
 
-## Detect answering machine
+## Looking for voicemail detection?
 
-The answering machine detection tool helps your agent identify whether the call was answered by a machine or a real person. This is especially useful for outbound calls.
+The old **Voicemail Detection** tool has been replaced by a more complete configuration under **Customization → Call settings**: voicemail detection with a customizable message, and automatic phone menu navigation. Agents that had the tool assigned were migrated automatically.
 
-### How it Works
-
-This is a tool the **agent decides to call** when it suspects a machine answered the call. It is not automatic answering-machine detection (AMD) that runs in the background.
-
-When the agent suspects the line was picked up by a recording instead of a person, it calls this tool. The tool helps the agent confirm whether:
-
-- A real person answered the phone
-- An answering machine or voicemail answered
-- An IVR (Interactive Voice Response) system answered
-
-Based on the result, the agent can decide how to continue (for example, leave a brief message and hang up, or proceed with the normal script).
-
-### Configuration
-
-To enable answering machine detection:
-
-1. Access your agent's configuration
-2. Go to the **Tools** tab
-3. Enable the **Detect answering machine** tool
-
-### Use Cases
-
-<AccordionGroup>
-  <Accordion title="Automated outbound calls">
-    In outbound call campaigns, you can instruct the agent to only continue the conversation if it confirms a real person, or leave a recorded message if it's a voicemail.
-
-    **Configuration example:**
-    ```markdown
-    If you suspect a machine answered instead of a person:
-    1. Use the detect answering machine tool
-    2. If it confirms a real person: continue with the normal sales script
-    3. If it confirms a voicemail: leave a brief message and hang up
-
-    Message for voicemail:
-    "Hello, this is [Name] from [Company]. We're calling about [reason].
-    Please call us at [number]. Thank you."
-    ```
-  </Accordion>
-
-  <Accordion title="Campaign optimization">
-    Avoid wasting agent time talking to voicemails, allowing time to be dedicated only to real conversations.
-  </Accordion>
-</AccordionGroup>
+Learn more in [Voicemail & Phone Menu Detection](/en/build/agents/voicemail-phone-menu-detection).
 
 ## Next Steps
 

@@ -1,0 +1,115 @@
+---
+title: "Detección de buzón y menús telefónicos"
+description: "Detecta contestadores automáticos y navega menús telefónicos (IVR) en llamadas salientes"
+---
+
+## Introducción
+
+Cuando tu agente hace llamadas salientes, no siempre descuelga una persona: muchas llamadas caen en un buzón de voz o en un menú telefónico automático (IVR). Con la detección activada, el agente clasifica qué ha contestado durante los primeros segundos de la llamada y actúa según tu configuración — dejando un mensaje, navegando el menú hasta la persona adecuada, o colgando sin perder tiempo.
+
+Encontrarás ambas opciones en el editor del agente, en **Personalización → Ajustes de llamada**. Cada detección es independiente: puedes activar la gestión de buzones, la de menús telefónicos, o ambas.
+
+<Frame>
+    <img src="/images/agent-call-settings-detection.png" alt="Sección de ajustes de llamada con los interruptores de detección de buzón y de menú telefónico, con la navegación por objetivo seleccionada" />
+</Frame>
+
+<Note>
+**Solo llamadas salientes**
+
+La detección se ejecuta cuando tu agente realiza la llamada. Las llamadas entrantes no se ven afectadas por esta configuración.
+</Note>
+
+## Cómo funciona la detección
+
+Al descolgar, el agente escucha brevemente y clasifica la respuesta como **persona**, **buzón de voz**, **menú telefónico** o **línea no disponible** (locuciones del operador tipo "el teléfono está apagado o fuera de cobertura").
+
+- **Persona** — la conversación empieza con normalidad: el agente dice su saludo si está configurado, o responde a lo que diga la persona.
+- **Buzón / menú telefónico** — el agente aplica la configuración correspondiente descrita más abajo.
+- **Línea no disponible** — la llamada termina con el end reason `mailbox_unavailable` ("Buzón de voz no disponible" en los logs).
+- **Dudoso** — el agente concede el beneficio de la duda y trata la respuesta como una persona. Nunca colgará a un humano silencioso.
+
+La clasificación es muy fiable, pero no perfecta: hay casos límite que conviene conocer antes de activarla. Los recogemos en [Buenas prácticas y limitaciones](#buenas-prácticas-y-limitaciones).
+
+<Warning>
+**El tiempo descolgado es tiempo facturado**
+
+La llamada cuenta como contestada desde el descuelgue, sea quien —o lo que— sea que descuelgue. La detección, el mensaje de buzón y la navegación del menú consumen minutos de llamada, y la grabación los cubre desde el inicio.
+</Warning>
+
+## Detección de buzón de voz
+
+Cuando la llamada cae en un contestador, el agente aplica la acción que elijas:
+
+- **Dejar un mensaje** — el agente dice tu mensaje en el buzón y cuelga. La llamada termina con el end reason `voicemail_left` ("Mensaje dejado en el buzón de voz" en los logs). El mensaje admite [variables dinámicas](/es/build/agentes/variables-dinamicas), así que puedes personalizarlo por llamada:
+
+  > Hola {{client_name}}, te llamaba de {{company}}. Cuando puedas, devuélveme la llamada.
+
+- **Colgar** — el agente termina la llamada inmediatamente. La llamada acaba con el end reason `answering_machine_detected`.
+
+Si eliges **Dejar un mensaje**, el texto es obligatorio — el editor lo marca como issue y el agente no puede publicarse hasta que lo escribas.
+
+## Detección de menús telefónicos
+
+Cuando la llamada cae en un menú automático ("Para hablar con ventas, pulse uno…"), el agente puede **navegarlo** pulsando teclas, o simplemente **colgar**.
+
+### Navegación por objetivo
+
+Describe en lenguaje natural a quién o a qué debe llegar el agente, y este escuchará cada menú, elegirá la opción más prometedora y pulsará la tecla correspondiente — a través de tantos niveles de menú como haga falta. El objetivo admite [variables dinámicas](/es/build/agentes/variables-dinamicas).
+
+Cómo escribir buenos objetivos:
+
+- Nombra a la persona o departamento: *"Llega a Juan Luis, del departamento de oficiales"* funciona mejor que *"habla con alguien"*.
+- Si el menú no ofrece a la persona que nombraste, el agente pulsará hacia quien tenga más probabilidad de ser humano — una operadora, recepción — porque una persona puede redirigir la llamada.
+- El agente solo se rinde cuando el menú claramente no puede llevar a ningún humano (un callejón sin salida informativo, o un menú en bucle sin opción humana).
+
+### Navegación por secuencia de teclas
+
+Si ya conoces el camino ("pulsa 1 y luego 3"), indica las teclas exactas (`0-9`, `*`, `#`, separadas por comas, p. ej. `1,3`). El agente pulsa una tecla por cada locución de menú. Si los menús continúan cuando tu secuencia se agota, el agente sigue navegando por su cuenta hacia un humano.
+
+### Mientras navega
+
+- Las confirmaciones de selección, los tonos de llamada, la música de espera y los mensajes de "todos nuestros agentes están ocupados" se entienden como **progreso en curso**: el agente espera a través de ellos, tolerando alrededor de 90 segundos de cola tras cada pulsación antes de concluir que nadie va a contestar. La navegación completa está limitada a unos pocos minutos.
+- En el momento en que descuelga una **persona**, el agente arranca la conversación — tu saludo si está configurado, o una apertura natural.
+- Si la extensión seleccionada salta a un **buzón personal**, el agente no deja mensaje ahí; la llamada termina como `ivr_no_answer`.
+
+### Resultados de la navegación
+
+| End reason | Significado | ¿Reintentar? |
+|---|---|---|
+| — (conversación) | Descolgó una persona y el agente habló con ella | — |
+| `ivr_no_answer` ("Sin respuesta tras el menú telefónico") | El menú se navegó correctamente, pero nadie descolgó donde enrutaron al agente | Sí — prueba a otra hora |
+| `ivr_unreachable` ("No se pudo navegar el menú telefónico") | El menú no podía llevar a una persona (callejón sin salida, bucle) | Revisa el objetivo o el número |
+
+## Qué verás en los logs y grabaciones
+
+Cada paso del proceso es visible en los [logs de llamada](/es/despliegue/logs-llamadas): qué oyó el agente al descolgarse la llamada, el objetivo que perseguía, cada menú que escuchó, **qué tecla pulsó y por qué**, y cómo terminó la navegación. La grabación cubre la llamada completa desde el descuelgue, incluyendo menús, tiempo de espera y el mensaje de buzón si se dejó.
+
+## Buenas prácticas y limitaciones
+
+- **Dale al agente una misión de llamada saliente en su prompt.** Después de navegar un menú descolgará una persona real — si el prompt no dice por qué llama el agente, la conversación no irá a ninguna parte.
+- **La detección tarda unos segundos y no es infalible.** Una locución de máquina que empieza con una frase corta y de tono humano puede clasificarse ocasionalmente como persona; en ese caso el agente simplemente se comporta como en una conversación normal, que es el modo de fallo seguro.
+- **Los sistemas por voz aún no están soportados del todo.** El agente navega los menús solo con pulsaciones. Cuando un sistema le pide *hablar* — menús por voz ("di el motivo de tu llamada") o asistentes de filtrado que graban tu nombre antes de pasarte — el agente lo trata como haber llegado a una persona y cede la conversación al modelo de voz, que se presenta. Eso suele superar los filtros, pero los menús por voz estrictos pueden no entenderle y derivar a una operadora (o colgar). Si el soporte de menús por voz es importante para ti, [contáctanos](mailto:support@diga.io).
+
+<Note>
+**¿Venías de la herramienta "Detectar contestador automático"?**
+
+Esa herramienta ha sido sustituida por esta configuración. Los agentes que la tenían asignada se migraron automáticamente a ambas detecciones activadas con la acción **Colgar** — revisa sus Ajustes de llamada si prefieres otro comportamiento.
+</Note>
+
+## API
+
+La misma configuración está disponible en la API de agentes como campos planos:
+
+```json
+{
+  "voicemail_detection": true,
+  "voicemail_action": "leave_message",
+  "voicemail_message": "Hola {{client_name}}, te llamaba de {{company}}. Cuando puedas, devuélveme la llamada.",
+  "phone_menu_detection": true,
+  "phone_menu_action": "navigate",
+  "phone_menu_navigation_mode": "goal",
+  "phone_menu_goal": "Llega a {{contact_name}} del departamento de ventas"
+}
+```
+
+Consulta la [referencia de la API](/api-reference) para el detalle de campos y reglas de validación.

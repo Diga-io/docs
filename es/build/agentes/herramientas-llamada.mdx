@@ -7,17 +7,14 @@ Las herramientas de llamada son funciones predefinidas que permiten a tu agente 
 
 ## Herramientas disponibles
 
-Actualmente hay tres herramientas de llamada que puedes habilitar en tus agentes:
+Actualmente hay dos herramientas de llamada que puedes habilitar en tus agentes:
 
-<CardGroup cols={3}>
+<CardGroup cols={2}>
   <Card title="Transferir" icon="/icons/phone-outgoing-01.svg">
     Transfiere la llamada a otro número telefónico
   </Card>
   <Card title="Colgar" icon="phone-off">
     Finaliza la llamada de forma controlada
-  </Card>
-  <Card title="Detección de contestador" icon="voicemail">
-    Verifica si la llamada fue contestada por una máquina
   </Card>
 </CardGroup>
 
@@ -148,49 +145,11 @@ Ejemplo de despedida:
 Nunca configures el agente para colgar sin confirmar primero con el usuario. Esto crea una mala experiencia y puede hacer que los usuarios se sientan ignorados.
 </Warning>
 
-## Detección de contestador automático
+## ¿Buscas la detección de contestador?
 
-La herramienta de detección de contestador automático ayuda a tu agente a identificar si la llamada fue contestada por una máquina o por una persona real. Esto es especialmente útil para llamadas salientes.
+La antigua herramienta **Detección de contestador** se ha sustituido por una configuración más completa en **Personalización → Ajustes de llamada**: detección de buzones con mensaje personalizable y navegación automática de menús telefónicos. Los agentes que tenían la herramienta asignada se migraron automáticamente.
 
-### Cómo funciona
-
-Es una herramienta que el **agente decide usar** cuando sospecha que una máquina contestó la llamada. No es una detección automática de contestador (AMD) que se ejecute en segundo plano.
-
-Cuando el agente sospecha que una grabación contestó en lugar de una persona, usa esta herramienta. La herramienta ayuda al agente a confirmar si:
-
-- Una persona real contestó el teléfono
-- Un contestador automático o buzón de voz contestó
-- Un sistema IVR (Interactive Voice Response) contestó
-
-Según el resultado, el agente puede decidir cómo continuar (por ejemplo, dejar un mensaje breve y colgar, o continuar con el script normal).
-
-### Configuración
-
-Para habilitar la detección de contestador:
-
-1. Accede a la configuración de tu agente
-2. Ve a la pestaña **Herramientas**
-3. Activa la herramienta **Detección de contestador**
-
-### Casos de uso
-
-<AccordionGroup>
-  <Accordion title="Llamadas salientes automatizadas">
-    En campañas de llamadas salientes, puedes instruir al agente para que solo continúe la conversación si confirma una persona real, o deje un mensaje grabado si es un contestador.
-
-    **Ejemplo de configuración:**
-    ```markdown
-    Si sospechas que una máquina contestó en lugar de una persona:
-    1. Usa la herramienta de detección de contestador
-    2. Si confirmas una persona real: continúa con el script de ventas normal
-    3. Si confirmas un contestador: deja un mensaje breve y cuelga
-    ```
-  </Accordion>
-
-  <Accordion title="Optimización de campañas">
-    Evita desperdiciar tiempo del agente hablando con contestadores, permitiendo que solo se dedique tiempo a conversaciones reales.
-  </Accordion>
-</AccordionGroup>
+Aprende más en [Detección de buzón y menús telefónicos](/es/build/agentes/deteccion-buzon-menu-telefonico).
 
 ## Siguientes pasos
 
