@@ -39,12 +39,16 @@ When this trigger fires, the workflow receives the data of the starting call, wh
 
 | Field | Description |
 |---|---|
-| `call_id` | Unique call identifier |
+| `id` | Unique call identifier |
 | `type` | Call type (`inbound` or `outbound`) |
-| `phone_number` | Contact's phone number |
-| `contact_id` | Contact identifier |
+| `status` | Current call status |
+| `channel` | Channel the call uses |
+| `contact` | Contact object (`id`, `identifier`, `contact_type`, `created_date`). The phone number is `contact.identifier` |
 | `agent_id` | Agent identifier |
+| `agent_version_id` | Agent version identifier |
+| `phone_register_id` | Phone register identifier |
 | `start_time` | Start date and time |
+| `created_date` | When the call record was created |
 | `dynamic_variables` | Dynamic variables already set on the call |
 
 <Tip>
@@ -63,16 +67,19 @@ When this trigger fires, the workflow receives all call information:
 
 | Field | Description |
 |---|---|
-| `call_id` | Unique call identifier |
+| `id` | Unique call identifier |
 | `status` | Final call status |
 | `duration` | Duration in seconds |
 | `type` | Call type (`inbound` or `outbound`) |
 | `end_reason` | Reason the call ended |
-| `phone_number` | Contact's phone number |
-| `contact_id` | Contact identifier |
+| `recording_url` | URL of the call recording |
+| `contact` | Contact object (`id`, `identifier`, `contact_type`, `created_date`). The phone number is `contact.identifier` |
 | `agent_id` | Agent identifier |
+| `agent_version_id` | Agent version identifier |
+| `phone_register_id` | Phone register identifier |
 | `start_time` | Start date and time |
 | `end_time` | End date and time |
+| `created_date` | When the call record was created |
 | `dynamic_variables` | Dynamic variables passed to the agent |
 | `messages` | Complete message history (transcription) |
 
@@ -109,6 +116,9 @@ Activates during a call when the agent decides to execute a function. This is th
 |---|---|
 | **Function description** | Natural language instruction telling the agent when to use this function. Example: "Use this function when the user wants to check appointment availability" |
 | **Parameters** | Data the agent should extract from the conversation. For each parameter you define: name, data type, whether it's required, and a description |
+| **Execution mode** | Whether the agent **waits** for the workflow's response before continuing. **Synchronous** (default): the agent pauses and uses the returned data. **Asynchronous**: the workflow runs in the background and the agent continues immediately without waiting |
+| **Execution audio** | What the caller hears while the agent waits in synchronous mode. **None**, **Typing** (keyboard sounds), or **Waiting music** |
+| **Pre-speech** | Whether the agent says a short message before executing. **Auto** lets the agent decide; **Force** always says something first |
 | **User confirmation** | Whether the agent should ask for confirmation before executing |
 
 #### Parameters
@@ -120,7 +130,7 @@ Parameters define what information the agent extracts from the conversation to s
 | `date` | Text | Yes | The date to check availability for |
 | `service` | Text | No | The type of service requested |
 
-The agent automatically extracts these values from the conversation context and sends them to the workflow.
+The agent automatically extracts these values from the conversation context and sends them to the workflow. Parameter data types include **Text**, **Number**, **Boolean**, and **Array**.
 
 ##### Value source
 
@@ -136,12 +146,7 @@ Use **Dynamic Variable** for data you already have (set via the API or a [pre-ca
 | Field | Description |
 |---|---|
 | `call_id` | Identifier of the ongoing call |
-| `function_name` | Name of the executed function |
 | `arguments` | Parameters extracted by the agent |
-| `agent_id` | Agent identifier |
-| `contact_id` | Contact identifier |
-| `dynamic_variables` | Dynamic variables from the call |
-| `timestamp` | Execution timestamp |
 
 #### How the agent waits
 

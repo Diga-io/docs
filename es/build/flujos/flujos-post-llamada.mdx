@@ -66,7 +66,7 @@ Los flujos post-llamada se ejecutan en segundo plano cuando la llamada ya ha ter
 
 ## Datos disponibles para el flujo
 
-Cuando la llamada termina, el flujo recibe el registro completo de la llamada — incluyendo el `status`, la `duration`, el `end_reason`, el `phone_number` del contacto, las `dynamic_variables` de la llamada y el array completo de `messages` (la transcripción). Consulta el [trigger Llamada finalizada](/es/build/flujos/pieza-diga#llamada-finalizada) para la referencia completa de campos.
+Cuando la llamada termina, el flujo recibe el registro completo de la llamada — incluyendo el `status`, la `duration`, el `end_reason`, los datos del contacto (`contact.identifier` es el número de teléfono), las `dynamic_variables` de la llamada y el array completo de `messages` (la transcripción). Consulta el [trigger Llamada finalizada](/es/build/flujos/pieza-diga#llamada-finalizada) para la referencia completa de campos.
 
 <Tip>
   Usa cualquiera de estos campos en tus acciones. Por ejemplo, inserta la transcripción completa en un email, o envía la duración y el resultado de la llamada a una hoja de cálculo.

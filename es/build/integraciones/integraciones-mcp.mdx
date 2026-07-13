@@ -13,21 +13,7 @@ Puede conocer mas sobre MCP en la [documentación oficial del protocolo](https:/
 
 ## MCP disponibles en Diga
 
-Diga acepta servidores MCP a través de HTTP con streaming. Soportamos dos métodos de comunicación:
-
-### HTTP Streameable (`/mcp`)
-
-Si tu servidor MCP expone un endpoint que termina en `/mcp`, Diga utilizará el protocolo HTTP streameable nativo de MCP. Este es el método recomendado para nuevas implementaciones.
-
-**Ejemplo**: `https://tu-servidor.com/mcp`
-
-### Server-Sent Events (SSE)
-
-Si tu endpoint no termina en `/mcp`, Diga utilizará Server-Sent Events (SSE) para la comunicación bidireccional con el servidor MCP.
-
-<Note>
-  Ambos métodos soportan el mismo conjunto de capacidades MCP. La elección del protocolo es automática basándose en la URL que proporciones.
-</Note>
+Diga se conecta a los servidores MCP mediante **Streamable HTTP**. Proporciona la URL HTTP(S) del servidor (ej. `https://tu-servidor.com/mcp`). Los servidores que solo admiten SSE no están soportados actualmente.
 
 ## Crear una Integración MCP
 
@@ -52,23 +38,23 @@ Si tu endpoint no termina en `/mcp`, Diga utilizará Server-Sent Events (SSE) pa
 
   </Step>
 
-  <Step title="Prueba la Conexión">
-    Haz clic en **Probar Conexión** para verificar que puedes comunicarte con el servidor MCP.
+  <Step title="Valida la conexión">
+    No existe un botón independiente de "Probar Conexión". Cuando guardas la integración, Diga valida la conexión con el servidor MCP y sincroniza sus herramientas automáticamente.
 
-    Si falla:
+    Si la validación falla:
     - Verifica que la URL del servidor sea correcta
     - Confirma que las credenciales estén activas
     - Asegúrate de que el servidor MCP esté en línea y accesible
   </Step>
 
   <Step title="Sincroniza Herramientas">
-    Una vez conectado, Diga automáticamente:
+    Cuando guardas la integración, Diga automáticamente:
     1. Descubre qué herramientas ofrece el servidor
     2. Lee sus descripciones y parámetros
     3. Las muestra en tu lista de herramientas
 
     <Note>
-      Las herramientas se sincronizan automáticamente cuando listes las herramientas o asignes la integración a un agente.
+      La sincronización inicial de herramientas ocurre cuando se crea la integración. Las herramientas también se vuelven a sincronizar cuando listas las herramientas o asignas la integración a un agente.
     </Note>
 
   </Step>

@@ -1,11 +1,11 @@
 ---
 title: "Call Customization"
-description: "Configure language, speech speed, inactivity detection, and duration limits to optimize your phone agents' experience"
+description: "Configure language, volume, inactivity detection, and duration limits to optimize your phone agents' experience"
 ---
 
 ## Introduction
 
-Beyond the prompt and tools, you can customize multiple technical aspects of how your agent handles calls. This configuration allows you to adapt the agent's behavior to different contexts: adjust speech speed for different audiences, configure reminders to keep users engaged, and set time limits to protect your budget.
+Beyond the prompt and tools, you can customize multiple technical aspects of how your agent handles calls. This configuration allows you to adapt the agent's behavior to different contexts: adjust the voice volume, configure reminders to keep users engaged, and set time limits to protect your budget.
 
 <Note>
 **Customization Scope**
@@ -24,12 +24,16 @@ Defines the language the agent will understand during the call. The selected lan
 </Frame>
 
 
-### Speech Speed
+### Volume
 
-Controls how fast the agent speaks. This parameter is especially useful for adapting the conversation pace according to your audience.
+Controls how loud the agent's voice is during the call.
 
-- **Value range:** `0.25` to `2.0`
-- **Default value:** `1.0` (normal speed)
+- **Value range:** `0` to `100`
+- **Default value:** `50`
+
+### Background sound
+
+Adds an ambient sound while the agent performs actions or waits for a response, helping to avoid long silences during the call.
 
 ## Inactivity Detection System
 
@@ -69,12 +73,3 @@ Specifies how many reminders the agent will send before ending the call due to i
 
 - **Default value:** `3`
 - **Recommended range:** `2` to `5`
-
-
-## Duration Limits
-
-### Maximum Call Duration
-
-Sets the maximum time a call can last before it's automatically terminated.
-
-**Default value:** `14400000` (4 hours)

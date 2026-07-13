@@ -14,6 +14,7 @@ En la parte superior de la página verás un resumen de tu suscripción activa:
 - **Plan contratado** y precio mensual.
 - **Minutos incluidos** en tu plan.
 - **Minutos acumulados** (rollover) disponibles.
+- **Uso de Melo (Copilot)**: cuántas peticiones a Melo has consumido esta semana, con un contador **Se restablece en {tiempo}** que indica cuándo se renueva tu cuota semanal.
 - **Próxima fecha de facturación**.
 
 <Note>
@@ -135,6 +136,10 @@ En la parte inferior de la página encontrarás una tabla con todas tus facturas
 - **Pendiente**: el pago aún no se ha completado.
 - **Pagado**: el pago se ha completado correctamente.
 - **Rechazado**: el pago ha fallado. Revisa tu método de pago.
+
+<Note>
+Estas etiquetas se corresponden con los estados de factura de Stripe subyacentes: **Pagado** equivale a `paid`; **Pendiente** equivale a `open` o `draft`; **Rechazado** equivale a `uncollectible` o `void`.
+</Note>
 
 <Warning>
 Si un pago es rechazado repetidamente, tu suscripción puede ser cancelada tras varias semanas y tus agentes dejarán de aceptar llamadas hasta que se resuelva el problema.

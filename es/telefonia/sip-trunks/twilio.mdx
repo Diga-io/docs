@@ -11,7 +11,7 @@ description: Guía paso a paso para conectar tu cuenta de Twilio mediante SIP tr
   <Steps>
     <Step title="Crea el trunk, asígnale un nombre y configura los ajustes generales">
       <Frame>
-        <img src="/images/sip-trunk-overview-twilio.png" alt="Captura de pantalla de la tabla de teléfonos en Diga" />
+        <img src="/images/sip-trunk-overview-twilio.png" alt="Captura de pantalla de los ajustes generales del SIP trunk en Twilio" />
       </Frame>
       <Warning>
         Debes activar la opción de `Call Transfer` (SIP REFER) y hacer click en la opción de `Enable PSTN Transfer` para permitir las transferencias en las llamadas
@@ -28,7 +28,7 @@ description: Guía paso a paso para conectar tu cuenta de Twilio mediante SIP tr
       Aquí especificarás la dirección del servidor SIP de Diga como URI de originación SIP: `sip:sip.diga.io`
 
       <Frame>
-        <img src="/images/add-origination-url.gif" />
+        <img src="/images/add-origination-url.gif" alt="GIF mostrando cómo añadir la URI de originación de Diga en Twilio" />
       </Frame>
     </Step>
   </Steps>
@@ -36,21 +36,19 @@ description: Guía paso a paso para conectar tu cuenta de Twilio mediante SIP tr
 
   <Step title="Mover números al Elastic SIP Trunking">
     Ya has creado el Elastic SIP trunk, ahora necesitas comprar números nuevos o mover números existentes a este trunk.
-
-    {/* TODO: Añadir imagen de números */}
   </Step>
 
   <Step title="Importar números a Diga">
     Ahora que el número está configurado con tu Elastic SIP trunking, necesitas importar el número a Diga para que sepamos cómo enrutar las llamadas.
 
     <Frame>
-        <img src="/images/phones-list-diga.png" />
+        <img src="/images/phones-list-diga.png" alt="Captura de pantalla de la lista de números de teléfono en Diga" />
     </Frame>
 
-    Aquí proporcionarás la URI de terminación SIP que configuraste en el Paso 1. Si configuraste autenticación por credenciales, también deberás proporcionar el usuario y contraseña.
+    Aquí proporcionarás la URI de terminación SIP que configuraste en el Paso 1. Introdúcela en el campo **Dirección** (en la pestaña de **Configuración de salida**) **sin** el prefijo `sip:` (por ejemplo, `my-termination.example.com:5060`). Si configuraste autenticación por credenciales, también deberás proporcionar el usuario y contraseña.
     
     <Frame>
-        <img src="/images/import-phone-modal.png" />
+        <img src="/images/import-phone-modal.png" alt="Captura de pantalla del modal de importar número de teléfono en Diga" />
     </Frame>
 
     También puedes importar números programáticamente mediante la [API de Importar Número](/api-reference/phones/import-phone-numbers).
@@ -65,7 +63,7 @@ description: Guía paso a paso para conectar tu cuenta de Twilio mediante SIP tr
   <Accordion title="Las llamadas entrantes funcionan pero las salientes no">
     **Verifica tu URI de terminación SIP**
 
-    Si hay un espacio, elimínalo. También deberías usar una URI de terminación localizada cerca de tu región. Consulta la [documentación de Twilio](https://www.twilio.com/docs/global-infrastructure/localized-uris/termination) para seleccionar una.
+    Si hay un espacio, elimínalo. Asegúrate de haber introducido la dirección en el campo **Dirección** **sin** el prefijo `sip:` ni `sips:`. También deberías usar una URI de terminación localizada cerca de tu región. Consulta la [documentación de Twilio](https://www.twilio.com/docs/global-infrastructure/localized-uris/termination) para seleccionar una.
 
     **Verifica tu usuario y credenciales**
 
@@ -77,3 +75,33 @@ description: Guía paso a paso para conectar tu cuenta de Twilio mediante SIP tr
     2. Elige "Elastic Sip Trunking" en el selector y selecciona los países a los que deseas llamar
   </Accordion>
 </AccordionGroup>
+
+## Enmascaramiento de número
+
+Si tienes un número de teléfono personal o un número de empresa de confianza que quieras mostrar a quien recibe la llamada, puedes importar números verificados en Twilio para usarlos como identificador de llamada (caller ID).
+
+### Añadir un Caller ID
+
+1. Ve a la página de [Verified Caller IDs](https://www.twilio.com/console/phone-numbers/verified)
+2. Haz clic en **Add a new Caller ID**
+3. Introduce el número de teléfono que quieres verificar, selecciona el método de verificación y haz clic en **Verify Number**
+4. El número introducido recibirá un código OTP de verificación. Introduce este código en la siguiente ventana.
+5. Al hacer clic en **Submit**, si el código OTP es correcto, recibirás una notificación de **Successful** y el número quedará añadido a tu cuenta como caller ID verificado.
+
+### Configurar reglas de cabeceras SIP para mostrar el Caller ID
+
+1. En la consola de Twilio, ve a Elastic SIP Trunking > Trunks > [tu trunk] > Termination
+2. Baja hasta Header Manipulation y abre **View all SIP header manipulation policies**
+3. Haz clic en **Create a policy** arriba a la derecha y asigna un nombre a tu política
+4. Haz clic en **+ Add request rule** y asigna un nombre a la regla
+5. En la sección Actions, establece los siguientes valores:
+   * **SIP header field**: **From number**
+   * **Action**: **Replace with**
+   * **Value**: tu caller ID en formato E.164 (por ejemplo, +18881230987)
+6. Haz clic en **Add rule** y después en **Save policy**
+7. Vuelve a la pestaña Termination de tu trunk y selecciona la nueva política de manipulación de cabeceras en el desplegable
+8. A partir de ahora, cualquier número importado desde este trunk de Twilio a tu cuenta de Diga usará tu caller ID verificado. Realiza una llamada saliente de prueba para validar los cambios.
+
+<Note>
+Necesitas tener al menos un número comprado en Twilio dentro de tu SIP trunk para que se aplique el caller ID.
+</Note>

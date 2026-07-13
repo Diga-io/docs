@@ -55,6 +55,10 @@ Las llamadas pueden estar en diferentes estados:
   <Accordion title="Fallida" icon="phone-off">
     La llamada no pudo completarse debido a un error técnico.
   </Accordion>
+
+  <Accordion title="Transferida" icon="phone-forwarded">
+    La llamada se transfirió a un agente humano o a otro número.
+  </Accordion>
 </AccordionGroup>
 
 
@@ -77,7 +81,7 @@ En la parte superior encontrarás:
 
 <CardGroup cols={2}>
   <Card title="Contacto" icon="user">
-    Nombre del contacto si está disponible en tu CRM o integraciones. Muestra "Desconocido" si no hay información.
+    El número de teléfono del contacto, mostrado como un enlace `tel:` en el que se puede hacer clic. Este campo se oculta cuando la llamada no tiene un contacto asociado.
   </Card>
   <Card title="Motivo de finalización" icon="flag">
     Indica cómo terminó la llamada: "Cliente colgó", "Agente finalizó", "Transferida", etc.
@@ -91,10 +95,11 @@ Escucha la grabación completa de la llamada:
 - **Controles de reproducción**: Play, pausa y barra de progreso
 - **Control de volumen**: Ajusta el nivel de audio
 - **Indicador de tiempo**: Muestra el tiempo actual y duración total
-- **Descarga**: Opción para descargar el archivo de audio
+
+Para descargar grabaciones, vuelve a la lista de llamadas, selecciona una o varias llamadas mediante las casillas de verificación y usa la acción de descarga masiva para exportarlas como un archivo ZIP. No existe un botón de descarga por llamada en el reproductor de audio.
 
 <Info>
-Las grabaciones se almacenan de forma segura y están disponibles durante 90 días. Puedes descargarlas para archivo permanente.
+Las grabaciones se almacenan de forma segura y se conservan según la política de almacenamiento de tu plan. Puedes descargarlas para archivo permanente.
 </Info>
 
 ### Transcripción de Llamada

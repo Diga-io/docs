@@ -33,11 +33,13 @@ Before importing a custom number, make sure you have:
     - Outbound calls
   </Step>
 
-  <Step title="SIP credentials">
-    Obtain from your provider:
-    - SIP username
-    - SIP password
-    - Termination URI
+  <Step title="SIP credentials (for outbound calls)">
+    To make outbound calls and call transfers, obtain from your provider:
+    - SIP trunk username
+    - SIP trunk password
+    - Termination URI (entered in the **Address** field)
+
+    These are optional. If you only need to receive inbound calls, you can leave them empty.
   </Step>
 </Steps>
 
@@ -47,31 +49,63 @@ If you don't have a SIP provider or are not familiar with technical configuratio
 
 ## Import a Custom Number
 
-### Required SIP Information
+The import form ("Connect your number via SIP trunk") is organized into three tabs:
 
-#### SIP Username
+- **General**: number and routing settings shared by inbound and outbound calls.
+- **Incoming configuration**: settings that apply to inbound calls.
+- **Outgoing configuration**: credentials and the address used for outbound calls.
 
-Your user identifier provided by the SIP provider.
+<Note>
+Outbound configuration (the SIP trunk credentials and the address) is **optional**. If you leave it empty, the number is **inbound-only**. You must fill it in to make outbound calls and to use call transfers.
+</Note>
+
+### General
+
+#### Phone Number
+
+The number you are importing in international E.164 format (e.g. `+34675897654`). This field also accepts a SIP user identifier (e.g. `user@domain.com`).
+
+#### Media encryption
+
+Controls SRTP encryption for media streams. Choose one of:
+
+- **Disabled**: media is not encrypted.
+- **Allowed** (default): media is encrypted when the other side supports it.
+- **Required**: media must be encrypted.
+
+#### Allowed IP Addresses
+
+A list of IP addresses or CIDR ranges allowed to send calls to this trunk (e.g. `192.168.1.0/24`). Leave it empty to allow all addresses.
+
+### Outgoing configuration
+
+#### SIP Trunk Username (Optional)
+
+Your user identifier provided by the SIP provider, used for digest authentication.
 
 **Example**: `user123` or `my-company`
 
-#### SIP Password
+#### SIP Trunk Password (Optional)
 
-The password to authenticate calls with your provider.
+The password to authenticate outbound calls with your provider.
 
 <Warning>
 Save this password securely. Diga stores it encrypted but you must keep it confidential.
 </Warning>
 
-#### Termination URI
+#### Address
 
-The address of your provider's SIP server where calls will be sent.
+The hostname or IP of your provider's SIP server where SIP INVITEs are sent for outbound calls. This is your provider's termination URI.
 
-**Typical format**: `sip:[domain]:[port]`
+<Warning>
+Do **not** include the `sip:` or `sips:` prefix. Enter only the hostname or IP, optionally with a port.
+</Warning>
+
+**Typical format**: `[hostname-or-ip]:[port]`
 
 **Examples**:
-- `sip:sip.myprovider.com:5060`
-- `sip:trunk.example.net:5061`
+- `my-termination.example.com:5060`
+- `trunk.example.net:5061`
 
 <Note>
 If you are unsure of these values, contact your SIP provider. This information is usually available in your SIP service control panel.
@@ -85,7 +119,13 @@ Custom numbers appear in your number list along with Diga numbers, but are clear
 
 ### Delete a Custom Number
 
-Unlike Diga numbers, custom numbers can be deleted immediately without a quarantine period.
+You can delete custom numbers the same way as numbers purchased through the platform. To do so, click the view button in the phone numbers table.
+
+<Frame>
+  <img src="/images/edit-number-action.png" alt="Screenshot of the phone numbers table in Diga" />
+</Frame>
+
+In that menu you'll find the "Release this number" option. Unlike numbers purchased through our platform, custom numbers are released immediately when you confirm. Any linked agents will be automatically unpublished.
 
 ## Billing
 
@@ -127,28 +167,28 @@ Only the number itself is free in Diga. Call time still consumes your minutes in
 ### Inbound calls don't work
 
 **Possible causes**:
-1. Incorrect SIP credentials
-2. Misconfigured termination URI
-3. Your SIP provider is not forwarding calls to Diga
-4. No agent assigned for inbound calls
+1. Your SIP provider is not forwarding calls to Diga
+2. Allowed IP Addresses are blocking your provider
+3. No agent assigned for inbound calls
 
 **Solutions**:
-- Verify credentials with your SIP provider
-- Ensure the termination URI is correct
-- Contact your provider to verify forwarding
+- Contact your provider to verify forwarding to `sip.diga.io`
+- Make sure your provider's IPs are included in **Allowed IP Addresses** (or leave the list empty to allow all)
 - Assign an agent for inbound calls
 
 ### Outbound calls fail
 
 **Possible causes**:
-1. Your SIP provider does not allow outbound calls
-2. Incorrect credentials
-3. Provider restrictions (allowed destinations, limits, etc.)
-4. No agent assigned for outbound calls
+1. Outgoing configuration (credentials and Address) is empty or incorrect
+2. The Address still includes a `sip:`/`sips:` prefix
+3. Your SIP provider does not allow outbound calls
+4. Provider restrictions (allowed destinations, limits, etc.)
+5. No agent assigned for outbound calls
 
 **Solutions**:
+- Fill in the **Outgoing configuration** tab (SIP trunk username, password, and Address)
+- Make sure the **Address** has no `sip:`/`sips:` prefix and no spaces
 - Verify that your SIP trunk supports outbound calls
-- Confirm credentials with your provider
 - Review your provider's outbound call policies
 - Assign an agent for outbound calls
 

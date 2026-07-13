@@ -4,6 +4,46 @@ description: "Release notes and platform improvements for Diga"
 rss: true
 ---
 
+<Update label="June 20, 2026" description="v1.1.17" tags={["New features"]}>
+
+## Outbound pre-call flows and richer variable interpolation
+
+- **Pre-call flows for outbound calls**: pre-call flows now run before the number is dialed on outbound calls, so the agent can prepare context the same way it does for inbound calls.
+- **Dynamic variables in path nodes**: dynamic variables now interpolate inside conversational path node prompts and branch conditions, letting you personalize prompts and routing per call.
+- **Injected variables in function-call logs**: variables injected into a during-call function call are now shown in the function-call logs, making it easier to debug what the agent passed to each tool.
+
+</Update>
+
+<Update label="June 19, 2026" description="Activepieces pieces" tags={["New features", "Improvements"]}>
+
+## New and improved workflow pieces
+
+- **Odoo CRM lead actions**: new actions to create and manage leads in Odoo CRM directly from your workflows.
+- **Date helper in Spanish**: the date-helper piece now supports Spanish for parsing and formatting dates.
+- **Form styling**: improved styling for forms in the workflow builder.
+
+</Update>
+
+<Update label="June 18, 2026" description="AI Copilot (Melo)" tags={["New features"]}>
+
+## Meet Melo, your in-dashboard AI assistant
+
+- **AI Copilot assistant**: a new in-dashboard AI assistant (Melo) helps you build and manage your agents, answer questions, and take actions across the platform.
+- **MCP-backed tools**: Melo is powered by MCP tools so it can act on your Diga resources, not just answer questions.
+- **Per-plan usage**: Melo usage is included with weekly limits that scale with your plan.
+
+</Update>
+
+<Update label="June 18, 2026" description="Call Traces" tags={["New features"]}>
+
+## Call Traces with a waterfall view
+
+- **Distributed traces for every call**: each call now generates a trace that breaks the conversation into individual spans — conversation turns, AI generation, voice synthesis, tool executions, and path transitions.
+- **Waterfall UI**: visualize the full call timeline in a waterfall view to see exactly how long each step took and how the steps relate to each other.
+- **Diagnose performance**: quickly identify slow steps, verify conversational flows, and review tool executions with their arguments and timing.
+
+</Update>
+
 <Update label="June 17, 2026" description="v1.1.16" tags={["New features"]}>
 
 ## Pre-call flows and flow-driven variables

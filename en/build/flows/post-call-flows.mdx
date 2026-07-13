@@ -66,7 +66,7 @@ Post-call flows run in the background after the call is already over, so they ne
 
 ## Data available to the flow
 
-When the call ends, the flow receives the complete call record — including the `status`, `duration`, `end_reason`, the contact's `phone_number`, the call's `dynamic_variables`, and the full `messages` array (the transcript). See the [Call Finished trigger](/en/build/flows/diga-piece#call-finished) for the full field reference.
+When the call ends, the flow receives the complete call record — including the `status`, `duration`, `end_reason`, the contact's details (`contact.identifier` is the phone number), the call's `dynamic_variables`, and the full `messages` array (the transcript). See the [Call Finished trigger](/en/build/flows/diga-piece#call-finished) for the full field reference.
 
 <Tip>
   Use any of these fields in your actions. For example, insert the full transcript into an email, or send the call duration and outcome to a spreadsheet.

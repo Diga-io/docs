@@ -81,11 +81,12 @@ Once the integration is created, you need to define the **tools** (specific acti
     For each parameter, define the following fields:
     - **Name**: Unique identifier (e.g., `customer_id`, `status`). Must be the name of the value the API expects.
     - **Description**: What information it represents and how to obtain it
-    - **Data Type**: string, number, boolean, array, object
+    - **Data Type**: string, integer, number, boolean. Body parameters can additionally be **object** (with nested properties).
     - **Required**: Whether it's required or not
     - **Retrieval Mode**: How the agent gets this value:
       - Prompt: The agent asks the user or infers it from context
       - Fixed value: A constant value you define when creating the tool
+      - Dynamic: value filled at runtime from a template/variable.
 
     <Warning>
       The parameter description is key for the agent to understand what value it should provide. Be clear and specific.

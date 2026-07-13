@@ -63,6 +63,9 @@ Events are organized into categories based on the type of activity:
     | Transfer Tool Failed | The transfer failed |
     | Hangup Tool Invoked | A hangup was requested |
     | Hangup Tool Completed | The call was hung up successfully |
+    | Add Participant Tool Invoked | Adding a participant to the call was requested |
+    | Add Participant Tool Completed | The participant was added successfully |
+    | Add Participant Tool Failed | Adding the participant failed |
   </Accordion>
 
   <Accordion title="Integrations" icon="plug">
@@ -76,6 +79,16 @@ Events are organized into categories based on the type of activity:
     | Approval Denied | The contact denied the execution |
     | Integration Tool Completed | The integration executed successfully |
     | Integration Tool Failed | The integration failed |
+  </Accordion>
+
+  <Accordion title="Knowledge base (RAG)" icon="book">
+    Events about searches the agent runs against its knowledge base to retrieve relevant information during the call.
+
+    | Event | Description |
+    |-------|-------------|
+    | RAG Search Completed | A knowledge base search returned relevant results |
+    | RAG Search No Results | A knowledge base search returned no matching results |
+    | RAG Search Failed | A knowledge base search failed |
   </Accordion>
 
   <Accordion title="Conversational paths" icon="route">
@@ -99,16 +112,24 @@ Events are organized into categories based on the type of activity:
     | Transfer Completed | The transfer was completed |
   </Accordion>
 
-  <Accordion title="Webhooks" icon="webhook">
-    Events about webhook deliveries to your endpoints.
+  <Accordion title="Workflows / Flows" icon="diagram-project">
+    Events about workflow (flow) executions tied to the call: deliveries to your endpoints, pre-call flows, and workflow tools invoked during the conversation.
 
     | Event | Description |
     |-------|-------------|
-    | Webhook Queued | The webhook was queued for delivery |
-    | Webhook Sent | The webhook HTTP request was sent |
-    | Webhook Response Success | The webhook received a successful response |
-    | Webhook Response Failed | The webhook received an error response |
-    | Webhook Retry Exhausted | All webhook retries were exhausted |
+    | Workflow Queued | The workflow was queued for delivery |
+    | Workflow Sent | The workflow HTTP request was sent |
+    | Workflow Success | The workflow received a successful response |
+    | Workflow Failed | The workflow received an error response |
+    | Workflow Retry Exhausted | All workflow retries were exhausted |
+    | Pre-Call Flow Triggered | A pre-call flow was triggered before the call started |
+    | Pre-Call Flow Completed | A pre-call flow finished and returned its data |
+    | Workflow Tool Invoked | A during-call workflow tool was invoked |
+    | Workflow Tool Completed | A workflow tool finished successfully |
+    | Workflow Tool Failed | A workflow tool failed |
+    | Workflow Tool Interrupted | A workflow tool was interrupted |
+    | Workflow Tool Triggered | A workflow tool was triggered |
+    | Workflow Approval Granted | A workflow execution was approved |
   </Accordion>
 </AccordionGroup>
 

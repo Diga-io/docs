@@ -33,11 +33,13 @@ Antes de importar un número personalizado, asegúrate de tener:
     - Llamadas salientes (outbound)
   </Step>
 
-  <Step title="Credenciales SIP">
-    Obtén de tu proveedor:
-    - Usuario SIP (username)
-    - Contraseña SIP (password)
-    - URI de terminación (termination URI)
+  <Step title="Credenciales SIP (para llamadas salientes)">
+    Para realizar llamadas salientes y transferencias, obtén de tu proveedor:
+    - Usuario del trunk SIP (username)
+    - Contraseña del trunk SIP (password)
+    - URI de terminación (se introduce en el campo **Dirección**)
+
+    Son opcionales. Si solo necesitas recibir llamadas entrantes, puedes dejarlos vacíos.
   </Step>
 </Steps>
 
@@ -47,31 +49,63 @@ Si no tienes un proveedor SIP o no estás familiarizado con la configuración t�
 
 ## Importar un Número Personalizado
 
-### Información SIP Requerida
+El formulario de importación ("Conecta tu número mediante SIP trunk") está organizado en tres pestañas:
 
-#### Usuario SIP (Username)
+- **General**: ajustes del número y de enrutamiento compartidos por las llamadas entrantes y salientes.
+- **Configuración de entrada**: ajustes que se aplican a las llamadas entrantes.
+- **Configuración de salida**: credenciales y la dirección que se usan para las llamadas salientes.
 
-Tu identificador de usuario proporcionado por el proveedor SIP.
+<Note>
+La configuración de salida (las credenciales del trunk SIP y la dirección) es **opcional**. Si la dejas vacía, el número será **solo de entrada**. Debes rellenarla para realizar llamadas salientes y para usar las transferencias.
+</Note>
+
+### General
+
+#### Número de Teléfono
+
+El número que vas a importar en formato internacional E.164 (ej: `+34675897654`). Este campo también acepta un identificador de usuario SIP (ej: `user@domain.com`).
+
+#### Cifrado de medios
+
+Controla el cifrado SRTP para los flujos de medios. Elige una opción:
+
+- **Desactivado**: los medios no se cifran.
+- **Permitido** (por defecto): los medios se cifran cuando el otro extremo lo soporta.
+- **Requerido**: los medios deben cifrarse.
+
+#### Direcciones IP permitidas
+
+Una lista de direcciones IP o rangos CIDR autorizados para enviar llamadas a este trunk (ej: `192.168.1.0/24`). Déjala vacía para permitir todas las direcciones.
+
+### Configuración de salida
+
+#### Usuario del trunk SIP (Opcional)
+
+Tu identificador de usuario proporcionado por el proveedor SIP, usado para la autenticación digest.
 
 **Ejemplo**: `usuario123` o `mi-empresa`
 
-#### Contraseña SIP (Password)
+#### Contraseña del trunk SIP (Opcional)
 
-La contraseña para autenticar las llamadas con tu proveedor.
+La contraseña para autenticar las llamadas salientes con tu proveedor.
 
 <Warning>
 Guarda esta contraseña de forma segura. Diga la almacena de forma cifrada pero debes mantenerla confidencial.
 </Warning>
 
-#### URI de Terminación (Termination URI)
+#### Dirección
 
-La dirección del servidor SIP de tu proveedor donde se enviarán las llamadas.
+El hostname o IP del servidor SIP de tu proveedor a donde se envían los SIP INVITE para las llamadas salientes. Es la URI de terminación de tu proveedor.
 
-**Formato típico**: `sip:[dominio]:[puerto]`
+<Warning>
+**No** incluyas el prefijo `sip:` o `sips:`. Introduce solo el hostname o IP, opcionalmente con un puerto.
+</Warning>
+
+**Formato típico**: `[hostname-o-ip]:[puerto]`
 
 **Ejemplos**:
-- `sip:sip.miproveedor.com:5060`
-- `sip:trunk.example.net:5061`
+- `my-termination.example.com:5060`
+- `trunk.example.net:5061`
 
 ### Configurar en tu proveedor
 Activa el SIP Trunking en tu número de teléfono e introduce `sip.diga.io` en el apartado URI de terminación. Puedes ver guías específicas en las siguientes páginas
@@ -136,28 +170,28 @@ Solo el número en sí es gratuito en Diga. El tiempo de llamada sigue consumien
 ### Las llamadas entrantes no funcionan
 
 **Posibles causas**:
-1. Credenciales SIP incorrectas
-2. URI de terminación mal configurada
-3. Tu proveedor SIP no está reenviando llamadas a Diga
-4. No hay agente asignado para llamadas entrantes
+1. Tu proveedor SIP no está reenviando llamadas a Diga
+2. Las Direcciones IP permitidas están bloqueando a tu proveedor
+3. No hay agente asignado para llamadas entrantes
 
 **Soluciones**:
-- Verifica las credenciales con tu proveedor SIP
-- Asegúrate de que el URI de terminación sea correcto
-- Contacta con tu proveedor para verificar el reenvío
+- Contacta con tu proveedor para verificar el reenvío a `sip.diga.io`
+- Asegúrate de que las IPs de tu proveedor estén incluidas en **Direcciones IP permitidas** (o deja la lista vacía para permitir todas)
 - Asigna un agente para llamadas entrantes
 
 ### Las llamadas salientes fallan
 
 **Posibles causas**:
-1. Tu proveedor SIP no permite llamadas salientes
-2. Credenciales incorrectas
-3. Restricciones de tu proveedor (destinos permitidos, límites, etc.)
-4. No hay agente asignado para llamadas salientes
+1. La configuración de salida (credenciales y Dirección) está vacía o es incorrecta
+2. La Dirección todavía incluye un prefijo `sip:`/`sips:`
+3. Tu proveedor SIP no permite llamadas salientes
+4. Restricciones de tu proveedor (destinos permitidos, límites, etc.)
+5. No hay agente asignado para llamadas salientes
 
 **Soluciones**:
+- Rellena la pestaña **Configuración de salida** (usuario y contraseña del trunk SIP, y Dirección)
+- Asegúrate de que la **Dirección** no tenga prefijo `sip:`/`sips:` ni espacios
 - Verifica que tu trunk SIP soporte llamadas salientes
-- Confirma las credenciales con tu proveedor
 - Revisa las políticas de llamadas salientes de tu proveedor
 - Asigna un agente para llamadas salientes
 

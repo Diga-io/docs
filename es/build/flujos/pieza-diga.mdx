@@ -39,12 +39,16 @@ Cuando se dispara este trigger, el flujo recibe los datos de la llamada que est�
 
 | Campo | Descripción |
 |---|---|
-| `call_id` | Identificador único de la llamada |
+| `id` | Identificador único de la llamada |
 | `type` | Tipo de llamada (`inbound` o `outbound`) |
-| `phone_number` | Número de teléfono del contacto |
-| `contact_id` | Identificador del contacto |
+| `status` | Estado actual de la llamada |
+| `channel` | Canal que usa la llamada |
+| `contact` | Objeto de contacto (`id`, `identifier`, `contact_type`, `created_date`). El número de teléfono es `contact.identifier` |
 | `agent_id` | Identificador del agente |
+| `agent_version_id` | Identificador de la versión del agente |
+| `phone_register_id` | Identificador del registro de teléfono |
 | `start_time` | Fecha y hora de inicio |
+| `created_date` | Cuándo se creó el registro de la llamada |
 | `dynamic_variables` | Variables dinámicas ya definidas en la llamada |
 
 <Tip>
@@ -63,16 +67,19 @@ Cuando se dispara este trigger, el flujo recibe toda la información de la llama
 
 | Campo | Descripción |
 |---|---|
-| `call_id` | Identificador único de la llamada |
+| `id` | Identificador único de la llamada |
 | `status` | Estado final de la llamada |
 | `duration` | Duración en segundos |
 | `type` | Tipo de llamada (`inbound` o `outbound`) |
 | `end_reason` | Razón por la que terminó la llamada |
-| `phone_number` | Número de teléfono del contacto |
-| `contact_id` | Identificador del contacto |
+| `recording_url` | URL de la grabación de la llamada |
+| `contact` | Objeto de contacto (`id`, `identifier`, `contact_type`, `created_date`). El número de teléfono es `contact.identifier` |
 | `agent_id` | Identificador del agente |
+| `agent_version_id` | Identificador de la versión del agente |
+| `phone_register_id` | Identificador del registro de teléfono |
 | `start_time` | Fecha y hora de inicio |
 | `end_time` | Fecha y hora de fin |
+| `created_date` | Cuándo se creó el registro de la llamada |
 | `dynamic_variables` | Variables dinámicas pasadas al agente |
 | `messages` | Historial completo de mensajes (transcripción) |
 
@@ -109,6 +116,9 @@ Se activa durante una llamada cuando el agente decide ejecutar una función. Es 
 |---|---|
 | **Descripción de la función** | Instrucción en lenguaje natural que indica al agente cuándo usar esta función. Ejemplo: "Usa esta función cuando el usuario quiera consultar la disponibilidad de citas" |
 | **Parámetros** | Los datos que el agente debe extraer de la conversación. Para cada parámetro defines: nombre, tipo de dato, si es obligatorio y una descripción |
+| **Modo de ejecución** | Si el agente **espera** la respuesta del flujo antes de continuar. **Síncrono** (por defecto): el agente se pausa y usa los datos devueltos. **Asíncrono**: el flujo se ejecuta en segundo plano y el agente continúa de inmediato sin esperar |
+| **Audio de ejecución** | Lo que escucha el contacto mientras el agente espera en modo síncrono. **Ninguno**, **Tecleo** (sonidos de teclado) o **Música de espera** |
+| **Pre-habla** | Si el agente dice un mensaje breve antes de ejecutar. **Auto** deja que el agente decida; **Forzar** siempre dice algo primero |
 | **Confirmación de usuario** | Si el agente debe pedir confirmación antes de ejecutar |
 
 #### Parámetros
@@ -120,7 +130,7 @@ Los parámetros definen qué información extrae el agente de la conversación p
 | `fecha` | Texto | Sí | La fecha para consultar disponibilidad |
 | `servicio` | Texto | No | El tipo de servicio solicitado |
 
-El agente extrae estos valores automáticamente del contexto de la conversación y los envía al flujo.
+El agente extrae estos valores automáticamente del contexto de la conversación y los envía al flujo. Los tipos de dato de los parámetros incluyen **Texto**, **Número**, **Booleano** y **Array**.
 
 ##### Origen del valor
 
@@ -136,12 +146,7 @@ Usa **Variable dinámica** para datos que ya tienes (definidos por la API o por 
 | Campo | Descripción |
 |---|---|
 | `call_id` | Identificador de la llamada en curso |
-| `function_name` | Nombre de la función ejecutada |
 | `arguments` | Los parámetros extraídos por el agente |
-| `agent_id` | Identificador del agente |
-| `contact_id` | Identificador del contacto |
-| `dynamic_variables` | Variables dinámicas de la llamada |
-| `timestamp` | Momento de la ejecución |
 
 #### Cómo espera el agente
 
