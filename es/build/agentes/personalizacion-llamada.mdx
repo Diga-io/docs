@@ -15,7 +15,70 @@ Todas estas configuraciones se aplican de forma global al agente, sin importar s
 ## Identidad del agente
 Define los datos básicos que identifican a tu agente y cómo se comunica por voz.
 - **Descripción** del agente. Escribe una breve descripción del propósito del agente. Esta información te ayudará únicamente a **identificarlo fácilmente dentro de la plataforma**, en ningún caso influye el comportamiento del agente.
-- **Idioma** del agente. Selecciona el idioma en el que el agente entenderá y hablará durante la llamada.  Este ajuste afecta **tanto al reconocimiento de voz como a la síntesis de voz**, pero no a la generación de texto del modelo de lenguaje. Es importante que el idioma seleccionado coincida con el indicado en el prompt del agente.
+- **Idioma** del agente. Define qué idiomas entiende y habla el agente durante la llamada. Este ajuste afecta **tanto al reconocimiento de voz como a la síntesis de voz**, por lo que conviene que coincida con el idioma que usarán tus interlocutores. Puedes configurarlo de dos formas:
+  - **Multilingüe** (por defecto): el agente detecta automáticamente el idioma de cada interlocutor y responde en ese mismo idioma, cambiando de idioma durante la llamada si el interlocutor lo hace. Úsalo cuando no puedas prever el idioma de tus interlocutores o atiendas a un público multilingüe. En este modo el agente soporta todos los idiomas de la lista siguiente.
+  - **Un idioma concreto**: el agente entiende y habla siempre en el idioma que elijas, sin importar el que use el interlocutor. Úsalo cuando todas tus llamadas ocurren en el mismo idioma y buscas la máxima consistencia.
+
+<Tip>
+Si el idioma que necesitas no aparece como opción de idioma concreto en el selector, elige **Multilingüe**: el agente igualmente lo entiende y lo habla. Por ejemplo, el euskera no está disponible como idioma fijo, pero funciona en modo multilingüe.
+</Tip>
+
+<Accordion title="Idiomas soportados">
+El agente puede entender y hablar los siguientes idiomas:
+
+| Idioma | Código | Idioma | Código |
+| --- | --- | --- | --- |
+| Afrikáans | `af` | Akan | `ak` |
+| Albanés | `sq` | Amárico | `am` |
+| Árabe | `ar` | Armenio | `hy` |
+| Asamés | `as` | Azerbaiyano | `az` |
+| Euskera | `eu` | Bielorruso | `be` |
+| Bengalí | `bn` | Bosnio | `bs` |
+| Búlgaro | `bg` | Birmano | `my` |
+| Catalán | `ca` | Cebuano | `ceb` |
+| Chino | `zh` | Croata | `hr` |
+| Checo | `cs` | Danés | `da` |
+| Neerlandés | `nl` | Inglés | `en` |
+| Estonio | `et` | Feroés | `fo` |
+| Filipino | `fil` | Finés | `fi` |
+| Francés | `fr` | Gallego | `gl` |
+| Georgiano | `ka` | Alemán | `de` |
+| Griego | `el` | Guyaratí | `gu` |
+| Hausa | `ha` | Hebreo | `iw` |
+| Hindi | `hi` | Húngaro | `hu` |
+| Islandés | `is` | Indonesio | `id` |
+| Irlandés | `ga` | Italiano | `it` |
+| Japonés | `ja` | Canarés | `kn` |
+| Kazajo | `kk` | Jemer | `km` |
+| Kinyarwanda | `rw` | Coreano | `ko` |
+| Kurdo | `ku` | Kirguís | `ky` |
+| Lao | `lo` | Letón | `lv` |
+| Lituano | `lt` | Macedonio | `mk` |
+| Malayo | `ms` | Malayalam | `ml` |
+| Maltés | `mt` | Maorí | `mi` |
+| Maratí | `mr` | Mongol | `mn` |
+| Nepalí | `ne` | Noruego | `no` |
+| Odia | `or` | Oromo | `om` |
+| Pastún | `ps` | Persa | `fa` |
+| Polaco | `pl` | Portugués | `pt` |
+| Panyabí | `pa` | Quechua | `qu` |
+| Rumano | `ro` | Romanche | `rm` |
+| Ruso | `ru` | Serbio | `sr` |
+| Sindhi | `sd` | Cingalés | `si` |
+| Eslovaco | `sk` | Esloveno | `sl` |
+| Somalí | `so` | Sesotho | `st` |
+| Español | `es` | Suajili | `sw` |
+| Sueco | `sv` | Tayiko | `tg` |
+| Tamil | `ta` | Telugu | `te` |
+| Tailandés | `th` | Setsuana | `tn` |
+| Turco | `tr` | Turcomano | `tk` |
+| Ucraniano | `uk` | Urdu | `ur` |
+| Uzbeko | `uz` | Vietnamita | `vi` |
+| Galés | `cy` | Frisón occidental | `fy` |
+| Wólof | `wo` | Yoruba | `yo` |
+| Zulú | `zu` | | |
+</Accordion>
+
 - **Voz** del agente. Selecciona la voz que utilizará el agente al hablar. La voz define el **timbre y el estilo de comunicación** durante la llamada.
 
 - **Instrucciones globales**. Define instrucciones generales que orienten el comportamiento del agente durante la llamada.  Estas directrices complementan el prompt y **se aplican de forma consistente a todas las interacciones**.
