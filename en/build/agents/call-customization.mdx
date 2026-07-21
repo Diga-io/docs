@@ -17,11 +17,76 @@ All these settings apply globally to the agent, regardless of whether you use Si
 
 ### Language
 
-Defines the language the agent will understand during the call. The selected language affects both speech recognition and voice synthesis, but not the language model's text generation. Therefore, it's essential to indicate the correct language to the agent in the prompt.
+The language setting controls which languages your agent understands and speaks during a call. It affects both speech recognition and voice synthesis, so it should match the language your callers are likely to use.
+
+You can configure it in two ways:
+
+- **Multilingual** (default): the agent automatically detects the language each caller speaks and replies in that same language, switching between languages mid-call if the caller does. Use this when you can't predict your callers' language or you serve a multilingual audience. In this mode the agent supports every language in the list below.
+- **A single language**: the agent always understands and speaks in the one language you choose, regardless of what the caller uses. Use this when all your calls happen in the same language and you want the most consistent results.
 
 <Frame>
     <img src="/images/agent-language-configuration.png" alt="Screenshot showing language configuration in the agent panel" />
 </Frame>
+
+<Tip>
+If the language you need isn't listed as a single-language option in the selector, choose **Multilingual** — the agent still understands and speaks it. For example, Basque (euskara) isn't available as a fixed single language, but it works in multilingual mode.
+</Tip>
+
+<Accordion title="Supported languages">
+Your agent can understand and speak the following languages:
+
+| Language | Code | Language | Code |
+| --- | --- | --- | --- |
+| Afrikaans | `af` | Akan | `ak` |
+| Albanian | `sq` | Amharic | `am` |
+| Arabic | `ar` | Armenian | `hy` |
+| Assamese | `as` | Azerbaijani | `az` |
+| Basque | `eu` | Belarusian | `be` |
+| Bengali | `bn` | Bosnian | `bs` |
+| Bulgarian | `bg` | Burmese | `my` |
+| Catalan | `ca` | Cebuano | `ceb` |
+| Chinese | `zh` | Croatian | `hr` |
+| Czech | `cs` | Danish | `da` |
+| Dutch | `nl` | English | `en` |
+| Estonian | `et` | Faroese | `fo` |
+| Filipino | `fil` | Finnish | `fi` |
+| French | `fr` | Galician | `gl` |
+| Georgian | `ka` | German | `de` |
+| Greek | `el` | Gujarati | `gu` |
+| Hausa | `ha` | Hebrew | `iw` |
+| Hindi | `hi` | Hungarian | `hu` |
+| Icelandic | `is` | Indonesian | `id` |
+| Irish | `ga` | Italian | `it` |
+| Japanese | `ja` | Kannada | `kn` |
+| Kazakh | `kk` | Khmer | `km` |
+| Kinyarwanda | `rw` | Korean | `ko` |
+| Kurdish | `ku` | Kyrgyz | `ky` |
+| Lao | `lo` | Latvian | `lv` |
+| Lithuanian | `lt` | Macedonian | `mk` |
+| Malay | `ms` | Malayalam | `ml` |
+| Maltese | `mt` | Maori | `mi` |
+| Marathi | `mr` | Mongolian | `mn` |
+| Nepali | `ne` | Norwegian | `no` |
+| Odia | `or` | Oromo | `om` |
+| Pashto | `ps` | Persian | `fa` |
+| Polish | `pl` | Portuguese | `pt` |
+| Punjabi | `pa` | Quechua | `qu` |
+| Romanian | `ro` | Romansh | `rm` |
+| Russian | `ru` | Serbian | `sr` |
+| Sindhi | `sd` | Sinhala | `si` |
+| Slovak | `sk` | Slovenian | `sl` |
+| Somali | `so` | Southern Sotho | `st` |
+| Spanish | `es` | Swahili | `sw` |
+| Swedish | `sv` | Tajik | `tg` |
+| Tamil | `ta` | Telugu | `te` |
+| Thai | `th` | Tswana | `tn` |
+| Turkish | `tr` | Turkmen | `tk` |
+| Ukrainian | `uk` | Urdu | `ur` |
+| Uzbek | `uz` | Vietnamese | `vi` |
+| Welsh | `cy` | Western Frisian | `fy` |
+| Wolof | `wo` | Yoruba | `yo` |
+| Zulu | `zu` | | |
+</Accordion>
 
 
 ### Volume
