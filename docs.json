@@ -2,6 +2,19 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "almond",
   "name": "Diga",
+  "seo": {
+    "organization": {
+      "id": "https://www.diga.io/#organization",
+      "name": "Diga",
+      "legalName": "Diga agentes SL",
+      "url": "https://www.diga.io",
+      "logo": "https://docs.diga.io/logo/diga-logo.png",
+      "sameAs": [
+        "https://www.linkedin.com/company/diga-agentes",
+        "https://www.youtube.com/@diga-io"
+      ]
+    }
+  },
   "colors": {
     "primary": "#343E96",
     "light": "#D7DAFF",
@@ -295,8 +308,8 @@
     }
   },
   "logo": {
-    "light": "/logo/primary_iso.svg",
-    "dark": "/logo/white_logo.svg"
+    "light": "/logo/diga-logo.png",
+    "dark": "/logo/diga-logo-white.png"
   },
   "navbar": {
     "links": [
