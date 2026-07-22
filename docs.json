@@ -308,8 +308,8 @@
     }
   },
   "logo": {
-    "light": "/logo/primary_iso.svg",
-    "dark": "/logo/white_logo.svg"
+    "light": "/logo/diga-logo.png",
+    "dark": "/logo/diga-logo-white.png"
   },
   "navbar": {
     "links": [
