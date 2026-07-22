@@ -510,6 +510,41 @@
         }
       }
     },
+    "/v1/call/concurrency/stream": {
+      "get": {
+        "tags": [
+          "Calls"
+        ],
+        "summary": "Stream the company's live concurrent-call count (SSE)",
+        "description": "Server-sent events stream emitting `data: {\"active_calls\": N}` every few seconds (also acting as a keepalive). The count is the company's current simultaneous calls, read from the slot ledger; pair it with `max_concurrent_calls` from the subscription endpoint.",
+        "operationId": "stream_concurrency_v1_call_concurrency_stream_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
     "/v1/call/{id}/message": {
       "get": {
         "tags": [
@@ -7950,7 +7985,7 @@
           "Phones"
         ],
         "summary": "Release Phone Number",
-        "description": "Release a phone number.\n\n- For Netelip (purchased) numbers: Orders the release of the number which will take effect once the subscription cycle ends\n- For custom (imported) numbers: Deletes it automatically\n\nNote: Phones in RESERVED status (pending verification) cannot be released.",
+        "description": "Release a phone number.\n\n- For Netelip (purchased) numbers: Orders the release of the number which will take effect once the subscription cycle ends\n- For custom (imported) numbers: Deletes it automatically\n\nNote: Phones in RESERVED (in checkout) or PENDING_VERIFICATION\n(paid, awaiting verification) status cannot be released.",
         "operationId": "release_phone_number_v1_phone__id__delete",
         "security": [
           {
@@ -8039,7 +8074,7 @@
           "Webhooks"
         ],
         "summary": "Get Webhooks",
-        "description": "Retrieve information about",
+        "description": "Retrieve a paginated list of your company's webhooks, optionally filtered by subscribed event. Responses never include the signing secret.",
         "operationId": "get_webhooks_v1_webhook__get",
         "security": [
           {
@@ -8223,7 +8258,7 @@
           "Webhooks"
         ],
         "summary": "Create Webhook",
-        "description": "Create a new",
+        "description": "Register a URL to receive event deliveries for the subscribed events. Deliveries are signed with a per-webhook secret (`Diga-Signature` header). The secret is returned only in this response — store it securely.",
         "operationId": "create_webhook_v1_webhook__post",
         "security": [
           {
@@ -8246,7 +8281,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WebhookResponse"
+                  "$ref": "#/components/schemas/WebhookCreatedResponse"
                 }
               }
             }
@@ -8300,7 +8335,7 @@
           "Webhooks"
         ],
         "summary": "Get Webhook",
-        "description": "Retrieve information about {id}",
+        "description": "Retrieve a webhook by its ID. The response never includes the signing secret.",
         "operationId": "get_webhook_v1_webhook__id__get",
         "security": [
           {
@@ -8394,7 +8429,7 @@
           "Webhooks"
         ],
         "summary": "Update Webhook",
-        "description": "Update an existing {id}",
+        "description": "Update a webhook's URL and/or subscribed events. The signing secret cannot be changed here — use the rotate endpoint.",
         "operationId": "update_webhook_v1_webhook__id__patch",
         "security": [
           {
@@ -8498,7 +8533,7 @@
           "Webhooks"
         ],
         "summary": "Delete Webhook",
-        "description": "Delete a webhook record by ID.",
+        "description": "Delete a webhook. Event deliveries to its URL stop immediately.",
         "operationId": "delete_webhook_v1_webhook__id__delete",
         "security": [
           {
@@ -8528,12 +8563,153 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Missing required permissions"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Webhook Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "WEBHOOK_NOT_FOUND",
+                  "message": "Error from WebhookNotFoundException"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/webhook/{id}/rotate": {
+      "post": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Rotate Webhook Secret",
+        "description": "Generate a new signing secret for a webhook. The new secret is returned only in this response; the old secret stops signing immediately — there is no grace period.",
+        "operationId": "rotate_webhook_secret_v1_webhook__id__rotate_post",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Webhook ID",
+              "description": "The unique identifier for the webhook"
+            },
+            "description": "The unique identifier for the webhook"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookSecretResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Missing required permissions"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Webhook Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "WEBHOOK_NOT_FOUND",
+                  "message": "Error from WebhookNotFoundException"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
                 }
               }
             }
@@ -9972,6 +10148,88 @@
         ]
       }
     },
+    "/v1/billing/subscription/upcoming-invoice": {
+      "get": {
+        "tags": [
+          "Billing - Subscriptions"
+        ],
+        "summary": "Get Upcoming Invoice",
+        "description": "Preview the next invoice for the current subscription from Stripe: recurring plan cost, metered usage overage, and the authoritative total.",
+        "operationId": "get_upcoming_invoice_v1_billing_subscription_upcoming_invoice_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpcomingInvoiceSchema"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                },
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Missing required permissions"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Paid Subscription Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                },
+                "example": {
+                  "status": "error",
+                  "error_code": "PAID_SUBSCRIPTION_NOT_FOUND",
+                  "message": "Error: Paid Subscription Not Found"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                },
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
     "/v1/notification/usage_alert": {
       "get": {
         "tags": [
@@ -10545,6 +10803,92 @@
             "description": "Workflow service unavailable"
           }
         }
+      }
+    },
+    "/v1/workflow/connections": {
+      "get": {
+        "tags": [
+          "Workflows"
+        ],
+        "summary": "List Workflow Connections",
+        "description": "List the project's workflow piece connections (credentials).\n\nLets a caller verify whether a connection exists and its live status\ninstead of inferring it from a step's `valid` flag.",
+        "operationId": "list_workflow_connections_v1_workflow_connections_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/WorkflowConnectionResponse"
+                  },
+                  "type": "array",
+                  "title": "Response List Workflow Connections V1 Workflow Connections Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Workflows"
+        ],
+        "summary": "Create Workflow Connection",
+        "description": "Create a piece connection in the caller's workflow project.\n\nThin proxy to the workflow engine's app-connection upsert. The engine's\nschema validates the per-type ``value`` shape; a bad piece or value is\nsurfaced as a 4xx via ``_handle_ap_error``.\n\nFor OAuth2 types the caller must already hold an authorization ``code``\n(obtained via the panel's browser redirect flow); this endpoint only\nforwards the ``value`` it is given.",
+        "operationId": "create_workflow_connection_v1_workflow_connections_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWorkflowConnectionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowConnectionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
       }
     },
     "/v1/workflow/": {
@@ -12845,15 +13189,11 @@
                     },
                     {
                       "$ref": "#/components/schemas/HangUpToolSchema"
-                    },
-                    {
-                      "$ref": "#/components/schemas/DetectAnsweringMachineToolSchema"
                     }
                   ],
                   "discriminator": {
                     "propertyName": "type",
                     "mapping": {
-                      "detect_answering_machine": "#/components/schemas/DetectAnsweringMachineToolSchema",
                       "hang_up": "#/components/schemas/HangUpToolSchema",
                       "transfer_call": "#/components/schemas/TransferCallToolSchema"
                     }
@@ -12926,6 +13266,72 @@
             "title": "Flow IDs",
             "description": "List of flow IDs to assign to the agent",
             "default": []
+          },
+          "voicemail_detection": {
+            "type": "boolean",
+            "title": "Voicemail Detection",
+            "description": "Detect when an outbound call reaches a voicemail",
+            "default": false
+          },
+          "voicemail_action": {
+            "$ref": "#/components/schemas/VoicemailAction",
+            "title": "Voicemail Action",
+            "description": "What the agent does when a voicemail is detected",
+            "default": "leave_message"
+          },
+          "voicemail_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Voicemail Message",
+            "description": "Message the agent leaves on the voicemail. Required when voicemail_detection is on with action 'leave_message'. Supports {{dynamic_variables}}."
+          },
+          "phone_menu_detection": {
+            "type": "boolean",
+            "title": "Phone Menu Detection",
+            "description": "Detect and handle automated phone menus (IVR) on outbound calls",
+            "default": false
+          },
+          "phone_menu_action": {
+            "$ref": "#/components/schemas/PhoneMenuAction",
+            "title": "Phone Menu Action",
+            "description": "What the agent does when a phone menu is detected",
+            "default": "navigate"
+          },
+          "phone_menu_navigation_mode": {
+            "$ref": "#/components/schemas/PhoneMenuNavigationMode",
+            "title": "Phone Menu Navigation Mode",
+            "description": "How the agent navigates the menu: towards a plain-language goal or pressing a fixed key sequence",
+            "default": "goal"
+          },
+          "phone_menu_goal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone Menu Goal",
+            "description": "Goal the agent navigates the menu towards, e.g. 'Reach a human in billing'. Required when navigating in 'goal' mode. Supports {{dynamic_variables}}."
+          },
+          "phone_menu_key_sequence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone Menu Key Sequence",
+            "description": "DTMF keys pressed in order (0-9, *, #), e.g. '1,3,5'. Required when navigating in 'key_sequence' mode."
           }
         },
         "type": "object",
@@ -13165,15 +13571,11 @@
                 },
                 {
                   "$ref": "#/components/schemas/HangUpToolSchema"
-                },
-                {
-                  "$ref": "#/components/schemas/DetectAnsweringMachineToolSchema"
                 }
               ],
               "discriminator": {
                 "propertyName": "type",
                 "mapping": {
-                  "detect_answering_machine": "#/components/schemas/DetectAnsweringMachineToolSchema",
                   "hang_up": "#/components/schemas/HangUpToolSchema",
                   "transfer_call": "#/components/schemas/TransferCallToolSchema"
                 }
@@ -13231,6 +13633,72 @@
             ],
             "title": "Source Template ID",
             "description": "The ID of the agent template this agent was created from"
+          },
+          "voicemail_detection": {
+            "type": "boolean",
+            "title": "Voicemail Detection",
+            "description": "Detect when an outbound call reaches a voicemail",
+            "default": false
+          },
+          "voicemail_action": {
+            "$ref": "#/components/schemas/VoicemailAction",
+            "title": "Voicemail Action",
+            "description": "What the agent does when a voicemail is detected",
+            "default": "leave_message"
+          },
+          "voicemail_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Voicemail Message",
+            "description": "Message the agent leaves on the voicemail"
+          },
+          "phone_menu_detection": {
+            "type": "boolean",
+            "title": "Phone Menu Detection",
+            "description": "Detect and handle automated phone menus (IVR) on outbound calls",
+            "default": false
+          },
+          "phone_menu_action": {
+            "$ref": "#/components/schemas/PhoneMenuAction",
+            "title": "Phone Menu Action",
+            "description": "What the agent does when a phone menu is detected",
+            "default": "navigate"
+          },
+          "phone_menu_navigation_mode": {
+            "$ref": "#/components/schemas/PhoneMenuNavigationMode",
+            "title": "Phone Menu Navigation Mode",
+            "description": "How the agent navigates the menu: towards a goal or pressing a fixed key sequence",
+            "default": "goal"
+          },
+          "phone_menu_goal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone Menu Goal",
+            "description": "Plain-language goal the agent navigates the menu towards"
+          },
+          "phone_menu_key_sequence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone Menu Key Sequence",
+            "description": "Comma-separated DTMF keys pressed in order, e.g. '1,3,5'"
           },
           "validation_issues": {
             "anyOf": [
@@ -13510,15 +13978,11 @@
                     },
                     {
                       "$ref": "#/components/schemas/HangUpToolSchema"
-                    },
-                    {
-                      "$ref": "#/components/schemas/DetectAnsweringMachineToolSchema"
                     }
                   ],
                   "discriminator": {
                     "propertyName": "type",
                     "mapping": {
-                      "detect_answering_machine": "#/components/schemas/DetectAnsweringMachineToolSchema",
                       "hang_up": "#/components/schemas/HangUpToolSchema",
                       "transfer_call": "#/components/schemas/TransferCallToolSchema"
                     }
@@ -13583,6 +14047,67 @@
             ],
             "title": "Flow IDs",
             "description": "List of flow IDs to assign to the agent. If provided, replaces all existing flow assignments."
+          },
+          "voicemail_detection": {
+            "type": "boolean",
+            "title": "Voicemail Detection",
+            "description": "Detect when an outbound call reaches a voicemail"
+          },
+          "voicemail_action": {
+            "$ref": "#/components/schemas/VoicemailAction",
+            "title": "Voicemail Action",
+            "description": "What the agent does when a voicemail is detected"
+          },
+          "voicemail_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Voicemail Message",
+            "description": "Message the agent leaves on the voicemail. Supports {{dynamic_variables}}. Send null to clear."
+          },
+          "phone_menu_detection": {
+            "type": "boolean",
+            "title": "Phone Menu Detection",
+            "description": "Detect and handle automated phone menus (IVR) on outbound calls"
+          },
+          "phone_menu_action": {
+            "$ref": "#/components/schemas/PhoneMenuAction",
+            "title": "Phone Menu Action",
+            "description": "What the agent does when a phone menu is detected"
+          },
+          "phone_menu_navigation_mode": {
+            "$ref": "#/components/schemas/PhoneMenuNavigationMode",
+            "title": "Phone Menu Navigation Mode",
+            "description": "How the agent navigates the menu: towards a plain-language goal or pressing a fixed key sequence"
+          },
+          "phone_menu_goal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone Menu Goal",
+            "description": "Goal the agent navigates the menu towards. Send null to clear."
+          },
+          "phone_menu_key_sequence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone Menu Key Sequence",
+            "description": "DTMF keys pressed in order (0-9, *, #), e.g. '1,3,5'. Send null to clear."
           }
         },
         "type": "object",
@@ -14614,13 +15139,12 @@
         "type": "string",
         "enum": [
           "dialing",
+          "in_queue",
           "in_progress",
-          "completed",
-          "failed",
-          "transferred",
-          "no_answer"
+          "completed"
         ],
-        "title": "CallStatus"
+        "title": "CallStatus",
+        "description": "Call lifecycle state. Only four states: a call is dialing, waiting in the\nqueue, in progress, or completed. Every terminal outcome — answered,\ntransferred, refused, no-answer, errored — is COMPLETED; the specific\noutcome lives in ``Call.end_reason`` (see EndReason)."
       },
       "CallToolSchema": {
         "properties": {
@@ -15642,6 +16166,37 @@
         "title": "CreateVerificationResponseSchema",
         "description": "Response schema after creating a verification."
       },
+      "CreateWorkflowConnectionRequest": {
+        "properties": {
+          "piece_name": {
+            "type": "string",
+            "title": "Piece Name",
+            "description": "Piece identifier the connection is for, e.g. `piece-slack`."
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name",
+            "description": "Human label shown in the panel"
+          },
+          "type": {
+            "$ref": "#/components/schemas/WorkflowConnectionType"
+          },
+          "value": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Value",
+            "description": "Type-specific credential fields (secret_text | username+password | props | OAuth2 fields). `type` is injected server-side."
+          }
+        },
+        "type": "object",
+        "required": [
+          "piece_name",
+          "display_name",
+          "type"
+        ],
+        "title": "CreateWorkflowConnectionRequest",
+        "description": "Create a piece connection. `value` shape depends on `type`."
+      },
       "CustomerRequestSchema": {
         "properties": {
           "address": {
@@ -15841,29 +16396,6 @@
         ],
         "title": "DeleteBranchRequest",
         "description": "Request to delete a branch from a router step."
-      },
-      "DetectAnsweringMachineToolSchema": {
-        "properties": {
-          "type": {
-            "type": "string",
-            "const": "detect_answering_machine",
-            "title": "Call Tool Type",
-            "description": "Must be 'detect_answering_machine' for this variant.",
-            "default": "detect_answering_machine"
-          },
-          "name": {
-            "type": "string",
-            "title": "Call Tool name",
-            "description": "Unique identifier for this call-tool. ASCII slug-style is preferred (e.g. 'transfer_to_owner'). Accents and spaces are auto-normalized: 'Transferir a dueño' becomes 'Transferir_a_dueno'."
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "name"
-        ],
-        "title": "DetectAnsweringMachineToolSchema",
-        "description": "Detect whether the call landed on an answering machine.\n\nWire shape (FLAT):\n\n    {\"type\": \"detect_answering_machine\", \"name\": \"amd\"}"
       },
       "DuplicateAgentRequest": {
         "properties": {
@@ -20161,6 +20693,24 @@
         "title": "Permission",
         "description": "App permissions."
       },
+      "PhoneMenuAction": {
+        "type": "string",
+        "enum": [
+          "navigate",
+          "hang_up"
+        ],
+        "title": "PhoneMenuAction",
+        "description": "What the agent does when an outbound call reaches an automated phone menu\n/ IVR (PRO-724)."
+      },
+      "PhoneMenuNavigationMode": {
+        "type": "string",
+        "enum": [
+          "goal",
+          "key_sequence"
+        ],
+        "title": "PhoneMenuNavigationMode",
+        "description": "How the agent traverses a phone menu (PRO-724).\n\nGOAL: an LLM listens to each menu and picks the option that best advances\na plain-language goal (\"reach a human in billing\").\nKEY_SEQUENCE: press a fixed sequence of DTMF keys in order, one per menu."
+      },
       "PhoneRegisterResponseSchema": {
         "properties": {
           "id": {
@@ -20194,7 +20744,7 @@
           "status": {
             "$ref": "#/components/schemas/PhoneRegisterStatus",
             "title": "Status",
-            "description": "Current status of the phone register (RESERVED, ASSIGNED, RELEASED, FINISHED)"
+            "description": "Current status of the phone register (RESERVED, PENDING_VERIFICATION, ASSIGNED, RELEASED, FINISHED)"
           },
           "released_at": {
             "anyOf": [
@@ -20272,6 +20822,39 @@
             ],
             "title": "SIP Configuration",
             "description": "SIP trunk configuration details (only for custom/imported phones)"
+          },
+          "checkout_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checkout URL",
+            "description": "Stripe Checkout URL to continue payment. Present only for RESERVED (in-checkout) numbers whose checkout session is still open."
+          },
+          "reservation_expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reservation Expires At",
+            "description": "When the RESERVED hold expires and the number returns to the available pool. Present only for RESERVED numbers; drives the checkout countdown on the frontend."
+          },
+          "region_codes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Region Codes",
+            "description": "Spanish region codes the number's landline prefix maps to (usually one; shared Ceuta/Melilla prefixes return two). Empty for mobiles or non-geographic numbers."
           }
         },
         "type": "object",
@@ -20287,12 +20870,13 @@
         "type": "string",
         "enum": [
           "reserved",
+          "pending_verification",
           "assigned",
           "released",
           "finished"
         ],
         "title": "PhoneRegisterStatus",
-        "description": "Enum representing the status of a phone number register. The cycle is as follows:\n- RESERVED: The phone number is reserved for a certain amount of time before being assigned\n- ASSIGNED: The phone number is assigned to a company\n- RELEASED: The phone number is released from the company and is pending availability for purchase (30 days before it can be purchased again)\n- FINISHED: The phone register process is finished, and the phone number is available for purchase again. Once a phone number reaches this status, it cannot return to previous statuses."
+        "description": "Enum representing the status of a phone number register. The cycle is as follows:\n- RESERVED: The phone number is held while a purchase is in checkout (no payment intent yet); locked so two companies can't buy the same number at once.\n- PENDING_VERIFICATION: The purchase is paid (manual-capture hold authorized) but awaiting verification approval for an unverified company; the number is theirs pending admin review.\n- ASSIGNED: The phone number is assigned to a company\n- RELEASED: The phone number is released from the company and is pending availability for purchase (30 days before it can be purchased again)\n- FINISHED: The phone register process is finished, and the phone number is available for purchase again. Once a phone number reaches this status, it cannot return to previous statuses."
       },
       "PhoneUpdateRequestSchema": {
         "properties": {
@@ -22328,6 +22912,18 @@
             "title": "Included Minutes",
             "description": "Number of included minutes in the plan"
           },
+          "max_concurrent_calls": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Concurrent Calls",
+            "description": "Maximum simultaneous calls allowed by the plan (null if unlimited)"
+          },
           "active_since": {
             "type": "string",
             "format": "date-time",
@@ -23527,6 +24123,45 @@
         ],
         "title": "URLUploadResponse"
       },
+      "UpcomingInvoiceSchema": {
+        "properties": {
+          "plan_amount": {
+            "type": "number",
+            "title": "Plan Amount",
+            "description": "Recurring plan cost of the upcoming invoice"
+          },
+          "extra_usage_amount": {
+            "type": "number",
+            "title": "Extra Usage Amount",
+            "description": "Metered usage overage billed on the upcoming invoice (0 if none)"
+          },
+          "total_due": {
+            "type": "number",
+            "title": "Total Due",
+            "description": "Total amount Stripe will charge on the upcoming invoice"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Currency of the upcoming invoice"
+          },
+          "next_payment_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Next Payment Date",
+            "description": "Date the upcoming invoice will be charged"
+          }
+        },
+        "type": "object",
+        "required": [
+          "plan_amount",
+          "extra_usage_amount",
+          "total_due",
+          "currency",
+          "next_payment_date"
+        ],
+        "title": "UpcomingInvoiceSchema"
+      },
       "UpdateActionRequest": {
         "properties": {
           "name": {
@@ -24236,6 +24871,58 @@
         ],
         "title": "VoiceResponseSchema"
       },
+      "VoicemailAction": {
+        "type": "string",
+        "enum": [
+          "leave_message",
+          "hang_up"
+        ],
+        "title": "VoicemailAction",
+        "description": "What the agent does when an outbound call reaches a voicemail (PRO-724)."
+      },
+      "WebhookCreatedResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Webhook Id",
+            "description": "The unique identifier for the webhook"
+          },
+          "url": {
+            "type": "string",
+            "title": "Webhook URL",
+            "description": "The URL that the webhook will call to send the events specified in the `subscribed_events` field"
+          },
+          "subscribed_events": {
+            "items": {
+              "$ref": "#/components/schemas/WebhookEvent"
+            },
+            "type": "array",
+            "title": "Subscribed Events",
+            "description": "The events that the webhook will send to the URL. Specify the different events you want the webhook to send to the URL"
+          },
+          "created_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created Date",
+            "description": "The datetime when the webhook was created"
+          },
+          "secret": {
+            "type": "string",
+            "title": "Signing Secret",
+            "description": "Per-webhook HMAC signing secret. Returned only once, on creation. Store it securely; use it to verify the `Diga-Signature` header on incoming deliveries."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "url",
+          "subscribed_events",
+          "created_date",
+          "secret"
+        ],
+        "title": "WebhookCreatedResponse"
+      },
       "WebhookEvent": {
         "type": "string",
         "enum": [
@@ -24305,6 +24992,20 @@
         ],
         "title": "WebhookResponse"
       },
+      "WebhookSecretResponse": {
+        "properties": {
+          "secret": {
+            "type": "string",
+            "title": "Signing Secret",
+            "description": "The newly generated HMAC signing secret."
+          }
+        },
+        "type": "object",
+        "required": [
+          "secret"
+        ],
+        "title": "WebhookSecretResponse"
+      },
       "WebhookUpdateRequest": {
         "properties": {
           "url": {
@@ -24330,6 +25031,55 @@
         },
         "type": "object",
         "title": "WebhookUpdateRequest"
+      },
+      "WorkflowConnectionResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "external_id": {
+            "type": "string",
+            "title": "External Id",
+            "description": "Reference used in steps as {{connections['<external_id>']}}"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "piece_name": {
+            "type": "string",
+            "title": "Piece Name"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "ACTIVE | ERROR. A missing connection is absent from the response."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "external_id",
+          "display_name",
+          "piece_name",
+          "status"
+        ],
+        "title": "WorkflowConnectionResponse",
+        "description": "A workflow piece connection (credential)."
+      },
+      "WorkflowConnectionType": {
+        "type": "string",
+        "enum": [
+          "OAUTH2",
+          "PLATFORM_OAUTH2",
+          "CLOUD_OAUTH2",
+          "SECRET_TEXT",
+          "BASIC_AUTH",
+          "CUSTOM_AUTH",
+          "NO_AUTH"
+        ],
+        "title": "WorkflowConnectionType"
       }
     },
     "securitySchemes": {
