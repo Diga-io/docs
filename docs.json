@@ -152,7 +152,7 @@
                 ]
               },
               {
-                "group": "Analitícas",
+                "group": "Analíticas",
                 "pages": [
                   "es/despliegue/monitoreo-logs",
                   "es/despliegue/logs-llamadas",
