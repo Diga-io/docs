@@ -1,0 +1,136 @@
+---
+title: Usage and limits
+description: "Track your plan consumption in real time: minutes, concurrent calls, Melo, published flows, and storage."
+---
+
+# Usage and limits
+
+From **Settings > Usage** you can see how much of each plan limit you've consumed. Every section shows a progress bar with the percentage used and the exact figures.
+
+<Note>
+The specific limits for each section depend on your plan. Check the [plan comparison](/en/platform/billing#plan-comparison) to see yours.
+</Note>
+
+## When your plan resets
+
+At the top of the page you'll see a counter showing how long until your plan resets, for example **Your plan will reset in 1 day 3h 9 min**.
+
+When the cycle resets, your included minutes and the rest of your monthly limits are renewed.
+
+<Note>
+Melo usage has its **own weekly counter**, independent of your plan cycle.
+</Note>
+
+## Total minutes available
+
+This bar combines **the minutes included in your plan** and **the rollover minutes** from the previous month.
+
+- Unused minutes in a month are carried over to the next (**rollover**).
+- Rollover is limited to **2x** the minutes included in your plan.
+- Rollover minutes are consumed before generating additional usage.
+
+<Warning>
+When you reach **100%** of your minutes, your agents stop receiving calls. To keep receiving them you have two options: enable **usage-based billing** or [upgrade your plan](/en/platform/billing#change-plans).
+</Warning>
+
+## Usage-based billing
+
+Usage-based billing lets you **keep making and receiving calls after using up the minutes included** in your plan. Minutes consumed beyond your plan are charged at your plan's price per extra minute.
+
+### Enable usage-based billing
+
+<Steps>
+  <Step title="Turn on the toggle">
+    In the minutes section, turn on **Enable usage-based billing**.
+  </Step>
+  <Step title="Confirm in the modal">
+    A window opens explaining that additional usage will be charged based on your current plan's rates. Click **Enable**.
+  </Step>
+  <Step title="Check the confirmation">
+    You'll see a notification confirming that usage-based billing is enabled.
+  </Step>
+</Steps>
+
+To disable it, turn the toggle off again. You'll get a notification reminding you that your agents will stop once plan limits are reached.
+
+<Tabs>
+  <Tab title="Enabled">
+    - When you use up your included and rollover minutes, calls continue.
+    - Extra minutes are billed monthly.
+  </Tab>
+  <Tab title="Disabled">
+    - When you use up your minutes, new calls are blocked.
+    - No additional charges are generated.
+    - You have to wait for the plan reset or upgrade your subscription.
+  </Tab>
+</Tabs>
+
+### Extra minutes
+
+Right below the toggle you'll see the **Extra minutes** row, with your plan's price per minute and the additional minutes consumed in the current period.
+
+Extra minutes are the usage beyond the minutes included in your plan, and they're billed monthly. Check the prices per plan in [Plans and Pricing](/en/platform/billing#plan-comparison).
+
+## Concurrent calls
+
+Concurrent calls show how many calls can be in progress **at the same time** within your plan. This bar updates in real time: you'll see a **Live** tag while there are active calls.
+
+If you reach the limit, new calls don't come through until one of the calls in progress ends.
+
+<Note>
+If your business gets call peaks at the same time of day, this is the limit worth reviewing before the minutes one.
+</Note>
+
+## Melo usage
+
+[Melo](/en/platform/melo) is the AI assistant inside the dashboard. This bar shows your **weekly quota** consumption, based on the number of requests processed when generating responses, creating agents, or editing flows.
+
+When you use up the quota, **Melo stops working** until it renews at the start of the following week.
+
+<Note>
+Melo usage **does not consume call minutes**: they are independent limits.
+</Note>
+
+## Published flows
+
+Shows how many [flows](/en/build/flows/introduction) you have published against the maximum allowed by your plan.
+
+When you reach the limit you can't publish more flows. Any changes you've made stay **unpublished** until you upgrade your plan.
+
+## Knowledge bases
+
+Shows the storage used by your [knowledge bases](/en/build/knowledge-bases) against the total available in your plan.
+
+If you reach the limit, you won't be able to add new documents until you free up space or upgrade your subscription.
+
+## Usage notifications
+
+Besides the bars, the platform notifies you when you're approaching a limit:
+
+| Notification | When it appears | What to do |
+|---|---|---|
+| **You've used 80% of your minutes** | When you consume 80% of your included minutes | Review your consumption pace and consider enabling usage-based billing |
+| **You've reached your minutes plan limit** | When you hit 100% | Upgrade your plan or enable usage-based billing to keep receiving calls |
+| **Approaching concurrent call limit** | When few concurrent call slots are left | Consider a plan with more concurrent calls |
+| **You've run out of resources** | When your call minutes are used up | Upgrade your plan to keep making calls |
+| **You have unpublished changes** | When you reach your plan's maximum of published flows | Upgrade your plan to be able to publish |
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Where can I see how many minutes I have left?">
+    In **Settings > Usage**, in the **Total minutes available** bar. It adds together your plan's included minutes and the rollover minutes from the previous month.
+  </Accordion>
+  <Accordion title="What happens when I use up all my minutes?">
+    If usage-based billing is disabled, your agents stop receiving calls until the plan resets. If it's enabled, calls continue and extra minutes are billed monthly.
+  </Accordion>
+  <Accordion title="Does Melo consume call minutes?">
+    No. Melo has its own weekly quota, independent of call minutes.
+  </Accordion>
+  <Accordion title="How do I avoid unexpected charges?">
+    Keep usage-based billing disabled. That way extra minutes are never generated: calls are blocked once your plan is used up.
+  </Accordion>
+  <Accordion title="Can I raise the concurrent call limit without changing plans?">
+    No. The number of concurrent calls is determined by your plan. Check the [plan comparison](/en/platform/billing#plan-comparison).
+  </Accordion>
+</AccordionGroup>

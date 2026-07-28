@@ -1,0 +1,136 @@
+---
+title: Uso y límites
+description: "Consulta el consumo de tu plan en tiempo real: minutos, llamadas simultáneas, Melo, flujos publicados y almacenamiento."
+---
+
+# Uso y límites
+
+Desde **Ajustes > Uso** puedes ver cuánto llevas consumido de cada límite de tu plan. Cada apartado muestra una barra de progreso con el porcentaje utilizado y las cifras exactas.
+
+<Note>
+Los límites concretos de cada apartado dependen de tu plan. Consulta la [comparativa de planes](/es/plataforma/facturacion#comparativa-de-planes) para ver los tuyos.
+</Note>
+
+## Cuándo se reinicia tu plan
+
+En la parte superior de la página verás un contador que indica cuánto falta para que tu plan se reinicie, por ejemplo **Tu plan se reinicia en 1 día 3h 9 min**.
+
+Al reiniciarse el ciclo se renuevan los minutos incluidos y el resto de límites mensuales.
+
+<Note>
+El uso de Melo tiene su **propio contador semanal**, independiente del ciclo de tu plan.
+</Note>
+
+## Minutos totales disponibles
+
+Esta barra combina **los minutos incluidos en tu plan** y **los minutos acumulados** del mes anterior.
+
+- Los minutos no consumidos en un mes se transfieren al siguiente (**rollover**).
+- El rollover está limitado a **2x** los minutos incluidos de tu plan.
+- Los minutos acumulados se consumen antes de generar uso adicional.
+
+<Warning>
+Cuando llegas al **100%** de tus minutos, tus agentes dejan de recibir llamadas. Para seguir recibiéndolas tienes dos opciones: activar la **facturación basada en uso** o [mejorar tu plan](/es/plataforma/facturacion#cambiar-de-plan).
+</Warning>
+
+## Facturación basada en uso
+
+La facturación basada en uso te permite **seguir realizando y recibiendo llamadas después de agotar los minutos incluidos** en tu plan. Los minutos consumidos por encima de tu plan se facturan al precio por minuto extra de tu tarifa.
+
+### Activar la facturación basada en uso
+
+<Steps>
+  <Step title="Activa el interruptor">
+    En el apartado de minutos, activa **Habilitar facturación basada en uso**.
+  </Step>
+  <Step title="Confirma en el modal">
+    Se abrirá una ventana explicando que el uso adicional se cobrará según las tarifas de tu plan actual. Haz clic en **Activar**.
+  </Step>
+  <Step title="Comprueba la confirmación">
+    Verás un aviso confirmando que la facturación basada en uso está activada.
+  </Step>
+</Steps>
+
+Para desactivarla, vuelve a pulsar el interruptor. Recibirás un aviso recordándote que tus agentes dejarán de funcionar al alcanzar los límites del plan.
+
+<Tabs>
+  <Tab title="Activada">
+    - Al agotar tus minutos incluidos y acumulados, las llamadas continúan.
+    - Los minutos extra se facturan mensualmente.
+  </Tab>
+  <Tab title="Desactivada">
+    - Al agotar tus minutos, las nuevas llamadas se bloquean.
+    - No se generan cargos adicionales.
+    - Debes esperar al reinicio del plan o mejorar tu suscripción.
+  </Tab>
+</Tabs>
+
+### Minutos extra
+
+Justo debajo del interruptor verás la fila **Minutos extra**, con el precio por minuto de tu plan y los minutos adicionales consumidos en el período actual.
+
+Los minutos extra son el consumo que supera los minutos incluidos en tu plan y se facturan mensualmente. Consulta los precios por plan en [Planes y precios](/es/plataforma/facturacion#comparativa-de-planes).
+
+## Llamadas simultáneas
+
+Las llamadas simultáneas indican cuántas llamadas pueden estar en curso **a la vez** dentro de tu plan. Esta barra se actualiza en tiempo real: verás la etiqueta **Live** mientras haya llamadas activas.
+
+Si alcanzas el límite, las llamadas nuevas no entran hasta que finalice alguna de las que están en curso.
+
+<Note>
+Si tu negocio recibe picos de llamadas a la misma hora, este es el límite que conviene revisar antes que el de minutos.
+</Note>
+
+## Uso de Melo
+
+[Melo](/es/plataforma/melo) es el asistente de IA del dashboard. Esta barra muestra el consumo de tu **cuota semanal**, que se basa en el número de peticiones procesadas al generar respuestas, crear agentes o editar flujos.
+
+Cuando agotas la cuota, **Melo deja de funcionar** hasta que se renueve al inicio de la siguiente semana.
+
+<Note>
+El uso de Melo **no consume minutos de llamada**: son límites independientes.
+</Note>
+
+## Flujos publicados
+
+Muestra cuántos [flujos](/es/build/flujos/introduccion) tienes publicados frente al máximo que permite tu plan.
+
+Cuando alcanzas el límite no puedes publicar más flujos. Los cambios que hayas hecho se quedan **sin publicar** hasta que mejores tu plan.
+
+## Bases de conocimiento
+
+Muestra el almacenamiento ocupado por tus [bases de conocimiento](/es/build/bases-conocimiento) frente al total disponible en tu plan.
+
+Si alcanzas el límite, no podrás añadir nuevos documentos hasta que liberes espacio o mejores tu suscripción.
+
+## Avisos de consumo
+
+Además de las barras, la plataforma te avisa cuando te acercas a un límite:
+
+| Aviso | Cuándo aparece | Qué hacer |
+|---|---|---|
+| **Has usado el 80% de tus minutos** | Al consumir el 80% de los minutos incluidos | Revisa tu ritmo de consumo y valora activar la facturación basada en uso |
+| **Has alcanzado el límite de minutos de tu plan** | Al llegar al 100% | Mejora tu plan o activa la facturación basada en uso para seguir recibiendo llamadas |
+| **Te estás acercando al límite de llamadas simultáneas** | Cuando quedan pocas llamadas simultáneas libres | Valora un plan con más llamadas simultáneas |
+| **Te has quedado sin recursos** | Al agotar los minutos de llamada | Mejora tu plan para seguir realizando llamadas |
+| **Tienes cambios sin publicar** | Al alcanzar el máximo de flujos publicados de tu plan | Mejora tu plan para poder publicar |
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Dónde veo cuántos minutos me quedan?">
+    En **Ajustes > Uso**, en la barra de **Minutos totales disponibles**. Ahí se suman los minutos incluidos de tu plan y los acumulados del mes anterior.
+  </Accordion>
+  <Accordion title="¿Qué pasa cuando agoto todos mis minutos?">
+    Si tienes la facturación basada en uso desactivada, tus agentes dejan de recibir llamadas hasta el reinicio del plan. Si la tienes activada, las llamadas continúan y los minutos extra se facturan mensualmente.
+  </Accordion>
+  <Accordion title="¿Melo consume minutos de llamada?">
+    No. Melo tiene su propia cuota semanal, independiente de los minutos de llamada.
+  </Accordion>
+  <Accordion title="¿Cómo evito cargos inesperados?">
+    Mantén desactivada la facturación basada en uso. Así nunca se generan minutos extra: las llamadas se bloquean al agotar tu plan.
+  </Accordion>
+  <Accordion title="¿Puedo subir el límite de llamadas simultáneas sin cambiar de plan?">
+    No. El número de llamadas simultáneas viene determinado por tu plan. Consulta la [comparativa de planes](/es/plataforma/facturacion#comparativa-de-planes).
+  </Accordion>
+</AccordionGroup>
