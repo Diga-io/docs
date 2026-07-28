@@ -8,7 +8,7 @@ description: "Consulta el consumo de tu plan en tiempo real: minutos, llamadas s
 Desde **Ajustes > Uso** puedes ver cuánto llevas consumido de cada límite de tu plan. Cada apartado muestra una barra de progreso con el porcentaje utilizado y las cifras exactas.
 
 <Note>
-Los límites concretos de cada apartado dependen de tu plan. Consulta la [comparativa de planes](/es/plataforma/facturacion#comparativa-de-planes) para ver los tuyos.
+Los límites concretos de cada apartado dependen de tu plan. Consulta la [página de precios](https://www.diga.io/pricing) para ver los tuyos.
 </Note>
 
 ## Cuándo se reinicia tu plan
@@ -69,17 +69,31 @@ Para desactivarla, vuelve a pulsar el interruptor. Recibirás un aviso recordán
 
 Justo debajo del interruptor verás la fila **Minutos extra**, con el precio por minuto de tu plan y los minutos adicionales consumidos en el período actual.
 
-Los minutos extra son el consumo que supera los minutos incluidos en tu plan y se facturan mensualmente. Consulta los precios por plan en [Planes y precios](/es/plataforma/facturacion#comparativa-de-planes).
+Los minutos extra son el consumo que supera los minutos incluidos en tu plan y se facturan mensualmente. Consulta el precio por minuto de cada plan en la [página de precios](https://www.diga.io/pricing).
 
 ## Llamadas simultáneas
 
-Las llamadas simultáneas indican cuántas llamadas pueden estar en curso **a la vez** dentro de tu plan. Esta barra se actualiza en tiempo real: verás la etiqueta **Live** mientras haya llamadas activas.
+Este apartado muestra **cuántas llamadas han intentado ejecutarse a la vez**. Arriba a la derecha aparece el tope de tu plan (**Plan limit**) y debajo encontrarás tres medidas distintas:
 
-Si alcanzas el límite, las llamadas nuevas no entran hasta que finalice alguna de las que están en curso.
+| Medida | Período | Qué te dice |
+|---|---|---|
+| **Demanda de llamadas simultáneas ahora mismo** | Tiempo real (etiqueta **Live**) | Cuántas llamadas están en curso en este momento, por ejemplo `4/5 llamadas simultáneas en uso` |
+| **Pico medio de demanda** | Últimos 30 días | La media de tus picos de demanda durante los últimos 30 días |
+| **Momento de mayor actividad** | Últimos 30 días | El pico más alto de demanda registrado en los últimos 30 días |
 
-<Note>
-Si tu negocio recibe picos de llamadas a la misma hora, este es el límite que conviene revisar antes que el de minutos.
-</Note>
+Tener tres medidas te permite distinguir entre un pico puntual y un problema recurrente: si el **pico medio** ya roza tu límite, no fue un día raro.
+
+### Llamadas por encima del límite
+
+Mientras no superes tu límite verás el estado **sin espera** (`no waiting`): todas las llamadas entran en el momento.
+
+Cuando la demanda supera el tope de tu plan, las llamadas que se quedan fuera se marcan como **overlimit** y **no se atienden**. Por ejemplo, `6 llamadas · 1 overlimit` en un plan con tope de 5 significa que hubo 6 llamadas a la vez y una no llegó a entrar.
+
+Esas llamadas quedan registradas en el [registro de llamadas](/es/despliegue/monitoreo-logs) con el motivo **Límite de concurrencia alcanzado** o **Tiempo de espera agotado**.
+
+<Warning>
+El límite de llamadas simultáneas viene determinado por tu plan y no se puede subir por separado. Si ves overlimit de forma recurrente, necesitas un plan con más llamadas simultáneas.
+</Warning>
 
 ## Uso de Melo
 
@@ -131,6 +145,6 @@ Además de las barras, la plataforma te avisa cuando te acercas a un límite:
     Mantén desactivada la facturación basada en uso. Así nunca se generan minutos extra: las llamadas se bloquean al agotar tu plan.
   </Accordion>
   <Accordion title="¿Puedo subir el límite de llamadas simultáneas sin cambiar de plan?">
-    No. El número de llamadas simultáneas viene determinado por tu plan. Consulta la [comparativa de planes](/es/plataforma/facturacion#comparativa-de-planes).
+    No. El número de llamadas simultáneas viene determinado por tu plan. Consulta la [página de precios](https://www.diga.io/pricing) para ver el límite de cada uno.
   </Accordion>
 </AccordionGroup>

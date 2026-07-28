@@ -8,7 +8,7 @@ description: "Track your plan consumption in real time: minutes, concurrent call
 From **Settings > Usage** you can see how much of each plan limit you've consumed. Every section shows a progress bar with the percentage used and the exact figures.
 
 <Note>
-The specific limits for each section depend on your plan. Check the [plan comparison](/en/platform/billing#plan-comparison) to see yours.
+The specific limits for each section depend on your plan. Check the [pricing page](https://www.diga.io/pricing) to see yours.
 </Note>
 
 ## When your plan resets
@@ -69,17 +69,31 @@ To disable it, turn the toggle off again. You'll get a notification reminding yo
 
 Right below the toggle you'll see the **Extra minutes** row, with your plan's price per minute and the additional minutes consumed in the current period.
 
-Extra minutes are the usage beyond the minutes included in your plan, and they're billed monthly. Check the prices per plan in [Plans and Pricing](/en/platform/billing#plan-comparison).
+Extra minutes are the usage beyond the minutes included in your plan, and they're billed monthly. Check each plan's price per minute on the [pricing page](https://www.diga.io/pricing).
 
 ## Concurrent calls
 
-Concurrent calls show how many calls can be in progress **at the same time** within your plan. This bar updates in real time: you'll see a **Live** tag while there are active calls.
+This section shows **how many calls tried to run at once**. Your plan's cap appears on the top right (**Plan limit**), and below it you'll find three different measures:
 
-If you reach the limit, new calls don't come through until one of the calls in progress ends.
+| Measure | Period | What it tells you |
+|---|---|---|
+| **Demand of concurrent calls right now** | Real time (**Live** tag) | How many calls are in progress at this moment, for example `4/5 concurrent calls in use` |
+| **Average peak of demand** | Last 30 days | The average of your demand peaks over the last 30 days |
+| **Busiest moment** | Last 30 days | The single highest demand peak recorded in the last 30 days |
 
-<Note>
-If your business gets call peaks at the same time of day, this is the limit worth reviewing before the minutes one.
-</Note>
+Having three measures lets you tell a one-off spike from a recurring problem: if the **average peak** is already close to your limit, it wasn't just an odd day.
+
+### Calls above the limit
+
+As long as you stay under your limit you'll see the **no waiting** state: every call comes through right away.
+
+When demand exceeds your plan's cap, the calls left out are marked as **overlimit** and **are not handled**. For example, `6 calls · 1 overlimit` on a plan capped at 5 means there were 6 calls at once and one didn't get through.
+
+Those calls are recorded in the [call log](/en/deployment/monitoring-logs) with the end reason **Concurrency limit reached** or **Queue timed out**.
+
+<Warning>
+The concurrent call limit is set by your plan and can't be raised on its own. If you see overlimit recurring, you need a plan with more concurrent calls.
+</Warning>
 
 ## Melo usage
 
@@ -131,6 +145,6 @@ Besides the bars, the platform notifies you when you're approaching a limit:
     Keep usage-based billing disabled. That way extra minutes are never generated: calls are blocked once your plan is used up.
   </Accordion>
   <Accordion title="Can I raise the concurrent call limit without changing plans?">
-    No. The number of concurrent calls is determined by your plan. Check the [plan comparison](/en/platform/billing#plan-comparison).
+    No. The number of concurrent calls is determined by your plan. Check the [pricing page](https://www.diga.io/pricing) to see each plan's limit.
   </Accordion>
 </AccordionGroup>

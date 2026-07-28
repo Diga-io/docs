@@ -22,7 +22,7 @@ Each log entry shows:
 | **Agent** | Name of the agent that handled the call |
 | **Type** | Indicates if the call was **Inbound** or **Outbound** |
 | **Contact phone** | Customer or contact number |
-| **Status** | Current call status |
+| **End reason** | How the call ended |
 | **Duration** | Total conversation time |
 | **Date** | Exact date and time of the call |
 | **Actions** | Link to view full details |
@@ -31,35 +31,54 @@ Each log entry shows:
     <img src="/images/tabla-llamadas.png" alt="Screenshot of the call log showing the table with the mentioned columns" />
 </Frame>
 
-### Call States
+### End reasons
 
-Calls can be in different states:
+The **End reason** column tells you how each call ended:
 
 <AccordionGroup>
-  <Accordion title="Completed" icon="circle-check">
-    The call ended successfully. You can access the recording and full transcription.
+  <Accordion title="Agent hang up" icon="circle-check">
+    The call ended successfully, and it was the agent who ended it.
   </Accordion>
 
-  <Accordion title="Dialing" icon="phone-outgoing">
-    The outbound call is in the dialing process, waiting for the contact to answer.
+  <Accordion title="User hang up" icon="phone-off">
+    The call ended successfully, and it was the person on the other end who hung up.
   </Accordion>
 
-  <Accordion title="In progress" icon="phone-call">
-    The call is currently active.
+  <Accordion title="Call transferred" icon="phone-forwarded">
+    The call was transferred to a person or another number.
   </Accordion>
 
-  <Accordion title="No answer" icon="phone-missed">
+  <Accordion title="User did not answer" icon="phone-missed">
     The contact did not answer the call.
   </Accordion>
 
-  <Accordion title="Failed" icon="phone-off">
+  <Accordion title="Call error" icon="triangle-alert">
     The call could not be completed due to a technical error.
   </Accordion>
 
-  <Accordion title="Transferred" icon="phone-forwarded">
-    The call was transferred to a human agent or another number.
+  <Accordion title="Concurrency limit reached" icon="users">
+    The call was never handled because your plan's maximum of [concurrent calls](/en/platform/usage#concurrent-calls) was already in use.
+  </Accordion>
+
+  <Accordion title="Queue timed out" icon="clock">
+    The call was waiting for a free slot and was dropped before it could be handled.
   </Accordion>
 </AccordionGroup>
+
+<Note>
+If you often see **Concurrency limit reached** or **Queue timed out**, you're losing calls to your plan's cap. Review your actual demand in [Settings > Usage](/en/platform/usage#concurrent-calls).
+</Note>
+
+### Real-time indicators
+
+In the log header you'll see two indicators of your plan consumption:
+
+| Indicator | What it shows |
+|---|---|
+| **Live · X/Y concurrent calls** | Calls in progress right now against your plan's cap. If the cap is exceeded, the indicator flags the **overlimit** calls |
+| **Min left: X/Y** | The minutes left in your plan. Hover over it to see when they reset |
+
+Both indicators link to [Settings > Usage](/en/platform/usage), where you get the full breakdown.
 
 
 ## Call Details
