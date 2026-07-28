@@ -15260,18 +15260,36 @@
             "description": "Connection key from template"
           },
           "value": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Value",
-            "description": "Secret value (API key, token, etc.)"
+            "description": "Secret value (API key, token, etc.) for a new connection"
+          },
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id",
+            "description": "ID of an existing connection to reuse instead"
           }
         },
         "type": "object",
         "required": [
-          "key",
-          "value"
+          "key"
         ],
         "title": "ConnectionCredential",
-        "description": "Credentials for a single connection."
+        "description": "Credentials for a single connection: reuse an existing one or create a new one."
       },
       "ContactResponseSchema": {
         "properties": {
@@ -25036,12 +25054,8 @@
         "properties": {
           "id": {
             "type": "string",
-            "title": "Id"
-          },
-          "external_id": {
-            "type": "string",
-            "title": "External Id",
-            "description": "Reference used in steps as {{connections['<external_id>']}}"
+            "title": "Id",
+            "description": "Referenced inside a step as {{connections['<id>']}}"
           },
           "display_name": {
             "type": "string",
@@ -25060,7 +25074,6 @@
         "type": "object",
         "required": [
           "id",
-          "external_id",
           "display_name",
           "piece_name",
           "status"
