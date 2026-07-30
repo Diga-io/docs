@@ -22,44 +22,59 @@ Cada entrada del registro muestra:
 | **Agente** | Nombre del agente que atendió la llamada |
 | **Tipo** | Indica si la llamada fue **Entrante** o **Saliente** |
 | **Teléfono de contacto** | Número del cliente o contacto |
-| **Estado** | Estado actual de la llamada |
+| **Motivo de finalización** | Cómo terminó la llamada |
 | **Duración** | Tiempo total de la conversación |
 | **Fecha** | Fecha y hora exacta de la llamada |
 | **Acciones** | Enlace para ver los detalles completos |
 
-<Frame>
-    <img src="/images/tabla-llamadas.png" alt="Captura de pantalla del registro de llamadas mostrando la tabla con las columnas mencionadas" />
-</Frame>
+### Motivos de finalización
 
-### Estados de Llamada
-
-Las llamadas pueden estar en diferentes estados:
+La columna **Motivo de finalización** te indica cómo terminó cada llamada:
 
 <AccordionGroup>
-  <Accordion title="Completada" icon="circle-check">
-    La llamada finalizó correctamente. Puedes acceder a la grabación y transcripción completa.
+  <Accordion title="El agente colgó" icon="circle-check">
+    La llamada terminó correctamente y fue el agente quien la finalizó.
   </Accordion>
 
-  <Accordion title="Dialing" icon="phone-outgoing">
-    La llamada saliente está en proceso de marcación, esperando que el contacto responda.
+  <Accordion title="El usuario colgó" icon="phone-off">
+    La llamada terminó correctamente y fue la persona al otro lado quien colgó.
   </Accordion>
 
-  <Accordion title="En curso" icon="phone-call">
-    La llamada está activa actualmente.
+  <Accordion title="Llamada transferida" icon="phone-forwarded">
+    La llamada se transfirió a una persona o a otro número.
   </Accordion>
 
-  <Accordion title="Sin respuesta" icon="phone-missed">
-    El contacto no respondió la llamada.
+  <Accordion title="El usuario no contestó" icon="phone-missed">
+    El contacto no respondió a la llamada.
   </Accordion>
 
-  <Accordion title="Fallida" icon="phone-off">
-    La llamada no pudo completarse debido a un error técnico.
+  <Accordion title="Error de llamada" icon="triangle-alert">
+    La llamada no pudo completarse por un error técnico.
   </Accordion>
 
-  <Accordion title="Transferida" icon="phone-forwarded">
-    La llamada se transfirió a un agente humano o a otro número.
+  <Accordion title="Límite de concurrencia alcanzado" icon="users">
+    La llamada no llegó a atenderse porque ya se estaba usando el máximo de [llamadas simultáneas](/es/plataforma/uso#llamadas-simultáneas) de tu plan.
+  </Accordion>
+
+  <Accordion title="Tiempo de espera agotado" icon="clock">
+    La llamada estuvo esperando un hueco libre y se descartó antes de poder atenderse.
   </Accordion>
 </AccordionGroup>
+
+<Note>
+Si ves **Límite de concurrencia alcanzado** o **Tiempo de espera agotado** a menudo, estás perdiendo llamadas por el tope de tu plan. Revisa tu demanda real en [Ajustes > Uso](/es/plataforma/uso#llamadas-simultáneas).
+</Note>
+
+### Indicadores en tiempo real
+
+En la cabecera del registro verás dos indicadores del consumo de tu plan:
+
+| Indicador | Qué muestra |
+|---|---|
+| **Live · X/Y llamadas simultáneas** | Las llamadas en curso ahora mismo frente al tope de tu plan. Si se supera el tope, el indicador avisa de las llamadas **overlimit** |
+| **Min left: X/Y** | Los minutos que te quedan del plan. Al pasar el ratón verás cuándo se reinician |
+
+Ambos indicadores enlazan a [Ajustes > Uso](/es/plataforma/uso), donde tienes el detalle completo.
 
 
 ## Detalles de Llamada

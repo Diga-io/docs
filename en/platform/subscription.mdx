@@ -23,11 +23,9 @@ Minutes are allocated **monthly**, regardless of whether your billing period is 
 
 ### Remaining and rollover minutes
 
-Diga includes a **rollover** system so you don't lose unused minutes:
+Minutes you don't use in a month are carried over to the next (**rollover**), up to a maximum of **2x** the minutes included in your plan.
 
-- Unused minutes in a month are carried over to the next.
-- Rollover is limited to **2x** the minutes included in your plan.
-- Rollover minutes are consumed before generating additional usage.
+To see your consumption in detail — how much you've spent and how much is left — go to [Settings > Usage](/en/platform/usage#total-minutes-available).
 
 ## Payment method
 
@@ -81,19 +79,10 @@ Click **Manage Subscription** to open the plan configuration panel. From here yo
 - **Modify your plan**: takes you to the [Plans and Pricing](/en/platform/billing) page to change plans.
 - **Change the billing period**: switch between **monthly plan** and **annual plan**.
 - View **remaining minutes** and **rollover minutes** for the current period.
-- **Enable usage-based billing**: allows you to continue making calls once your included minutes are exhausted, billing extra consumed minutes.
 
-<Tabs>
-  <Tab title="Usage-based billing enabled">
-    - When you exhaust your included + rollover minutes, calls continue.
-    - Extra minutes are billed monthly.
-  </Tab>
-  <Tab title="Usage-based billing disabled">
-    - When you exhaust your minutes, new calls are blocked.
-    - No additional charges are generated.
-    - You must wait for the monthly renewal or upgrade your plan.
-  </Tab>
-</Tabs>
+<Note>
+**Usage-based billing** is enabled from [Settings > Usage](/en/platform/usage). On that page you can also check the extra minutes consumed and the rest of your plan limits.
+</Note>
 
 To save changes, click **Save**. To discard them, click **Go Back**.
 
@@ -131,6 +120,14 @@ At the bottom of the page you'll find a table with all your invoices:
 | **Status** | Payment status: Pending, Paid, Declined |
 | **Actions** | Link to download the invoice |
 
+### Download an invoice
+
+The **Actions** column on each row has the link to download that invoice as a PDF, ready to pass on to your accounting team. Invoices are issued by **Stripe**, Diga's payment provider.
+
+<Note>
+If the download link doesn't show up, or you need an invoice that isn't in the table, email us at [contact@diga.io](mailto:contact@diga.io) and we'll get it to you.
+</Note>
+
 ### Payment statuses
 
 - **Pending**: the payment hasn't been completed yet.
@@ -149,10 +146,7 @@ If a payment is repeatedly declined, your subscription may be cancelled after se
 
 <AccordionGroup>
   <Accordion title="Where can I see how many minutes I have left?">
-    At the top of **Settings > Subscription** you'll see your remaining and rollover minutes for the current period.
-  </Accordion>
-  <Accordion title="What happens to my minutes if I change plans?">
-    If you upgrade, remaining minutes are transferred to the new plan (with the new plan's rollover limit). If you downgrade, rollover minutes exceeding the new plan's limit are lost.
+    At the top of **Settings > Subscription** you'll see your remaining and rollover minutes for the current period. In [Settings > Usage](/en/platform/usage) you get the full consumption breakdown, with the percentage used of every limit.
   </Accordion>
   <Accordion title="Can I have multiple payment methods?">
     Yes. You can add multiple cards and select which one to use as default.

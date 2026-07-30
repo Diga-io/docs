@@ -1,0 +1,156 @@
+---
+title: Usage and limits
+description: "Track your plan consumption in real time: minutes, concurrent calls, Melo, published flows, and storage."
+---
+
+# Usage and limits
+
+From **Settings > Usage** you can see how much of each plan limit you've consumed. Every section shows a progress bar with the percentage used and the exact figures.
+
+<Note>
+The specific limits for each section depend on your plan. Check the [pricing page](https://www.diga.io/pricing) to see yours.
+</Note>
+
+## When your plan resets
+
+At the top of the page you'll see a counter showing how long until your plan resets, for example **Your plan will reset in 25 days**. The counter is approximate, so right after a reset it reads something like "in a month".
+
+When the cycle resets, your included minutes and the rest of your monthly limits are renewed.
+
+<Note>
+Melo usage has its **own weekly counter**, independent of your plan cycle.
+</Note>
+
+## Total minutes available
+
+This bar combines **the minutes included in your plan** and **the rollover minutes** from the previous month.
+
+- Unused minutes in a month are carried over to the next (**rollover**).
+- Rollover is limited to **2x** the minutes included in your plan.
+- Rollover minutes are consumed before generating additional usage.
+
+<Warning>
+When you reach **100%** of your minutes, your agents stop receiving calls. To keep receiving them you have two options: enable **usage-based billing** or [upgrade your plan](/en/platform/billing#change-plans).
+</Warning>
+
+## Usage-based billing
+
+Usage-based billing lets you **keep making and receiving calls after using up the minutes included** in your plan. Minutes consumed beyond your plan are charged at your plan's price per extra minute.
+
+### Enable usage-based billing
+
+<Steps>
+  <Step title="Turn on the toggle">
+    In the minutes section, turn on **Enable usage-based billing**.
+  </Step>
+  <Step title="Confirm in the modal">
+    A window opens explaining that additional usage will be charged based on your current plan's rates. Click **Enable**.
+  </Step>
+  <Step title="Check the confirmation">
+    You'll see a notification confirming that usage-based billing is enabled.
+  </Step>
+</Steps>
+
+To disable it, turn the toggle off again. You'll get a notification reminding you that your agents will stop once plan limits are reached.
+
+<Tabs>
+  <Tab title="Enabled">
+    - When you use up your included and rollover minutes, calls continue.
+    - Extra minutes are billed monthly.
+  </Tab>
+  <Tab title="Disabled">
+    - When you use up your minutes, new calls are blocked.
+    - No additional charges are generated.
+    - You have to wait for the plan reset or upgrade your subscription.
+  </Tab>
+</Tabs>
+
+### Extra minutes
+
+Right below the toggle you'll see the **Extra minutes** row, with your plan's price per minute and the additional minutes consumed in the current period.
+
+Extra minutes are the usage beyond the minutes included in your plan, and they're billed monthly. Check each plan's price per minute on the [pricing page](https://www.diga.io/pricing).
+
+## Concurrent calls
+
+This section shows **how many calls tried to run at once**. Your plan's cap appears on the top right (**Plan limit**), and below it you'll find three different measures:
+
+| Measure | Period | What it tells you |
+|---|---|---|
+| **Demand of concurrent calls right now** | Real time (**Live** tag) | How many calls are holding a line at this moment, for example `4/5 concurrent calls in use` |
+| **Average peak of demand** | Last 30 days | The average of each day's highest demand, counting only days that had calls |
+| **Busiest moment** | Last 30 days | The single highest demand recorded in the last 30 days |
+
+<Note>
+Demand isn't the same as calls answered. It counts every call from the moment it arrives until it ends, including any time it spent waiting for a free line. That's why the two 30-day measures can go above your plan limit, while the real-time counter never does.
+</Note>
+
+Having three measures lets you tell a one-off spike from a recurring problem. If your **average peak** is 1 while your **busiest moment** was 4, that was an odd day. If the average peak is already close to your limit, you're running near capacity every day you take calls, and a bigger plan is worth considering before calls start waiting.
+
+### Calls above the limit
+
+As long as you stay under your limit you'll see the **no waiting** state: every call comes through right away.
+
+When demand exceeds your plan's cap, the excess is marked as **overlimit**. For example, `6 calls · 1 overlimit` on a plan capped at 5 means demand reached 6 while only 5 lines were available.
+
+Overlimit doesn't mean those calls were lost. A caller who arrives with every line busy waits in a queue and is connected as soon as one frees up, and that wait is what shows above the limit. Calls that genuinely didn't get through are the ones recorded in the [call log](/en/deployment/monitoring-logs) with the end reason **Concurrency limit reached** or **Queue timed out**, so that's the place to check how many callers you actually lost.
+
+<Warning>
+The concurrent call limit is set by your plan and can't be raised on its own. If you see overlimit recurring, you need a plan with more concurrent calls.
+</Warning>
+
+## Melo usage
+
+[Melo](/en/platform/melo) is the AI assistant inside the dashboard. This bar shows your **weekly quota** consumption, based on the number of requests processed when generating responses, creating agents, or editing flows.
+
+When you use up the quota, **Melo stops working** until it renews at the start of the following week.
+
+<Note>
+Melo usage **does not consume call minutes**: they are independent limits.
+</Note>
+
+## Published flows
+
+Shows how many [flows](/en/build/flows/introduction) you have published against the maximum allowed by your plan.
+
+When you reach the limit you can't publish more flows. Any changes you've made stay **unpublished** until you upgrade your plan.
+
+## Knowledge bases
+
+Shows the storage used by your [knowledge bases](/en/build/knowledge-bases) against the total available in your plan.
+
+If you reach the limit, you won't be able to add new documents until you free up space or upgrade your subscription.
+
+## Usage notifications
+
+Besides the bars, the platform notifies you when you're approaching a limit. Each situation can reach you in two places: **on this page**, next to the relevant bar, and as a **banner across the rest of the dashboard**.
+
+| Situation | How you're notified | What to do |
+|---|---|---|
+| You're running low on minutes | *You've used 80% of your included minutes* on this page, and *you're running low on call minutes* across the dashboard | Review your consumption pace and consider enabling usage-based billing |
+| You've used up your minutes | *You've reached your minutes plan limit* on this page, and *you've run out of resources* across the dashboard | Upgrade your plan or enable usage-based billing to keep receiving calls |
+| You're approaching the concurrent call limit | Warning banner in the dashboard | Consider a plan with more concurrent calls |
+| You've reached the maximum of published flows | *You have unpublished changes* when you try to publish | Upgrade your plan to keep publishing |
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Where can I see how many minutes I have left?">
+    In **Settings > Usage**, in the **Total minutes available** bar. It adds together your plan's included minutes and the rollover minutes from the previous month.
+  </Accordion>
+  <Accordion title="What happens when I use up all my minutes?">
+    If usage-based billing is disabled, your agents stop receiving calls until the plan resets. If it's enabled, calls continue and extra minutes are billed monthly.
+  </Accordion>
+  <Accordion title="Does Melo consume call minutes?">
+    No. Melo has its own weekly quota, independent of call minutes.
+  </Accordion>
+  <Accordion title="What happens if I go over my usual volume one month?">
+    It depends on usage-based billing. If it's **enabled**, calls keep coming through and the extra minutes are billed as extra minutes on that month's invoice. If it's **disabled**, calls are blocked once you hit 100% and resume when your plan resets.
+  </Accordion>
+  <Accordion title="How do I avoid unexpected charges?">
+    Keep usage-based billing disabled. That way extra minutes are never generated: calls are blocked once your plan is used up.
+  </Accordion>
+  <Accordion title="Can I raise the concurrent call limit without changing plans?">
+    No. The number of concurrent calls is determined by your plan. Check the [pricing page](https://www.diga.io/pricing) to see each plan's limit. If you need a higher cap than the published plans offer, [talk to sales](https://www.diga.io/contact) about a custom plan.
+  </Accordion>
+</AccordionGroup>

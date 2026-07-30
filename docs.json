@@ -144,6 +144,7 @@
                       "es/plataforma/equipo",
                       "es/plataforma/suscripcion",
                       "es/plataforma/facturacion",
+                      "es/plataforma/uso",
                       "es/plataforma/api-keys",
                       "es/plataforma/conexiones"
                     ]
@@ -262,6 +263,7 @@
                       "en/platform/team",
                       "en/platform/subscription",
                       "en/platform/billing",
+                      "en/platform/usage",
                       "en/platform/api-keys",
                       "en/platform/connections"
                     ]

@@ -23,11 +23,9 @@ Los minutos se asignan **mensualmente**, independientemente de si tu período de
 
 ### Minutos restantes y acumulados
 
-Diga incluye un sistema de **rollover** para que no pierdas minutos sin usar:
+Los minutos que no consumes en un mes se transfieren al siguiente (**rollover**), hasta un máximo de **2x** los minutos incluidos de tu plan.
 
-- Los minutos no consumidos en un mes se transfieren al siguiente.
-- El rollover está limitado a **2x** los minutos incluidos de tu plan.
-- Los minutos acumulados se consumen antes de generar uso adicional.
+Para ver el detalle de tu consumo — cuánto llevas gastado y cuánto te queda — ve a [Ajustes > Uso](/es/plataforma/uso#minutos-totales-disponibles).
 
 ## Método de pago
 
@@ -81,19 +79,10 @@ Haz clic en **Gestionar suscripción** para abrir el panel de configuración de 
 - **Modificar tu plan**: te lleva a la página de [planes y precios](/es/plataforma/facturacion) para cambiar de plan.
 - **Cambiar el período de facturación**: alternar entre **plan mensual** y **plan anual**.
 - Ver los **minutos restantes** y **minutos acumulados** del período actual.
-- **Activar la facturación basada en uso**: permite seguir realizando llamadas una vez agotados tus minutos incluidos, facturando los minutos extra consumidos.
 
-<Tabs>
-  <Tab title="Facturación basada en uso activada">
-    - Cuando agotas tus minutos incluidos + rollover, las llamadas continúan.
-    - Los minutos extra se facturan mensualmente.
-  </Tab>
-  <Tab title="Facturación basada en uso desactivada">
-    - Cuando agotas tus minutos, las nuevas llamadas se bloquean.
-    - No se generan cargos adicionales.
-    - Debes esperar a la renovación mensual o mejorar tu plan.
-  </Tab>
-</Tabs>
+<Note>
+La **facturación basada en uso** se activa desde [Ajustes > Uso](/es/plataforma/uso). En esa página también puedes consultar los minutos extra consumidos y el resto de límites de tu plan.
+</Note>
 
 Para guardar los cambios, haz clic en **Guardar**. Si deseas descartarlos, haz clic en **Volver atrás**.
 
@@ -131,6 +120,14 @@ En la parte inferior de la página encontrarás una tabla con todas tus facturas
 | **Estado** | Estado del pago: Pendiente, Pagado, Rechazado |
 | **Acciones** | Enlace para descargar la factura |
 
+### Descargar una factura
+
+En la columna **Acciones** de cada fila tienes el enlace para descargar esa factura en PDF, lista para enviársela a tu departamento de administración. Las facturas las emite **Stripe**, el proveedor de pagos de Diga.
+
+<Note>
+Si el enlace de descarga no te aparece, o necesitas una factura que no está en la tabla, escríbenos a [contact@diga.io](mailto:contact@diga.io) y te la hacemos llegar.
+</Note>
+
 ### Estados de pago
 
 - **Pendiente**: el pago aún no se ha completado.
@@ -149,10 +146,7 @@ Si un pago es rechazado repetidamente, tu suscripción puede ser cancelada tras 
 
 <AccordionGroup>
   <Accordion title="¿Dónde puedo ver cuántos minutos me quedan?">
-    En la parte superior de **Ajustes > Suscripción** verás tus minutos restantes y acumulados del período actual.
-  </Accordion>
-  <Accordion title="¿Qué pasa con mis minutos si cambio de plan?">
-    Si haces un upgrade, los minutos restantes se transfieren al nuevo plan (con el límite de rollover del nuevo plan). Si haces un downgrade, los minutos de rollover que excedan el límite del nuevo plan se pierden.
+    En la parte superior de **Ajustes > Suscripción** verás tus minutos restantes y acumulados del período actual. En [Ajustes > Uso](/es/plataforma/uso) tienes el detalle completo de consumo, con el porcentaje utilizado de cada límite.
   </Accordion>
   <Accordion title="¿Puedo tener varios métodos de pago?">
     Sí. Puedes añadir varias tarjetas y seleccionar cuál usar como predeterminada.
