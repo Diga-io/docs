@@ -13,7 +13,7 @@ The specific limits for each section depend on your plan. Check the [pricing pag
 
 ## When your plan resets
 
-At the top of the page you'll see a counter showing how long until your plan resets, for example **Your plan will reset in 1 day 3h 9 min**.
+At the top of the page you'll see a counter showing how long until your plan resets, for example **Your plan will reset in 25 days**. The counter is approximate, so right after a reset it reads something like "in a month".
 
 When the cycle resets, your included minutes and the rest of your monthly limits are renewed.
 
@@ -77,19 +77,23 @@ This section shows **how many calls tried to run at once**. Your plan's cap appe
 
 | Measure | Period | What it tells you |
 |---|---|---|
-| **Demand of concurrent calls right now** | Real time (**Live** tag) | How many calls are in progress at this moment, for example `4/5 concurrent calls in use` |
-| **Average peak of demand** | Last 30 days | The average of your demand peaks over the last 30 days |
-| **Busiest moment** | Last 30 days | The single highest demand peak recorded in the last 30 days |
+| **Demand of concurrent calls right now** | Real time (**Live** tag) | How many calls are holding a line at this moment, for example `4/5 concurrent calls in use` |
+| **Average peak of demand** | Last 30 days | The average of each day's highest demand, counting only days that had calls |
+| **Busiest moment** | Last 30 days | The single highest demand recorded in the last 30 days |
 
-Having three measures lets you tell a one-off spike from a recurring problem: if the **average peak** is already close to your limit, it wasn't just an odd day.
+<Note>
+Demand isn't the same as calls answered. It counts every call from the moment it arrives until it ends, including any time it spent waiting for a free line. That's why the two 30-day measures can go above your plan limit, while the real-time counter never does.
+</Note>
+
+Having three measures lets you tell a one-off spike from a recurring problem. If your **average peak** is 1 while your **busiest moment** was 4, that was an odd day. If the average peak is already close to your limit, you're running near capacity every day you take calls, and a bigger plan is worth considering before calls start waiting.
 
 ### Calls above the limit
 
 As long as you stay under your limit you'll see the **no waiting** state: every call comes through right away.
 
-When demand exceeds your plan's cap, the calls left out are marked as **overlimit** and **are not handled**. For example, `6 calls · 1 overlimit` on a plan capped at 5 means there were 6 calls at once and one didn't get through.
+When demand exceeds your plan's cap, the excess is marked as **overlimit**. For example, `6 calls · 1 overlimit` on a plan capped at 5 means demand reached 6 while only 5 lines were available.
 
-Those calls are recorded in the [call log](/en/deployment/monitoring-logs) with the end reason **Concurrency limit reached** or **Queue timed out**.
+Overlimit doesn't mean those calls were lost. A caller who arrives with every line busy waits in a queue and is connected as soon as one frees up, and that wait is what shows above the limit. Calls that genuinely didn't get through are the ones recorded in the [call log](/en/deployment/monitoring-logs) with the end reason **Concurrency limit reached** or **Queue timed out**, so that's the place to check how many callers you actually lost.
 
 <Warning>
 The concurrent call limit is set by your plan and can't be raised on its own. If you see overlimit recurring, you need a plan with more concurrent calls.

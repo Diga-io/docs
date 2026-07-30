@@ -13,7 +13,7 @@ Los límites concretos de cada apartado dependen de tu plan. Consulta la [págin
 
 ## Cuándo se reinicia tu plan
 
-En la parte superior de la página verás un contador que indica cuánto falta para que tu plan se reinicie, por ejemplo **Tu plan se reinicia en 1 día 3h 9 min**.
+En la parte superior de la página verás un contador que indica cuánto falta para que tu plan se restablezca, por ejemplo **Tu plan se restablecerá en 25 días**. El contador se muestra de forma aproximada, así que justo después de un reinicio leerás algo como "en un mes".
 
 Al reiniciarse el ciclo se renuevan los minutos incluidos y el resto de límites mensuales.
 
@@ -77,19 +77,23 @@ Este apartado muestra **cuántas llamadas han intentado ejecutarse a la vez**. A
 
 | Medida | Período | Qué te dice |
 |---|---|---|
-| **Demanda de llamadas simultáneas ahora mismo** | Tiempo real (etiqueta **Live**) | Cuántas llamadas están en curso en este momento, por ejemplo `4/5 llamadas simultáneas en uso` |
-| **Pico medio de demanda** | Últimos 30 días | La media de tus picos de demanda durante los últimos 30 días |
-| **Momento de mayor actividad** | Últimos 30 días | El pico más alto de demanda registrado en los últimos 30 días |
+| **Demanda de llamadas simultáneas ahora mismo** | Tiempo real (etiqueta **Live**) | Cuántas llamadas están ocupando una línea en este momento, por ejemplo `4/5 llamadas simultáneas en uso` |
+| **Pico medio de demanda** | Últimos 30 días | La media del pico de demanda de cada día, contando solo los días que tuvieron llamadas |
+| **Momento de mayor actividad** | Últimos 30 días | La demanda más alta registrada en los últimos 30 días |
 
-Tener tres medidas te permite distinguir entre un pico puntual y un problema recurrente: si el **pico medio** ya roza tu límite, no fue un día raro.
+<Note>
+Demanda no es lo mismo que llamadas atendidas. Cuenta cada llamada desde que entra hasta que termina, incluido el tiempo que haya esperado a que se liberase una línea. Por eso las dos medidas de 30 días pueden superar el límite de tu plan, mientras que el contador en tiempo real nunca lo hace.
+</Note>
+
+Tener tres medidas te permite distinguir entre un pico puntual y un problema recurrente. Si tu **pico medio** es 1 y tu **momento de mayor actividad** fue 4, aquel fue un día raro. Si el pico medio ya roza tu límite, estás funcionando cerca del tope todos los días que recibes llamadas, y conviene plantearse un plan mayor antes de que empiecen las esperas.
 
 ### Llamadas por encima del límite
 
 Mientras no superes tu límite verás el estado **sin espera** (`no waiting`): todas las llamadas entran en el momento.
 
-Cuando la demanda supera el tope de tu plan, las llamadas que se quedan fuera se marcan como **overlimit** y **no se atienden**. Por ejemplo, `6 llamadas · 1 overlimit` en un plan con tope de 5 significa que hubo 6 llamadas a la vez y una no llegó a entrar.
+Cuando la demanda supera el tope de tu plan, el exceso se marca como **overlimit**. Por ejemplo, `6 llamadas · 1 overlimit` en un plan con tope de 5 significa que la demanda llegó a 6 habiendo solo 5 líneas disponibles.
 
-Esas llamadas quedan registradas en el [registro de llamadas](/es/despliegue/monitoreo-logs) con el motivo **Límite de concurrencia alcanzado** o **Tiempo de espera agotado**.
+Overlimit no significa que esas llamadas se perdieran. Quien llama cuando todas las líneas están ocupadas espera en cola y entra en cuanto se libera una, y esa espera es justo lo que aparece por encima del límite. Las llamadas que de verdad no llegaron a entrar son las que quedan registradas en el [registro de llamadas](/es/despliegue/monitoreo-logs) con el motivo **Límite de concurrencia alcanzado** o **Tiempo de espera agotado**, así que ese es el sitio donde comprobar cuántas perdiste realmente.
 
 <Warning>
 El límite de llamadas simultáneas viene determinado por tu plan y no se puede subir por separado. Si ves overlimit de forma recurrente, necesitas un plan con más llamadas simultáneas.
