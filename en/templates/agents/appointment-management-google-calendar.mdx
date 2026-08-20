@@ -112,7 +112,7 @@ Keep in mind what the template does **not** do:
 
 - **It doesn't cancel or reschedule.** The agent says it will handle it, but there's no tool behind that.
 - **It can't transfer or hang up.** Add the [transfer tool](/en/build/agents/call-tools) if you need it.
-- **It only speaks English**, even if the patient switches language.
+- **It only speaks English**, even if the patient switches language. If you need to handle several languages, switch the [language selector](/en/build/agents/call-customization#language) to **Multilingual**: the agent detects each patient's language and replies in that same language.
 - **It works against a single calendar.** It can place patients across several clinics through the knowledge base, but every appointment lands in the same schedule. For separate schedules per clinic, duplicate both workflows and give them specific names, adjusting the prompt accordingly.
 
 ## Next Steps
