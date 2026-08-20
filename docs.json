@@ -163,6 +163,35 @@
             ]
           },
           {
+            "tab": "Plantillas",
+            "groups": [
+              {
+                "group": "Comenzar",
+                "pages": [
+                  "es/plantillas/introduccion"
+                ]
+              },
+              {
+                "group": "Catálogo",
+                "pages": [
+                  {
+                    "group": "Agentes",
+                    "pages": [
+                      "es/plantillas/agentes/gestion-citas-google-calendar"
+                    ]
+                  },
+                  {
+                    "group": "Flujos",
+                    "pages": [
+                      "es/plantillas/flujos/comprobar-disponibilidad",
+                      "es/plantillas/flujos/crear-cita"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "tab": "API reference",
             "openapi": "/api-reference/openapi.json"
           },
@@ -277,6 +306,35 @@
                   "en/deployment/monitoring-logs",
                   "en/deployment/call-logs",
                   "en/deployment/call-traces"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Templates",
+            "groups": [
+              {
+                "group": "Get Started",
+                "pages": [
+                  "en/templates/introduction"
+                ]
+              },
+              {
+                "group": "Catalog",
+                "pages": [
+                  {
+                    "group": "Agents",
+                    "pages": [
+                      "en/templates/agents/appointment-management-google-calendar"
+                    ]
+                  },
+                  {
+                    "group": "Flows",
+                    "pages": [
+                      "en/templates/flows/check-availability",
+                      "en/templates/flows/create-appointment"
+                    ]
+                  }
                 ]
               }
             ]

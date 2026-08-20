@@ -1,0 +1,142 @@
+---
+title: "Appointment management (Google Calendar)"
+description: "A phone receptionist that checks your schedule and books the appointment in Google Calendar"
+---
+
+<Note>
+  **Related templates:** [Check availability (Google Calendar)](/en/templates/flows/check-availability) and [Create appointment (Google Calendar)](/en/templates/flows/create-appointment).
+</Note>
+
+## What it does
+
+It answers your patients' calls, identifies which clinic they want to be seen at, checks the free slots in your calendar, and books the appointment.
+
+It's a [single prompt](/en/build/agents/single-prompt) agent in English, with an unhurried tone aimed at appointment management in clinics.
+
+### How the call goes
+
+1. **It places the patient.** It asks which clinic they want to go to and, if they can't name it, works it out from the knowledge base. This step is optional: changing the prompt is enough for the agent to handle appointments for a single clinic.
+2. **It checks the schedule.** It calls `check_availability` with the opening and closing time of the day the patient asks about, and gets back the free slots already worked out, in local time. If the patient changes the day or the time, it calls the tool again.
+3. **It offers slots and collects the details.** It only proposes times that fit entirely inside a single free slot: if the one the patient asked for doesn't fit, it offers the two closest alternatives. Once the patient picks one, it asks for their name and phone number.
+4. **It books the appointment.** It calls `create_appointment`, which re-checks the slot before creating the event. If another appointment came in for that slot during the conversation, the workflow creates nothing and the agent offers a different time.
+
+## What you need
+
+- A [Google Calendar](/en/platform/connections) connection
+- The [Check availability (Google Calendar)](/en/templates/flows/check-availability) workflow
+- The [Create appointment (Google Calendar)](/en/templates/flows/create-appointment) workflow
+- A [knowledge base](/en/build/knowledge-bases) with your clinics: address, neighborhood, and hours (optional)
+
+## Getting started
+
+<Steps>
+  <Step title="Create the agent">
+    In **Agents**, click **Create Agent**, select the template, and click **Use template**.
+  </Step>
+
+  <Step title="Fill in the two variables">
+    | Variable | What to enter |
+    |---|---|
+    | `<<agent_name>>` | The assistant's name |
+    | `<<company_name>>` | Your company's name |
+  </Step>
+
+  <Step title="Adjust the hours and the duration">
+    In the prompt, edit the **Opening hours** block with your clinic's real hours: that's where the agent takes the opening and closing time it passes to `check_availability` from, so if it doesn't match, neither will the slots it offers.
+
+    The appointment length ships fixed at 15 minutes and appears in two places in the prompt: in the `check_availability` instructions, next to the example of how late you can offer within a slot, and in the `create_appointment` ones. Change it in both.
+  </Step>
+
+  <Step title="Set up the two tools">
+    Create the [Check availability (Google Calendar)](/en/templates/flows/check-availability) and [Create appointment (Google Calendar)](/en/templates/flows/create-appointment) workflows from the **Workflow** section under **Tools**. Both have to point at the **same calendar**: otherwise the agent offers slots from one schedule and books the appointment in another.
+
+    This is how you create a workflow without leaving the agent:
+
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      controls
+      className="w-full rounded-xl"
+      src="/videos/crear_flujo_desde_agente.mp4"
+    ></video>
+
+    The names must match exactly — `check_availability` and `create_appointment` — because the prompt calls them literally.
+
+    Both workflows ship with the time zone set to `Europe/Madrid`. If you operate in a different one, check it before moving on: it's three fields in [Check availability](/en/templates/flows/check-availability#check-the-time-zone) and two in [Create appointment](/en/templates/flows/create-appointment#check-the-time-zone).
+  </Step>
+
+  <Step title="Publish both workflows">
+    Each workflow has to be [published](/en/build/flows/creating-workflows#draft-vs-published). If you skip this step, the agent won't be able to use them.
+  </Step>
+
+  <Step title="Link the knowledge base (optional)">
+    Upload your clinic list and link it to the agent. The agent uses it to place patients who can't name the clinic they go to.
+  </Step>
+
+  <Step title="Test and publish">
+    Make a [test call](/en/build/agents/test-calls) booking a real appointment, check it shows up in the calendar at the right time, and [publish the agent](/en/build/agents/version-control). To make the test call, you have to click **Test**.
+  </Step>
+</Steps>
+
+### Example conversation
+
+```
+Agent: This is Gema, an agent from Diga. How can I help you?
+Patient: Good morning, I'd like to book an appointment.
+Agent: Of course. Which clinic would you like to go to?
+Patient: The one next to the market.
+Agent: [checks the knowledge base]
+       That's the Chamberí clinic, on calle Fuencarral. What day suits you?
+Patient: Tomorrow morning, if possible.
+Agent: Let me check the schedule for a moment.
+       [calls check_availability]
+       Tomorrow, Tuesday, I have nine thirty, ten fifteen, and eleven free.
+       Which would you prefer?
+Patient: Ten fifteen.
+Agent: Perfect. Could you give me your full name?
+Patient: Manuel Ortega Ruiz.
+Agent: And a contact phone number?
+Patient: Six one one, two two, three three, four four.
+Agent: [calls create_appointment]
+       All set, Manuel. I've booked you tomorrow, Tuesday, at ten fifteen
+       at the Chamberí clinic. Anything else?
+Patient: No, thank you very much.
+Agent: Thank you. Have a good day.
+```
+
+## Before publishing
+
+Keep in mind what the template does **not** do:
+
+- **It doesn't cancel or reschedule.** The agent says it will handle it, but there's no tool behind that.
+- **It can't transfer or hang up.** Add the [transfer tool](/en/build/agents/call-tools) if you need it.
+- **It only speaks English**, even if the patient switches language.
+- **It works against a single calendar.** It can place patients across several clinics through the knowledge base, but every appointment lands in the same schedule. For separate schedules per clinic, duplicate both workflows and give them specific names, adjusting the prompt accordingly.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Check availability (Google Calendar)"
+    icon="bolt"
+    href="/en/templates/flows/check-availability"
+  >
+    The workflow that queries the free slots.
+  </Card>
+  <Card
+    title="Create appointment (Google Calendar)"
+    icon="calendar-plus"
+    href="/en/templates/flows/create-appointment"
+  >
+    The workflow that creates the event.
+  </Card>
+  <Card
+    title="How to write prompts"
+    icon="wand-sparkles"
+    href="/en/build/agents/single-prompt"
+  >
+    If you want to modify the template's prompt.
+  </Card>
+</CardGroup>

@@ -1,0 +1,106 @@
+---
+title: "Create appointment (Google Calendar)"
+description: "During-call workflow that checks the slot and creates the event in your Google Calendar"
+---
+
+<Note>
+  **Related templates:** [Appointment management (Google Calendar)](/en/templates/agents/appointment-management-google-calendar) and [Check availability](/en/templates/flows/check-availability).
+</Note>
+
+## What it does
+
+The agent passes it the appointment's start and end time (`start_date` and `end_date`, in local time) along with the patient's name and phone number, and the workflow **creates the event** in your Google Calendar.
+
+Before creating it, it queries the calendar again. If something is already booked in that slot, it creates nothing and asks the agent to offer another time — so an appointment that came in through another channel during the conversation doesn't end up double-booked.
+
+It's a [during-call workflow](/en/build/flows/during-call-flows) running in sync mode: the agent runs it mid-conversation and waits for the response before confirming the appointment to the patient.
+
+## How it works
+
+| Step | What it does |
+|---|---|
+| **Adapt start date** and **Adapt end date** | Convert `start_date` and `end_date` from local time to UTC, which is what Google Calendar expects. |
+| **Check availability** | Queries the calendar's busy intervals within that exact slot. |
+| **Availability?** | A code step that returns `true` only if there are no busy intervals. |
+| **Create Event** | Creates the event, titled `Appointment - <name>`, with the patient's phone number in the description. |
+| **Return Response** | Tells the agent how it went. |
+
+The workflow always ends in a **Return Response** step, with one of three outcomes:
+
+- **Slot free and event created** — the agent gets `Appointment created successfully.` and confirms the appointment to the patient.
+- **Slot busy** — nothing is created. The agent is told to apologize and ask for another date.
+- **The event couldn't be created** — the agent gets `An error has occurred.` There's no appointment, so it shouldn't confirm one.
+
+## What you need
+
+- A [Google Calendar](/en/platform/connections) connection
+- The calendar where appointments are created, which must be the same one [Check availability](/en/templates/flows/check-availability) queries
+
+## Getting started
+
+<Steps>
+  <Step title="Copy the template">
+    From the **Workflows** section, open the template catalog and copy it. The workflow is created disabled.
+  </Step>
+
+  <Step title="Fill in the calendar variable">
+    The template ships with a `<<calendar_id>>` variable used in two steps: **Check availability** and **Create Event**. It has to be the same calendar in both, and the same one the `check_availability` workflow queries. If they point at different calendars, the agent offers slots from one schedule and books the appointment in another.
+  </Step>
+
+  <Step title="Select the Google Calendar connection">
+    Both Google Calendar steps need your connection.
+
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      controls
+      className="w-full rounded-xl"
+      src="/videos/seleccionar-conexion-google-calendar.mp4"
+    ></video>
+  </Step>
+
+  <Step title="Check the time zone" id="check-the-time-zone">
+    `Europe/Madrid` appears in the **Input Time Zone** field of **Adapt start date** and **Adapt end date**. If you operate in a different time zone, change both. Daylight saving time is handled automatically.
+  </Step>
+
+  <Step title="Adjust the appointment length (optional)" id="adjust-the-appointment-length-optional">
+    The 15 minutes aren't set in any workflow step: the agent works them out from the description of the `end_date` parameter in the **Function Call** trigger. If you change the length, change it in the agent's prompt too.
+  </Step>
+
+  <Step title="Publish the workflow">
+    [Publish](/en/build/flows/creating-workflows#draft-vs-published) the workflow.
+  </Step>
+
+  <Step title="Assign it to the agent">
+    Add it from the agent's **Workflows** section. The workflow's name is the tool name the agent sees, so leave it as `create_appointment`. This step isn't needed if the workflow was created from the agent.
+  </Step>
+</Steps>
+
+## Before publishing
+
+- The pre-check only looks at **the appointment slot itself**, not your opening hours. Keeping the agent from booking while the clinic is closed is down to its prompt, not the workflow.
+- `name` and `phone` are **optional** parameters. If the agent doesn't capture them, the event is still created, titled `Appointment - ` and with no phone number in the description.
+- The event is created **with no guests**: the patient's phone number stays in the description and no email invitation is sent to them.
+- The workflow **only creates**. It doesn't cancel or reschedule existing appointments.
+- It's fixed to **a single calendar**. For multiple clinics with separate schedules, duplicate the workflow.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Appointment management (Google Calendar)"
+    icon="calendar-check"
+    href="/en/templates/agents/appointment-management-google-calendar"
+  >
+    The agent that uses this workflow.
+  </Card>
+  <Card
+    title="Check availability"
+    icon="bolt"
+    href="/en/templates/flows/check-availability"
+  >
+    The other workflow the agent needs.
+  </Card>
+</CardGroup>

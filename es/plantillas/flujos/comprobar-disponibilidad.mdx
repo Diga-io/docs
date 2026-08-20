@@ -1,0 +1,99 @@
+---
+title: "Comprobar disponibilidad (Google Calendar)"
+description: "Flujo durante llamada que devuelve los huecos libres de tu Google Calendar"
+---
+
+<Note>
+  **Plantillas relacionadas:** [Gestión de citas (Google Calendar)](/es/plantillas/agentes/gestion-citas-google-calendar) y [Crear cita (Google Calendar)](/es/plantillas/flujos/crear-cita).
+</Note>
+
+## Qué hace
+
+El agente le pasa la hora de apertura y de cierre de tu centro para un día concreto (`start_date` y `end_date`, en hora local), y el flujo devuelve **los huecos que están libres** en tu Google Calendar dentro de esa franja, ya calculados. El agente no tiene que deducir nada: solo le quedan por ofrecer al paciente.
+
+Cada hueco de la lista `huecos_libres` viene con tres campos, todos en hora local:
+
+```json
+[{ "start": "2026-07-10T09:00", "end": "2026-07-10T11:00", "duracion_minutos": 120 },
+ { "start": "2026-07-10T13:00", "end": "2026-07-10T14:00", "duracion_minutos": 60 }]
+```
+
+Si el día está completo o el centro está cerrado, la lista llega vacía.
+
+Es un [flujo durante llamada](/es/build/flujos/flujos-durante-llamada): el agente lo ejecuta a mitad de conversación y espera el resultado para seguir hablando.
+
+## Cómo funciona
+
+| Paso | Qué hace |
+|---|---|
+| **Formatear fecha Inicio** y **Formatear fecha Final** | Convierten `start_date` y `end_date` de hora local a UTC, que es lo que espera Google Calendar. |
+| **Buscar disponibilidad en calendario** | Consulta los intervalos ocupados del calendario dentro de esa franja. |
+| **Calcular huecos libres** | Recorta los intervalos ocupados al horario, fusiona los que se solapan y devuelve lo que queda libre, en hora local según el input `zona_horaria`. |
+| **Return Response** | Entrega los huecos libres al agente, indicándole que ya vienen en hora local. |
+
+## Qué necesitas
+
+- Una conexión de [Google Calendar](/es/plataforma/conexiones)
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Copia la plantilla">
+    Desde la sección **Flujos**, abre el catálogo de plantillas y cópiala. El flujo se crea deshabilitado. También se puede crear directamente desde la plantilla de agente [Gestión de citas (Google Calendar)](/es/plantillas/agentes/gestion-citas-google-calendar).
+  </Step>
+
+  <Step title="Configura el calendario">
+    En el paso **Buscar disponibilidad en calendario**, introduce tu conexión de Google Calendar y selecciona el calendario donde quieras que se creen las citas más adelante.
+
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      controls
+      className="w-full rounded-xl"
+      src="/videos/seleccionar-conexion-google-calendar.mp4"
+    ></video>
+  </Step>
+
+  <Step title="Revisa la zona horaria" id="revisa-la-zona-horaria">
+    `Europe/Madrid` aparece en tres sitios: el campo **Input Time Zone** de **Formatear fecha Inicio** y **Formatear fecha Final** (convierten a UTC antes de consultar el calendario) y el input `zona_horaria` del paso **Calcular huecos libres** (devuelve los huecos a hora local). Si operas en otra zona horaria, cámbialos en los tres. El cambio de hora de verano/invierno se aplica solo.
+
+    El mensaje del paso **Return Response** también nombra `Europe/Madrid`: actualízalo para que el agente no reciba una zona horaria que no es la suya.
+  </Step>
+
+  <Step title="Publica el flujo">
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo.
+  </Step>
+
+  <Step title="Asígnalo al agente">
+    Añádelo desde la sección **Flujos** del agente. El nombre del flujo es el nombre de la herramienta que ve el agente, así que déjalo en `comprobar_disponibilidad`. Este paso no es necesario si el flujo se ha creado a partir del agente.
+  </Step>
+</Steps>
+
+## Antes de publicar
+
+- El flujo **solo consulta**. El alta de la cita corre a cargo de [`crear_cita`](/es/plantillas/flujos/crear-cita).
+- Está fijado a **un solo calendario**. Para varios centros con agendas distintas, duplica el flujo.
+- Los huecos libres se calculan **dentro del horario que le pasa el agente**, no del horario real del centro. Si el agente manda mal la hora de apertura o de cierre, la lista sale mal: el horario vive en el prompt del agente, no en el flujo.
+- El flujo **no sabe cuánto dura la cita**: devuelve los huecos enteros. Comprobar que la cita cabe en el hueco es cosa del prompt del agente.
+- El paso **Return Response** le indica al agente que los huecos ya vienen en hora local y que no aplique ninguna corrección. Si editas ese mensaje, mantén esa instrucción: sin ella el agente puede volver a sumar o restar horas.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Gestión de citas (Google Calendar)"
+    icon="calendar-check"
+    href="/es/plantillas/agentes/gestion-citas-google-calendar"
+  >
+    El agente que usa este flujo.
+  </Card>
+  <Card
+    title="Flujos durante llamada"
+    icon="bolt"
+    href="/es/build/flujos/flujos-durante-llamada"
+  >
+    Si quieres modificar los pasos del flujo.
+  </Card>
+</CardGroup>
