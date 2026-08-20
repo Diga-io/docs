@@ -1,0 +1,99 @@
+---
+title: "Check availability (Google Calendar)"
+description: "During-call workflow that returns the free slots in your Google Calendar"
+---
+
+<Note>
+  **Related templates:** [Appointment management (Google Calendar)](/en/templates/agents/appointment-management-google-calendar) and [Create appointment (Google Calendar)](/en/templates/flows/create-appointment).
+</Note>
+
+## What it does
+
+The agent passes it your clinic's opening and closing time for a given day (`start_date` and `end_date`, in local time), and the workflow returns **the slots that are free** in your Google Calendar within that window, already worked out. The agent has nothing left to calculate: it just offers them to the patient.
+
+Each slot in the `free_slots` list comes with three fields, all in local time:
+
+```json
+[{ "start": "2026-07-10T09:00", "end": "2026-07-10T11:00", "duration_minutes": 120 },
+ { "start": "2026-07-10T13:00", "end": "2026-07-10T14:00", "duration_minutes": 60 }]
+```
+
+If the day is fully booked or the clinic is closed, the list comes back empty.
+
+It's a [during-call workflow](/en/build/flows/during-call-flows): the agent runs it mid-conversation and waits for the result before carrying on.
+
+## How it works
+
+| Step | What it does |
+|---|---|
+| **Format start date** and **Format end date** | Convert `start_date` and `end_date` from local time to UTC, which is what Google Calendar expects. |
+| **Find calendar availability** | Queries the calendar's busy intervals within that window. |
+| **Calculate free slots** | Clips the busy intervals to the opening hours, merges the ones that overlap, and returns what's left free, in local time based on the `timezone` input. |
+| **Return Response** | Hands the free slots to the agent, telling it they already come in local time. |
+
+## What you need
+
+- A [Google Calendar](/en/platform/connections) connection
+
+## Getting started
+
+<Steps>
+  <Step title="Copy the template">
+    From the **Workflows** section, open the template catalog and copy it. The workflow is created disabled. It can also be created directly from the [Appointment management (Google Calendar)](/en/templates/agents/appointment-management-google-calendar) agent template.
+  </Step>
+
+  <Step title="Set up the calendar">
+    In the **Find calendar availability** step, add your Google Calendar connection and select the calendar where you want appointments to be created later on.
+
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      controls
+      className="w-full rounded-xl"
+      src="/videos/seleccionar-conexion-google-calendar.mp4"
+    ></video>
+  </Step>
+
+  <Step title="Check the time zone" id="check-the-time-zone">
+    `Europe/Madrid` appears in three places: the **Input Time Zone** field of **Format start date** and **Format end date** (they convert to UTC before querying the calendar) and the `timezone` input of the **Calculate free slots** step (it returns the slots in local time). If you operate in a different time zone, change all three. Daylight saving time is handled automatically.
+
+    The **Return Response** message names `Europe/Madrid` too: update it so the agent isn't told a time zone that isn't yours.
+  </Step>
+
+  <Step title="Publish the workflow">
+    [Publish](/en/build/flows/creating-workflows#draft-vs-published) the workflow.
+  </Step>
+
+  <Step title="Assign it to the agent">
+    Add it from the agent's **Workflows** section. The workflow's name is the tool name the agent sees, so leave it as `check_availability`. This step isn't needed if the workflow was created from the agent.
+  </Step>
+</Steps>
+
+## Before publishing
+
+- The workflow **only reads**. Creating the appointment is handled by [`create_appointment`](/en/templates/flows/create-appointment).
+- It's fixed to **a single calendar**. For multiple clinics with separate schedules, duplicate the workflow.
+- The free slots are worked out **within the hours the agent passes in**, not your clinic's real hours. If the agent sends the wrong opening or closing time, the list comes back wrong: the hours live in the agent's prompt, not in the workflow.
+- The workflow **doesn't know how long the appointment is**: it returns whole slots. Checking that the appointment fits inside a slot is down to the agent's prompt.
+- The **Return Response** step tells the agent the slots already come in local time and that it shouldn't apply any correction. If you edit that message, keep that instruction: without it the agent may shift the hours again.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Appointment management (Google Calendar)"
+    icon="calendar-check"
+    href="/en/templates/agents/appointment-management-google-calendar"
+  >
+    The agent that uses this workflow.
+  </Card>
+  <Card
+    title="During-call workflows"
+    icon="bolt"
+    href="/en/build/flows/during-call-flows"
+  >
+    If you want to modify the workflow's steps.
+  </Card>
+</CardGroup>

@@ -1,0 +1,143 @@
+---
+title: "Gestión de citas (Google Calendar)"
+description: "Recepcionista telefónica que consulta tu agenda y deja la cita creada en Google Calendar"
+---
+
+<Note>
+  **Plantillas relacionadas:** [Comprobar disponibilidad (Google Calendar)](/es/plantillas/flujos/comprobar-disponibilidad) y [Crear cita (Google Calendar)](/es/plantillas/flujos/crear-cita).
+</Note>
+
+## Qué hace
+
+Atiende las llamadas de tus pacientes, identifica en qué centro quieren ser atendidos, consulta los huecos libres de tu calendario y deja la cita creada.
+
+Es un agente de [prompt único](/es/build/agentes/prompt-unico) en español, con un tono pausado pensado para la gestión de citas en clínicas.
+
+### Cómo transcurre la llamada
+
+1. **Ubica al paciente.** Pregunta a qué centro quiere acudir y, si no sabe decirlo, lo deduce de la base de conocimiento. Este paso es opcional y basta con cambiar el prompt para que el agente se ajuste a la gestión de citas de un único centro. 
+2. **Consulta la agenda.** Llama a `comprobar_disponibilidad` con la hora de apertura y de cierre del día que pide el paciente, y recibe los huecos libres ya calculados, en hora local. Si el paciente cambia de día o de hora, vuelve a llamar a la herramienta.
+3. **Ofrece y recoge los datos.** Solo propone horas que caben enteras dentro de un mismo hueco libre: si la que pidió el paciente no cabe, le ofrece las dos alternativas más cercanas. Cuando el paciente elige una, le pide el nombre y el teléfono.
+4. **Crea la cita.** Llama a `crear_cita`, que vuelve a comprobar el hueco antes de dar de alta el evento. Si mientras hablabais ha entrado otra cita en esa franja, el flujo no crea nada y el agente ofrece otra hora.
+
+
+## Qué necesitas
+
+- Una conexión de [Google Calendar](/es/plataforma/conexiones)
+- El flujo [Comprobar disponibilidad (Google Calendar)](/es/plantillas/flujos/comprobar-disponibilidad)
+- El flujo [Crear cita (Google Calendar)](/es/plantillas/flujos/crear-cita)
+- Una [base de conocimiento](/es/build/bases-conocimiento) con tus centros: dirección, barrio y horario (opcional)
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Crea el agente">
+    En **Agentes**, pulsa **Crear Agente**, selecciona la plantilla y **Usar plantilla**.
+  </Step>
+
+  <Step title="Rellena las dos variables">
+    | Variable | Qué poner |
+    |---|---|
+    | `<<agent_name>>` | El nombre del/de la asistente |
+    | `<<company_name>>` | El nombre de tu empresa |
+  </Step>
+
+  <Step title="Ajusta el horario y la duración">
+    En el prompt, edita el bloque **Horario de llamadas** con el horario real de tu centro: es de ahí de donde el agente saca la hora de apertura y de cierre que le pasa a `comprobar_disponibilidad`, así que si no cuadra, los huecos que ofrezca tampoco.
+
+    La duración de la cita viene fijada en 15 minutos y aparece en dos sitios del prompt: en las instrucciones de `comprobar_disponibilidad`, junto al ejemplo de hasta qué hora se puede ofrecer dentro de un hueco, y en las de `crear_cita`. Cámbiala en los dos.
+  </Step>
+
+  <Step title="Monta las dos herramientas">
+    Crea los flujos [Comprobar disponibilidad (Google Calendar)](/es/plantillas/flujos/comprobar-disponibilidad) y [Crear cita (Google Calendar)](/es/plantillas/flujos/crear-cita) desde el apartado **Flujo** en **Herramientas**. Los dos tienen que apuntar al **mismo calendario**: si no, el agente ofrece huecos de una agenda y crea la cita en otra.
+
+    Así se crea un flujo sin salir del agente:
+
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      controls
+      className="w-full rounded-xl"
+      src="/videos/crear_flujo_desde_agente.mp4"
+    ></video>
+
+    Los nombres deben coincidir exactamente — `comprobar_disponibilidad` y `crear_cita` — porque el prompt los invoca de forma literal.
+
+    Los dos flujos vienen con la zona horaria fijada en `Europe/Madrid`. Si operas en otra, revísala antes de seguir: son tres campos en [Comprobar disponibilidad](/es/plantillas/flujos/comprobar-disponibilidad#revisa-la-zona-horaria) y dos en [Crear cita](/es/plantillas/flujos/crear-cita#revisa-la-zona-horaria).
+  </Step>
+
+  <Step title="Publica los dos flujos">
+    Cada flujo hay que [publicarlo](/es/build/flujos/crear-flujos#borrador-vs-publicado), si este paso no se ejecuta, el agente no podrá hacer uso de los flujos.
+  </Step>
+
+  <Step title="Vincula la base de conocimiento (opcional)">
+    Sube el listado de centros y vincúlalo al agente. El agente lo consulta para ubicar al paciente que no sabe decir a qué centro acude.
+  </Step>
+
+  <Step title="Prueba y publica">
+    Haz una [llamada de prueba](/es/build/agentes/llamadas-test) agendando una cita real, comprueba que aparece en el calendario a la hora correcta y [publica el agente](/es/build/agentes/control-versiones). Para la llamada de prueba, tienes que pulsar en **Test**.
+  </Step>
+</Steps>
+
+### Ejemplo de conversación
+
+```
+Agente: Le atiende Gema, una agente de Diga. ¿En qué puedo ayudarle?
+Paciente: Buenos días, quería pedir cita.
+Agente: Claro que sí. ¿A qué centro quiere acudir?
+Paciente: Al que está al lado del mercado.
+Agente: [consulta la base de conocimiento]
+        Ese es el centro de Chamberí, en la calle Fuencarral. ¿Qué día le viene bien?
+Paciente: Mañana por la mañana, si puede ser.
+Agente: Déjeme mirar la agenda un momento.
+        [llama a comprobar_disponibilidad]
+        Mañana martes tengo libre a las nueve y media, a las diez y cuarto y a las once.
+        ¿Cuál prefiere?
+Paciente: A las diez y cuarto.
+Agente: Perfecto. ¿Me dice su nombre y apellidos?
+Paciente: Manuel Ortega Ruiz.
+Agente: ¿Y un teléfono de contacto?
+Paciente: Seis once, veintidós, treinta y tres, cuarenta y cuatro.
+Agente: [llama a crear_cita]
+        Listo, Manuel. Le he reservado la cita mañana martes a las diez y cuarto
+        en el centro de Chamberí. ¿Necesita algo más?
+Paciente: No, muchas gracias.
+Agente: A usted. Que tenga un buen día.
+```
+
+## Antes de publicar
+
+Ten en cuenta lo que la plantilla **no** hace:
+
+- **No anula ni modifica citas.** El agente dice que lo gestiona, pero no hay ninguna herramienta detrás.
+- **No transfiere ni cuelga.** Añade la [herramienta de transferencia](/es/build/agentes/herramientas-llamada) si la necesitas.
+- **Solo habla español**, aunque el paciente cambie de idioma. Si necesitas atender en varios idiomas, cambia el [selector de idioma](/es/build/agentes/personalizacion-llamada#identidad-del-agente) a **Multilingüe**: el agente detecta el idioma de cada paciente y responde en ese mismo idioma.
+- **Trabaja contra un solo calendario.** Puede ubicar al paciente en varios centros a través de la base de conocimiento, pero todas las citas acaban en la misma agenda. Para agendas separadas por centro, duplica los dos flujos y pon nombre específicos, alterando el prompt de manera consecuente.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Comprobar disponibilidad (Google Calendar)"
+    icon="bolt"
+    href="/es/plantillas/flujos/comprobar-disponibilidad"
+  >
+    El flujo que consulta los huecos libres.
+  </Card>
+  <Card
+    title="Crear cita (Google Calendar)"
+    icon="calendar-plus"
+    href="/es/plantillas/flujos/crear-cita"
+  >
+    El flujo que da de alta el evento.
+  </Card>
+  <Card
+    title="Cómo hacer prompts"
+    icon="wand-sparkles"
+    href="/es/build/agentes/prompt-unico"
+  >
+    Si quieres modificar el prompt de la plantilla.
+  </Card>
+</CardGroup>

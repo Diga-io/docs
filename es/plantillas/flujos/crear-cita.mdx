@@ -1,0 +1,107 @@
+---
+title: "Crear cita (Google Calendar)"
+description: "Flujo durante llamada que comprueba el hueco y crea el evento en tu Google Calendar"
+---
+
+<Note>
+  **Plantillas relacionadas:** [Gestión de citas (Google Calendar)](/es/plantillas/agentes/gestion-citas-google-calendar) y [Comprobar disponibilidad](/es/plantillas/flujos/comprobar-disponibilidad).
+</Note>
+
+## Qué hace
+
+El agente le pasa la hora de inicio y de fin de la cita (`start_date` y `end_date`, en hora local) junto con el nombre y el teléfono del paciente, y el flujo **crea el evento** en tu Google Calendar.
+
+Antes de crearlo vuelve a consultar el calendario. Si en ese hueco ya hay algo agendado, no crea nada y le pide al agente que ofrezca otra hora — así una cita que haya entrado por otra vía mientras hablabais no acaba duplicada.
+
+Es un [flujo durante llamada](/es/build/flujos/flujos-durante-llamada) en modo síncrono: el agente lo ejecuta a mitad de conversación y espera la respuesta antes de confirmarle la cita al paciente.
+
+## Cómo funciona
+
+| Paso | Qué hace |
+|---|---|
+| **Adaptar fecha inicial** y **Adaptar fecha final** | Convierten `start_date` y `end_date` de hora local a UTC, que es lo que espera Google Calendar. |
+| **Comprobar disponibilidad** | Consulta los intervalos ocupados del calendario dentro de ese hueco exacto. |
+| **Disponibilidad?** | Un paso de código que devuelve `true` solo si no hay ningún intervalo ocupado. |
+| **Crear Evento** | Crea el evento, con el título `Cita - <nombre>` y el teléfono del paciente en la descripción. |
+| **Devolver respuesta** | Le cuenta al agente cómo ha ido. |
+
+El flujo siempre termina en un paso **Devolver respuesta**, con uno de tres desenlaces:
+
+- **Hueco libre y evento creado** — el agente recibe `Cita creada de manera correcta.` y le confirma la cita al paciente.
+- **Hueco ocupado** — no se crea nada. Al agente se le indica que se disculpe y pida otra fecha.
+- **El evento no se ha podido crear** — el agente recibe `Un error ha ocurrido.` No hay cita, así que no debe confirmarla.
+
+## Qué necesitas
+
+- Una conexión de [Google Calendar](/es/plataforma/conexiones)
+- El calendario donde se crean las citas, que debe ser el mismo que consulta [Comprobar disponibilidad](/es/plantillas/flujos/comprobar-disponibilidad)
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Copia la plantilla">
+    Desde la sección **Flujos**, abre el catálogo de plantillas y cópiala. El flujo se crea deshabilitado.
+  </Step>
+
+  <Step title="Rellena la variable del calendario">
+    La plantilla trae una variable `<<calendar_id>>` que se usa en dos pasos: **Comprobar disponibilidad** y **Crear Evento**. Tiene que ser el mismo calendario en los dos, y el mismo que consulta el flujo `comprobar_disponibilidad`. Si apuntan a calendarios distintos, el agente ofrece huecos de una agenda y crea la cita en otra.
+  </Step>
+
+  <Step title="Selecciona la conexión de Google Calendar">
+    Los dos pasos de Google Calendar necesitan tu conexión.
+
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      controls
+      className="w-full rounded-xl"
+      src="/videos/seleccionar-conexion-google-calendar.mp4"
+    ></video>
+  </Step>
+
+  <Step title="Revisa la zona horaria" id="revisa-la-zona-horaria">
+    `Europe/Madrid` aparece en el campo **Input Time Zone** de **Adaptar fecha inicial** y **Adaptar fecha final**. Si operas en otra zona horaria, cámbialos en los dos. El cambio de hora de verano/invierno se aplica solo.
+  </Step>
+
+  <Step title="Ajusta la duración de la cita (opcional)" id="ajusta-la-duracion-de-la-cita-opcional">
+    Los 15 minutos no están en ningún paso del flujo: los calcula el agente a partir de la descripción del parámetro `end_date` del trigger **Llamada de función**. Si cambias la duración, cámbiala también en el prompt del agente.
+  </Step>
+
+  <Step title="Publica el flujo">
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo.
+  </Step>
+
+  <Step title="Asígnalo al agente">
+    Añádelo desde la sección **Flujos** del agente. El nombre del flujo es el nombre de la herramienta que ve el agente, así que déjalo en `crear_cita`. Este paso no es necesario si el flujo se ha creado a partir del agente. 
+  </Step>
+</Steps>
+
+## Antes de publicar
+
+- La comprobación previa mira **solo el hueco de la cita**, no tu horario de apertura. Que el agente no agende con el centro cerrado depende de su prompt, no del flujo.
+- `name` y `phone` son parámetros **opcionales**. Si el agente no los recoge, el evento se crea igualmente, con el título `Cita - ` y sin teléfono en la descripción.
+- El evento se crea **sin invitados**: el teléfono del paciente queda en la descripción y no se le envía ninguna invitación por email.
+- El flujo **solo crea**. No anula ni modifica citas ya existentes.
+- Está fijado a **un solo calendario**. Para varios centros con agendas distintas, duplica el flujo.
+- Si tarda más de 60 segundos o algún paso falla, el agente continúa sin la respuesta y no sabrá si la cita se creó.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Gestión de citas (Google Calendar)"
+    icon="calendar-check"
+    href="/es/plantillas/agentes/gestion-citas-google-calendar"
+  >
+    El agente que usa este flujo.
+  </Card>
+  <Card
+    title="Comprobar disponibilidad"
+    icon="bolt"
+    href="/es/plantillas/flujos/comprobar-disponibilidad"
+  >
+    El otro flujo que necesita el agente.
+  </Card>
+</CardGroup>
