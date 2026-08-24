@@ -139,6 +139,24 @@ The caller just says *"I'd like to cancel my reservation."* The agent extracts `
   Like other flows, during-call flows are assigned per [agent version](/en/build/agents/version-control). The flow must be **published** and **enabled** before it will run.
 </Note>
 
+## When the caller interrupts a running flow
+
+Real callers don't wait politely: they add details or change their mind while a flow is still executing. Diga handles this for you:
+
+- **The execution is never cancelled.** Once a flow has been triggered it runs to completion — cancelling it locally wouldn't undo a booking already being created in your systems.
+- **The agent stays informed.** It's told immediately that the flow is still running (so it won't call it again), and it receives the real outcome as soon as the flow finishes — success or failure.
+- **The agent acknowledges what already happened.** If the caller changed their mind mid-execution, the agent says out loud what was already done before adjusting, instead of pretending nothing happened or running the flow twice.
+
+This behavior is built in — you don't need to prompt for it. What **you** control is what the agent can honestly offer next:
+
+<Warning>
+  **Back every promise in your prompt with a flow.** The built-in behavior never claims an action the agent cannot perform: if the caller wants to change an appointment and the agent only has a *create* flow, it will say plainly that the previous appointment still exists and needs handling — it won't pretend to cancel it. If rescheduling or cancelling matters for your use case, build those flows and assign them too. If you deliberately don't, tell the agent in your prompt what to do instead (for example, "if the caller wants to change a booking, take note so the team handles it").
+</Warning>
+
+<Tip>
+  Write your **Return Response** message as something the agent could say aloud, in your callers' language. The agent builds its reply from it — "Cita creada para el 25 de agosto a las 10:00" produces a far more natural answer than a raw status in English.
+</Tip>
+
 ## Common use cases
 
 <AccordionGroup>
