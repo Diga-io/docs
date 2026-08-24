@@ -145,7 +145,8 @@ Los llamantes reales no esperan educadamente: añaden detalles o cambian de opin
 
 - **La ejecución nunca se cancela.** Una vez disparado, el flujo se ejecuta hasta el final: cancelarlo en local no desharía una cita que ya se está creando en tus sistemas.
 - **El agente se mantiene informado.** Se le avisa al instante de que el flujo sigue en marcha (para que no lo vuelva a llamar) y recibe el resultado real en cuanto termina, tanto si es un éxito como un fallo.
-- **El agente reconoce lo que ya ha pasado.** Si el llamante cambió de opinión a mitad de ejecución, el agente dice en voz alta lo que ya se hizo antes de ajustar, en lugar de fingir que no pasó nada o ejecutar el flujo dos veces.
+- **El agente reconoce lo que ya ha pasado.** Si el llamante cambió de opinión a mitad de ejecución, el agente dice en voz alta lo que ya se hizo antes de ajustar, en lugar de fingir que no pasó nada o duplicar la acción en silencio.
+- **Una petición corregida se ejecuta como una nueva.** Si el llamante corrige un detalle mientras el flujo se ejecuta ("mejor a las 8"), el agente vuelve a ejecutar el flujo con los valores corregidos. Nunca da por hecho un cambio si no lo ha ejecutado de verdad.
 
 Este comportamiento viene de serie: no necesitas pedirlo en el prompt. Lo que **tú** controlas es qué puede ofrecer el agente honestamente a continuación:
 
