@@ -1,0 +1,91 @@
+---
+title: "Check availability (Cal.com)"
+description: "During-call workflow that returns the free slots for an appointment type in Cal.com"
+---
+
+<Note>
+  **Related workflows:** [Create appointment (Cal.com)](/en/templates/flows/create-appointment-cal-com).
+
+  **Related agents:** [Appointment management (Cal.com)](/en/templates/agents/appointment-management-cal-com).
+</Note>
+
+## What it does
+
+The agent passes it the appointment type (`event_type_id`) and the time range to check (`start_time` and `end_time`, in local time), and the workflow returns **the free slots** in Cal.com for that appointment type within that window, already in local time.
+
+Each slot in the list comes with `fecha` and `hora` (date and time) in local time, plus an internal `inicio_utc` field the agent must ignore entirely.
+
+It's a [during-call workflow](/en/build/flows/during-call-flows): the agent runs it mid-conversation and waits for the result before carrying on.
+
+## How it works
+
+| Step | What it does |
+|---|---|
+| **Convert range to UTC** | Converts `start_time` and `end_time` from local time to UTC, handling daylight saving automatically. |
+| **Get available slots in Cal** | Queries Cal.com for the free slots of the given `event_type_id`, within the converted range. |
+| **Format slots to local time** | Converts each slot back to local time and sorts them chronologically. |
+| **Return Response** | Hands the list to the agent, telling it the slots already come in local time, to ignore `inicio_utc`, and to only offer times from this list. |
+
+If there are no free slots in the requested range, the response tells the agent explicitly so it can ask for another day.
+
+## What you need
+
+- A Cal.com [connection](/en/platform/connections)
+- The appointment type (`event_type_id`) it will check, which the agent gets from the [Get event types (Cal.com)](/en/templates/flows/get-event-types-cal-com) workflow
+
+## Getting started
+
+<Steps>
+  <Step title="Copy the template">
+    From the **Workflows** section, open the template catalog and copy it. The workflow is created disabled. It can also be created from the [Appointment management (Cal.com)](/en/templates/agents/appointment-management-cal-com) agent template.
+  </Step>
+
+  <Step title="Select the Cal.com connection">
+    In the **Get available slots in Cal** step, add your Cal.com connection.
+  </Step>
+
+  <Step title="Check the time zone" id="check-the-time-zone">
+    `Europe/Madrid` appears in three places: the `zona` input of **Convert range to UTC** (twice, for the start and the end) and the **Time Zone** field of **Get available slots in Cal**. If you operate in a different time zone, change all three. Daylight saving time is handled automatically.
+  </Step>
+
+  <Step title="Publish the workflow">
+    [Publish](/en/build/flows/creating-workflows#draft-vs-published) the workflow.
+  </Step>
+
+  <Step title="Assign it to the agent">
+    Add it from the agent's **Workflows** section. The workflow's name is the tool name the agent sees, so leave it as `check_availability`. This step isn't needed if the workflow was created from the agent.
+  </Step>
+</Steps>
+
+## Before publishing
+
+- The workflow **only reads**. Creating the appointment is handled by [`create_appointment`](/en/templates/flows/create-appointment-cal-com).
+- The `event_type_id` **has to exist in Cal.com**. If the agent sends an id that doesn't match any appointment type, the query to Cal.com fails and the workflow never returns any slots.
+- Slots are calculated **according to that appointment type's availability settings in Cal.com** (hours, buffers, blocked days), not anything the workflow defines. To change when appointments can be booked, edit it directly in Cal.com.
+- Each slot's `inicio_utc` field is **internal**: it's only used to sort the list. If the agent reads it out loud, it'll sound wrong — the instruction to ignore it lives in the **Return Response** message, don't remove it if you edit that step.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Appointment management (Cal.com)"
+    icon="calendar-check"
+    href="/en/templates/agents/appointment-management-cal-com"
+  >
+    The agent that uses this workflow.
+  </Card>
+  <Card
+    title="Create appointment (Cal.com)"
+    icon="calendar-plus"
+    href="/en/templates/flows/create-appointment-cal-com"
+  >
+    The workflow that books the chosen slot.
+  </Card>
+  <Card
+    title="During-call workflows"
+    icon="bolt"
+    href="/en/build/flows/during-call-flows"
+  >
+    If you want to modify the workflow's steps.
+  </Card>
+</CardGroup>

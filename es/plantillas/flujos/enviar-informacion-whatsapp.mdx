@@ -1,0 +1,97 @@
+---
+title: "Enviar información (WhatsApp)"
+description: "Flujo post-llamada que manda por WhatsApp un enlace de recursos un minuto después de colgar"
+---
+
+<Note>
+  **Agentes relacionados:** [Ventas outbound](/es/plantillas/agentes/ventas-outbound).
+</Note>
+
+## Qué hace
+
+Un minuto después de que la llamada termine, el flujo envía por WhatsApp un mensaje con un enlace a información o recursos, al mismo número desde el que llamó o al que se llamó.
+
+Encaja con el cierre del prompt de [Ventas outbound](/es/plantillas/agentes/ventas-outbound), que ofrece mandar "un recurso que podría ser útil más adelante" cuando el prospecto no muestra interés inmediato.
+
+Es un [flujo post-llamada](/es/build/flujos/flujos-post-llamada): se ejecuta en segundo plano, sin añadir tiempo a la llamada.
+
+## Cómo funciona
+
+| Paso | Qué hace |
+|---|---|
+| **Llamada finalizada** | Trigger. Recibe el contacto y las variables dinámicas de la llamada. |
+| **Retraso para** | Espera 1 minuto. |
+| **Enviar mensaje** | Manda un WhatsApp al número de contacto de la llamada, con un saludo personalizado y un enlace. |
+
+El destinatario se toma automáticamente del contacto de la llamada — no hace falta pasarlo como variable dinámica. El nombre que aparece en el saludo sí depende de una variable dinámica (`name`).
+
+## Qué necesitas
+
+- Una [conexión](/es/plataforma/conexiones) de WhatsApp Business
+- La variable dinámica `name` definida al originar la llamada, con el nombre del prospecto
+- Un enlace real al recurso que quieras compartir
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Copia la plantilla">
+    Desde la sección **Flujos**, abre el catálogo de plantillas y cópiala. El flujo se crea deshabilitado.
+  </Step>
+
+  <Step title="Configura la conexión de WhatsApp">
+    En el paso **Enviar mensaje**, añade tu conexión de WhatsApp Business. Esta plantilla no trae ninguna integración preconfigurada: tienes que crearla antes de poder usar el paso.
+  </Step>
+
+  <Step title="Sustituye el enlace de ejemplo">
+    El texto del mensaje trae `<<url>>` como marcador. Cámbialo por el enlace real al recurso, archivo o página que quieras enviar.
+  </Step>
+
+  <Step title="Ajusta la espera (opcional)">
+    El paso **Retraso para** está en 1 minuto. Súbelo o bájalo según prefieras.
+  </Step>
+
+  <Step title="Asegúrate de que la variable name llega">
+    El saludo del mensaje usa `{{trigger['dynamic_variables']['name']}}`. Revisa que el flujo o la integración que origina la llamada pase esa variable; si no, el mensaje saldrá con el hueco del nombre vacío.
+  </Step>
+
+  <Step title="Publica el flujo y asígnalo al agente">
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo y asegúrate de que quede **habilitado**. Añádelo desde la sección **Flujos** del agente al que quieras asociarlo; aparecerá con la etiqueta **Post-llamada**.
+  </Step>
+
+  <Step title="Pruébalo">
+    Haz una llamada de prueba con tu propio número y comprueba que el WhatsApp llega un minuto después, con el nombre y el enlace correctos.
+  </Step>
+</Steps>
+
+## Antes de publicar
+
+- **Envía el mismo mensaje a todas las llamadas**, sin distinguir si hubo interés real o no. Si solo quieres mandarlo cuando el prospecto pidió más información, añade una condición antes del paso de envío.
+- **Si falta la variable `name`, el saludo llega incompleto.** No hay ningún valor por defecto.
+- **El enlace no se rellena solo.** Hasta que sustituyas `<<url>>`, el mensaje sale con el marcador literal.
+- **No comprueba si el número tiene WhatsApp.** Si el contacto no usa WhatsApp, el envío falla y no hay ningún aviso adicional configurado en el flujo.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Ventas outbound"
+    icon="phone-volume"
+    href="/es/plantillas/agentes/ventas-outbound"
+  >
+    El agente que genera estas llamadas.
+  </Card>
+  <Card
+    title="Guardar resultado de llamada (Google Sheets)"
+    icon="table"
+    href="/es/plantillas/flujos/guardar-resultado-llamada-sheets"
+  >
+    El otro flujo post-llamada de la plantilla.
+  </Card>
+  <Card
+    title="Variables dinámicas"
+    icon="brackets-curly"
+    href="/es/build/agentes/variables-dinamicas"
+  >
+    Cómo pasar el nombre del prospecto a la llamada.
+  </Card>
+</CardGroup>

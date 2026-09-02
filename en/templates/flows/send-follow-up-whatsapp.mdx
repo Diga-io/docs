@@ -1,0 +1,97 @@
+---
+title: "Send follow-up (WhatsApp)"
+description: "Post-call workflow that sends a resource link over WhatsApp one minute after the call ends"
+---
+
+<Note>
+  **Related agents:** [Outbound sales](/en/templates/agents/outbound-sales).
+</Note>
+
+## What it does
+
+One minute after the call ends, the workflow sends a WhatsApp message with a link to information or resources, to the same number the call was made to.
+
+It matches the closing of the [Outbound sales](/en/templates/agents/outbound-sales) prompt, which offers to send "a resource that might be useful down the line" when the prospect doesn't show immediate interest.
+
+It's a [post-call workflow](/en/build/flows/post-call-flows): it runs in the background, without adding time to the call.
+
+## How it works
+
+| Step | What it does |
+|---|---|
+| **Call Finished** | Trigger. Receives the call's contact and dynamic variables. |
+| **Delay for** | Waits 1 minute. |
+| **Send message** | Sends a WhatsApp message to the call's contact number, with a personalized greeting and a link. |
+
+The recipient is taken automatically from the call's contact — no need to pass it as a dynamic variable. The name shown in the greeting does depend on a dynamic variable (`name`).
+
+## What you need
+
+- A WhatsApp Business [connection](/en/platform/connections)
+- The `name` dynamic variable set when the call is launched, with the prospect's name
+- A real link to the resource you want to share
+
+## Getting started
+
+<Steps>
+  <Step title="Copy the template">
+    From the **Workflows** section, open the template catalog and copy it. The workflow is created disabled.
+  </Step>
+
+  <Step title="Set up the WhatsApp connection">
+    In the **Send message** step, add your WhatsApp Business connection. This template doesn't ship with any integration pre-configured: you have to create one before the step will work.
+  </Step>
+
+  <Step title="Replace the sample link">
+    The message text ships with `<<url>>` as a placeholder. Replace it with the real link to the resource, file, or page you want to send.
+  </Step>
+
+  <Step title="Adjust the wait (optional)">
+    The **Delay for** step is set to 1 minute. Raise or lower it as you prefer.
+  </Step>
+
+  <Step title="Make sure the name variable arrives">
+    The message's greeting uses `{{trigger['dynamic_variables']['name']}}`. Check that the workflow or integration launching the call passes that variable; otherwise the message goes out with a blank where the name should be.
+  </Step>
+
+  <Step title="Publish the workflow and assign it to the agent">
+    [Publish](/en/build/flows/creating-workflows#draft-vs-published) the workflow and make sure it's **enabled**. Add it from the **Workflows** section of the agent you want to link it to; it'll show up with the **Post-call** label.
+  </Step>
+
+  <Step title="Test it">
+    Make a test call with your own number and check that the WhatsApp message arrives a minute later, with the right name and link.
+  </Step>
+</Steps>
+
+## Before publishing
+
+- **It sends the same message on every call**, regardless of whether there was real interest. If you only want to send it when the prospect asked for more information, add a condition before the send step.
+- **If the `name` variable is missing, the greeting arrives incomplete.** There's no default value.
+- **The link doesn't fill itself in.** Until you replace `<<url>>`, the message goes out with the literal placeholder.
+- **It doesn't check whether the number has WhatsApp.** If the contact doesn't use WhatsApp, the send fails and there's no additional fallback configured in the workflow.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Outbound sales"
+    icon="phone-volume"
+    href="/en/templates/agents/outbound-sales"
+  >
+    The agent that generates these calls.
+  </Card>
+  <Card
+    title="Save call result (Google Sheets)"
+    icon="table"
+    href="/en/templates/flows/save-call-result-sheets"
+  >
+    The template's other post-call workflow.
+  </Card>
+  <Card
+    title="Dynamic Variables"
+    icon="brackets-curly"
+    href="/en/build/agents/dynamic-variables"
+  >
+    How to pass the prospect's name into the call.
+  </Card>
+</CardGroup>

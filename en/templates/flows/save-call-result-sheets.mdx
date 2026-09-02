@@ -1,0 +1,89 @@
+---
+title: "Save call result (Google Sheets)"
+description: "Post-call workflow that uses AI to extract a sales call's outcome and saves it to Google Sheets"
+---
+
+<Note>
+  **Related agents:** [Outbound sales](/en/templates/agents/outbound-sales).
+</Note>
+
+## What it does
+
+When the call ends, the workflow reads the full transcript, asks an AI model to extract three things — whether the prospect showed interest, what objections they raised, and their urgency level — and adds a row with those three values to a Google Sheet.
+
+It's a [post-call workflow](/en/build/flows/post-call-flows): it runs in the background once the call has already ended, so it never adds delay to the conversation.
+
+## How it works
+
+| Step | What it does |
+|---|---|
+| **Call Finished** | Trigger. Receives the call's full transcript. |
+| **Extract structured data** | An AI step that analyzes the transcript and returns `interested` (boolean, required), `objections_raised` (text, optional), and `urgency` (text, optional: "urgent", "this quarter", "exploring", or "no timeline"). |
+| **Add row** | Inserts those three values as a new row in the given Google Sheet. |
+
+## What you need
+
+- A Google Sheets [connection](/en/platform/connections)
+- An existing spreadsheet, with its `spreadsheetId`
+- The [Outbound sales](/en/templates/agents/outbound-sales) agent, or any other you want to assign it to
+
+## Getting started
+
+<Steps>
+  <Step title="Copy the template">
+    From the **Workflows** section, open the template catalog and copy it. The workflow is created disabled.
+  </Step>
+
+  <Step title="Check the AI model">
+    The **Extract structured data** step ships with a specific model configured. Check it's still available on your account before publishing, and change it if needed.
+  </Step>
+
+  <Step title="Fill in the Google Sheets connection and spreadsheet">
+    In the **Add row** step, select your Google Sheets connection and replace the placeholder `<<spreadsheet_id>>` with your spreadsheet's real id. The workflow always writes to the first tab (`sheetId: 0`).
+  </Step>
+
+  <Step title="Add headers and, if you need them, contact columns">
+    The template only saves `interested`, `objections_raised`, and `urgency`, in that order, with no name, phone number, or call date. If you need to know which prospect each row belongs to, add those fields to the sheet and to the **Add row** step before publishing. `first_row_headers` ships disabled: if your sheet has a header row, turn it on so it doesn't get overwritten.
+  </Step>
+
+  <Step title="Publish the workflow and assign it to the agent">
+    [Publish](/en/build/flows/creating-workflows#draft-vs-published) the workflow and make sure it's **enabled**. Add it from the **Workflows** section of the agent you want to link it to; it'll show up with the **Post-call** label.
+  </Step>
+
+  <Step title="Test it">
+    Make a test call and check that a new row shows up in the sheet with the three extracted values.
+  </Step>
+</Steps>
+
+## Before publishing
+
+- **It doesn't save who was called.** Without a name, phone number, or email in the row, there's no way to tell afterward which prospect produced which result — add those fields if you need them.
+- **The classification is done by a language model.** It can get it wrong, especially with ambiguous or cut-off conversations. Treat the result as a good approximation, not a verified fact.
+- **It always writes to the spreadsheet's first tab.** If your spreadsheet has multiple tabs, check it's the right one before publishing.
+- **If the sheet has a header row and you don't enable `first_row_headers`,** the first data row can end up overwriting or misaligning with the headers.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Outbound sales"
+    icon="phone-volume"
+    href="/en/templates/agents/outbound-sales"
+  >
+    The agent that generates these calls.
+  </Card>
+  <Card
+    title="Send follow-up (WhatsApp)"
+    icon="message-circle"
+    href="/en/templates/flows/send-follow-up-whatsapp"
+  >
+    The template's other post-call workflow.
+  </Card>
+  <Card
+    title="Post-call workflows"
+    icon="clock-rotate-left"
+    href="/en/build/flows/post-call-flows"
+  >
+    How workflows that run when the call ends work.
+  </Card>
+</CardGroup>

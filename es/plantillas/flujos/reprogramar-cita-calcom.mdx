@@ -1,0 +1,96 @@
+---
+title: "Reprogramar cita (Cal.com)"
+description: "Flujo durante llamada que mueve una reserva existente a un nuevo hueco en Cal.com"
+---
+
+<Note>
+  **Flujos relacionados:** [Buscar cita (Cal.com)](/es/plantillas/flujos/buscar-cita-calcom) y [Comprobar disponibilidad (Cal.com)](/es/plantillas/flujos/comprobar-disponibilidad-calcom).
+
+  **Agentes relacionados:** [Gestión de citas (Cal.com)](/es/plantillas/agentes/gestion-citas-calcom).
+</Note>
+
+## Qué hace
+
+El agente le pasa el identificador de la reserva (`booking_uid`, obtenido con [Buscar cita](/es/plantillas/flujos/buscar-cita-calcom)) y la nueva fecha y hora (`start_date`, en hora local), y el flujo **mueve la reserva** en Cal.com al nuevo hueco.
+
+A diferencia de [Crear cita](/es/plantillas/flujos/crear-cita-calcom#antes-de-publicar), este flujo sí distingue entre éxito y fallo: si Cal.com rechaza el cambio (por ejemplo, porque el hueco se acaba de ocupar), el agente recibe un mensaje pensado para que se disculpe y ofrezca alternativas, en lugar de quedarse sin respuesta.
+
+Es un [flujo durante llamada](/es/build/flujos/flujos-durante-llamada) en modo síncrono.
+
+## Cómo funciona
+
+| Paso | Qué hace |
+|---|---|
+| **Convertir fecha a UTC** | Convierte `start_date` de hora local a UTC. |
+| **Reprogramar reserva en Cal** | Llama a Cal.com para mover la reserva indicada al nuevo horario. |
+| **Comprobar estado de la reprogramación** | Router que separa el resultado según si Cal.com devolvió éxito o no. |
+| **Devolver respuesta (reprogramada / error)** | Responde al agente con el mensaje que corresponda. |
+
+El motivo del cambio (`reschedulingReason`) no se recoge del cliente: la plantilla lo manda siempre vacío a Cal.com, aunque la acción lo admite.
+
+## Qué necesitas
+
+- Una [conexión](/es/plataforma/conexiones) de Cal.com
+- El flujo [Buscar cita (Cal.com)](/es/plantillas/flujos/buscar-cita-calcom), para obtener el `booking_uid`
+- El flujo [Comprobar disponibilidad (Cal.com)](/es/plantillas/flujos/comprobar-disponibilidad-calcom), para comprobar que el nuevo hueco está libre antes de llamar a esta herramienta
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Copia la plantilla">
+    Desde la sección **Flujos**, abre el catálogo de plantillas y cópiala. El flujo se crea deshabilitado.
+  </Step>
+
+  <Step title="Selecciona la conexión de Cal.com">
+    En el paso **Reprogramar reserva en Cal**, indica tu conexión de Cal.com.
+  </Step>
+
+  <Step title="Revisa la zona horaria" id="revisa-la-zona-horaria">
+    `Europe/Madrid` aparece en el input `zona` del paso **Convertir fecha a UTC**. Si operas en otra zona horaria, cámbialo ahí.
+  </Step>
+
+  <Step title="Añade el motivo del cambio (opcional)">
+    Si quieres que el motivo de la reprogramación quede registrado en Cal.com, sustituye el valor vacío de **Rescheduling Reason** en el paso **Reprogramar reserva en Cal** por una variable que recoja del cliente, igual que hace [Cancelar cita](/es/plantillas/flujos/cancelar-cita-calcom) con `cancellation_reason`.
+  </Step>
+
+  <Step title="Publica el flujo">
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo.
+  </Step>
+
+  <Step title="Asígnalo al agente">
+    Añádelo desde la sección **Flujos** del agente. El nombre del flujo es el nombre de la herramienta que ve el agente, así que déjalo en `reprogramar_cita`. Este paso no es necesario si el flujo se ha creado a partir del agente.
+  </Step>
+</Steps>
+
+## Antes de publicar
+
+- **No comprueba la disponibilidad por su cuenta.** El agente tiene que haber llamado antes a `comprobar_disponibilidad` para el nuevo hueco; este flujo solo intenta el cambio y deja que Cal.com lo acepte o lo rechace.
+- **El motivo de la reprogramación no se guarda** salvo que lo configures tú mismo (ver el paso correspondiente arriba).
+- **La comparación de éxito depende de un campo interno de la pieza de Cal.com** (`status: "success"`). Si Cal.com cambiara ese valor en una futura versión de la integración, el router dejaría de distinguir bien los dos casos.
+- **El tipo de cita no se puede cambiar aquí.** Reprogramar solo mueve la hora; si el cliente quiere un tipo de cita distinto, hay que cancelar y crear una nueva.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Buscar cita (Cal.com)"
+    icon="magnifying-glass"
+    href="/es/plantillas/flujos/buscar-cita-calcom"
+  >
+    De aquí sale el uid que necesita este flujo.
+  </Card>
+  <Card
+    title="Comprobar disponibilidad (Cal.com)"
+    icon="bolt"
+    href="/es/plantillas/flujos/comprobar-disponibilidad-calcom"
+  >
+    Consulta el nuevo hueco antes de reprogramar.
+  </Card>
+  <Card
+    title="Gestión de citas (Cal.com)"
+    icon="calendar-check"
+    href="/es/plantillas/agentes/gestion-citas-calcom"
+  >
+    El agente que usa este flujo.
+  </Card>
+</CardGroup>

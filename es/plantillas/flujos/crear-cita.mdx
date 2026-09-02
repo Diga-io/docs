@@ -4,16 +4,18 @@ description: "Flujo durante llamada que comprueba el hueco y crea el evento en t
 ---
 
 <Note>
-  **Plantillas relacionadas:** [Gestión de citas (Google Calendar)](/es/plantillas/agentes/gestion-citas-google-calendar) y [Comprobar disponibilidad](/es/plantillas/flujos/comprobar-disponibilidad).
+  **Flujos relacionados:** [Comprobar disponibilidad (Google Calendar)](/es/plantillas/flujos/comprobar-disponibilidad).
+
+  **Agentes relacionados:** [Gestión de citas (Google Calendar)](/es/plantillas/agentes/gestion-citas-google-calendar) y [Gestión de leads (HubSpot)](/es/plantillas/agentes/gestion-leads).
 </Note>
 
 ## Qué hace
 
-El agente le pasa la hora de inicio y de fin de la cita (`start_date` y `end_date`, en hora local) junto con el nombre y el teléfono del paciente, y el flujo **crea el evento** en tu Google Calendar.
+El agente le pasa la hora de inicio y de fin de la cita (`start_date` y `end_date`, en hora local) junto con el nombre y el teléfono del cliente, y el flujo **crea el evento** en tu Google Calendar.
 
 Antes de crearlo vuelve a consultar el calendario. Si en ese hueco ya hay algo agendado, no crea nada y le pide al agente que ofrezca otra hora — así una cita que haya entrado por otra vía mientras hablabais no acaba duplicada.
 
-Es un [flujo durante llamada](/es/build/flujos/flujos-durante-llamada) en modo síncrono: el agente lo ejecuta a mitad de conversación y espera la respuesta antes de confirmarle la cita al paciente.
+Es un [flujo durante llamada](/es/build/flujos/flujos-durante-llamada) en modo síncrono: el agente lo ejecuta a mitad de conversación y espera la respuesta antes de confirmarle la cita al cliente.
 
 ## Cómo funciona
 
@@ -22,19 +24,19 @@ Es un [flujo durante llamada](/es/build/flujos/flujos-durante-llamada) en modo s
 | **Adaptar fecha inicial** y **Adaptar fecha final** | Convierten `start_date` y `end_date` de hora local a UTC, que es lo que espera Google Calendar. |
 | **Comprobar disponibilidad** | Consulta los intervalos ocupados del calendario dentro de ese hueco exacto. |
 | **Disponibilidad?** | Un paso de código que devuelve `true` solo si no hay ningún intervalo ocupado. |
-| **Crear Evento** | Crea el evento, con el título `Cita - <nombre>` y el teléfono del paciente en la descripción. |
+| **Crear Evento** | Crea el evento, con el título `Cita - <nombre>` y el teléfono del cliente en la descripción. |
 | **Devolver respuesta** | Le cuenta al agente cómo ha ido. |
 
 El flujo siempre termina en un paso **Devolver respuesta**, con uno de tres desenlaces:
 
-- **Hueco libre y evento creado** — el agente recibe `Cita creada de manera correcta.` y le confirma la cita al paciente.
+- **Hueco libre y evento creado** — el agente recibe `Cita creada de manera correcta.` y le confirma la cita al cliente.
 - **Hueco ocupado** — no se crea nada. Al agente se le indica que se disculpe y pida otra fecha.
 - **El evento no se ha podido crear** — el agente recibe `Un error ha ocurrido.` No hay cita, así que no debe confirmarla.
 
 ## Qué necesitas
 
-- Una conexión de [Google Calendar](/es/plataforma/conexiones)
-- El calendario donde se crean las citas, que debe ser el mismo que consulta [Comprobar disponibilidad](/es/plantillas/flujos/comprobar-disponibilidad)
+- Una [conexión](/es/plataforma/conexiones) de Google Calendar
+- El calendario donde se crean las citas, que debe ser el mismo que consulta [Comprobar disponibilidad (Google Calendar)](/es/plantillas/flujos/comprobar-disponibilidad)
 
 ## Puesta en marcha
 
@@ -65,12 +67,8 @@ El flujo siempre termina en un paso **Devolver respuesta**, con uno de tres dese
     `Europe/Madrid` aparece en el campo **Input Time Zone** de **Adaptar fecha inicial** y **Adaptar fecha final**. Si operas en otra zona horaria, cámbialos en los dos. El cambio de hora de verano/invierno se aplica solo.
   </Step>
 
-  <Step title="Ajusta la duración de la cita (opcional)" id="ajusta-la-duracion-de-la-cita-opcional">
-    Los 15 minutos no están en ningún paso del flujo: los calcula el agente a partir de la descripción del parámetro `end_date` del trigger **Llamada de función**. Si cambias la duración, cámbiala también en el prompt del agente.
-  </Step>
-
   <Step title="Publica el flujo">
-    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo.
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo. Sabrás que el flujo ha sido publicado si no aparece el texto de Borrador.
   </Step>
 
   <Step title="Asígnalo al agente">
@@ -82,10 +80,11 @@ El flujo siempre termina en un paso **Devolver respuesta**, con uno de tres dese
 
 - La comprobación previa mira **solo el hueco de la cita**, no tu horario de apertura. Que el agente no agende con el centro cerrado depende de su prompt, no del flujo.
 - `name` y `phone` son parámetros **opcionales**. Si el agente no los recoge, el evento se crea igualmente, con el título `Cita - ` y sin teléfono en la descripción.
-- El evento se crea **sin invitados**: el teléfono del paciente queda en la descripción y no se le envía ninguna invitación por email.
+- El evento se crea **sin invitados**: el teléfono del cliente queda en la descripción y no se le envía ninguna invitación por email.
 - El flujo **solo crea**. No anula ni modifica citas ya existentes.
 - Está fijado a **un solo calendario**. Para varios centros con agendas distintas, duplica el flujo.
 - Si tarda más de 60 segundos o algún paso falla, el agente continúa sin la respuesta y no sabrá si la cita se creó.
+- La duración de la cita viene determinada en el prompt del agente. 
 
 ## Siguientes Pasos
 

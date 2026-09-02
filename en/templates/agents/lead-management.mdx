@@ -1,0 +1,184 @@
+---
+title: "Lead management (HubSpot)"
+description: "Agent that calls the leads who fill in your form and books an appointment with the team"
+---
+
+<Note>
+  **Related workflows:** [Outbound call trigger (Webhook)](/en/templates/flows/outbound-call-form-trigger), [Check availability (Google Calendar)](/en/templates/flows/check-availability), [Create appointment (Google Calendar)](/en/templates/flows/create-appointment), and [Post-call lead management (HubSpot)](/en/templates/flows/post-call-lead-management-hubspot).
+</Note>
+
+A voice agent that automatically calls the leads who just filled in a form and helps them book an appointment with your team.
+
+The template is designed for cases where you want to reach out to a lead quickly after they've left their details on your website, an ad, or any other form.
+
+The agent handles contacting the lead, checking your team's availability, and creating the appointment in Google Calendar. After the call, you can automate updating the lead in HubSpot and sending emails.
+
+You can adapt the template to your use case: change the name, the instructions, the hours, the appointment length, the tools, or the workflows as needed.
+
+## What it does
+
+It calls whoever just filled in your contact form — from an ad or from the website — and its only goal is to leave a 15-minute appointment booked with your team. It doesn't sell, doesn't provide support, and doesn't explain the product: it finds a slot, confirms it, and ends the call.
+
+It's a [single prompt](/en/build/agents/single-prompt) agent in English, with a casual, direct tone using short sentences. It introduces itself as an AI agent from the very first sentence.
+
+<Note>
+  The full template is **four workflows**, but the agent only handles two of them as tools. The other two wrap the call: one originates it and the other collects the outcome once it's over.
+</Note>
+
+| Workflow | When it runs | Role |
+|---|---|---|
+| [Outbound call trigger (Webhook)](/en/templates/flows/outbound-call-form-trigger) | Before | Receives the form and launches the call |
+| [Check availability (Google Calendar)](/en/templates/flows/check-availability) | During | `check_availability` tool |
+| [Create appointment (Google Calendar)](/en/templates/flows/create-appointment) | During | `create_appointment` tool |
+| [Post-call lead management (HubSpot)](/en/templates/flows/post-call-lead-management-hubspot) | After | Updates the CRM and sends the email |
+
+### How the call goes
+
+1. **It introduces itself and asks permission.** It says it's an AI, mentions the lead just got in touch, and asks if they have thirty seconds. If the lead sounds annoyed, it says goodbye without pushing.
+2. **It asks when suits them.** One question per turn, two sentences max. It waits for the lead to name a window or a time.
+3. **It checks the schedule.** It gives a heads-up with a "give me one second" and calls `check_availability`. It gets back the free slots in local time.
+4. **It offers two options.** It only proposes appointments that fit entirely inside a schedule slot. If the time the lead asked for doesn't fit, it offers the two closest alternatives. If the day is fully booked, the agent asks for another date and checks again.
+5. **It asks for explicit confirmation.** It repeats the day and time out loud and waits for a yes before touching the calendar. If the lead corrects something, it calls `check_availability` again with the new details.
+6. **It creates the appointment.** It calls `create_appointment`, which re-checks the slot before creating the event. Then it says goodbye and ends the call.
+
+Once the call ends, the [Post-call lead management (HubSpot)](/en/templates/flows/post-call-lead-management-hubspot) workflow fires on its own: it detects whether a person answered, whether an appointment was closed, updates the contact in HubSpot, and sends the matching email.
+
+## What you need
+
+- A [phone number](/en/telephony/buy-numbers) to call from
+- A Google Calendar, Gmail, and HubSpot [connection](/en/platform/connections)
+- The [Outbound call trigger (Webhook)](/en/templates/flows/outbound-call-form-trigger) workflow
+- The [Check availability (Google Calendar)](/en/templates/flows/check-availability) workflow
+- The [Create appointment (Google Calendar)](/en/templates/flows/create-appointment) workflow
+- The [Post-call lead management (HubSpot)](/en/templates/flows/post-call-lead-management-hubspot) workflow
+
+## Getting started
+
+<Steps>
+  <Step title="Create the agent">
+    In **Agents**, click **Create Agent**, select the "Lead management (HubSpot)" template, and click **Use template**.
+  </Step>
+
+  <Step title="Fill in the two variables">
+    | Variable | What to enter |
+    |---|---|
+    | `<<agent_name>>` | The agent's name |
+    | `<<company_name>>` | Your company's name |
+
+    `<<agent_name>>` appears twice: in the **Identity** block and in the greeting of step 1 of the **Task Instructions**. Change it in both.
+  </Step>
+
+  <Step title="Adjust the hours and the duration">
+    In the prompt, edit the **Call hours** block with your team's real hours. That's where the agent takes the opening and closing time it passes to `check_availability` from: if it doesn't match, neither will the slots it offers.
+
+    The appointment length ships fixed at 15 minutes and appears in three places in the prompt: in the hours block itself, in the `check_availability` instructions — next to the example of how late you can offer within a slot — and in the `create_appointment` ones. Change it in all three.
+  </Step>
+
+  <Step title="Set up the two tools">
+    Create the [Check availability (Google Calendar)](/en/templates/flows/check-availability) and [Create appointment (Google Calendar)](/en/templates/flows/create-appointment) workflows from the **Workflow** section under **Tools**. Both have to point at the **same calendar**: otherwise the agent offers slots from one schedule and books the appointment in another.
+
+    This is how you create a workflow without leaving the agent:
+
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      controls
+      className="w-full rounded-xl"
+      src="/videos/crear_flujo_desde_agente.mp4"
+    ></video>
+
+    The names must match exactly — `check_availability` and `create_appointment` — because the prompt calls them literally. The "(from template)" suffix added when a workflow is created from a template can be removed by hand once you open it.
+
+    Both workflows ship with the time zone set to `Europe/Madrid`. If you operate in a different one, check it before moving on: it's three fields in [Check availability (Google Calendar)](/en/templates/flows/check-availability#check-the-time-zone) and two in [Create appointment (Google Calendar)](/en/templates/flows/create-appointment#check-the-time-zone).
+  </Step>
+
+  <Step title="Set up the workflow that originates the call">
+    This agent doesn't take calls: it makes them. Create the [Outbound call trigger (Webhook)](/en/templates/flows/outbound-call-form-trigger) workflow from the workflow templates, point your form at its webhook URL, and select this agent there.
+  </Step>
+
+  <Step title="Set up the follow-up workflow">
+    Add [Post-call lead management (HubSpot)](/en/templates/flows/post-call-lead-management-hubspot) as a [post-call workflow](/en/build/flows/post-call-flows) from the agent's **Workflow** section. Without it, the agent still books the appointment, but nothing gets recorded in your CRM and no email is sent. The workflow's own page also has a few recommendations for taking lead management to the next level.
+
+    That workflow needs the lead's email in the `mail` dynamic variable, which is defined in the outbound-call workflow. Check the [corresponding step](/en/templates/flows/outbound-call-form-trigger#pass-the-leads-data-to-the-agent) before considering this done.
+  </Step>
+
+  <Step title="Turn on the hang-up tool">
+    The prompt ends the call with "and hang up," but the template ships with no [call tools](/en/build/agents/call-tools) enabled. Turn on **Hang Up** if you want that step to actually work; otherwise the call stays open until the lead hangs up or it times out from inactivity.
+  </Step>
+
+  <Step title="Publish the workflows">
+    Each workflow has to be [published](/en/build/flows/creating-workflows#draft-vs-published). If you skip this step, the agent won't be able to use them.
+  </Step>
+
+  <Step title="Test and publish">
+    Make a [test call](/en/build/agents/test-calls) booking a real appointment, check it shows up in the calendar at the right time, and [publish the agent](/en/build/agents/version-control). To make the test call, you have to click **Test**.
+  </Step>
+</Steps>
+
+### Example conversation
+
+```
+Agent:  Hi! I'm Nora, an AI agent — yes, an AI is calling you. I saw you just
+        reached out to us online, and I didn't want to waste any time. Do you
+        have thirty seconds?
+Lead:   Sure, go ahead.
+Agent:  Great. My only job is to find you a slot on the calendar with the team,
+        so we skip the usual back-and-forth over email.
+        When would be a good time for us to call you?
+Lead:   Tomorrow afternoon, if possible.
+Agent:  Give me one second while I check for openings...
+        [calls check_availability]
+        I have tomorrow at four or at five thirty. Which do you prefer?
+Lead:   Four works better.
+Agent:  Perfect, Thursday March 6th at four in the afternoon. Confirm?
+Lead:   Yes, confirmed.
+Agent:  [calls create_appointment]
+        Done, it's on the calendar.
+        That's all from me, thanks for your time! Take care.
+```
+
+## Before publishing
+
+Keep in mind the following points when setting up your template:
+
+- **Hanging up the call:** turn on the **Hang Up** [call tool](/en/build/agents/call-tools) so the "and hang up" in the closing actually does something; the template ships with none enabled, so without this step the call stays open until the lead hangs up or it times out from inactivity.
+- **Marking someone as "do not contact":** if you need a lead flagged this way, you'll have to add it yourself to the post-call workflow. The prompt notes it at the end of the specific-situations section, but on its own there's no tool or workflow that applies it.
+- **Transferring to a person:** add the [transfer tool](/en/build/agents/call-tools) or handle it in the follow-up workflow if you want this to actually happen. By default, when asked to speak to a real person, the agent says it'll note it down and that the team will follow up, but nothing else happens.
+- **Retrying unanswered calls:** if you want a retry when the lead doesn't pick up, you'll need to build that separately. Each form submission triggers a single call.
+- **Canceling or rescheduling appointments:** if you need this, you'll have to add it; the template doesn't include it.
+- **Handling several languages:** switch the [language selector](/en/build/agents/call-customization#language) to **Multilingual** so the agent detects each lead's language and replies in that same language. By default it only speaks English, even if the lead switches language.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Outbound call trigger (Webhook)"
+    icon="phone-arrow-up-right"
+    href="/en/templates/flows/outbound-call-form-trigger"
+  >
+    The workflow that originates the call.
+  </Card>
+  <Card
+    title="Post-call lead management (HubSpot)"
+    icon="list-check"
+    href="/en/templates/flows/post-call-lead-management-hubspot"
+  >
+    The workflow that collects the outcome.
+  </Card>
+  <Card
+    title="Check availability"
+    icon="bolt"
+    href="/en/templates/flows/check-availability"
+  >
+    The workflow that queries the free slots.
+  </Card>
+  <Card
+    title="How to write prompts"
+    icon="wand-sparkles"
+    href="/en/build/agents/single-prompt"
+  >
+    If you want to modify the template's prompt.
+  </Card>
+</CardGroup>
