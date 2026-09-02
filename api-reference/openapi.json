@@ -218,6 +218,40 @@
               ],
               "title": "Phone Id"
             }
+          },
+          {
+            "name": "contact_phone",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 3
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Contact Phone"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 2
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search"
+            }
           }
         ],
         "responses": {
@@ -9802,6 +9836,253 @@
         }
       }
     },
+    "/v1/profile/security/last-login": {
+      "get": {
+        "tags": [
+          "Security"
+        ],
+        "summary": "Last successful login",
+        "operationId": "get_last_login_v1_profile_security_last_login_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LastLoginResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/profile/security/sessions": {
+      "get": {
+        "tags": [
+          "Security"
+        ],
+        "summary": "List active sessions",
+        "operationId": "list_sessions_v1_profile_security_sessions_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ActiveSessionResponse"
+                  },
+                  "type": "array",
+                  "title": "Response List Sessions V1 Profile Security Sessions Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/profile/security/login-history": {
+      "get": {
+        "tags": [
+          "Security"
+        ],
+        "summary": "Paginated login history (success + failure)",
+        "operationId": "get_login_history_v1_profile_security_login_history_get",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "After"
+            }
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Before"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Page"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string",
+              "default": "desc",
+              "title": "Order"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_LoginHistoryItem_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profile/security/sessions/{session_id}": {
+      "delete": {
+        "tags": [
+          "Security"
+        ],
+        "summary": "Revoke a single session",
+        "description": "Revoke a single session owned by the caller.\n\nThe session's refresh token dies immediately (it can never renew), but its\nalready-issued access token stays valid until it expires (GoTrue\nJWT_EXPIRY, ~1h) — revocation is not instant. PRO-838 tracks per-request\nsession validation for immediate revocation.",
+        "operationId": "revoke_session_v1_profile_security_sessions__session_id__delete",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Session ID"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RevokeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profile/security/sessions/sign-out-others": {
+      "post": {
+        "tags": [
+          "Security"
+        ],
+        "summary": "Sign out all other sessions",
+        "description": "Revoke every session except the caller's current one.\n\nDeletes the other sessions (cascading to their refresh tokens) so they\ncannot renew, but their current access tokens stay valid until they expire\n(GoTrue JWT_EXPIRY, ~1h) — the other devices are not kicked instantly.\nPRO-838 tracks per-request session validation for immediate revocation.",
+        "operationId": "sign_out_others_v1_profile_security_sessions_sign_out_others_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RevokeResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
     "/v1/billing/customer/": {
       "patch": {
         "tags": [
@@ -9926,7 +10207,7 @@
           "Verification"
         ],
         "summary": "Create Verification",
-        "description": "Create a new verification by uploading a signed document.\n\nThe signed document will be stored and an admin will review the verification.\nOnce reviewed, the verification status will be updated to VERIFIED or REJECTED.",
+        "description": "Create a new verification by uploading a signed document and invoice.\n\nBoth PDFs are stored and an admin will review the verification.\nOnce reviewed, the verification status will be updated to VERIFIED or REJECTED.",
         "operationId": "create_verification_v1_verification__post",
         "security": [
           {
@@ -12812,6 +13093,93 @@
         "title": "ActionType",
         "description": "Workflows action types."
       },
+      "ActiveSessionResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "ip": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ip"
+          },
+          "browser": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Browser"
+          },
+          "os": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Os"
+          },
+          "location": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          },
+          "last_activity": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Activity"
+          },
+          "is_current": {
+            "type": "boolean",
+            "title": "Is Current",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "ActiveSessionResponse"
+      },
       "AddActionRequest": {
         "properties": {
           "parentStep": {
@@ -14549,6 +14917,12 @@
             "title": "Signed Document",
             "description": "Signed verification document (PDF)"
           },
+          "invoice": {
+            "type": "string",
+            "format": "binary",
+            "title": "Invoice",
+            "description": "Invoice document (PDF)"
+          },
           "notification_email": {
             "anyOf": [
               {
@@ -14565,7 +14939,8 @@
         },
         "type": "object",
         "required": [
-          "signed_document"
+          "signed_document",
+          "invoice"
         ],
         "title": "Body_create_verification_v1_verification__post"
       },
@@ -18538,6 +18913,25 @@
         ],
         "title": "KnowledgeStorageUsageResponse"
       },
+      "LastLoginResponse": {
+        "properties": {
+          "last_login": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Login",
+            "description": "Timestamp of the user's last successful login"
+          }
+        },
+        "type": "object",
+        "title": "LastLoginResponse"
+      },
       "LaunchVersionRequest": {
         "properties": {
           "version_name": {
@@ -18602,6 +18996,93 @@
         ],
         "title": "LogLevel",
         "description": "Log severity levels with numeric codes."
+      },
+      "LoginHistoryItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "event_type": {
+            "type": "string",
+            "title": "Event Type"
+          },
+          "result": {
+            "type": "string",
+            "title": "Result",
+            "description": "'success' or 'failure'"
+          },
+          "failure_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Failure Reason"
+          },
+          "ip": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ip"
+          },
+          "browser": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Browser"
+          },
+          "os": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Os"
+          },
+          "location": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location",
+            "description": "City, Country (best-effort)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "created_at",
+          "event_type",
+          "result"
+        ],
+        "title": "LoginHistoryItem"
       },
       "McpToolSchema": {
         "properties": {
@@ -19716,6 +20197,73 @@
           "has_more"
         ],
         "title": "PaginatedResponse[KnowledgeBaseResponseSchema]"
+      },
+      "PaginatedResponse_LoginHistoryItem_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/LoginHistoryItem"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "first_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Id"
+          },
+          "last_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Id"
+          },
+          "has_more": {
+            "type": "boolean",
+            "title": "Has More"
+          },
+          "current_page": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Current Page"
+          },
+          "total_pages": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Pages"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "has_more"
+        ],
+        "title": "PaginatedResponse[LoginHistoryItem]"
       },
       "PaginatedResponse_MemberResponseSchema_": {
         "properties": {
@@ -22175,6 +22723,20 @@
         ],
         "title": "RenameFlowRequest",
         "description": "Request to rename a flow."
+      },
+      "RevokeResponse": {
+        "properties": {
+          "revoked": {
+            "type": "integer",
+            "title": "Revoked",
+            "description": "Number of sessions revoked"
+          }
+        },
+        "type": "object",
+        "required": [
+          "revoked"
+        ],
+        "title": "RevokeResponse"
       },
       "RoleResponseSchema": {
         "properties": {
