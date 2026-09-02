@@ -1,0 +1,125 @@
+---
+title: "Outbound sales"
+description: "Agent that cold-calls prospects, qualifies their interest, and books a demo with sales"
+---
+
+<Note>
+  **Related workflows:** [Save call result (Google Sheets)](/en/templates/flows/save-call-result-sheets) and [Send follow-up (WhatsApp)](/en/templates/flows/send-follow-up-whatsapp).
+</Note>
+
+## What it does
+
+It calls a prospect, presents your company's value proposition in one or two sentences, asks a couple of qualifying questions, handles basic objections, and tries to close a 15-minute demo with the sales team. If there's no interest, it says goodbye without pushing and can offer to send a resource later on.
+
+It's a [single prompt](/en/build/agents/single-prompt) agent in Spanish, with a professional, friendly tone, responses capped at two or three sentences, and soft transition phrases to sound conversational.
+
+<Note>
+  This template doesn't include a workflow that launches the call: it assumes you already have your own outbound-call trigger (for example, one like [Outbound call trigger (Webhook)](/en/templates/flows/outbound-call-form-trigger)) or that you dial manually.
+</Note>
+
+| Workflow | When it runs | Role |
+|---|---|---|
+| [Save call result (Google Sheets)](/en/templates/flows/save-call-result-sheets) | After | Uses AI to extract the outcome and saves it to a sheet |
+| [Send follow-up (WhatsApp)](/en/templates/flows/send-follow-up-whatsapp) | After | Sends a resource link over WhatsApp |
+
+### How the call goes
+
+1. **It introduces itself.** It greets with the agent's and the company's name, and confirms who it's speaking with.
+2. **It explains the value.** In one sentence, it says why it's calling and what problem your company solves.
+3. **It qualifies interest.** It asks two or three questions to understand fit: what the prospect uses today, what their main problem is.
+4. **It handles objections.** If the prospect says they're not interested, it responds with empathy and asks about their current priority before pushing further or backing off.
+5. **It closes.** If there's interest, it proposes booking a 15-minute demo. If not, it says goodbye politely and can offer to send information through another channel.
+
+If the prospect interrupts or jumps ahead, the agent stops and responds only to the last thing said, instead of finishing its previous sentence.
+
+## What you need
+
+- A [phone number](/en/telephony/buy-numbers) to call from
+- Your own outbound-call trigger that passes the dynamic variables the prompt needs (see below)
+- A Google Sheets and WhatsApp Business [connection](/en/platform/connections), if you're going to use the post-call workflows
+
+## Getting started
+
+<Steps>
+  <Step title="Create the agent">
+    In **Agents**, click **Create Agent**, select the "Outbound sales" template, and click **Use template**.
+  </Step>
+
+  <Step title="Fill in the two template variables">
+    | Variable | What to enter |
+    |---|---|
+    | `<<agent_name>>` | The agent's name |
+    | `<<company_name>>` | Your company's name |
+
+    Both appear in the **Identidad del Agente** (Agent Identity) block and in the opening greeting. Change them in both places.
+  </Step>
+
+  <Step title="Prepare the per-call dynamic variables" id="prepare-the-dynamic-variables">
+    Unlike other templates, this agent needs several different [dynamic variables](/en/build/agents/dynamic-variables) on **every** call, not just one:
+
+    | Variable | What it holds |
+    |---|---|
+    | `{{user_name}}` | The prospect's name, used in the greeting |
+    | `{{value_prop}}` | The value proposition mentioned at the start |
+    | `{{keyword_solution}}` | The solution or product category the agent asks if they already use |
+    | `{{pain_point}}` | The problem the agent asks if they have |
+    | `{{area}}` | The area the agent asks about their current priority in, when handling an objection |
+
+    If your call trigger doesn't fill one of these in, the agent will say it literally in curly braces during the call. Set them in the step that launches the call, the same way `mail` is set in [Lead management](/en/templates/agents/lead-management#getting-started).
+  </Step>
+
+  <Step title="Set up the post-call workflows (optional)">
+    Add [Save call result (Google Sheets)](/en/templates/flows/save-call-result-sheets) and [Send follow-up (WhatsApp)](/en/templates/flows/send-follow-up-whatsapp) from the agent's **Workflow** section if you want to log each call's outcome or follow up automatically.
+  </Step>
+
+  <Step title="Publish the workflows you use">
+    Each workflow has to be [published](/en/build/flows/creating-workflows#draft-vs-published). If you skip this step, the agent won't be able to use them.
+  </Step>
+
+  <Step title="Test and publish">
+    Make a [test call](/en/build/agents/test-calls) passing every dynamic variable and check the agent uses them correctly. Then [publish the agent](/en/build/agents/version-control).
+  </Step>
+</Steps>
+
+## Before publishing
+
+Keep in mind the following points when setting up your template:
+
+- **Launching the call:** you'll need to build or reuse your own outbound-call trigger; this template doesn't include one, unlike [Lead management](/en/templates/agents/lead-management), which ships with its own.
+- **Incomplete dynamic variables:** check the [corresponding step](#prepare-the-dynamic-variables) before the first real call — it's the most likely thing to trip up when setting up this template for the first time, and the agent doesn't flag that they're missing, it just reads them literally.
+- **Giving prices or getting technical:** the prompt explicitly asks the agent not to give concrete pricing before qualifying and to avoid jargon; adjust that section if your product requires it.
+- **Transferring to a person:** add the [transfer tool](/en/build/agents/call-tools) if you want to be able to hand the call to a human rep in the moment; by default, the agent only books a demo for later.
+- **Logging the result or following up:** set up the post-call workflows [Save call result](/en/templates/flows/save-call-result-sheets) and [Send follow-up](/en/templates/flows/send-follow-up-whatsapp) if you need them; by default, the agent leaves no trace of the call once it hangs up.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Save call result (Google Sheets)"
+    icon="table"
+    href="/en/templates/flows/save-call-result-sheets"
+  >
+    Logs the outcome of every call.
+  </Card>
+  <Card
+    title="Send follow-up (WhatsApp)"
+    icon="message-circle"
+    href="/en/templates/flows/send-follow-up-whatsapp"
+  >
+    Follows up automatically over WhatsApp.
+  </Card>
+  <Card
+    title="Dynamic Variables"
+    icon="brackets-curly"
+    href="/en/build/agents/dynamic-variables"
+  >
+    How to pass each prospect's data into the prompt.
+  </Card>
+  <Card
+    title="How to write prompts"
+    icon="wand-sparkles"
+    href="/en/build/agents/single-prompt"
+  >
+    If you want to modify the template's prompt.
+  </Card>
+</CardGroup>

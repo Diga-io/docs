@@ -1,0 +1,125 @@
+---
+title: "Ventas outbound"
+description: "Agente que llama en frío a prospectos, califica su interés y agenda una demo con ventas"
+---
+
+<Note>
+  **Flujos relacionados:** [Guardar resultado de llamada (Google Sheets)](/es/plantillas/flujos/guardar-resultado-llamada-sheets) y [Enviar información (WhatsApp)](/es/plantillas/flujos/enviar-informacion-whatsapp).
+</Note>
+
+## Qué hace
+
+Llama a un prospecto, presenta en una o dos frases la propuesta de valor de tu empresa, hace un par de preguntas de calificación, gestiona objeciones básicas y busca cerrar una demo de 15 minutos con el equipo comercial. Si no hay interés, se despide sin insistir y puede ofrecer mandar un recurso más adelante.
+
+Es un agente de [prompt único](/es/build/agentes/prompt-unico) en español, con un tono profesional y cercano, respuestas de máximo dos o tres frases, y frases de transición suaves para sonar conversacional.
+
+<Note>
+  Esta plantilla no incluye un flujo que origine la llamada: asume que ya tienes tu propio disparador de llamadas salientes (por ejemplo, uno como [Disparador de llamada mediante Webhook](/es/plantillas/flujos/llamada-saliente-formulario)) o que la marcas manualmente.
+</Note>
+
+| Flujo | Cuándo se ejecuta | Papel |
+|---|---|---|
+| [Guardar resultado de llamada (Google Sheets)](/es/plantillas/flujos/guardar-resultado-llamada-sheets) | Después | Extrae con IA el resultado y lo guarda en una hoja |
+| [Enviar información (WhatsApp)](/es/plantillas/flujos/enviar-informacion-whatsapp) | Después | Manda un enlace de recursos por WhatsApp |
+
+### Cómo transcurre la llamada
+
+1. **Se presenta.** Saluda con el nombre del agente y de tu empresa, y confirma con quién habla.
+2. **Explica el valor.** En una frase, dice por qué llama y qué problema resuelve tu empresa.
+3. **Califica el interés.** Hace dos o tres preguntas para entender si el prospecto encaja: qué usa hoy, cuál es su principal problema.
+4. **Gestiona objeciones.** Si el prospecto dice que no le interesa, responde con empatía y pregunta por su prioridad actual antes de insistir o retirarse.
+5. **Cierra.** Si hay interés, propone agendar una demo de 15 minutos. Si no lo hay, se despide con educación y puede ofrecer mandar información por otro canal.
+
+Si el prospecto interrumpe o se adelanta, el agente se detiene y responde solo a lo último que dijo, en lugar de completar su frase anterior.
+
+## Qué necesitas
+
+- Un [número de teléfono](/es/telefonia/comprar-telefonos) desde el que llamar
+- Un disparador de llamadas salientes propio, que pase las variables dinámicas necesarias (ver más abajo)
+- Una [conexión](/es/plataforma/conexiones) de Google Sheets y de WhatsApp Business, si vas a usar los flujos post-llamada
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Crea el agente">
+    En **Agentes**, pulsa **Crear Agente**, selecciona la plantilla "Ventas outbound" y **Usar plantilla**.
+  </Step>
+
+  <Step title="Rellena las dos variables de plantilla">
+    | Variable | Qué poner |
+    |---|---|
+    | `<<agent_name>>` | El nombre del/de la agente |
+    | `<<company_name>>` | El nombre de tu empresa |
+
+    Ambas aparecen en el bloque **Identidad del Agente** y en el saludo inicial. Cámbialas en los dos sitios.
+  </Step>
+
+  <Step title="Prepara las variables dinámicas por llamada" id="prepara-las-variables-dinamicas">
+    A diferencia de otras plantillas, este agente necesita varias [variables dinámicas](/es/build/agentes/variables-dinamicas) distintas en **cada** llamada, no solo una:
+
+    | Variable | Qué contiene |
+    |---|---|
+    | `{{user_name}}` | Nombre del prospecto, usado en el saludo |
+    | `{{value_prop}}` | La propuesta de valor que se menciona al principio |
+    | `{{keyword_solution}}` | La solución o categoría de producto que se pregunta si ya usan |
+    | `{{pain_point}}` | El problema que se pregunta si tienen |
+    | `{{area}}` | El área sobre la que se pregunta la prioridad al gestionar una objeción |
+
+    Si tu disparador de llamadas no rellena alguna de estas, el agente la dirá literalmente entre llaves durante la llamada. Configúralas en el paso que origina la llamada, igual que se hace con `mail` en [Gestión de leads](/es/plantillas/agentes/gestion-leads#puesta-en-marcha).
+  </Step>
+
+  <Step title="Monta los flujos post-llamada (opcional)">
+    Añade [Guardar resultado de llamada (Google Sheets)](/es/plantillas/flujos/guardar-resultado-llamada-sheets) y [Enviar información (WhatsApp)](/es/plantillas/flujos/enviar-informacion-whatsapp) desde la sección **Flujo** del agente si quieres registrar el resultado de cada llamada o hacer un seguimiento automático.
+  </Step>
+
+  <Step title="Publica los flujos que uses">
+    Cada flujo hay que [publicarlo](/es/build/flujos/crear-flujos#borrador-vs-publicado). Si este paso no se ejecuta, el agente no podrá hacer uso de ellos.
+  </Step>
+
+  <Step title="Prueba y publica">
+    Haz una [llamada de prueba](/es/build/agentes/llamadas-test) pasando todas las variables dinámicas y comprueba que el agente las usa correctamente. Después [publica el agente](/es/build/agentes/control-versiones).
+  </Step>
+</Steps>
+
+## Antes de publicar
+
+Ten en cuenta los siguientes puntos a la hora de configurar tu plantilla:
+
+- **Originar la llamada:** tienes que montar o reutilizar tu propio disparador de llamadas salientes; esta plantilla no incluye uno, a diferencia de [Gestión de leads](/es/plantillas/agentes/gestion-leads), que sí trae el suyo.
+- **Variables dinámicas incompletas:** revisa el [paso correspondiente](#prepara-las-variables-dinamicas) antes de la primera llamada real — es el fallo más probable al configurar esta plantilla por primera vez, y el agente no avisa de que faltan, simplemente las lee literalmente.
+- **Dar precios o hablar de temas técnicos:** el prompt pide explícitamente no dar precios concretos sin calificar antes y evitar jerga técnica; si tu producto lo requiere, ajusta esa sección.
+- **Transferir a una persona:** añade la [herramienta de transferencia](/es/build/agentes/herramientas-llamada) si quieres poder pasar la llamada a un comercial humano en el momento; de base, el agente solo agenda una demo para más adelante.
+- **Registrar el resultado o hacer seguimiento:** monta los flujos post-llamada [Guardar resultado de llamada](/es/plantillas/flujos/guardar-resultado-llamada-sheets) y [Enviar información](/es/plantillas/flujos/enviar-informacion-whatsapp) si los necesitas; de base, el agente no deja ningún rastro de la llamada una vez cuelga.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Guardar resultado de llamada (Google Sheets)"
+    icon="table"
+    href="/es/plantillas/flujos/guardar-resultado-llamada-sheets"
+  >
+    Registra el resultado de cada llamada.
+  </Card>
+  <Card
+    title="Enviar información (WhatsApp)"
+    icon="message-circle"
+    href="/es/plantillas/flujos/enviar-informacion-whatsapp"
+  >
+    Hace seguimiento automático por WhatsApp.
+  </Card>
+  <Card
+    title="Variables dinámicas"
+    icon="brackets-curly"
+    href="/es/build/agentes/variables-dinamicas"
+  >
+    Cómo pasar los datos de cada prospecto al prompt.
+  </Card>
+  <Card
+    title="Cómo hacer prompts"
+    icon="wand-sparkles"
+    href="/es/build/agentes/prompt-unico"
+  >
+    Si quieres modificar el prompt de la plantilla.
+  </Card>
+</CardGroup>

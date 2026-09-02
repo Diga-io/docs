@@ -1,0 +1,84 @@
+---
+title: "Buscar cita (Cal.com)"
+description: "Flujo durante llamada que localiza las citas futuras de un cliente en Cal.com por su email"
+---
+
+<Note>
+  **Flujos relacionados:** [Reprogramar cita (Cal.com)](/es/plantillas/flujos/reprogramar-cita-calcom) y [Cancelar cita (Cal.com)](/es/plantillas/flujos/cancelar-cita-calcom).
+
+  **Agentes relacionados:** [Gestión de citas (Cal.com)](/es/plantillas/agentes/gestion-citas-calcom).
+</Note>
+
+## Qué hace
+
+El agente le pasa el email del cliente (confirmado antes en voz alta), y el flujo devuelve **las citas futuras** asociadas a ese email en Cal.com: tipo, fecha y hora en hora local, hasta un máximo de 10.
+
+Es el paso obligatorio antes de reprogramar o cancelar: [Reprogramar cita](/es/plantillas/flujos/reprogramar-cita-calcom) y [Cancelar cita](/es/plantillas/flujos/cancelar-cita-calcom) necesitan el identificador (`uid`) de la reserva, y este flujo es el único sitio de donde el agente lo puede sacar.
+
+Es un [flujo durante llamada](/es/build/flujos/flujos-durante-llamada): el agente lo ejecuta a mitad de conversación y espera el resultado para seguir hablando.
+
+## Cómo funciona
+
+| Paso | Qué hace |
+|---|---|
+| **Obtener fecha actual en UTC** | Calcula el instante actual, para no traer citas ya pasadas. |
+| **Buscar reservas en Cal** | Consulta en Cal.com hasta 10 reservas futuras (`status: upcoming`) que coincidan con el nombre y el email del cliente. |
+| **Formatear citas a hora local** | Extrae el tipo de cita del título de cada reserva, convierte fecha y hora a hora local, y ordena la lista cronológicamente. |
+| **Devolver respuesta** | Entrega la lista al agente, indicándole que el `uid` es interno (nunca se dice en voz alta) y que ignore también `inicio_utc`. Si la lista llega vacía, le dice que pida el email de nuevo. |
+
+## Qué necesitas
+
+- Una [conexión](/es/plataforma/conexiones) de Cal.com
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Copia la plantilla">
+    Desde la sección **Flujos**, abre el catálogo de plantillas y cópiala. El flujo se crea deshabilitado.
+  </Step>
+
+  <Step title="Selecciona la conexión de Cal.com">
+    En el paso **Buscar reservas en Cal**, indica tu conexión de Cal.com.
+  </Step>
+
+  <Step title="Publica el flujo">
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo.
+  </Step>
+
+  <Step title="Asígnalo al agente">
+    Añádelo desde la sección **Flujos** del agente. El nombre del flujo es el nombre de la herramienta que ve el agente, así que déjalo en `buscar_cita`. Este paso no es necesario si el flujo se ha creado a partir del agente.
+  </Step>
+</Steps>
+
+## Antes de publicar
+
+- **La búsqueda es por nombre y email, no por teléfono.** Si el cliente llama desde un número distinto al que usó para reservar, el flujo igualmente encuentra la cita mientras el email coincida.
+- **Trae hasta 10 citas futuras.** Si el cliente tiene más de 10 reservas pendientes, las más lejanas en el tiempo no aparecerán en la lista.
+- **El tipo de cita se extrae del título de la reserva en Cal.com**, no de un campo dedicado. Si cambias el formato del título en Cal.com, revisa que el flujo lo siga interpretando bien.
+- **Si el email no coincide con ninguna reserva, la lista llega vacía** y es el prompt del agente quien decide qué hacer — la plantilla del agente pide el correo de nuevo y, si sigue sin aparecer, avisa de que el equipo llamará.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Reprogramar cita (Cal.com)"
+    icon="calendar-clock"
+    href="/es/plantillas/flujos/reprogramar-cita-calcom"
+  >
+    Usa el uid que devuelve este flujo.
+  </Card>
+  <Card
+    title="Cancelar cita (Cal.com)"
+    icon="calendar-xmark"
+    href="/es/plantillas/flujos/cancelar-cita-calcom"
+  >
+    También usa el uid que devuelve este flujo.
+  </Card>
+  <Card
+    title="Gestión de citas (Cal.com)"
+    icon="calendar-check"
+    href="/es/plantillas/agentes/gestion-citas-calcom"
+  >
+    El agente que usa este flujo.
+  </Card>
+</CardGroup>

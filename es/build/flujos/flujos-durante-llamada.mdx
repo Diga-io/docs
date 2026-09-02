@@ -139,6 +139,25 @@ El contacto simplemente dice *"Quiero cancelar mi reserva."* El agente extrae `a
   Como el resto de flujos, los flujos durante llamada se asignan por [versión de agente](/es/build/agentes/control-versiones). El flujo debe estar **publicado** y **habilitado** para que se ejecute.
 </Note>
 
+## Cuando el llamante interrumpe un flujo en ejecución
+
+Los llamantes reales no esperan educadamente: añaden detalles o cambian de opinión mientras un flujo todavía se está ejecutando. Diga lo gestiona por ti:
+
+- **La ejecución nunca se cancela.** Una vez disparado, el flujo se ejecuta hasta el final: cancelarlo en local no desharía una cita que ya se está creando en tus sistemas.
+- **El agente se mantiene informado.** Se le avisa al instante de que el flujo sigue en marcha (para que no lo vuelva a llamar) y recibe el resultado real en cuanto termina, tanto si es un éxito como un fallo.
+- **El agente reconoce lo que ya ha pasado.** Si el llamante cambió de opinión a mitad de ejecución, el agente dice en voz alta lo que ya se hizo antes de ajustar, en lugar de fingir que no pasó nada o duplicar la acción en silencio.
+- **Una petición corregida se ejecuta como una nueva.** Si el llamante corrige un detalle mientras el flujo se ejecuta ("mejor a las 8"), el agente vuelve a ejecutar el flujo con los valores corregidos. Nunca da por hecho un cambio si no lo ha ejecutado de verdad.
+
+Este comportamiento viene de serie: no necesitas pedirlo en el prompt. Lo que **tú** controlas es qué puede ofrecer el agente honestamente a continuación:
+
+<Warning>
+  **Respalda con un flujo cada promesa de tu prompt.** El comportamiento integrado nunca afirma una acción que el agente no puede realizar: si el llamante quiere cambiar una cita y el agente solo tiene un flujo de *crear*, dirá con claridad que la cita anterior sigue existiendo y habrá que gestionarla, no fingirá cancelarla. Si reprogramar o cancelar importa en tu caso de uso, crea también esos flujos y asígnalos. Si decides no hacerlo, indica en el prompt qué debe hacer el agente en su lugar (por ejemplo, "si el llamante quiere cambiar una cita, anótalo para que lo gestione el equipo").
+</Warning>
+
+<Tip>
+  Redacta el mensaje de **Return Response** como algo que el agente pueda decir en voz alta, en el idioma de tus llamantes. El agente construye su respuesta a partir de él: "Cita creada para el 25 de agosto a las 10:00" produce una respuesta mucho más natural que un estado técnico en inglés.
+</Tip>
+
 ## Casos de uso comunes
 
 <AccordionGroup>

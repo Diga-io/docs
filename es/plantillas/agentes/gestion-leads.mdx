@@ -1,0 +1,177 @@
+---
+title: "Gestión de leads (HubSpot)"
+description: "Agente que llama a los leads que rellenan tu formulario y les agenda una cita con el equipo"
+---
+
+<Note>
+  **Flujos relacionados:** [Disparador de llamada mediante Webhook](/es/plantillas/flujos/llamada-saliente-formulario), [Comprobar disponibilidad (Google Calendar)](/es/plantillas/flujos/comprobar-disponibilidad), [Crear cita (Google Calendar)](/es/plantillas/flujos/crear-cita) y [Gestión de lead postllamada (HubSpot)](/es/plantillas/flujos/gestion-leads-hubspot).
+</Note>
+
+La plantilla está pensada para casos en los que quieres contactar rápidamente con un lead después de que haya dejado sus datos en tu web, un anuncio o cualquier otro formulario.
+
+
+## Qué hace
+
+El agente se encarga de contactar con el lead, consultar la disponibilidad del equipo y crear la cita en Google Calendar. Después de la llamada, puedes automatizar la actualización del lead en HubSpot y el envío de emails.
+
+<Note>
+  La plantilla completa son **cuatro flujos**, pero el agente solo maneja dos como herramientas. Los otros dos envuelven la llamada: uno la origina y otro recoge el resultado cuando termina.
+</Note>
+
+| Flujo | Cuándo se ejecuta | Papel |
+|---|---|---|
+| [Disparador de llamada mediante Webhook](/es/plantillas/flujos/llamada-saliente-formulario) | Antes | Recibe el formulario y lanza la llamada |
+| [Comprobar disponibilidad (Google Calendar)](/es/plantillas/flujos/comprobar-disponibilidad) | Durante | Herramienta `comprobar_disponibilidad` |
+| [Crear cita (Google Calendar)](/es/plantillas/flujos/crear-cita) | Durante | Herramienta `crear_cita` |
+| [Gestión de lead postllamada (HubSpot)](/es/plantillas/flujos/gestion-leads-hubspot) | Después | Actualiza el CRM y manda el email |
+
+### Cómo transcurre la llamada
+
+1. **Se presenta y pide permiso.** Dice que es una IA, menciona que el lead acaba de contactar y pregunta si tiene treinta segundos. Si el lead se muestra molesto, se despide sin insistir.
+2. **Pregunta cuándo le viene bien.** Espera a que el lead diga una franja o una hora.
+3. **Consulta la agenda.** Avisa con un "dame un segundito" y llama a `comprobar_disponibilidad`. Recibe los huecos libres en hora local.
+4. **Ofrece dos opciones.** Ofrece hasta dos horarios disponibles. Si el horario solicitado no está disponible, propone las alternativas más cercanas. Si no hay disponibilidad ese día, pide al lead otra fecha.
+5. **Pide confirmación explícita.** Repite día y hora en voz alta y espera un sí antes de tocar el calendario. Si el lead corrige algo, vuelve a llamar a `comprobar_disponibilidad` con los datos nuevos.
+6. **Crea la cita.** Llama a `crear_cita`, que vuelve a comprobar el hueco antes de dar de alta el evento. Después se despide y termina.
+
+Cuando la llamada acaba, el flujo [Gestión de lead postllamada (HubSpot)](/es/plantillas/flujos/gestion-leads-hubspot) se dispara solo: detecta si contestó una persona, si se cerró cita, actualiza el contacto en HubSpot y envía el email que corresponda.
+
+## Qué necesitas
+
+- Un [número de teléfono](/es/telefonia/comprar-telefonos) desde el que llamar
+- Una [conexión](/es/plataforma/conexiones) de Google Calendar, Gmail y HubSpot
+- El flujo [Disparador de llamada mediante Webhook](/es/plantillas/flujos/llamada-saliente-formulario)
+- El flujo [Comprobar disponibilidad (Google Calendar)](/es/plantillas/flujos/comprobar-disponibilidad)
+- El flujo [Crear cita (Google Calendar)](/es/plantillas/flujos/crear-cita)
+- El flujo [Gestión de lead postllamada (HubSpot)](/es/plantillas/flujos/gestion-leads-hubspot)
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Crea el agente">
+    En **Agentes**, pulsa **Crear Agente**, selecciona la plantilla "Gestión de leads (HubSpot)" y **Usar plantilla**.
+  </Step>
+
+  <Step title="Personaliza los datos básicos">
+    | Variable | Qué poner |
+    |---|---|
+    | `<<agent_name>>` | El nombre del/de la agente |
+    | `<<company_name>>` | El nombre de tu empresa |
+
+    `<<agent_name>>` aparece dos veces: en el bloque **Identidad** y dentro del saludo del paso 1 de **Instrucciones de Tarea**. Cámbialo en los dos.
+  </Step>
+
+  <Step title="Ajusta el horario y la duración">
+    En el prompt, edita el bloque **Horario de llamadas** con el horario real de tu equipo. De ahí saca el agente la hora de apertura y de cierre que le pasa a `comprobar_disponibilidad`: si no cuadra, los huecos que ofrezca tampoco.
+
+    La duración viene fijada en 15 minutos y aparece en tres sitios del prompt: en el propio bloque de horario, en las instrucciones de `comprobar_disponibilidad` — junto al ejemplo de hasta qué hora se puede ofrecer dentro de un hueco — y en las de `crear_cita`. Cámbiala en los tres.
+  </Step>
+
+  <Step title="Configura las herramientas de Google Calendar">
+    Crea los flujos [Comprobar disponibilidad (Google Calendar)](/es/plantillas/flujos/comprobar-disponibilidad) y [Crear cita (Google Calendar)](/es/plantillas/flujos/crear-cita) desde el apartado **Flujo** en **Herramientas**. Los dos tienen que apuntar al **mismo calendario**: si no, el agente ofrece huecos de una agenda y crea la cita en otra.
+
+    Así se crea un flujo sin salir del agente:
+
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      controls
+      className="w-full rounded-xl"
+      src="/videos/crear_flujo_desde_agente.mp4"
+    ></video>
+
+    Los nombres deben coincidir exactamente — `comprobar_disponibilidad` y `crear_cita` — porque el prompt los invoca de forma literal. El añadido "(from template)" que se tiene de crear el flujo a partir de una plantilla se puede quitar a mano una vez que abres el flujo.
+
+    Los dos flujos vienen con la zona horaria fijada en `Europe/Madrid`. Si operas en otra, revísala antes de seguir: son tres campos en [Comprobar disponibilidad (Google Calendar)](/es/plantillas/flujos/comprobar-disponibilidad#revisa-la-zona-horaria) y dos en [Crear cita (Google Calendar)](/es/plantillas/flujos/crear-cita#revisa-la-zona-horaria).
+  </Step>
+
+  <Step title="Configura el disparador de la llamada">
+    Este agente no recibe llamadas: las hace. Crea el flujo [Disparador de llamada mediante Webhook](/es/plantillas/flujos/llamada-saliente-formulario) desde las plantillas de flujos, apunta tu formulario a su URL de webhook y selecciona ahí este agente.
+  </Step>
+
+  <Step title="Añade la gestión postllamada">
+    Añade [Gestión de lead postllamada (HubSpot)](/es/plantillas/flujos/gestion-leads-hubspot) como [flujo post-llamada](/es/build/flujos/flujos-post-llamada) desde la sección **Flujo** del agente. Sin él, el agente agenda igual, pero nada queda registrado en tu CRM ni se envía ningún email. En la explicación del flujo hay además algunas recomendaciones para poder llevar la gestión de leads al siguiente nivel. 
+
+    Ese flujo necesita el email del lead en la variable dinámica `mail`, que se define en el flujo de llamada saliente. Revisa el [paso correspondiente](/es/plantillas/flujos/llamada-saliente-formulario#pasa-los-datos-del-lead-al-agente) antes de darlo por bueno.
+  </Step>
+
+  <Step title="Activa la herramienta de colgar">
+    El prompt termina la llamada con un "y cuelga", pero la plantilla llega sin ninguna [herramienta de llamada](/es/build/agentes/herramientas-llamada) activada. Actívale **Colgar** si quieres que ese paso funcione de verdad; si no, la llamada se queda abierta hasta que cuelgue el lead o salte la inactividad.
+  </Step>
+
+  <Step title="Publica los flujos">
+    Cada flujo hay que [publicarlo](/es/build/flujos/crear-flujos#borrador-vs-publicado). Si este paso no se ejecuta, el agente no podrá hacer uso de los flujos.
+  </Step>
+
+  <Step title="Prueba y publica">
+    Haz una [llamada de prueba](/es/build/agentes/llamadas-test) agendando una cita real, comprueba que aparece en el calendario a la hora correcta y [publica el agente](/es/build/agentes/control-versiones). Para la llamada de prueba, tienes que pulsar en **Test**.
+  </Step>
+</Steps>
+
+### Ejemplo de conversación
+
+```
+Agente: ¡Hola! Soy Nora, un agente de inteligencia artificial — sí, una IA te está
+        llamando. Vi que acabas de contactarnos por internet hace nada, y no he
+        perdido el tiempo. ¿Tienes treinta segundos?
+Lead:   Sí, dime.
+Agente: Genial. Mi único trabajo es encontrarte un hueco en la agenda con el equipo,
+        así nos ahorramos el típico ir y venir de emails.
+        ¿Cuándo te vendría bien que te llamásemos?
+Lead:   Mañana por la tarde si puede ser.
+Agente: Dame un segundito que compruebe si tenemos huecos...
+        [llama a comprobar_disponibilidad]
+        Tengo mañana a las cuatro o a las cinco y media. ¿Cuál prefieres?
+Lead:   A las cuatro mejor.
+Agente: Perfecto, jueves seis de marzo a las cuatro de la tarde. ¿Confirmas?
+Lead:   Sí, confirmado.
+Agente: [llama a crear_cita]
+        Hecho, ya está en el calendario.
+        Eso es todo por mi parte, ¡gracias por el ratito! Que vaya bien.
+```
+
+## Antes de publicar
+
+Ten en cuenta los siguientes puntos a la hora de configurar tu plantilla:
+
+- **Colgar la llamada:** debes activar la [herramienta de llamada](/es/build/agentes/herramientas-llamada) **Colgar** para que el "y cuelga" del cierre funcione; la plantilla llega sin ella activada, así que sin este paso la llamada se queda abierta hasta que cuelgue el lead o salte la inactividad.
+- **Marcar como "no contactar":** si necesitas que un lead quede marcado como tal, tienes que añadirlo tú al flujo post-llamada. El prompt lo anota al final del apartado de situaciones específicas, pero por sí solo no hay ninguna herramienta ni flujo que lo aplique.
+- **Transferir a una persona:** añade la [herramienta de transferencia](/es/build/agentes/herramientas-llamada) o gestiónalo en el flujo posterior si quieres que esto ocurra de verdad. Ante la petición de hablar con alguien real, el agente de base dice que lo anota y que el equipo escribirá, pero no pasa nada más.
+- **Reintentar llamadas sin respuesta:** si quieres que se reintente cuando el lead no contesta, tendrás que montarlo aparte. Cada formulario dispara una sola llamada.
+- **Anular o modificar citas:** si necesitas esta función, tendrás que añadirla; la plantilla no la incluye.
+- **Atender en varios idiomas:** cambia el [selector de idioma](/es/build/agentes/personalizacion-llamada#identidad-del-agente) a **Multilingüe** para que el agente detecte el idioma de cada lead y responda en ese mismo idioma. Por defecto solo habla español, aunque el lead cambie de idioma.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Disparador de llamada mediante Webhook"
+    icon="phone-arrow-up-right"
+    href="/es/plantillas/flujos/llamada-saliente-formulario"
+  >
+    El flujo que origina la llamada.
+  </Card>
+  <Card
+    title="Gestión de lead postllamada (HubSpot)"
+    icon="list-check"
+    href="/es/plantillas/flujos/gestion-leads-hubspot"
+  >
+    El flujo que recoge el resultado.
+  </Card>
+  <Card
+    title="Comprobar disponibilidad"
+    icon="bolt"
+    href="/es/plantillas/flujos/comprobar-disponibilidad"
+  >
+    El flujo que consulta los huecos libres.
+  </Card>
+  <Card
+    title="Cómo hacer prompts"
+    icon="wand-sparkles"
+    href="/es/build/agentes/prompt-unico"
+  >
+    Si quieres modificar el prompt de la plantilla.
+  </Card>
+</CardGroup>

@@ -1,0 +1,142 @@
+---
+title: "Gestión de lead postllamada (HubSpot)"
+description: "Flujo post-llamada que clasifica el resultado, actualiza el contacto en HubSpot y envía el email correspondiente"
+---
+
+<Note>
+  **Agentes relacionados:** [Gestión de leads (HubSpot)](/es/plantillas/agentes/gestion-leads).
+</Note>
+
+## Qué hace
+
+Cuando la llamada al lead termina, el flujo lee la transcripción, decide en cuál de **tres desenlaces** cayó, y en los tres actualiza el contacto en HubSpot y le manda un email:
+
+| Desenlace | Qué pasó | Email que recibe el lead |
+|---|---|---|
+| **Cita agendada** | Contestó y se cerró día y hora | Confirmación con la fecha acordada |
+| **Sin cita** | Contestó pero no se cerró nada | Agradecimiento y puerta abierta |
+| **No contesta** | No contestó, o saltó el buzón de voz | Aviso de que intentaste llamar |
+
+Es un [flujo post-llamada](/es/build/flujos/flujos-post-llamada): se ejecuta en segundo plano cuando la llamada ya ha terminado, así que nunca añade retraso a la conversación.
+
+## Cómo funciona
+
+| Paso | Qué hace |
+|---|---|
+| **Llamada finalizada** | Trigger. Recibe la transcripción, el `end_reason` y las variables dinámicas de la llamada. |
+| **Buscar contacto en HubSpot** | Busca el contacto por email, usando la variable dinámica `mail`. |
+| **Detectar si contestó una persona** | Un paso de IA que lee la transcripción y devuelve `answered`: `false` si solo habla el agente o si lo que se oye es un buzón de voz. |
+| **¿Llamada contestada?** | Router que separa las llamadas atendidas de las que no. |
+| **Extraer resultado de la cita** | Otro paso de IA que devuelve `appointment_booked` y `appointment_datetime` en lenguaje natural. |
+| **¿Se agendó cita?** | Router que separa las llamadas con cita de las que no. |
+| **Actualizar contacto** | Escribe en el contacto de HubSpot. Hay una versión por desenlace. |
+| **Enviar email** | Manda el email por Gmail. Hay una versión por desenlace. |
+
+## Qué necesitas
+
+- Una [conexión](/es/plataforma/conexiones) de HubSpot
+- Una [conexión](/es/plataforma/conexiones) de Gmail
+- El email del lead en la variable dinámica `mail` de la llamada
+- El agente [Gestión de leads](/es/plantillas/agentes/gestion-leads), o cualquier otro al que quieras asignarlo
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Copia la plantilla">
+    Desde la sección **Flujos**, abre el catálogo de plantillas y cópiala. El flujo se crea deshabilitado. También puedes crearla a partir del agente [Gestión de leads (HubSpot)](/es/plantillas/agentes/gestion-leads).
+  </Step>
+
+  <Step title="Rellena las conexiones de HubSpot">
+    Selecciona tu conexión de HubSpot en los cuatro pasos que la usan: la búsqueda de contacto y las tres actualizaciones de contacto.
+
+  <video
+  autoPlay
+  loop
+  muted
+  playsInline
+  controls
+  className="w-full rounded-xl"
+  src="/videos/conexiones-hubspot-gestion-leads-postllamada.mp4"
+></video>
+  </Step>
+
+  <Step title="Indica por qué campo buscar el contacto" id="asegurate-de-que-llega-el-email">
+    En el paso **Buscar contacto en HubSpot**, selecciona "Contact Information: Email" en **Primer nombre de propiedad de búsqueda**. Con eso, el paso busca el contacto por el email que llega en la variable dinámica `mail`.
+
+    <video
+  autoPlay
+  loop
+  muted
+  playsInline
+  controls
+  className="w-full rounded-xl"
+  src="/videos/primera-propiedad-hubspot.mp4"
+></video>
+
+    Esa variable **no se define sola**. Tienes que pasarla al hacer la llamada, en el campo **Variables dinámicas** del flujo [Disparador de llamada mediante Webhook](/es/plantillas/flujos/llamada-saliente-formulario#pasa-los-datos-del-lead-al-agente), que en la plantilla llega vacío.
+
+    Si tus leads no traen email, usa `phone` en su lugar y el teléfono del contacto. En ese caso los pasos de Gmail se quedan sin destinatario: quítalos o sustitúyelos por otra notificación.
+  </Step>
+
+  <Step title="Elige qué propiedades escribir en HubSpot" id="elige-que-propiedades-escribir">
+    Los tres pasos de **Actualizar contacto** llegan con **Object Properties vacío**: tal cual, encuentran el contacto y no le escriben nada.
+
+    Actualiza en cada uno las propiedades que quieras rellenar. 
+  </Step>
+
+  <Step title="Rellena las conexiones de Gmail y los correos">
+    Selecciona tu conexión de Gmail en los tres pasos de email. Después, en cada uno adapta el texto del cuerpo, escrito en genérico, a tu tono. En el de confirmación, mantén el resultado de la pieza: es lo que imprime la fecha acordada tal y como se dijo por teléfono.
+  </Step>
+
+  <Step title="Publica el flujo y asígnalo al agente">
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo y asegúrate de que quede **habilitado**. Si no lo creaste a partir del agente [Gestión de leads (HubSpot)](/es/plantillas/agentes/gestion-leads), añádelo ahora desde la sección **Flujos** del agente al que quieras asociarlo; aparecerá con la etiqueta **Post-llamada**.
+  </Step>
+
+  <Step title="Pruébalo con los tres desenlaces">
+    Haz tres llamadas de prueba: una cerrando cita, otra sin cerrarla y otra sin descolgar. Comprueba que cae en la rama correcta y que llega el email que toca. Puedes seguir el recorrido paso a paso en las [trazas de llamada](/es/despliegue/trazas-llamadas).
+  </Step>
+</Steps>
+
+## Antes de publicar
+
+- **Sin la variable `mail`, el flujo se ejecuta pero no hace nada útil.** La búsqueda en HubSpot no encuentra contacto y los emails salen sin destinatario. Es el fallo más probable al montar esta plantilla por primera vez: revisa el [paso correspondiente](#asegurate-de-que-llega-el-email).
+- **Si el contacto no está en HubSpot, no se crea.** Los pasos de actualización apuntan al primer resultado de la búsqueda; si no hay ninguno, fallan. Están configurados para **continuar si falla**, así que el flujo sigue y el email se envía igualmente, pero en tu CRM no queda constancia. Si quieres darlo de alta, añade un paso de creación de contacto.
+- **Los pasos de actualización no escriben nada de fábrica.** Hasta que no rellenes Object Properties, el flujo no cambia ningún dato en HubSpot. Consulta el [paso correspondiente](#elige-que-propiedades-escribir).
+- **La clasificación la hace un modelo de lenguaje.** Los dos pasos de extracción usan `gpt-4` sobre la transcripción y pueden equivocarse, sobre todo si la cita quedó a medias o el lead dijo algo ambiguo. Trata el resultado como una buena aproximación, no como un dato verificado.
+- **La fecha de la cita es texto libre.** `appointment_datetime` viene en lenguaje natural (por ejemplo, `jueves 6 de marzo a las 10:00`). Sirve para leerla en un email, no para volcarla en una propiedad de tipo fecha sin convertirla antes.
+- **La cita real está en el calendario, no aquí.** Quien la crea es el flujo [`crear_cita`](/es/plantillas/flujos/crear-cita) durante la llamada. Este flujo solo lee la transcripción para contar lo que pasó: si el agente dijo una hora pero `crear_cita` falló, el email de confirmación se manda igual.
+- **Los emails no perdonan un fallo.** Los tres pasos de Gmail están configurados para **detener el flujo si fallan**, al contrario que los de HubSpot.
+- **Solo una rama se ejecuta.** Los dos routers están en modo primera coincidencia, así que cada llamada cae en exactamente un desenlace.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Gestión de leads"
+    icon="user-plus"
+    href="/es/plantillas/agentes/gestion-leads"
+  >
+    El agente que hace la llamada.
+  </Card>
+  <Card
+    title="Disparador de llamada mediante Webhook"
+    icon="phone-arrow-up-right"
+    href="/es/plantillas/flujos/llamada-saliente-formulario"
+  >
+    Donde se define la variable `mail`.
+  </Card>
+  <Card
+    title="Flujos post-llamada"
+    icon="clock-rotate-left"
+    href="/es/build/flujos/flujos-post-llamada"
+  >
+    Cómo funcionan los flujos que se ejecutan al terminar.
+  </Card>
+  <Card
+    title="La pieza de Diga"
+    icon="puzzle"
+    href="/es/build/flujos/pieza-diga#llamada-finalizada"
+  >
+    Los datos que recibe el trigger Llamada finalizada.
+  </Card>
+</CardGroup>

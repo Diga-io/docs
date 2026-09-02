@@ -1,0 +1,171 @@
+---
+title: "Disparador de llamada mediante Webhook"
+description: "Flujo lanzador de llamadas que toma el teléfono del lead y llama un minuto después de recibir el formulario"
+---
+
+<Note>
+  **Agentes relacionados:** [Gestión de leads (HubSpot)](/es/plantillas/agentes/gestion-leads).
+</Note>
+
+## Qué hace
+
+Tu formulario de contacto envía los datos del lead a una URL de webhook. El flujo coge el teléfono, lo deja en formato internacional, espera un minuto y **lanza la llamada saliente** con el agente que le indiques.
+
+Ese minuto de espera es deliberado: da tiempo a que el lead cierre el formulario y no reciba la llamada mientras todavía está mirando la pantalla.
+
+Es un [flujo lanzador de llamadas](/es/build/flujos/pieza-diga#hacer-llamada): no se asigna al agente como los flujos pre, durante o post-llamada, sino que se ejecuta por su cuenta y es él quien origina la llamada.
+
+## Cómo funciona
+
+| Paso | Qué hace |
+|---|---|
+| **Recibir formulario de contacto** | Trigger de webhook. Expone una URL a la que tu formulario envía los datos del lead. Sin autenticación. |
+| **Normalizar teléfono** | Coge `body.phone` y lo convierte al formato internacional que necesita la telefonía. |
+| **Esperar antes de llamar** | Pausa de 1 minuto. |
+| **Realizar llamada saliente** | Llama al número normalizado desde tu número de Diga, con el agente indicado. |
+
+### Cómo funciona el webhook
+
+El trigger **Recibir formulario de contacto** es un webhook de tipo **Catch Webhook**: en cuanto publicas el flujo, genera una URL propia y única para ese flujo. Cualquier petición que llegue a esa URL dispara una ejecución nueva, sin importar desde dónde venga.
+
+No exige ninguna estructura concreta: acepta el cuerpo de la petición tal cual se lo envíen y lo expone entero bajo `trigger.body`, con cada campo disponible por su propio nombre — por ejemplo `trigger.body.phone`. Pero el trigger no sabe de antemano qué campos van a llegar, así que hasta que no le enseñas un ejemplo, los pasos siguientes no tienen nada que ofrecerte en el selector.
+
+Por eso, **cada vez que quieras usar un dato nuevo que llega por el webhook, primero tienes que generar unos datos de ejemplo que lo incluyan**:
+
+<video
+  autoPlay
+  loop
+  muted
+  playsInline
+  controls
+  className="w-full rounded-xl"
+  src="/videos/webhook_datos_ejemplo.mp4"
+></video>
+
+En **Generar datos de ejemplo**, pulsa **Probar disparador**, selecciona el método **POST**, ve a la pestaña **Cuerpo** con tipo **JSON** y escribe un ejemplo con los mismos campos y los mismos nombres que manda tu formulario:
+
+```json
+{
+  "phone": "+34623047607",
+  "mail": "prueba@ejemplo.com",
+  "name": "María"
+}
+```
+
+Al pulsar **Enviar**, el flujo guarda ese resultado y a partir de ese momento los tres campos aparecen en los bloques posteriores, listos para arrastrar.
+
+Los nombres tienen que coincidir exactamente con los de tu formulario: el bloque **Normalizar teléfono** va a buscar `phone` dentro del cuerpo, y si tu formulario lo manda como `telefono` o `phone_number`, no lo encuentra y la ejecución falla ahí mismo.
+
+
+### Qué hace exactamente la normalización
+
+El paso de código limpia el número y le pone prefijo internacional. En orden:
+
+1. Quita espacios, guiones, puntos y paréntesis.
+2. Si empieza por `00`, lo cambia por `+`.
+3. Si no empieza por `+`, le añade el prefijo del país: si el número ya empieza por el prefijo lo antepone tal cual, y si no, quita el `0` inicial de red nacional (si lo hay) y luego añade el prefijo.
+4. Comprueba que el resultado sea un `+` seguido de entre 8 y 15 dígitos.
+
+```
+612 345 678   ->  +34612345678
+0034612345678 ->  +34612345678
++34 612 345 678 -> +34612345678
+```
+
+## Qué necesitas
+
+- Un [número de teléfono](/es/telefonia/comprar-telefonos) desde el que llamar
+- El agente [Gestión de leads (HubSpot)](/es/plantillas/agentes/gestion-leads), o cualquier otro agente que quieras usar
+- Un formulario que pueda enviar datos a una URL de webhook, en el formulario se debe pedir tanto el mail como el número de teléfono
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Copia la plantilla">
+    Desde la sección **Flujos**, abre el catálogo de plantillas y cópiala. El flujo se crea deshabilitado.
+  </Step>
+
+  <Step title="Apunta tu formulario al webhook">
+    Copia la URL del trigger **Recibir formulario de contacto** y configúrala como destino en tu formulario.
+
+    El flujo espera el teléfono en `body.phone`. Si tu formulario lo manda con otro nombre — `telefono`, `phone_number`, `data.phone` — cambia el campo **number** del paso **Normalizar teléfono** para que apunte al tuyo.
+  </Step>
+
+  <Step title="Ajusta el prefijo del país">
+    En el paso de código **Normalizar teléfono**, el campo **defaultCountryCode** viene en `34`. Cámbialo si tus leads son de otro país. Solo se aplica a los números que llegan sin prefijo: los que ya vienen en internacional se respetan.
+  </Step>
+
+  <Step title="Ajusta la espera (opcional)">
+    El paso **Esperar antes de llamar** está en 1 minuto. Súbelo o bájalo según prefieras, teniendo en cuenta que el contacto inmediato suele funcionar mejor cuanto más reciente es el formulario.
+  </Step>
+
+  <Step title="Selecciona el número y el agente">
+    En el paso **Realizar llamada saliente**, la pieza trae un desplegable "Número de origen". Selecciona ahí el número desde el que quieres llamar.
+
+    En ese mismo paso, el campo **Versión del agente** llega vacío. Selecciona la versión del agente que atenderá la llamada. Si lo dejas sin rellenar, se usa la versión publicada por defecto del agente asociado al número.
+  </Step>
+
+  <Step title="Pasa los datos del lead al agente" id="pasa-los-datos-del-lead-al-agente">
+    El campo **Variables dinámicas** del paso **Realizar llamada saliente** llega **vacío**. Es el sitio donde se pasan al agente los datos que trae el formulario.
+
+    Esto importa especialmente si vas a usar el flujo [Gestión de lead postllamada (HubSpot)](/es/plantillas/flujos/gestion-leads-hubspot): ese flujo busca el contacto y envía el email usando la variable `mail`, y si no la defines aquí, llega vacía y no encuentra ni envía nada.
+
+    Añade al menos:
+
+    | Variable | Valor |
+    |---|---|
+    | `mail` | `{{trigger.body.email}}` |
+
+    Añade también el nombre o cualquier otro dato del formulario que quieras usar en el prompt como [variable dinámica](/es/build/agentes/variables-dinamicas). Ajusta las rutas a los nombres de campo reales de tu formulario.
+  </Step>
+
+  <Step title="Publica y habilita el flujo">
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo y asegúrate de que quede **habilitado**. Mientras esté deshabilitado, el webhook no dispara nada.
+  </Step>
+
+  <Step title="Pruébalo">
+    Envía el formulario con tu propio teléfono y comprueba que la llamada entra un minuto después. Revisa el número marcado en los [logs de llamadas](/es/despliegue/logs-llamadas): es la forma más rápida de detectar que la normalización no cuadra con el formato que manda tu formulario.
+  </Step>
+</Steps>
+
+## Antes de publicar
+
+- **Una llamada por envío.** Cada petición al webhook dispara una llamada. Si tu formulario reenvía o el lead lo manda dos veces, se llama dos veces: el flujo no comprueba duplicados.
+- **No reintenta.** Si no contestan, no hay segundo intento.
+- **No comprueba el horario.** El flujo llama a cualquier hora a la que llegue el formulario, incluidos noches y fines de semana. El bloque de horario del prompt del agente sirve para *agendar citas*, no para decidir cuándo se puede llamar. Si lo necesitas, añade una condición antes del paso de llamada.
+- **El número tiene que venir en el webhook.** Si `body.phone` llega vacío o con texto, el paso de normalización falla y el flujo se para ahí.
+- **No valida que el número exista**, solo que tenga forma correcta. Un número bien formado pero inexistente se intenta llamar igualmente.
+- **Las variables dinámicas llegan vacías** de fábrica. Sin ellas, el agente no sabe nada del lead más allá de su teléfono, y el flujo post-llamada se queda sin el email.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Gestión de leads"
+    icon="user-plus"
+    href="/es/plantillas/agentes/gestion-leads"
+  >
+    El agente que atiende esta llamada.
+  </Card>
+  <Card
+    title="Gestión de lead postllamada (HubSpot)"
+    icon="list-check"
+    href="/es/plantillas/flujos/gestion-leads-hubspot"
+  >
+    Lo que ocurre cuando la llamada termina.
+  </Card>
+  <Card
+    title="La pieza de Diga"
+    icon="puzzle"
+    href="/es/build/flujos/pieza-diga#hacer-llamada"
+  >
+    Referencia de la acción Hacer llamada.
+  </Card>
+  <Card
+    title="Variables dinámicas"
+    icon="brackets-curly"
+    href="/es/build/agentes/variables-dinamicas"
+  >
+    Pasa los datos del formulario al prompt del agente.
+  </Card>
+</CardGroup>

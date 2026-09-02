@@ -1,0 +1,170 @@
+---
+title: "Outbound call trigger (Webhook)"
+description: "Call-launching workflow that takes the lead's phone number and calls one minute after the form arrives"
+---
+
+<Note>
+  **Related agents:** [Lead management (HubSpot)](/en/templates/agents/lead-management).
+</Note>
+
+## What it does
+
+Your contact form sends the lead's data to a webhook URL. The workflow takes the phone number, converts it to international format, waits one minute, and **launches the outbound call** with the agent you specify.
+
+That one-minute wait is deliberate: it gives the lead time to close the form so they aren't still looking at the screen when the call comes in.
+
+It's a [call-launching workflow](/en/build/flows/diga-piece#make-call): unlike pre-, during-, or post-call workflows, it isn't assigned to the agent — it runs on its own and is what originates the call.
+
+## How it works
+
+| Step | What it does |
+|---|---|
+| **Receive contact form** | Webhook trigger. Exposes a URL your form sends the lead's data to. No authentication. |
+| **Normalize phone number** | Takes `body.phone` and converts it to the international format the telephony system needs. |
+| **Wait before calling** | 1-minute pause. |
+| **Make outbound call** | Calls the normalized number from your Diga number, with the specified agent. |
+
+### How the webhook works
+
+The **Receive contact form** trigger is a **Catch Webhook**: as soon as you publish the workflow, it generates its own unique URL. Any request that hits that URL fires a new run, no matter where it comes from.
+
+It doesn't require any particular structure: it accepts the request body as-is and exposes it whole under `trigger.body`, with each field available by its own name — for example `trigger.body.phone`. But the trigger doesn't know in advance which fields will arrive, so until you show it a sample, the following steps have nothing to offer you in the selector.
+
+That's why, **every time you want to use a new piece of data coming from the webhook, you first need to generate sample data that includes it**:
+
+<video
+  autoPlay
+  loop
+  muted
+  playsInline
+  controls
+  className="w-full rounded-xl"
+  src="/videos/webhook_datos_ejemplo.mp4"
+></video>
+
+In **Generate sample data**, click **Test trigger**, select the **POST** method, go to the **Body** tab with type **JSON**, and write a sample with the same fields and names your form sends:
+
+```json
+{
+  "phone": "+34623047607",
+  "mail": "test@example.com",
+  "name": "María"
+}
+```
+
+After clicking **Send**, the workflow saves that result, and from then on the three fields appear in later blocks, ready to drag in.
+
+The names have to match your form's exactly: the **Normalize phone number** block looks for `phone` inside the body, and if your form sends it as `telefono` or `phone_number`, it won't find it and the run fails right there.
+
+### What the normalization actually does
+
+The code step cleans the number and adds the international prefix. In order:
+
+1. Removes spaces, dashes, dots, and parentheses.
+2. If it starts with `00`, replaces it with `+`.
+3. If it doesn't start with `+`, adds the country prefix: if the number already starts with the prefix it's kept as-is, and if not, it strips the leading national-trunk `0` (if any) and then adds the prefix.
+4. Checks that the result is a `+` followed by 8 to 15 digits.
+
+```
+612 345 678   ->  +34612345678
+0034612345678 ->  +34612345678
++34 612 345 678 -> +34612345678
+```
+
+## What you need
+
+- A [phone number](/en/telephony/buy-numbers) to call from
+- The [Lead management (HubSpot)](/en/templates/agents/lead-management) agent, or any other agent you want to use
+- A form that can send data to a webhook URL; it should ask for both the email and the phone number
+
+## Getting started
+
+<Steps>
+  <Step title="Copy the template">
+    From the **Workflows** section, open the template catalog and copy it. The workflow is created disabled.
+  </Step>
+
+  <Step title="Point your form at the webhook">
+    Copy the **Receive contact form** trigger's URL and set it as the destination in your form.
+
+    The workflow expects the phone number in `body.phone`. If your form sends it under a different name — `telefono`, `phone_number`, `data.phone` — change the **number** field of the **Normalize phone number** step to match yours.
+  </Step>
+
+  <Step title="Adjust the country prefix">
+    In the **Normalize phone number** code step, the **defaultCountryCode** field ships as `34`. Change it if your leads are from another country. It only applies to numbers that arrive without a prefix: ones already in international format are left as-is.
+  </Step>
+
+  <Step title="Adjust the wait (optional)">
+    The **Wait before calling** step is set to 1 minute. Raise or lower it as you prefer, keeping in mind that immediate contact tends to work better the more recent the form submission.
+  </Step>
+
+  <Step title="Select the number and the agent">
+    In the **Make outbound call** step, the piece has an "Origin number" dropdown. Select the number you want to call from there.
+
+    In that same step, the **Agent version** field ships empty. Select the agent version that will take the call. If you leave it blank, the default published version of the agent linked to the number is used.
+  </Step>
+
+  <Step title="Pass the lead's data to the agent" id="pass-the-leads-data-to-the-agent">
+    The **Dynamic Variables** field of the **Make outbound call** step ships **empty**. This is where you pass the agent the data that comes from the form.
+
+    This matters especially if you're going to use the [Post-call lead management (HubSpot)](/en/templates/flows/post-call-lead-management-hubspot) workflow: it looks up the contact and sends the email using the `mail` variable, and if you don't define it here, it arrives empty and finds and sends nothing.
+
+    Add at least:
+
+    | Variable | Value |
+    |---|---|
+    | `mail` | `{{trigger.body.email}}` |
+
+    Also add the name or any other form data you want to use in the prompt as a [dynamic variable](/en/build/agents/dynamic-variables). Adjust the paths to match your form's actual field names.
+  </Step>
+
+  <Step title="Publish and enable the workflow">
+    [Publish](/en/build/flows/creating-workflows#draft-vs-published) the workflow and make sure it's **enabled**. While it's disabled, the webhook triggers nothing.
+  </Step>
+
+  <Step title="Test it">
+    Submit the form with your own phone number and check that the call comes in a minute later. Check the number dialed in the [call logs](/en/deployment/call-logs): it's the fastest way to spot that the normalization doesn't match the format your form sends.
+  </Step>
+</Steps>
+
+## Before publishing
+
+- **One call per submission.** Every request to the webhook triggers a call. If your form resubmits or the lead sends it twice, it calls twice: the workflow doesn't check for duplicates.
+- **No retries.** If they don't answer, there's no second attempt.
+- **No time-of-day check.** The workflow calls at whatever hour the form arrives, including nights and weekends. The agent prompt's hours block is for *booking appointments*, not for deciding when it's okay to call. If you need this, add a condition before the call step.
+- **The number has to arrive in the webhook.** If `body.phone` arrives empty or with text, the normalization step fails and the workflow stops there.
+- **It doesn't validate that the number exists**, only that it's correctly formatted. A well-formed but nonexistent number is still dialed.
+- **The dynamic variables arrive empty** out of the box. Without them, the agent knows nothing about the lead beyond their phone number, and the post-call workflow is left without the email.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Lead management"
+    icon="user-plus"
+    href="/en/templates/agents/lead-management"
+  >
+    The agent that takes this call.
+  </Card>
+  <Card
+    title="Post-call lead management (HubSpot)"
+    icon="list-check"
+    href="/en/templates/flows/post-call-lead-management-hubspot"
+  >
+    What happens when the call ends.
+  </Card>
+  <Card
+    title="The Diga Piece"
+    icon="puzzle"
+    href="/en/build/flows/diga-piece#make-call"
+  >
+    Reference for the Make Call action.
+  </Card>
+  <Card
+    title="Dynamic Variables"
+    icon="brackets-curly"
+    href="/en/build/agents/dynamic-variables"
+  >
+    Pass the form's data to the agent's prompt.
+  </Card>
+</CardGroup>

@@ -144,6 +144,7 @@
                       "es/plataforma/equipo",
                       "es/plataforma/suscripcion",
                       "es/plataforma/facturacion",
+                      "es/plataforma/uso",
                       "es/plataforma/api-keys",
                       "es/plataforma/conexiones"
                     ]
@@ -157,6 +158,48 @@
                   "es/despliegue/monitoreo-logs",
                   "es/despliegue/logs-llamadas",
                   "es/despliegue/trazas-llamadas"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Plantillas",
+            "groups": [
+              {
+                "group": "Comenzar",
+                "pages": [
+                  "es/plantillas/introduccion"
+                ]
+              },
+              {
+                "group": "Catálogo",
+                "pages": [
+                  {
+                    "group": "Agentes",
+                    "pages": [
+                      "es/plantillas/agentes/gestion-citas-google-calendar",
+                      "es/plantillas/agentes/gestion-leads",
+                      "es/plantillas/agentes/gestion-citas-calcom",
+                      "es/plantillas/agentes/ventas-outbound"
+                    ]
+                  },
+                  {
+                    "group": "Flujos",
+                    "pages": [
+                      "es/plantillas/flujos/comprobar-disponibilidad",
+                      "es/plantillas/flujos/crear-cita",
+                      "es/plantillas/flujos/llamada-saliente-formulario",
+                      "es/plantillas/flujos/gestion-leads-hubspot",
+                      "es/plantillas/flujos/obtener-eventos-calcom",
+                      "es/plantillas/flujos/comprobar-disponibilidad-calcom",
+                      "es/plantillas/flujos/crear-cita-calcom",
+                      "es/plantillas/flujos/buscar-cita-calcom",
+                      "es/plantillas/flujos/reprogramar-cita-calcom",
+                      "es/plantillas/flujos/cancelar-cita-calcom",
+                      "es/plantillas/flujos/guardar-resultado-llamada-sheets",
+                      "es/plantillas/flujos/enviar-informacion-whatsapp"
+                    ]
+                  }
                 ]
               }
             ]
@@ -262,6 +305,7 @@
                       "en/platform/team",
                       "en/platform/subscription",
                       "en/platform/billing",
+                      "en/platform/usage",
                       "en/platform/api-keys",
                       "en/platform/connections"
                     ]
@@ -275,6 +319,48 @@
                   "en/deployment/monitoring-logs",
                   "en/deployment/call-logs",
                   "en/deployment/call-traces"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Templates",
+            "groups": [
+              {
+                "group": "Get Started",
+                "pages": [
+                  "en/templates/introduction"
+                ]
+              },
+              {
+                "group": "Catalog",
+                "pages": [
+                  {
+                    "group": "Agents",
+                    "pages": [
+                      "en/templates/agents/appointment-management-google-calendar",
+                      "en/templates/agents/lead-management",
+                      "en/templates/agents/appointment-management-cal-com",
+                      "en/templates/agents/outbound-sales"
+                    ]
+                  },
+                  {
+                    "group": "Flows",
+                    "pages": [
+                      "en/templates/flows/check-availability",
+                      "en/templates/flows/create-appointment",
+                      "en/templates/flows/outbound-call-form-trigger",
+                      "en/templates/flows/post-call-lead-management-hubspot",
+                      "en/templates/flows/get-event-types-cal-com",
+                      "en/templates/flows/check-availability-cal-com",
+                      "en/templates/flows/create-appointment-cal-com",
+                      "en/templates/flows/find-appointment-cal-com",
+                      "en/templates/flows/reschedule-appointment-cal-com",
+                      "en/templates/flows/cancel-appointment-cal-com",
+                      "en/templates/flows/save-call-result-sheets",
+                      "en/templates/flows/send-follow-up-whatsapp"
+                    ]
+                  }
                 ]
               }
             ]

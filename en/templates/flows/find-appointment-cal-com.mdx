@@ -1,0 +1,84 @@
+---
+title: "Find appointment (Cal.com)"
+description: "During-call workflow that looks up a customer's upcoming Cal.com appointments by email"
+---
+
+<Note>
+  **Related workflows:** [Reschedule appointment (Cal.com)](/en/templates/flows/reschedule-appointment-cal-com) and [Cancel appointment (Cal.com)](/en/templates/flows/cancel-appointment-cal-com).
+
+  **Related agents:** [Appointment management (Cal.com)](/en/templates/agents/appointment-management-cal-com).
+</Note>
+
+## What it does
+
+The agent passes it the customer's email (confirmed out loud beforehand), and the workflow returns **the customer's upcoming appointments** in Cal.com: type, date, and time in local time, up to 10 of them.
+
+It's the required step before rescheduling or canceling: [Reschedule appointment](/en/templates/flows/reschedule-appointment-cal-com) and [Cancel appointment](/en/templates/flows/cancel-appointment-cal-com) both need the booking's identifier (`uid`), and this workflow is the only place the agent can get it from.
+
+It's a [during-call workflow](/en/build/flows/during-call-flows): the agent runs it mid-conversation and waits for the result before carrying on.
+
+## How it works
+
+| Step | What it does |
+|---|---|
+| **Get current time in UTC** | Works out the current instant, so past appointments aren't included. |
+| **Find bookings in Cal** | Queries Cal.com for up to 10 upcoming bookings (`status: upcoming`) matching the customer's name and email. |
+| **Format appointments to local time** | Extracts the appointment type from each booking's title, converts date and time to local time, and sorts the list chronologically. |
+| **Return Response** | Hands the list to the agent, telling it the `uid` is internal (never said out loud) and to ignore `inicio_utc` too. If the list comes back empty, it tells the agent to ask for the email again. |
+
+## What you need
+
+- A Cal.com [connection](/en/platform/connections)
+
+## Getting started
+
+<Steps>
+  <Step title="Copy the template">
+    From the **Workflows** section, open the template catalog and copy it. The workflow is created disabled.
+  </Step>
+
+  <Step title="Select the Cal.com connection">
+    In the **Find bookings in Cal** step, add your Cal.com connection.
+  </Step>
+
+  <Step title="Publish the workflow">
+    [Publish](/en/build/flows/creating-workflows#draft-vs-published) the workflow.
+  </Step>
+
+  <Step title="Assign it to the agent">
+    Add it from the agent's **Workflows** section. The workflow's name is the tool name the agent sees, so leave it as `find_appointment`. This step isn't needed if the workflow was created from the agent.
+  </Step>
+</Steps>
+
+## Before publishing
+
+- **The lookup is by name and email, not phone number.** If the customer calls from a different number than the one used to book, the workflow still finds the appointment as long as the email matches.
+- **It returns up to 10 upcoming appointments.** If the customer has more than 10 pending bookings, the furthest-out ones won't show up.
+- **The appointment type is parsed from the booking's title in Cal.com**, not a dedicated field. If you change the title format in Cal.com, check the workflow still parses it correctly.
+- **If the email doesn't match any booking, the list comes back empty**, and it's the agent's prompt that decides what to do next — the agent template asks for the email again and, if it still doesn't turn up, tells the customer the team will call back.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Reschedule appointment (Cal.com)"
+    icon="calendar-clock"
+    href="/en/templates/flows/reschedule-appointment-cal-com"
+  >
+    Uses the uid this workflow returns.
+  </Card>
+  <Card
+    title="Cancel appointment (Cal.com)"
+    icon="calendar-xmark"
+    href="/en/templates/flows/cancel-appointment-cal-com"
+  >
+    Also uses the uid this workflow returns.
+  </Card>
+  <Card
+    title="Appointment management (Cal.com)"
+    icon="calendar-check"
+    href="/en/templates/agents/appointment-management-cal-com"
+  >
+    The agent that uses this workflow.
+  </Card>
+</CardGroup>

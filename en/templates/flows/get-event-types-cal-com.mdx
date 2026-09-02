@@ -1,0 +1,81 @@
+---
+title: "Get event types (Cal.com)"
+description: "Pre-call workflow that fetches the available appointment types from Cal.com before the agent speaks"
+---
+
+<Note>
+  **Related agents:** [Appointment management (Cal.com)](/en/templates/agents/appointment-management-cal-com).
+</Note>
+
+## What it does
+
+Right before the agent says its first word, the workflow queries your Cal.com account and fetches **every configured appointment type** — name, description, and duration — so the agent knows from the first second what it can offer, without asking for it or having it hardcoded in the prompt.
+
+It's a [pre-call workflow](/en/build/flows/pre-call-flows): the agent waits for its result before it starts talking.
+
+## How it works
+
+| Step | What it does |
+|---|---|
+| **Get event types** | Queries the list of appointment types (event types) in your Cal.com account. |
+| **Format event types** | Keeps the `id`, `name`, `description`, and `duration` of each one. |
+| **Return call data** | Hands the list to the agent, telling it the `id` is internal and should never be said out loud — it can only talk about the titles and durations. |
+
+Each type's `id` is exactly what the agent needs afterward to call `check_availability` and `create_appointment`, so even though it's never spoken, it stays available to the agent for the rest of the call.
+
+## What you need
+
+- A Cal.com [connection](/en/platform/connections)
+- At least one appointment type (event type) configured in your Cal.com account
+
+## Getting started
+
+<Steps>
+  <Step title="Copy the template">
+    From the **Workflows** section, open the template catalog and copy it. The workflow is created disabled. It can also be created from the [Appointment management (Cal.com)](/en/templates/agents/appointment-management-cal-com) agent template.
+  </Step>
+
+  <Step title="Select the Cal.com connection">
+    In the **Get event types** step, add your Cal.com connection.
+  </Step>
+
+  <Step title="Publish the workflow">
+    [Publish](/en/build/flows/creating-workflows#draft-vs-published) the workflow.
+  </Step>
+
+  <Step title="Assign it to the agent as a pre-call workflow">
+    Add it from the agent's **Workflow** section, as a [pre-call workflow](/en/build/flows/pre-call-flows). This step isn't needed if the workflow was created from the agent.
+  </Step>
+</Steps>
+
+## Before publishing
+
+- **A new appointment type in Cal.com shows up on its own.** No need to touch the prompt or the workflow: on the next call, the agent already offers it. Delete one and it stops being offered just as automatically.
+- **If the workflow fails or times out**, the agent moves on without the list of appointment types — the trigger ships with `abort_on_failure` disabled, so the call isn't cut off, but the agent won't know what appointment types exist until it gets that information another way (for example, by asking the customer directly).
+- **A confusingly named type in Cal.com arrives just as confusing for the agent.** The `name` field is literally the event type's title: check that it's self-explanatory enough for the agent to read it out loud without sounding odd.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Appointment management (Cal.com)"
+    icon="calendar-check"
+    href="/en/templates/agents/appointment-management-cal-com"
+  >
+    The agent that uses this workflow.
+  </Card>
+  <Card
+    title="Check availability (Cal.com)"
+    icon="bolt"
+    href="/en/templates/flows/check-availability-cal-com"
+  >
+    The workflow that uses each appointment type's id.
+  </Card>
+  <Card
+    title="Pre-call workflows"
+    icon="phone-arrow-down-left"
+    href="/en/build/flows/pre-call-flows"
+  >
+    How workflows that run before the agent speaks work.
+  </Card>
+</CardGroup>

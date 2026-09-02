@@ -1,0 +1,86 @@
+---
+title: "Create appointment (Cal.com)"
+description: "During-call workflow that books the appointment in Cal.com"
+---
+
+<Note>
+  **Related workflows:** [Check availability (Cal.com)](/en/templates/flows/check-availability-cal-com).
+
+  **Related agents:** [Appointment management (Cal.com)](/en/templates/agents/appointment-management-cal-com).
+</Note>
+
+## What it does
+
+The agent passes it the appointment type (`event_type_id`), the start date and time (`start_date`, in local time), and the customer's email, and the workflow **books the appointment** in Cal.com. The customer's name is optional.
+
+Unlike [Check availability](/en/templates/flows/check-availability-cal-com), this workflow **doesn't re-check the slot** before booking: it calls Cal.com's booking action directly and relies on Cal.com to reject an already-taken slot.
+
+It's a [during-call workflow](/en/build/flows/during-call-flows) running in sync mode: the agent runs it mid-conversation and waits for the response before confirming the appointment to the customer.
+
+## How it works
+
+| Step | What it does |
+|---|---|
+| **Format start date** | Converts `start_date` from local time to UTC, handling daylight saving automatically. |
+| **Create booking in Cal** | Books the appointment in Cal.com with the given type, time, name, and email. No guests or extra notes. |
+| **Return Response** | Tells the agent `Citado correctamente.` (Booked successfully.) |
+
+## What you need
+
+- A Cal.com [connection](/en/platform/connections)
+- The appointment type (`event_type_id`) being booked, from the same Cal.com account [Check availability (Cal.com)](/en/templates/flows/check-availability-cal-com) queries
+
+## Getting started
+
+<Steps>
+  <Step title="Copy the template">
+    From the **Workflows** section, open the template catalog and copy it. The workflow is created disabled.
+  </Step>
+
+  <Step title="Select the Cal.com connection">
+    In the **Create booking in Cal** step, add your Cal.com connection.
+  </Step>
+
+  <Step title="Check the time zone" id="check-the-time-zone">
+    `Europe/Madrid` appears in the `zona` input of **Format start date** and in the **Attendee Timezone** field of **Create booking in Cal**. If you operate in a different time zone, change both.
+  </Step>
+
+  <Step title="Mark start_date as required" id="mark-start-date-as-required">
+    The template ships with the trigger's `start_date` parameter marked as **optional**, when in reality it's always needed to book the appointment. Mark it as **required** before publishing: otherwise the agent can call the tool with no date, and the conversion step fails without a clear message for the customer.
+  </Step>
+
+  <Step title="Publish the workflow">
+    [Publish](/en/build/flows/creating-workflows#draft-vs-published) the workflow.
+  </Step>
+
+  <Step title="Assign it to the agent">
+    Add it from the agent's **Workflows** section. The workflow's name is the tool name the agent sees, so leave it as `create_appointment`. This step isn't needed if the workflow was created from the agent.
+  </Step>
+</Steps>
+
+## Before publishing
+
+- **There's no slot check right before booking.** Unlike `check_availability`, this workflow doesn't re-query Cal.com before booking: if the slot got taken in the meantime, Cal.com is what rejects the booking, not the workflow.
+- **If Cal.com rejects the booking, the agent is left with no response.** The booking step is set to **stop the workflow on failure**, and there's no step afterward to tell the agent what happened — unlike [Reschedule appointment](/en/templates/flows/reschedule-appointment-cal-com#before-publishing) and [Cancel appointment](/en/templates/flows/cancel-appointment-cal-com#before-publishing), which do have an error branch with a message for the customer. If you want that same behavior here, add a router that splits on the result before the final response.
+- **The event is created with no guests**: the customer's email stays on the Cal.com booking, but the workflow doesn't add extra guests or notes.
+- **The workflow only creates.** It doesn't cancel or reschedule existing appointments; that's what [Reschedule appointment](/en/templates/flows/reschedule-appointment-cal-com) and [Cancel appointment](/en/templates/flows/cancel-appointment-cal-com) are for.
+- **The appointment's length is set by the appointment type in Cal.com**, not by the workflow or the agent's prompt.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Appointment management (Cal.com)"
+    icon="calendar-check"
+    href="/en/templates/agents/appointment-management-cal-com"
+  >
+    The agent that uses this workflow.
+  </Card>
+  <Card
+    title="Check availability (Cal.com)"
+    icon="bolt"
+    href="/en/templates/flows/check-availability-cal-com"
+  >
+    The other workflow the agent needs.
+  </Card>
+</CardGroup>

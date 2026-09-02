@@ -1,0 +1,85 @@
+---
+title: "Cancelar cita (Cal.com)"
+description: "Flujo durante llamada que anula una reserva existente en Cal.com"
+---
+
+<Note>
+  **Flujos relacionados:** [Buscar cita (Cal.com)](/es/plantillas/flujos/buscar-cita-calcom).
+
+  **Agentes relacionados:** [Gestión de citas (Cal.com)](/es/plantillas/agentes/gestion-citas-calcom).
+</Note>
+
+## Qué hace
+
+El agente le pasa el identificador de la reserva (`booking_uid`, obtenido con [Buscar cita](/es/plantillas/flujos/buscar-cita-calcom)) y, si el cliente lo ha dicho, un motivo, y el flujo **anula la reserva** en Cal.com.
+
+Igual que [Reprogramar cita](/es/plantillas/flujos/reprogramar-cita-calcom), distingue entre éxito y fallo: si Cal.com no puede cancelar la reserva, el agente recibe un mensaje distinto al de éxito en lugar de quedarse sin respuesta.
+
+Es un [flujo durante llamada](/es/build/flujos/flujos-durante-llamada) en modo síncrono.
+
+## Cómo funciona
+
+| Paso | Qué hace |
+|---|---|
+| **Cancelar reserva en Cal** | Llama a Cal.com para anular la reserva indicada, con el motivo si lo hay. |
+| **Comprobar estado de la cancelación** | Router que separa el resultado según si Cal.com devolvió éxito o no. |
+| **Devolver respuesta (cancelada / error)** | Responde al agente con el mensaje que corresponda. |
+
+Si el cliente no da ningún motivo, la plantilla del agente manda `Motivo no especificado`.
+
+## Qué necesitas
+
+- Una [conexión](/es/plataforma/conexiones) de Cal.com
+- El flujo [Buscar cita (Cal.com)](/es/plantillas/flujos/buscar-cita-calcom), para obtener el `booking_uid`
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Copia la plantilla">
+    Desde la sección **Flujos**, abre el catálogo de plantillas y cópiala. El flujo se crea deshabilitado.
+  </Step>
+
+  <Step title="Selecciona la conexión de Cal.com">
+    En el paso **Cancelar reserva en Cal**, indica tu conexión de Cal.com.
+  </Step>
+
+  <Step title="Publica el flujo">
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo.
+  </Step>
+
+  <Step title="Asígnalo al agente">
+    Añádelo desde la sección **Flujos** del agente. El nombre del flujo es el nombre de la herramienta que ve el agente, así que déjalo en `cancelar_cita`. Este paso no es necesario si el flujo se ha creado a partir del agente.
+  </Step>
+</Steps>
+
+## Antes de publicar
+
+- **Cancelar es irreversible.** El flujo no pide confirmación por su cuenta: esa responsabilidad es del prompt del agente, que repite en voz alta el día y la hora antes de llamar a esta herramienta.
+- **La comparación de éxito depende de un campo interno de la pieza de Cal.com** (`status: "success"`), igual que en [Reprogramar cita](/es/plantillas/flujos/reprogramar-cita-calcom#antes-de-publicar).
+- **El flujo solo cancela.** No ofrece automáticamente otro hueco: si el cliente quiere una cita nueva después de cancelar, el prompt del agente es quien vuelve a arrancar el flujo de reserva.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Buscar cita (Cal.com)"
+    icon="magnifying-glass"
+    href="/es/plantillas/flujos/buscar-cita-calcom"
+  >
+    De aquí sale el uid que necesita este flujo.
+  </Card>
+  <Card
+    title="Reprogramar cita (Cal.com)"
+    icon="calendar-clock"
+    href="/es/plantillas/flujos/reprogramar-cita-calcom"
+  >
+    La alternativa cuando el cliente quiere mover la cita en vez de anularla.
+  </Card>
+  <Card
+    title="Gestión de citas (Cal.com)"
+    icon="calendar-check"
+    href="/es/plantillas/agentes/gestion-citas-calcom"
+  >
+    El agente que usa este flujo.
+  </Card>
+</CardGroup>
