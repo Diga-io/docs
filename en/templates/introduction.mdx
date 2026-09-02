@@ -19,7 +19,7 @@ The catalog is split into two families:
 </CardGroup>
 
 <Note>
-  Some templates come in pairs: an agent that needs a workflow as a tool, or the other way round. When that's the case, you'll find the link to its counterpart in a **Related template** callout at the top of the page.
+  Templates are connected to each other: an agent links to the workflows it needs, and a workflow links to the agents that use it and, if it has one, to its paired workflow. You'll find those links in a **Related workflows** or **Related agents** callout at the top of the page.
 </Note>
 
 ## Before you start
@@ -35,6 +35,27 @@ You need a [project](/en/platform/projects) to create the template in, the [conn
     href="/en/templates/agents/appointment-management-google-calendar"
   >
     A phone receptionist that checks your schedule and books the appointment.
+  </Card>
+  <Card
+    title="Lead management"
+    icon="user-plus"
+    href="/en/templates/agents/lead-management"
+  >
+    Calls the leads who fill in your form and books an appointment with them.
+  </Card>
+  <Card
+    title="Appointment management (Cal.com)"
+    icon="calendar-check"
+    href="/en/templates/agents/appointment-management-cal-com"
+  >
+    Books, reschedules, and cancels appointments using Cal.com.
+  </Card>
+  <Card
+    title="Outbound sales"
+    icon="phone-volume"
+    href="/en/templates/agents/outbound-sales"
+  >
+    Cold-calls prospects and books a demo with sales.
   </Card>
 </CardGroup>
 
@@ -54,6 +75,76 @@ You need a [project](/en/platform/projects) to create the template in, the [conn
     href="/en/templates/flows/create-appointment"
   >
     Checks the slot and creates the event in your Google Calendar.
+  </Card>
+  <Card
+    title="Outbound call trigger (Webhook)"
+    icon="phone-arrow-up-right"
+    href="/en/templates/flows/outbound-call-form-trigger"
+  >
+    Normalizes the lead's phone number and launches the call a minute later.
+  </Card>
+  <Card
+    title="Post-call lead management (HubSpot)"
+    icon="list-check"
+    href="/en/templates/flows/post-call-lead-management-hubspot"
+  >
+    Classifies the outcome, updates HubSpot, and sends the matching email.
+  </Card>
+  <Card
+    title="Get event types (Cal.com)"
+    icon="list-check"
+    href="/en/templates/flows/get-event-types-cal-com"
+  >
+    Fetches the available appointment types before the agent speaks.
+  </Card>
+  <Card
+    title="Check availability (Cal.com)"
+    icon="bolt"
+    href="/en/templates/flows/check-availability-cal-com"
+  >
+    Returns the free slots for an appointment type in Cal.com.
+  </Card>
+  <Card
+    title="Create appointment (Cal.com)"
+    icon="calendar-plus"
+    href="/en/templates/flows/create-appointment-cal-com"
+  >
+    Books the appointment in Cal.com.
+  </Card>
+  <Card
+    title="Find appointment (Cal.com)"
+    icon="magnifying-glass"
+    href="/en/templates/flows/find-appointment-cal-com"
+  >
+    Looks up a customer's upcoming appointments by email.
+  </Card>
+  <Card
+    title="Reschedule appointment (Cal.com)"
+    icon="calendar-clock"
+    href="/en/templates/flows/reschedule-appointment-cal-com"
+  >
+    Moves an existing booking to a new slot.
+  </Card>
+  <Card
+    title="Cancel appointment (Cal.com)"
+    icon="calendar-xmark"
+    href="/en/templates/flows/cancel-appointment-cal-com"
+  >
+    Cancels an existing booking.
+  </Card>
+  <Card
+    title="Save call result (Google Sheets)"
+    icon="table"
+    href="/en/templates/flows/save-call-result-sheets"
+  >
+    Uses AI to extract a sales call's outcome and saves it to Sheets.
+  </Card>
+  <Card
+    title="Send follow-up (WhatsApp)"
+    icon="message-circle"
+    href="/en/templates/flows/send-follow-up-whatsapp"
+  >
+    Sends a resource link over WhatsApp after the call.
   </Card>
 </CardGroup>
 

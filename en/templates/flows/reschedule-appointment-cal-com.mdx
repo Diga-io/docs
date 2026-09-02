@@ -1,0 +1,96 @@
+---
+title: "Reschedule appointment (Cal.com)"
+description: "During-call workflow that moves an existing Cal.com booking to a new slot"
+---
+
+<Note>
+  **Related workflows:** [Find appointment (Cal.com)](/en/templates/flows/find-appointment-cal-com) and [Check availability (Cal.com)](/en/templates/flows/check-availability-cal-com).
+
+  **Related agents:** [Appointment management (Cal.com)](/en/templates/agents/appointment-management-cal-com).
+</Note>
+
+## What it does
+
+The agent passes it the booking's identifier (`booking_uid`, obtained from [Find appointment](/en/templates/flows/find-appointment-cal-com)) and the new date and time (`start_date`, in local time), and the workflow **moves the booking** in Cal.com to the new slot.
+
+Unlike [Create appointment](/en/templates/flows/create-appointment-cal-com#before-publishing), this workflow does distinguish between success and failure: if Cal.com rejects the change (for example, because the slot just got taken), the agent gets a message meant for apologizing and offering alternatives, instead of being left with no response.
+
+It's a [during-call workflow](/en/build/flows/during-call-flows) running in sync mode.
+
+## How it works
+
+| Step | What it does |
+|---|---|
+| **Convert date to UTC** | Converts `start_date` from local time to UTC. |
+| **Reschedule booking in Cal** | Calls Cal.com to move the given booking to the new time. |
+| **Check reschedule status** | Router that splits the result depending on whether Cal.com returned success or not. |
+| **Return Response (rescheduled / error)** | Responds to the agent with the matching message. |
+
+The reason for the change (`reschedulingReason`) isn't collected from the customer: the template always sends it empty to Cal.com, even though the action supports it.
+
+## What you need
+
+- A Cal.com [connection](/en/platform/connections)
+- The [Find appointment (Cal.com)](/en/templates/flows/find-appointment-cal-com) workflow, to get the `booking_uid`
+- The [Check availability (Cal.com)](/en/templates/flows/check-availability-cal-com) workflow, to check the new slot is free before calling this tool
+
+## Getting started
+
+<Steps>
+  <Step title="Copy the template">
+    From the **Workflows** section, open the template catalog and copy it. The workflow is created disabled.
+  </Step>
+
+  <Step title="Select the Cal.com connection">
+    In the **Reschedule booking in Cal** step, add your Cal.com connection.
+  </Step>
+
+  <Step title="Check the time zone" id="check-the-time-zone">
+    `Europe/Madrid` appears in the `zona` input of the **Convert date to UTC** step. If you operate in a different time zone, change it there.
+  </Step>
+
+  <Step title="Add the reason for the change (optional)">
+    If you want the reschedule reason recorded in Cal.com, replace the empty **Rescheduling Reason** value in the **Reschedule booking in Cal** step with a variable collected from the customer, the same way [Cancel appointment](/en/templates/flows/cancel-appointment-cal-com) does with `cancellation_reason`.
+  </Step>
+
+  <Step title="Publish the workflow">
+    [Publish](/en/build/flows/creating-workflows#draft-vs-published) the workflow.
+  </Step>
+
+  <Step title="Assign it to the agent">
+    Add it from the agent's **Workflows** section. The workflow's name is the tool name the agent sees, so leave it as `reschedule_appointment`. This step isn't needed if the workflow was created from the agent.
+  </Step>
+</Steps>
+
+## Before publishing
+
+- **It doesn't check availability on its own.** The agent has to have already called `check_availability` for the new slot; this workflow only attempts the change and lets Cal.com accept or reject it.
+- **The reschedule reason isn't saved** unless you configure it yourself (see the step above).
+- **The success check depends on an internal field from the Cal.com piece** (`status: "success"`). If Cal.com changed that value in a future version of the integration, the router would stop telling the two cases apart correctly.
+- **The appointment type can't be changed here.** Rescheduling only moves the time; if the customer wants a different appointment type, the booking has to be canceled and a new one created.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Find appointment (Cal.com)"
+    icon="magnifying-glass"
+    href="/en/templates/flows/find-appointment-cal-com"
+  >
+    Where the uid this workflow needs comes from.
+  </Card>
+  <Card
+    title="Check availability (Cal.com)"
+    icon="bolt"
+    href="/en/templates/flows/check-availability-cal-com"
+  >
+    Checks the new slot before rescheduling.
+  </Card>
+  <Card
+    title="Appointment management (Cal.com)"
+    icon="calendar-check"
+    href="/en/templates/agents/appointment-management-cal-com"
+  >
+    The agent that uses this workflow.
+  </Card>
+</CardGroup>

@@ -1,0 +1,142 @@
+---
+title: "Post-call lead management (HubSpot)"
+description: "Post-call workflow that classifies the outcome, updates the contact in HubSpot, and sends the matching email"
+---
+
+<Note>
+  **Related agents:** [Lead management (HubSpot)](/en/templates/agents/lead-management).
+</Note>
+
+## What it does
+
+When the call to the lead ends, the workflow reads the transcript, decides which of **three outcomes** it falls into, and in all three updates the contact in HubSpot and sends them an email:
+
+| Outcome | What happened | Email the lead gets |
+|---|---|---|
+| **Appointment booked** | They answered and a day and time were agreed | Confirmation with the agreed date |
+| **No appointment** | They answered but nothing was closed | Thanks, and the door left open |
+| **No answer** | They didn't pick up, or it went to voicemail | Notice that you tried calling |
+
+It's a [post-call workflow](/en/build/flows/post-call-flows): it runs in the background once the call has already ended, so it never adds delay to the conversation.
+
+## How it works
+
+| Step | What it does |
+|---|---|
+| **Call Finished** | Trigger. Receives the transcript, the `end_reason`, and the call's dynamic variables. |
+| **Find contact in HubSpot** | Looks up the contact by email, using the `mail` dynamic variable. |
+| **Detect if a person answered** | An AI step that reads the transcript and returns `answered`: `false` if only the agent speaks, or if what's heard is a voicemail. |
+| **Call answered?** | Router that splits answered calls from unanswered ones. |
+| **Extract appointment outcome** | Another AI step that returns `appointment_booked` and `appointment_datetime` in natural language. |
+| **Appointment booked?** | Router that splits calls with an appointment from those without. |
+| **Update contact** | Writes to the HubSpot contact. There's one version per outcome. |
+| **Send email** | Sends the email via Gmail. There's one version per outcome. |
+
+## What you need
+
+- A HubSpot [connection](/en/platform/connections)
+- A Gmail [connection](/en/platform/connections)
+- The lead's email in the call's `mail` dynamic variable
+- The [Lead management](/en/templates/agents/lead-management) agent, or any other you want to assign it to
+
+## Getting started
+
+<Steps>
+  <Step title="Copy the template">
+    From the **Workflows** section, open the template catalog and copy it. The workflow is created disabled. You can also create it from the [Lead management (HubSpot)](/en/templates/agents/lead-management) agent.
+  </Step>
+
+  <Step title="Fill in the HubSpot connections">
+    Select your HubSpot connection in the four steps that use it: the contact lookup and the three contact updates.
+
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      controls
+      className="w-full rounded-xl"
+      src="/videos/conexiones-hubspot-gestion-leads-postllamada.mp4"
+    ></video>
+  </Step>
+
+  <Step title="Set which field to search the contact by" id="make-sure-the-email-arrives">
+    In the **Find contact in HubSpot** step, select "Contact Information: Email" under **First Search Property Name**. With that, the step looks up the contact by the email that arrives in the `mail` dynamic variable.
+
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      controls
+      className="w-full rounded-xl"
+      src="/videos/primera-propiedad-hubspot.mp4"
+    ></video>
+
+    That variable **doesn't set itself**. You have to pass it when making the call, in the **Dynamic Variables** field of the [Outbound call trigger (Webhook)](/en/templates/flows/outbound-call-form-trigger#pass-the-leads-data-to-the-agent) workflow, which ships empty in the template.
+
+    If your leads don't provide an email, use `phone` instead and the contact's phone number. In that case the Gmail steps are left with no recipient: remove them or replace them with another notification.
+  </Step>
+
+  <Step title="Choose which properties to write in HubSpot" id="choose-which-properties-to-write">
+    The three **Update contact** steps ship with **Object Properties empty**: as they are, they find the contact and write nothing to it.
+
+    Update each one with the properties you want to fill in.
+  </Step>
+
+  <Step title="Fill in the Gmail connections and the emails">
+    Select your Gmail connection in the three email steps. Then, in each one, adapt the generic body text to your tone. In the confirmation one, keep the piece's result: it's what prints the agreed date exactly as it was said on the phone.
+  </Step>
+
+  <Step title="Publish the workflow and assign it to the agent">
+    [Publish](/en/build/flows/creating-workflows#draft-vs-published) the workflow and make sure it's **enabled**. If you didn't create it from the [Lead management (HubSpot)](/en/templates/agents/lead-management) agent, add it now from the **Workflows** section of the agent you want to link it to; it'll show up with the **Post-call** label.
+  </Step>
+
+  <Step title="Test it with all three outcomes">
+    Make three test calls: one closing an appointment, one without closing it, and one where you don't pick up. Check that it falls into the right branch and that the matching email arrives. You can follow the run step by step in the [call traces](/en/deployment/call-traces).
+  </Step>
+</Steps>
+
+## Before publishing
+
+- **Without the `mail` variable, the workflow runs but does nothing useful.** The HubSpot lookup finds no contact and the emails go out with no recipient. It's the most likely thing to trip up when setting up this template for the first time: check the [corresponding step](#make-sure-the-email-arrives).
+- **If the contact isn't in HubSpot, it doesn't get created.** The update steps target the search's first result; if there isn't one, they fail. They're set to **continue on failure**, so the workflow keeps going and the email still goes out, but nothing is recorded in your CRM. If you want it created, add a contact-creation step.
+- **The update steps write nothing out of the box.** Until you fill in Object Properties, the workflow doesn't change any data in HubSpot. See the [corresponding step](#choose-which-properties-to-write).
+- **The classification is done by a language model.** The two extraction steps use `gpt-4` on the transcript and can get it wrong, especially if the appointment was left half-agreed or the lead said something ambiguous. Treat the result as a good approximation, not a verified fact.
+- **The appointment date is free text.** `appointment_datetime` comes in natural language (for example, `Thursday March 6th at 10:00`). It's fine for reading in an email, not for dropping into a date-type property without converting it first.
+- **The actual appointment lives in the calendar, not here.** It's created by the [`create_appointment`](/en/templates/flows/create-appointment) workflow during the call. This workflow only reads the transcript to report what happened: if the agent said a time but `create_appointment` failed, the confirmation email still goes out.
+- **The emails don't forgive a failure.** All three Gmail steps are set to **stop the workflow on failure**, unlike the HubSpot ones.
+- **Only one branch runs.** Both routers are in first-match mode, so every call falls into exactly one outcome.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Lead management"
+    icon="user-plus"
+    href="/en/templates/agents/lead-management"
+  >
+    The agent that makes the call.
+  </Card>
+  <Card
+    title="Outbound call trigger (Webhook)"
+    icon="phone-arrow-up-right"
+    href="/en/templates/flows/outbound-call-form-trigger"
+  >
+    Where the `mail` variable is defined.
+  </Card>
+  <Card
+    title="Post-call workflows"
+    icon="clock-rotate-left"
+    href="/en/build/flows/post-call-flows"
+  >
+    How workflows that run when the call ends work.
+  </Card>
+  <Card
+    title="The Diga Piece"
+    icon="puzzle"
+    href="/en/build/flows/diga-piece#call-finished"
+  >
+    The data the Call Finished trigger receives.
+  </Card>
+</CardGroup>

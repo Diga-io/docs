@@ -4,12 +4,14 @@ description: "During-call workflow that returns the free slots in your Google Ca
 ---
 
 <Note>
-  **Related templates:** [Appointment management (Google Calendar)](/en/templates/agents/appointment-management-google-calendar) and [Create appointment (Google Calendar)](/en/templates/flows/create-appointment).
+  **Related workflows:** [Create appointment (Google Calendar)](/en/templates/flows/create-appointment).
+
+  **Related agents:** [Appointment management (Google Calendar)](/en/templates/agents/appointment-management-google-calendar).
 </Note>
 
 ## What it does
 
-The agent passes it your clinic's opening and closing time for a given day (`start_date` and `end_date`, in local time), and the workflow returns **the slots that are free** in your Google Calendar within that window, already worked out. The agent has nothing left to calculate: it just offers them to the patient.
+The agent passes it your location's opening and closing time for a given day (`start_date` and `end_date`, in local time), and the workflow returns **the slots that are free** in your Google Calendar within that window, already worked out. The agent has nothing left to calculate: it just offers them to the customer.
 
 Each slot in the `free_slots` list comes with three fields, all in local time:
 
@@ -18,7 +20,7 @@ Each slot in the `free_slots` list comes with three fields, all in local time:
  { "start": "2026-07-10T13:00", "end": "2026-07-10T14:00", "duration_minutes": 60 }]
 ```
 
-If the day is fully booked or the clinic is closed, the list comes back empty.
+If the day is fully booked or the location is closed, the list comes back empty.
 
 It's a [during-call workflow](/en/build/flows/during-call-flows): the agent runs it mid-conversation and waits for the result before carrying on.
 
@@ -33,7 +35,7 @@ It's a [during-call workflow](/en/build/flows/during-call-flows): the agent runs
 
 ## What you need
 
-- A [Google Calendar](/en/platform/connections) connection
+- A Google Calendar [connection](/en/platform/connections)
 
 ## Getting started
 
@@ -74,8 +76,8 @@ It's a [during-call workflow](/en/build/flows/during-call-flows): the agent runs
 ## Before publishing
 
 - The workflow **only reads**. Creating the appointment is handled by [`create_appointment`](/en/templates/flows/create-appointment).
-- It's fixed to **a single calendar**. For multiple clinics with separate schedules, duplicate the workflow.
-- The free slots are worked out **within the hours the agent passes in**, not your clinic's real hours. If the agent sends the wrong opening or closing time, the list comes back wrong: the hours live in the agent's prompt, not in the workflow.
+- It's fixed to **a single calendar**. For multiple locations with separate schedules, duplicate the workflow.
+- The free slots are worked out **within the hours the agent passes in**, not your location's real hours. If the agent sends the wrong opening or closing time, the list comes back wrong: the hours live in the agent's prompt, not in the workflow.
 - The workflow **doesn't know how long the appointment is**: it returns whole slots. Checking that the appointment fits inside a slot is down to the agent's prompt.
 - The **Return Response** step tells the agent the slots already come in local time and that it shouldn't apply any correction. If you edit that message, keep that instruction: without it the agent may shift the hours again.
 

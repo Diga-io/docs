@@ -1,0 +1,134 @@
+---
+title: "Gestión de citas (Cal.com)"
+description: "Agente que agenda, reprograma y cancela citas por voz usando Cal.com"
+---
+
+<Note>
+  **Flujos relacionados:** [Obtener tipos de cita (Cal.com)](/es/plantillas/flujos/obtener-eventos-calcom), [Comprobar disponibilidad (Cal.com)](/es/plantillas/flujos/comprobar-disponibilidad-calcom), [Crear cita (Cal.com)](/es/plantillas/flujos/crear-cita-calcom), [Buscar cita (Cal.com)](/es/plantillas/flujos/buscar-cita-calcom), [Reprogramar cita (Cal.com)](/es/plantillas/flujos/reprogramar-cita-calcom) y [Cancelar cita (Cal.com)](/es/plantillas/flujos/cancelar-cita-calcom).
+</Note>
+
+Recepcionista telefónica para una clínica que agenda, reprograma y cancela citas usando Cal.com como calendario.
+
+A diferencia de [Gestión de citas (Google Calendar)](/es/plantillas/agentes/gestion-citas-google-calendar), esta plantilla cubre el ciclo completo de la cita: no solo crea, también localiza, mueve y anula reservas ya existentes, y trae los tipos de cita disponibles automáticamente al principio de la llamada en lugar de tenerlos fijados en el prompt.
+
+## Qué hace
+
+Atiende las llamadas de tus pacientes, identifica qué tipo de consulta necesitan, consulta los huecos libres en Cal.com y deja la cita creada — o localiza una cita existente para cambiarla de hora o cancelarla.
+
+Es un agente de [prompt único](/es/build/agentes/prompt-unico) en español, con un tono cercano y serio pensado para gestión de citas médicas. Nunca da consejos ni disclaimers médicos: se limita a la agenda.
+
+<Note>
+  La plantilla completa son **seis flujos**. Uno se ejecuta automáticamente antes de que el agente hable; los otros cinco son las herramientas que usa durante la conversación.
+</Note>
+
+| Flujo | Cuándo se ejecuta | Papel |
+|---|---|---|
+| [Obtener tipos de cita (Cal.com)](/es/plantillas/flujos/obtener-eventos-calcom) | Antes (pre-llamada) | Trae los tipos de cita disponibles |
+| [Comprobar disponibilidad (Cal.com)](/es/plantillas/flujos/comprobar-disponibilidad-calcom) | Durante | Herramienta `comprobar_disponibilidad` |
+| [Crear cita (Cal.com)](/es/plantillas/flujos/crear-cita-calcom) | Durante | Herramienta `crear_cita` |
+| [Buscar cita (Cal.com)](/es/plantillas/flujos/buscar-cita-calcom) | Durante | Herramienta `buscar_cita` |
+| [Reprogramar cita (Cal.com)](/es/plantillas/flujos/reprogramar-cita-calcom) | Durante | Herramienta `reprogramar_cita` |
+| [Cancelar cita (Cal.com)](/es/plantillas/flujos/cancelar-cita-calcom) | Durante | Herramienta `cancelar_cita` |
+
+### Cómo transcurre la llamada
+
+1. **Saluda e identifica la intención.** Avisa de que la llamada puede ser grabada y pregunta qué necesita el paciente: cita nueva, cambiar una que ya tiene, o anularla.
+2. **Cita nueva.** Pregunta el tipo de cita (usando los tipos que trajo [Obtener tipos de cita](/es/plantillas/flujos/obtener-eventos-calcom)) y el día. Llama a `comprobar_disponibilidad`, ofrece el hueco o dos alternativas, pide nombre y correo, y confirma antes de llamar a `crear_cita`.
+3. **Reprogramar.** Pide el correo con el que se reservó, llama a `buscar_cita` para localizarla, pregunta el nuevo día, comprueba disponibilidad para el mismo tipo de cita y confirma antes de llamar a `reprogramar_cita`.
+4. **Cancelar.** Pide el correo, localiza la cita con `buscar_cita`, repite en voz alta el día y la hora, y solo cancela con un sí explícito — cualquier duda del cliente detiene la cancelación.
+5. **Situaciones especiales.** Si el paciente describe síntomas de urgencia, salta el flujo normal y ofrece el primer hueco libre del día. Si pregunta por precios, resultados o cualquier tema fuera de la agenda, dice que el equipo se lo verá y no inventa una respuesta. Nunca lee en voz alta los identificadores internos de citas o tipos de cita.
+
+El agente nunca menciona que está usando una herramienta ni explica sus resultados internos — habla siempre en función del resultado, no del proceso.
+
+## Qué necesitas
+
+- Una [conexión](/es/plataforma/conexiones) de Cal.com
+- El flujo [Obtener tipos de cita (Cal.com)](/es/plantillas/flujos/obtener-eventos-calcom)
+- El flujo [Comprobar disponibilidad (Cal.com)](/es/plantillas/flujos/comprobar-disponibilidad-calcom)
+- El flujo [Crear cita (Cal.com)](/es/plantillas/flujos/crear-cita-calcom)
+- El flujo [Buscar cita (Cal.com)](/es/plantillas/flujos/buscar-cita-calcom)
+- El flujo [Reprogramar cita (Cal.com)](/es/plantillas/flujos/reprogramar-cita-calcom)
+- El flujo [Cancelar cita (Cal.com)](/es/plantillas/flujos/cancelar-cita-calcom)
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Crea el agente">
+    En **Agentes**, pulsa **Crear Agente**, selecciona la plantilla "Gestión de citas (Cal.com)" y **Usar plantilla**.
+  </Step>
+
+  <Step title="Rellena las variables">
+    | Variable | Qué poner |
+    |---|---|
+    | `<<agent_name>>` | El nombre del/de la agente |
+    | `<<clinic_name>>` | El nombre de tu clínica |
+    | `<<sintomas_urgencia>>` | Los síntomas o palabras que deben tratarse como urgencia |
+
+    `<<agent_name>>` y `<<clinic_name>>` aparecen dos veces cada una: en el bloque **Identidad** y en el saludo inicial del **Flujo de la llamada**. Cámbialas en los dos sitios. `<<sintomas_urgencia>>` aparece una vez, en **Situaciones especiales**.
+  </Step>
+
+  <Step title="Configura los seis flujos">
+    Crea los seis flujos desde el apartado **Flujo** en **Herramientas**, o directamente desde este agente. [Obtener tipos de cita](/es/plantillas/flujos/obtener-eventos-calcom) va como flujo **pre-llamada**; los otros cinco son herramientas que el agente invoca por su nombre — `comprobar_disponibilidad`, `crear_cita`, `buscar_cita`, `reprogramar_cita` y `cancelar_cita` — así que los nombres deben coincidir exactamente.
+
+    Todos apuntan a la **misma cuenta de Cal.com**. Si usas cuentas distintas para consultar y para crear, el agente ofrecerá huecos que luego no podrá reservar.
+  </Step>
+
+  <Step title="Revisa la zona horaria">
+    Varios flujos traen `Europe/Madrid` fijado. Si operas en otra zona horaria, revísala en cada uno: [Comprobar disponibilidad](/es/plantillas/flujos/comprobar-disponibilidad-calcom#revisa-la-zona-horaria), [Crear cita](/es/plantillas/flujos/crear-cita-calcom#revisa-la-zona-horaria) y [Reprogramar cita](/es/plantillas/flujos/reprogramar-cita-calcom#revisa-la-zona-horaria).
+  </Step>
+
+  <Step title="Marca start_date como obligatorio en Crear cita">
+    El flujo [Crear cita (Cal.com)](/es/plantillas/flujos/crear-cita-calcom#marca-start-date-como-obligatorio) trae la fecha de la cita como parámetro opcional, cuando en realidad es imprescindible. Corrígelo antes de publicar.
+  </Step>
+
+  <Step title="Publica los flujos">
+    Cada flujo hay que [publicarlo](/es/build/flujos/crear-flujos#borrador-vs-publicado). Si este paso no se ejecuta, el agente no podrá hacer uso de los flujos.
+  </Step>
+
+  <Step title="Prueba y publica">
+    Haz una [llamada de prueba](/es/build/agentes/llamadas-test) probando los tres caminos — cita nueva, reprogramar y cancelar — y comprueba que los cambios se reflejan en Cal.com. Después [publica el agente](/es/build/agentes/control-versiones).
+  </Step>
+</Steps>
+
+## Antes de publicar
+
+Ten en cuenta los siguientes puntos a la hora de configurar tu plantilla:
+
+- **Crear cita sin comprobación previa:** si quieres que el flujo vuelva a comprobar el hueco justo antes de reservar (como sí hacen reprogramar y cancelar), tendrás que añadirlo tú; de base, [Crear cita](/es/plantillas/flujos/crear-cita-calcom#antes-de-publicar) confía en que Cal.com rechace un hueco ya ocupado, y si eso ocurre, el agente se queda sin respuesta en lugar de recibir un mensaje de error.
+- **Motivo de la reprogramación:** si quieres que el motivo del cambio quede registrado en Cal.com, tendrás que añadirlo; de base, [Reprogramar cita](/es/plantillas/flujos/reprogramar-cita-calcom#antes-de-publicar) lo manda siempre vacío, aunque sí recoge el motivo de la cancelación.
+- **Transferir a una persona:** añade la [herramienta de transferencia](/es/build/agentes/herramientas-llamada) si quieres que el agente pueda hacerlo; de base, ante temas fuera de la agenda dice que el equipo se lo verá, pero no transfiere la llamada.
+- **Atender en varios idiomas:** cambia el [selector de idioma](/es/build/agentes/personalizacion-llamada#identidad-del-agente) a **Multilingüe** para que el agente detecte el idioma de cada paciente y responda en ese mismo idioma. Por defecto solo habla español.
+- **Tipos de cita nuevos en Cal.com:** aparecen solos en la siguiente llamada gracias al flujo pre-llamada — no hace falta tocar el prompt cada vez que añades o quitas un tipo de cita en Cal.com.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Obtener tipos de cita (Cal.com)"
+    icon="list-check"
+    href="/es/plantillas/flujos/obtener-eventos-calcom"
+  >
+    El flujo que prepara la llamada.
+  </Card>
+  <Card
+    title="Comprobar disponibilidad (Cal.com)"
+    icon="bolt"
+    href="/es/plantillas/flujos/comprobar-disponibilidad-calcom"
+  >
+    El flujo que consulta los huecos libres.
+  </Card>
+  <Card
+    title="Buscar cita (Cal.com)"
+    icon="magnifying-glass"
+    href="/es/plantillas/flujos/buscar-cita-calcom"
+  >
+    El paso previo a reprogramar o cancelar.
+  </Card>
+  <Card
+    title="Cómo hacer prompts"
+    icon="wand-sparkles"
+    href="/es/build/agentes/prompt-unico"
+  >
+    Si quieres modificar el prompt de la plantilla.
+  </Card>
+</CardGroup>

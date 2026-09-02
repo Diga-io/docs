@@ -1,0 +1,89 @@
+---
+title: "Guardar resultado de llamada (Google Sheets)"
+description: "Flujo post-llamada que extrae con IA el resultado de una llamada de ventas y lo guarda en Google Sheets"
+---
+
+<Note>
+  **Agentes relacionados:** [Ventas outbound](/es/plantillas/agentes/ventas-outbound).
+</Note>
+
+## Qué hace
+
+Cuando la llamada termina, el flujo lee la transcripción completa, le pide a un modelo de IA que extraiga tres datos — si el prospecto mostró interés, qué objeciones planteó y su nivel de urgencia — y añade una fila con esos tres valores a una hoja de Google Sheets.
+
+Es un [flujo post-llamada](/es/build/flujos/flujos-post-llamada): se ejecuta en segundo plano cuando la llamada ya ha terminado, así que nunca añade retraso a la conversación.
+
+## Cómo funciona
+
+| Paso | Qué hace |
+|---|---|
+| **Llamada finalizada** | Trigger. Recibe la transcripción completa de la llamada. |
+| **Extraer datos estructurados** | Un paso de IA que analiza la transcripción y devuelve `interested` (booleano, obligatorio), `objections_raised` (texto, opcional) y `urgency` (texto, opcional: "urgente", "este trimestre", "explorando" o "sin plazo"). |
+| **Añadir fila** | Inserta esos tres valores como una nueva fila en la hoja de Google Sheets indicada. |
+
+## Qué necesitas
+
+- Una [conexión](/es/plataforma/conexiones) de Google Sheets
+- Una hoja de cálculo ya creada, con su `spreadsheetId`
+- El agente [Ventas outbound](/es/plantillas/agentes/ventas-outbound), o cualquier otro al que quieras asignarlo
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Copia la plantilla">
+    Desde la sección **Flujos**, abre el catálogo de plantillas y cópiala. El flujo se crea deshabilitado.
+  </Step>
+
+  <Step title="Revisa el modelo de IA">
+    El paso **Extraer datos estructurados** trae configurado un modelo concreto. Comprueba que sigue disponible en tu cuenta antes de publicar y cámbialo si hace falta.
+  </Step>
+
+  <Step title="Rellena la conexión y la hoja de Google Sheets">
+    En el paso **Añadir fila**, selecciona tu conexión de Google Sheets y sustituye el `<<spreadsheet_id>>` de ejemplo por el identificador real de tu hoja de cálculo. El flujo escribe siempre en la primera pestaña (`sheetId: 0`).
+  </Step>
+
+  <Step title="Añade cabeceras y, si las necesitas, columnas de contacto">
+    La plantilla solo guarda `interested`, `objections_raised` y `urgency`, en ese orden, sin nombre, teléfono ni fecha de la llamada. Si necesitas saber a qué prospecto corresponde cada fila, añade esos campos a la hoja y al paso **Añadir fila** antes de publicar. `first_row_headers` viene desactivado: si tu hoja tiene fila de cabeceras, actívalo para que no se sobrescriba.
+  </Step>
+
+  <Step title="Publica el flujo y asígnalo al agente">
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo y asegúrate de que quede **habilitado**. Añádelo desde la sección **Flujos** del agente al que quieras asociarlo; aparecerá con la etiqueta **Post-llamada**.
+  </Step>
+
+  <Step title="Pruébalo">
+    Haz una llamada de prueba y comprueba que aparece una fila nueva en la hoja con los tres valores extraídos.
+  </Step>
+</Steps>
+
+## Antes de publicar
+
+- **No guarda a quién se llamó.** Sin nombre, teléfono ni email en la fila, no hay forma de saber después qué prospecto generó cada resultado — añade esos campos si los necesitas.
+- **La clasificación la hace un modelo de lenguaje.** Puede equivocarse, sobre todo con conversaciones ambiguas o cortadas. Trata el resultado como una aproximación, no como un dato verificado.
+- **Escribe siempre en la primera pestaña de la hoja.** Si tu hoja de cálculo tiene varias pestañas, revisa que sea la correcta antes de publicar.
+- **Si la hoja tiene fila de cabeceras y no activas `first_row_headers`,** la primera fila de datos puede acabar sobrescribiendo o desalineándose con las cabeceras.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Ventas outbound"
+    icon="phone-volume"
+    href="/es/plantillas/agentes/ventas-outbound"
+  >
+    El agente que genera estas llamadas.
+  </Card>
+  <Card
+    title="Enviar información (WhatsApp)"
+    icon="message-circle"
+    href="/es/plantillas/flujos/enviar-informacion-whatsapp"
+  >
+    El otro flujo post-llamada de la plantilla.
+  </Card>
+  <Card
+    title="Flujos post-llamada"
+    icon="clock-rotate-left"
+    href="/es/build/flujos/flujos-post-llamada"
+  >
+    Cómo funcionan los flujos que se ejecutan al terminar.
+  </Card>
+</CardGroup>

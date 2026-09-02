@@ -1,0 +1,91 @@
+---
+title: "Comprobar disponibilidad (Cal.com)"
+description: "Flujo durante llamada que devuelve los huecos libres de un tipo de cita en Cal.com"
+---
+
+<Note>
+  **Flujos relacionados:** [Crear cita (Cal.com)](/es/plantillas/flujos/crear-cita-calcom).
+
+  **Agentes relacionados:** [Gestión de citas (Cal.com)](/es/plantillas/agentes/gestion-citas-calcom).
+</Note>
+
+## Qué hace
+
+El agente le pasa el tipo de cita (`event_type_id`) y el rango horario a consultar (`start_time` y `end_time`, en hora local), y el flujo devuelve **los huecos libres** de Cal.com para ese tipo de cita dentro de esa franja, ya en hora local.
+
+Cada hueco de la lista viene con `fecha` y `hora` en hora local, más un campo `inicio_utc` interno que el agente debe ignorar por completo.
+
+Es un [flujo durante llamada](/es/build/flujos/flujos-durante-llamada): el agente lo ejecuta a mitad de conversación y espera el resultado para seguir hablando.
+
+## Cómo funciona
+
+| Paso | Qué hace |
+|---|---|
+| **Convertir rango a UTC** | Convierte `start_time` y `end_time` de hora local a UTC, respetando el cambio de hora de verano/invierno. |
+| **Obtener huecos disponibles en Cal** | Consulta a Cal.com los huecos libres para el `event_type_id` indicado, dentro del rango convertido. |
+| **Formatear huecos a hora local** | Vuelve a convertir cada hueco a hora local y los ordena cronológicamente. |
+| **Devolver respuesta** | Entrega la lista al agente, indicándole que ya vienen en hora local, que ignore `inicio_utc`, y que solo ofrezca horas de esta lista. |
+
+Si no queda ningún hueco en el rango pedido, la respuesta se lo dice explícitamente al agente para que pida otro día.
+
+## Qué necesitas
+
+- Una [conexión](/es/plataforma/conexiones) de Cal.com
+- El tipo de cita (`event_type_id`) que va a consultar, que el agente obtiene del flujo [Obtener tipos de cita (Cal.com)](/es/plantillas/flujos/obtener-eventos-calcom)
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Copia la plantilla">
+    Desde la sección **Flujos**, abre el catálogo de plantillas y cópiala. El flujo se crea deshabilitado. También puedes crearlo desde la plantilla de agente [Gestión de citas (Cal.com)](/es/plantillas/agentes/gestion-citas-calcom).
+  </Step>
+
+  <Step title="Selecciona la conexión de Cal.com">
+    En el paso **Obtener huecos disponibles en Cal**, indica tu conexión de Cal.com.
+  </Step>
+
+  <Step title="Revisa la zona horaria" id="revisa-la-zona-horaria">
+    `Europe/Madrid` aparece en tres sitios: el input `zona` del paso **Convertir rango a UTC** (dos veces, para el inicio y el fin) y el campo **Time Zone** del paso **Obtener huecos disponibles en Cal**. Si operas en otra zona horaria, cámbialos en los tres. El cambio de hora de verano/invierno se aplica solo.
+  </Step>
+
+  <Step title="Publica el flujo">
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo.
+  </Step>
+
+  <Step title="Asígnalo al agente">
+    Añádelo desde la sección **Flujos** del agente. El nombre del flujo es el nombre de la herramienta que ve el agente, así que déjalo en `comprobar_disponibilidad`. Este paso no es necesario si el flujo se ha creado a partir del agente.
+  </Step>
+</Steps>
+
+## Antes de publicar
+
+- El flujo **solo consulta**. El alta de la cita corre a cargo de [`crear_cita`](/es/plantillas/flujos/crear-cita-calcom).
+- El `event_type_id` **tiene que existir en Cal.com**. Si el agente manda un id que no corresponde a ningún tipo de cita, la consulta a Cal.com falla y el flujo no llega a devolver huecos.
+- Los huecos se calculan **según la configuración de disponibilidad de ese tipo de cita en Cal.com** (horario, buffers, días bloqueados), no según nada que defina el flujo. Para cambiar cuándo se puede agendar, edítalo directamente en Cal.com.
+- El campo `inicio_utc` de cada hueco es **interno**: solo sirve para ordenar la lista. Si el agente lo lee en voz alta, va a sonar mal — la instrucción para ignorarlo está en el mensaje de **Devolver respuesta**, no lo quites si editas el paso.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Gestión de citas (Cal.com)"
+    icon="calendar-check"
+    href="/es/plantillas/agentes/gestion-citas-calcom"
+  >
+    El agente que usa este flujo.
+  </Card>
+  <Card
+    title="Crear cita (Cal.com)"
+    icon="calendar-plus"
+    href="/es/plantillas/flujos/crear-cita-calcom"
+  >
+    El flujo que crea la cita en el hueco elegido.
+  </Card>
+  <Card
+    title="Flujos durante llamada"
+    icon="bolt"
+    href="/es/build/flujos/flujos-durante-llamada"
+  >
+    Si quieres modificar los pasos del flujo.
+  </Card>
+</CardGroup>

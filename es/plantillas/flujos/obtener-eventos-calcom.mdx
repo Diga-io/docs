@@ -1,0 +1,81 @@
+---
+title: "Obtener tipos de cita (Cal.com)"
+description: "Flujo pre-llamada que trae los tipos de cita disponibles en Cal.com antes de que el agente hable"
+---
+
+<Note>
+  **Agentes relacionados:** [Gestión de citas (Cal.com)](/es/plantillas/agentes/gestion-citas-calcom).
+</Note>
+
+## Qué hace
+
+Justo antes de que el agente diga su primera palabra, el flujo consulta tu cuenta de Cal.com y trae **todos los tipos de cita configurados** — nombre, descripción y duración —, para que el agente sepa desde el primer segundo qué puede ofrecer sin tener que preguntarlo ni tenerlo hardcodeado en el prompt.
+
+Es un [flujo pre-llamada](/es/build/flujos/flujos-pre-llamada): el agente espera su resultado antes de empezar a hablar.
+
+## Cómo funciona
+
+| Paso | Qué hace |
+|---|---|
+| **Obtener tipos de evento** | Consulta la lista de tipos de cita (event types) de tu cuenta de Cal.com. |
+| **Formatear tipos de evento** | Se queda con `id`, `nombre`, `descripción` y `duración` de cada uno. |
+| **Devolver datos de llamada** | Entrega la lista al agente, indicándole que el `id` es interno y que nunca lo mencione en voz alta — solo puede hablar de los títulos y las duraciones. |
+
+El `id` de cada tipo es justo lo que el agente necesita después para llamar a `comprobar_disponibilidad` y `crear_cita`, así que aunque nunca se diga en voz alta, sigue disponible para el agente durante toda la llamada.
+
+## Qué necesitas
+
+- Una [conexión](/es/plataforma/conexiones) de Cal.com
+- Al menos un tipo de cita (event type) configurado en tu cuenta de Cal.com
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Copia la plantilla">
+    Desde la sección **Flujos**, abre el catálogo de plantillas y cópiala. El flujo se crea deshabilitado. También puedes crearlo desde la plantilla de agente [Gestión de citas (Cal.com)](/es/plantillas/agentes/gestion-citas-calcom).
+  </Step>
+
+  <Step title="Selecciona la conexión de Cal.com">
+    En el paso **Obtener tipos de evento**, indica tu conexión de Cal.com.
+  </Step>
+
+  <Step title="Publica el flujo">
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo.
+  </Step>
+
+  <Step title="Asígnalo al agente como flujo pre-llamada">
+    Añádelo desde la sección **Flujo** del agente, como [flujo pre-llamada](/es/build/flujos/flujos-pre-llamada). Este paso no es necesario si el flujo se ha creado a partir del agente.
+  </Step>
+</Steps>
+
+## Antes de publicar
+
+- **Un tipo de cita nuevo en Cal.com aparece solo.** No hay que tocar el prompt ni el flujo: en la siguiente llamada, el agente ya lo ofrece. Si borras uno, deja de ofrecerlo igual de automático.
+- **Si el flujo falla o tarda**, el agente sigue adelante sin la lista de tipos de cita — el trigger trae `abort_on_failure` desactivado, así que la llamada no se corta, pero el agente no sabrá qué tipos de cita existen hasta que consigas la información por otra vía (por ejemplo, preguntándoselo directamente al cliente).
+- **Los tipos con nombres poco claros en Cal.com llegan igual de poco claros al agente.** El campo `nombre` es literalmente el título del event type: revisa que sea autoexplicativo para que el agente lo pueda leer en voz alta sin sonar raro.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Gestión de citas (Cal.com)"
+    icon="calendar-check"
+    href="/es/plantillas/agentes/gestion-citas-calcom"
+  >
+    El agente que usa este flujo.
+  </Card>
+  <Card
+    title="Comprobar disponibilidad (Cal.com)"
+    icon="bolt"
+    href="/es/plantillas/flujos/comprobar-disponibilidad-calcom"
+  >
+    El flujo que usa el id de cada tipo de cita.
+  </Card>
+  <Card
+    title="Flujos pre-llamada"
+    icon="phone-arrow-down-left"
+    href="/es/build/flujos/flujos-pre-llamada"
+  >
+    Cómo funcionan los flujos que se ejecutan antes de hablar.
+  </Card>
+</CardGroup>

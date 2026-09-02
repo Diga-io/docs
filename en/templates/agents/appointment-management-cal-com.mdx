@@ -1,0 +1,134 @@
+---
+title: "Appointment management (Cal.com)"
+description: "Agent that books, reschedules, and cancels appointments by voice using Cal.com"
+---
+
+<Note>
+  **Related workflows:** [Get event types (Cal.com)](/en/templates/flows/get-event-types-cal-com), [Check availability (Cal.com)](/en/templates/flows/check-availability-cal-com), [Create appointment (Cal.com)](/en/templates/flows/create-appointment-cal-com), [Find appointment (Cal.com)](/en/templates/flows/find-appointment-cal-com), [Reschedule appointment (Cal.com)](/en/templates/flows/reschedule-appointment-cal-com), and [Cancel appointment (Cal.com)](/en/templates/flows/cancel-appointment-cal-com).
+</Note>
+
+A phone receptionist for a clinic that books, reschedules, and cancels appointments using Cal.com as the calendar.
+
+Unlike [Appointment management (Google Calendar)](/en/templates/agents/appointment-management-google-calendar), this template covers the full appointment lifecycle: it doesn't just create appointments, it also finds, moves, and cancels existing bookings, and fetches the available appointment types automatically at the start of the call instead of having them fixed in the prompt.
+
+## What it does
+
+It answers your patients' calls, identifies which kind of appointment they need, checks the free slots in Cal.com, and books the appointment — or finds an existing appointment to move it or cancel it.
+
+It's a [single prompt](/en/build/agents/single-prompt) agent in Spanish, with a close, serious tone aimed at medical appointment management. It never gives medical advice or disclaimers — it sticks to scheduling.
+
+<Note>
+  The full template is **six workflows**. One runs automatically before the agent speaks; the other five are the tools it uses during the conversation.
+</Note>
+
+| Workflow | When it runs | Role |
+|---|---|---|
+| [Get event types (Cal.com)](/en/templates/flows/get-event-types-cal-com) | Before (pre-call) | Fetches the available appointment types |
+| [Check availability (Cal.com)](/en/templates/flows/check-availability-cal-com) | During | `check_availability` tool |
+| [Create appointment (Cal.com)](/en/templates/flows/create-appointment-cal-com) | During | `create_appointment` tool |
+| [Find appointment (Cal.com)](/en/templates/flows/find-appointment-cal-com) | During | `find_appointment` tool |
+| [Reschedule appointment (Cal.com)](/en/templates/flows/reschedule-appointment-cal-com) | During | `reschedule_appointment` tool |
+| [Cancel appointment (Cal.com)](/en/templates/flows/cancel-appointment-cal-com) | During | `cancel_appointment` tool |
+
+### How the call goes
+
+1. **It greets and identifies the intent.** It warns that the call may be recorded and asks what the patient needs: a new appointment, changing an existing one, or canceling it.
+2. **New appointment.** It asks for the appointment type (using the types fetched by [Get event types](/en/templates/flows/get-event-types-cal-com)) and the day. It calls `check_availability`, offers the slot or two alternatives, asks for name and email, and confirms before calling `create_appointment`.
+3. **Reschedule.** It asks for the email used to book, calls `find_appointment` to locate it, asks for the new day, checks availability for the same appointment type, and confirms before calling `reschedule_appointment`.
+4. **Cancel.** It asks for the email, finds the appointment with `find_appointment`, repeats the day and time out loud, and only cancels with an explicit yes — any hesitation from the customer stops the cancellation.
+5. **Special situations.** If the patient describes urgent symptoms, it skips the normal flow and offers the first free slot of the day. If asked about prices, results, or anything outside scheduling, it says the team will look into it and doesn't make up an answer. It never reads internal appointment or appointment-type identifiers out loud.
+
+The agent never mentions that it's using a tool or explains its internal results — it always speaks in terms of the outcome, not the process.
+
+## What you need
+
+- A Cal.com [connection](/en/platform/connections)
+- The [Get event types (Cal.com)](/en/templates/flows/get-event-types-cal-com) workflow
+- The [Check availability (Cal.com)](/en/templates/flows/check-availability-cal-com) workflow
+- The [Create appointment (Cal.com)](/en/templates/flows/create-appointment-cal-com) workflow
+- The [Find appointment (Cal.com)](/en/templates/flows/find-appointment-cal-com) workflow
+- The [Reschedule appointment (Cal.com)](/en/templates/flows/reschedule-appointment-cal-com) workflow
+- The [Cancel appointment (Cal.com)](/en/templates/flows/cancel-appointment-cal-com) workflow
+
+## Getting started
+
+<Steps>
+  <Step title="Create the agent">
+    In **Agents**, click **Create Agent**, select the "Appointment management (Cal.com)" template, and click **Use template**.
+  </Step>
+
+  <Step title="Fill in the variables">
+    | Variable | What to enter |
+    |---|---|
+    | `<<agent_name>>` | The agent's name |
+    | `<<clinic_name>>` | Your clinic's name |
+    | `<<sintomas_urgencia>>` | The symptoms or wording that should be treated as an urgent case |
+
+    `<<agent_name>>` and `<<clinic_name>>` each appear twice: in the **Identidad** (Identity) block and in the opening greeting of the **Flujo de la llamada** (Call flow) section. Change them in both places. `<<sintomas_urgencia>>` appears once, in **Situaciones especiales** (Special situations).
+  </Step>
+
+  <Step title="Set up the six workflows">
+    Create all six workflows from the **Workflow** section under **Tools**, or directly from this agent. [Get event types](/en/templates/flows/get-event-types-cal-com) goes in as a **pre-call** workflow; the other five are tools the agent calls by name — `check_availability`, `create_appointment`, `find_appointment`, `reschedule_appointment`, and `cancel_appointment` — so the names must match exactly.
+
+    All of them point at the **same Cal.com account**. If you use different accounts for checking and for booking, the agent will offer slots it can't actually reserve.
+  </Step>
+
+  <Step title="Check the time zone">
+    Several workflows ship with `Europe/Madrid` fixed. If you operate in a different time zone, check it in each one: [Check availability](/en/templates/flows/check-availability-cal-com#check-the-time-zone), [Create appointment](/en/templates/flows/create-appointment-cal-com#check-the-time-zone), and [Reschedule appointment](/en/templates/flows/reschedule-appointment-cal-com#check-the-time-zone).
+  </Step>
+
+  <Step title="Mark start_date as required in Create appointment">
+    The [Create appointment (Cal.com)](/en/templates/flows/create-appointment-cal-com#mark-start-date-as-required) workflow ships with the appointment date as an optional parameter, when it's actually required. Fix this before publishing.
+  </Step>
+
+  <Step title="Publish the workflows">
+    Each workflow has to be [published](/en/build/flows/creating-workflows#draft-vs-published). If you skip this step, the agent won't be able to use them.
+  </Step>
+
+  <Step title="Test and publish">
+    Make a [test call](/en/build/agents/test-calls) trying all three paths — new appointment, reschedule, and cancel — and check the changes show up correctly in Cal.com. Then [publish the agent](/en/build/agents/version-control).
+  </Step>
+</Steps>
+
+## Before publishing
+
+Keep in mind the following points when setting up your template:
+
+- **Creating an appointment with no pre-check:** if you want the workflow to re-check the slot right before booking (like reschedule and cancel already do), you'll have to add it yourself; by default, [Create appointment](/en/templates/flows/create-appointment-cal-com#before-publishing) relies on Cal.com to reject an already-taken slot, and when that happens the agent is left with no response instead of an error message.
+- **Reschedule reason:** if you want the reason for a reschedule recorded in Cal.com, you'll have to add it; by default, [Reschedule appointment](/en/templates/flows/reschedule-appointment-cal-com#before-publishing) always sends it empty, even though it does collect a reason for cancellations.
+- **Transferring to a person:** add the [transfer tool](/en/build/agents/call-tools) if you want the agent to be able to do this; by default, for anything outside scheduling it says the team will look into it, but it doesn't transfer the call.
+- **Handling several languages:** switch the [language selector](/en/build/agents/call-customization#language) to **Multilingual** so the agent detects each patient's language and replies in that same language. By default it only speaks Spanish.
+- **New appointment types in Cal.com:** these show up on their own on the next call thanks to the pre-call workflow — no need to touch the prompt every time you add or remove an appointment type in Cal.com.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Get event types (Cal.com)"
+    icon="list-check"
+    href="/en/templates/flows/get-event-types-cal-com"
+  >
+    The workflow that prepares the call.
+  </Card>
+  <Card
+    title="Check availability (Cal.com)"
+    icon="bolt"
+    href="/en/templates/flows/check-availability-cal-com"
+  >
+    The workflow that queries the free slots.
+  </Card>
+  <Card
+    title="Find appointment (Cal.com)"
+    icon="magnifying-glass"
+    href="/en/templates/flows/find-appointment-cal-com"
+  >
+    The step before rescheduling or canceling.
+  </Card>
+  <Card
+    title="How to write prompts"
+    icon="wand-sparkles"
+    href="/en/build/agents/single-prompt"
+  >
+    If you want to modify the template's prompt.
+  </Card>
+</CardGroup>

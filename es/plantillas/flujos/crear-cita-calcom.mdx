@@ -1,0 +1,86 @@
+---
+title: "Crear cita (Cal.com)"
+description: "Flujo durante llamada que crea la reserva en Cal.com"
+---
+
+<Note>
+  **Flujos relacionados:** [Comprobar disponibilidad (Cal.com)](/es/plantillas/flujos/comprobar-disponibilidad-calcom).
+
+  **Agentes relacionados:** [Gestión de citas (Cal.com)](/es/plantillas/agentes/gestion-citas-calcom).
+</Note>
+
+## Qué hace
+
+El agente le pasa el tipo de cita (`event_type_id`), la fecha y hora de inicio (`start_date`, en hora local) y el email del cliente, y el flujo **crea la reserva** en Cal.com. El nombre del cliente es opcional.
+
+A diferencia de [Comprobar disponibilidad](/es/plantillas/flujos/comprobar-disponibilidad-calcom), este flujo **no vuelve a comprobar el hueco** antes de crear: llama directamente a la acción de reserva de Cal.com y confía en que sea Cal.com quien rechace un hueco ya ocupado.
+
+Es un [flujo durante llamada](/es/build/flujos/flujos-durante-llamada) en modo síncrono: el agente lo ejecuta a mitad de conversación y espera la respuesta antes de confirmarle la cita al cliente.
+
+## Cómo funciona
+
+| Paso | Qué hace |
+|---|---|
+| **Formatear fecha de inicio** | Convierte `start_date` de hora local a UTC, respetando el cambio de hora de verano/invierno. |
+| **Crear reserva en Cal** | Crea la reserva en Cal.com con el tipo de cita, la hora, el nombre y el email indicados. Sin invitados ni notas adicionales. |
+| **Devolver respuesta** | Le dice al agente `Citado correctamente.` |
+
+## Qué necesitas
+
+- Una [conexión](/es/plataforma/conexiones) de Cal.com
+- El tipo de cita (`event_type_id`) que se va a reservar, del mismo Cal.com que consulta [Comprobar disponibilidad (Cal.com)](/es/plantillas/flujos/comprobar-disponibilidad-calcom)
+
+## Puesta en marcha
+
+<Steps>
+  <Step title="Copia la plantilla">
+    Desde la sección **Flujos**, abre el catálogo de plantillas y cópiala. El flujo se crea deshabilitado.
+  </Step>
+
+  <Step title="Selecciona la conexión de Cal.com">
+    En el paso **Crear reserva en Cal**, indica tu conexión de Cal.com.
+  </Step>
+
+  <Step title="Revisa la zona horaria" id="revisa-la-zona-horaria">
+    `Europe/Madrid` aparece en el input `zona` de **Formatear fecha de inicio** y en el campo **Attendee Timezone** de **Crear reserva en Cal**. Si operas en otra zona horaria, cámbialos en los dos.
+  </Step>
+
+  <Step title="Marca start_date como obligatorio" id="marca-start-date-como-obligatorio">
+    La plantilla trae el parámetro `start_date` del disparador marcado como **opcional**, cuando en realidad hace falta siempre para crear la cita. Márcalo como **requerido** antes de publicar: si no, el agente puede llamar a la herramienta sin fecha y el paso de conversión falla sin un mensaje claro para el cliente.
+  </Step>
+
+  <Step title="Publica el flujo">
+    [Publica](/es/build/flujos/crear-flujos#borrador-vs-publicado) el flujo.
+  </Step>
+
+  <Step title="Asígnalo al agente">
+    Añádelo desde la sección **Flujos** del agente. El nombre del flujo es el nombre de la herramienta que ve el agente, así que déjalo en `crear_cita`. Este paso no es necesario si el flujo se ha creado a partir del agente.
+  </Step>
+</Steps>
+
+## Antes de publicar
+
+- **No hay una comprobación de hueco justo antes de crear.** A diferencia de `comprobar_disponibilidad`, este flujo no vuelve a consultar Cal.com antes de reservar: si el hueco se ocupó entre medias, es Cal.com quien rechaza la reserva, no el flujo.
+- **Si Cal.com rechaza la reserva, el agente se queda sin respuesta.** El paso de creación está configurado para **detener el flujo si falla**, y no hay ningún paso posterior que le explique al agente qué ha pasado — a diferencia de [Reprogramar cita](/es/plantillas/flujos/reprogramar-cita-calcom#antes-de-publicar) y [Cancelar cita](/es/plantillas/flujos/cancelar-cita-calcom#antes-de-publicar), que sí tienen una rama de error con un mensaje para el cliente. Si quieres ese mismo comportamiento aquí, añade un router que distinga el resultado antes de la respuesta final.
+- **El evento se crea sin invitados**: el email del cliente queda en la reserva de Cal.com, pero el flujo no añade invitados adicionales ni notas.
+- **El flujo solo crea.** No anula ni modifica citas ya existentes; para eso están [Reprogramar cita](/es/plantillas/flujos/reprogramar-cita-calcom) y [Cancelar cita](/es/plantillas/flujos/cancelar-cita-calcom).
+- **La duración de la cita la decide el tipo de cita en Cal.com**, no el flujo ni el prompt del agente.
+
+## Siguientes Pasos
+
+<CardGroup cols={2}>
+  <Card
+    title="Gestión de citas (Cal.com)"
+    icon="calendar-check"
+    href="/es/plantillas/agentes/gestion-citas-calcom"
+  >
+    El agente que usa este flujo.
+  </Card>
+  <Card
+    title="Comprobar disponibilidad (Cal.com)"
+    icon="bolt"
+    href="/es/plantillas/flujos/comprobar-disponibilidad-calcom"
+  >
+    El otro flujo que necesita el agente.
+  </Card>
+</CardGroup>

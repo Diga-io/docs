@@ -177,14 +177,27 @@
                   {
                     "group": "Agentes",
                     "pages": [
-                      "es/plantillas/agentes/gestion-citas-google-calendar"
+                      "es/plantillas/agentes/gestion-citas-google-calendar",
+                      "es/plantillas/agentes/gestion-leads",
+                      "es/plantillas/agentes/gestion-citas-calcom",
+                      "es/plantillas/agentes/ventas-outbound"
                     ]
                   },
                   {
                     "group": "Flujos",
                     "pages": [
                       "es/plantillas/flujos/comprobar-disponibilidad",
-                      "es/plantillas/flujos/crear-cita"
+                      "es/plantillas/flujos/crear-cita",
+                      "es/plantillas/flujos/llamada-saliente-formulario",
+                      "es/plantillas/flujos/gestion-leads-hubspot",
+                      "es/plantillas/flujos/obtener-eventos-calcom",
+                      "es/plantillas/flujos/comprobar-disponibilidad-calcom",
+                      "es/plantillas/flujos/crear-cita-calcom",
+                      "es/plantillas/flujos/buscar-cita-calcom",
+                      "es/plantillas/flujos/reprogramar-cita-calcom",
+                      "es/plantillas/flujos/cancelar-cita-calcom",
+                      "es/plantillas/flujos/guardar-resultado-llamada-sheets",
+                      "es/plantillas/flujos/enviar-informacion-whatsapp"
                     ]
                   }
                 ]
@@ -325,14 +338,27 @@
                   {
                     "group": "Agents",
                     "pages": [
-                      "en/templates/agents/appointment-management-google-calendar"
+                      "en/templates/agents/appointment-management-google-calendar",
+                      "en/templates/agents/lead-management",
+                      "en/templates/agents/appointment-management-cal-com",
+                      "en/templates/agents/outbound-sales"
                     ]
                   },
                   {
                     "group": "Flows",
                     "pages": [
                       "en/templates/flows/check-availability",
-                      "en/templates/flows/create-appointment"
+                      "en/templates/flows/create-appointment",
+                      "en/templates/flows/outbound-call-form-trigger",
+                      "en/templates/flows/post-call-lead-management-hubspot",
+                      "en/templates/flows/get-event-types-cal-com",
+                      "en/templates/flows/check-availability-cal-com",
+                      "en/templates/flows/create-appointment-cal-com",
+                      "en/templates/flows/find-appointment-cal-com",
+                      "en/templates/flows/reschedule-appointment-cal-com",
+                      "en/templates/flows/cancel-appointment-cal-com",
+                      "en/templates/flows/save-call-result-sheets",
+                      "en/templates/flows/send-follow-up-whatsapp"
                     ]
                   }
                 ]
