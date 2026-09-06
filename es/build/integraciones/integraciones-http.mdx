@@ -96,6 +96,10 @@ Una vez creada la integración, necesitas definir las **herramientas** (acciones
 
 </Steps>
 
+<Note>
+  Las herramientas reciben el mismo tratamiento integrado que los flujos cuando el llamante interrumpe una herramienta en ejecución o la petición falla a mitad de llamada: la ejecución nunca se cancela, el agente recibe el resultado real y nunca afirma un resultado que no puede confirmar. Consulta [Cuando el llamante interrumpe un flujo en ejecución](/es/build/flujos/flujos-durante-llamada#cuando-el-llamante-interrumpe-un-flujo-en-ejecución).
+</Note>
+
 ## Ejemplo Completo: Integración con un CRM
 
 Vamos a crear una integración con un CRM ficticio para buscar clientes.

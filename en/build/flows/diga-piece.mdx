@@ -118,7 +118,7 @@ Activates during a call when the agent decides to execute a function. This is th
 | **Parameters** | Data the agent should extract from the conversation. For each parameter you define: name, data type, whether it's required, and a description |
 | **Execution mode** | Whether the agent **waits** for the workflow's response before continuing. **Synchronous** (default): the agent pauses and uses the returned data. **Asynchronous**: the workflow runs in the background and the agent continues immediately without waiting |
 | **Execution audio** | What the caller hears while the agent waits in synchronous mode. **None**, **Typing** (keyboard sounds), or **Waiting music** |
-| **Pre-speech** | Whether the agent says a short message before executing. **Auto** lets the agent decide; **Force** always says something first |
+| **Pre-speech** | Whether the agent says a short message before executing. **Auto** lets the agent decide; **Force** makes it say one short sentence about what it's about to do (for example, "Un momento, lo compruebo ahora mismo") right before running the flow, then wait in silence. It never announces the result in advance |
 | **User confirmation** | Whether the agent should ask for confirmation before executing |
 
 #### Parameters

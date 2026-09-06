@@ -147,6 +147,7 @@ Los llamantes reales no esperan educadamente: añaden detalles o cambian de opin
 - **El agente se mantiene informado.** Se le avisa al instante de que el flujo sigue en marcha (para que no lo vuelva a llamar) y recibe el resultado real en cuanto termina, tanto si es un éxito como un fallo.
 - **El agente reconoce lo que ya ha pasado.** Si el llamante cambió de opinión a mitad de ejecución, el agente dice en voz alta lo que ya se hizo antes de ajustar, en lugar de fingir que no pasó nada o duplicar la acción en silencio.
 - **Una petición corregida se ejecuta como una nueva.** Si el llamante corrige un detalle mientras el flujo se ejecuta ("mejor a las 8"), el agente vuelve a ejecutar el flujo con los valores corregidos. Nunca da por hecho un cambio si no lo ha ejecutado de verdad.
+- **El agente termina su frase primero.** Un resultado que llega mientras el agente está hablando se entrega en la siguiente pausa, nunca cortándole a mitad de frase.
 
 Este comportamiento viene de serie: no necesitas pedirlo en el prompt. Lo que **tú** controlas es qué puede ofrecer el agente honestamente a continuación:
 
@@ -156,6 +157,17 @@ Este comportamiento viene de serie: no necesitas pedirlo en el prompt. Lo que **
 
 <Tip>
   Redacta el mensaje de **Return Response** como algo que el agente pueda decir en voz alta, en el idioma de tus llamantes. El agente construye su respuesta a partir de él: "Cita creada para el 25 de agosto a las 10:00" produce una respuesta mucho más natural que un estado técnico en inglés.
+</Tip>
+
+### Si el flujo falla mientras el llamante habla
+
+Lo que el agente le dice al llamante depende de lo que demuestre el fallo:
+
+- **La petición fue rechazada** (el endpoint respondió con un error de cliente como 400 o 404, así que nunca llegó a ejecutarse): el agente sabe que no se guardó nada, lo dice, y puede volver a intentarlo con los datos corregidos.
+- **El resultado es desconocido** (el flujo agotó el tiempo de espera, falló con un error de servidor como 500, o se cortó la conexión): el flujo puede haberse completado antes del error, así que el agente no afirma ni que funcionó ni que falló. Le dice al llamante que no ha podido confirmar la acción y que se revisará, y **no** vuelve a ejecutar el flujo, porque repetirlo podría crear un duplicado.
+
+<Tip>
+  Si tu flujo detecta un problema, termínalo con un **Return Response** que lo diga con palabras sencillas en lugar de dejar que falle. Un error o un tiempo de espera agotado dejan al agente sin saber si ha pasado algo; una respuesta explícita le permite contarle al llamante exactamente qué ocurre.
 </Tip>
 
 ## Casos de uso comunes

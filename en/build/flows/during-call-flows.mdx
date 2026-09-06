@@ -147,6 +147,7 @@ Real callers don't wait politely: they add details or change their mind while a 
 - **The agent stays informed.** It's told immediately that the flow is still running (so it won't call it again), and it receives the real outcome as soon as the flow finishes — success or failure.
 - **The agent acknowledges what already happened.** If the caller changed their mind mid-execution, the agent says out loud what was already done before adjusting, instead of pretending nothing happened or silently duplicating the action.
 - **A revised request runs as a new execution.** If the caller corrects a detail while the flow runs ("actually, make it 8 instead"), the agent runs the flow again with the corrected values. It never claims a change is done unless an execution actually did it.
+- **The agent finishes its sentence first.** A result that lands while the agent is talking is delivered at the next pause, never by cutting the agent off mid-sentence.
 
 This behavior is built in — you don't need to prompt for it. What **you** control is what the agent can honestly offer next:
 
@@ -156,6 +157,17 @@ This behavior is built in — you don't need to prompt for it. What **you** cont
 
 <Tip>
   Write your **Return Response** message as something the agent could say aloud, in your callers' language. The agent builds its reply from it — "Cita creada para el 25 de agosto a las 10:00" produces a far more natural answer than a raw status in English.
+</Tip>
+
+### If the flow fails while the caller is talking
+
+What the agent tells the caller depends on what the failure proves:
+
+- **The request was rejected** (the endpoint answered with a client error such as 400 or 404, so it never ran): the agent knows nothing was saved, says so, and is free to try again with corrected details.
+- **The outcome is unknown** (the flow timed out, failed with a server error such as 500, or the connection dropped): the flow may have completed before the error, so the agent claims neither that it worked nor that it failed. It tells the caller it couldn't confirm the action and that it will be checked, and it does **not** run the flow again, since a repeat could create a duplicate.
+
+<Tip>
+  If your flow detects a problem, end it with a **Return Response** that says so in plain words instead of letting it error out. A crash or a timeout leaves the agent unable to tell whether anything happened; an explicit response lets it tell the caller exactly what's going on.
 </Tip>
 
 ## Common use cases
