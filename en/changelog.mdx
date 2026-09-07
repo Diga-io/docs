@@ -67,11 +67,34 @@ rss: true
 
 </Update>
 
+<Update label="April 17, 2026" description="v1.1.9" tags={["New features", "Improvements"]}>
+
+## Gemini voices
+
+Diga now uses **Gemini** as its realtime voice engine. Voices no longer depend on ElevenLabs.
+
+### New voice catalog
+
+- **Curated Gemini catalog**: 30 voices with audio samples, classified by gender, available directly in the voice selector
+- **Multilingual voices**: any voice speaks every supported language, so there's no need to pick a voice per language
+- **Favorites and search**: mark your favorite voices to keep them at hand and filter by name or gender
+
+### Changes from the previous voices
+
+- **Automatic migration**: agents that used an ElevenLabs voice were moved to an equivalent Gemini voice of the same gender. Review your agents' voice and change it if you prefer another one
+- **Removed controls**: the voice speed and temperature settings and the option to use an ElevenLabs voice by ID are gone. Volume stays. To adjust pace or tone, describe it in the prompt or in the global instructions
+
+</Update>
+
 <Update label="March 11, 2026" description="v1.1.6" tags={["New features"]}>
 
 ## Improved voices, tool sounds, and Holded piece
 
 ### More control over voices
+
+<Note>
+These voice options were replaced in v1.1.9 by the Gemini voice catalog. See the April 17, 2026 entry.
+</Note>
 
 - **Expanded voice catalog**: Browse thousands of available voices and choose the best fit by language, accent, tone, and more
 - **Direct ElevenLabs support**: Use any ElevenLabs voice by entering its ID directly
