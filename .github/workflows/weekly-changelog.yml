@@ -1,0 +1,61 @@
+# Install this in diga-io/docs as .github/workflows/weekly-changelog.yml
+#
+# Runs Tuesday afternoon, while the week's work is still on `development` and
+# the release merge has not happened yet, so the draft PR is waiting for review
+# before the Tuesday-night deploy.
+name: Weekly changelog draft
+
+on:
+  schedule:
+    - cron: "0 13 * * 2" # Tuesdays 13:00 UTC — 15:00 Madrid in summer, 14:00 in winter
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Print the diff instead of opening a PR"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the changelog tooling
+        uses: actions/checkout@v4
+        with:
+          repository: Diga-io/auto-changelog
+          # This repo is public and the tooling repo is not, so the default
+          # GITHUB_TOKEN cannot see it. Same token as the draft step below.
+          token: ${{ secrets.CHANGELOG_GH_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Draft the entry and open the PR
+        env:
+          # Needs read access to Diga-io/diga and Diga-io/dashboard and write
+          # access to diga-io/docs, so the default GITHUB_TOKEN is not enough.
+          GH_TOKEN: ${{ secrets.CHANGELOG_GH_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }} # optional
+        run: |
+          ./changelog draft ${{ inputs.dry_run && '--dry-run' || '' }}
+
+      - name: Keep the artifacts for debugging
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: changelog-artifacts
+          path: out/
+          retention-days: 30
