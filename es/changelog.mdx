@@ -4,6 +4,250 @@ description: "Registro de actualizaciones y mejoras de la plataforma Diga"
 rss: true
 ---
 
+<Update label="8 de septiembre de 2026" description="Envío de notificaciones" tags={["Correcciones"]}>
+
+## Las notificaciones te llegan tal y como las configuraste
+
+- <span className="cl-tag cl-fix">Corrección</span> **Las notificaciones por email y webhook se entregan**: las notificaciones salen a tu dirección de email y a los endpoints de webhook que tengas configurados, exactamente como los configuraste.
+
+</Update>
+<Update label="1 de septiembre de 2026" description="Verificación en dos pasos" tags={["Nuevas features", "Correcciones"]}>
+
+## Inicio de sesión en dos pasos y agentes publicados en varios números
+
+- <span className="cl-tag cl-feature">Nueva</span> **Protege tu cuenta con un segundo paso al iniciar sesión**: activa la verificación en dos pasos en **Ajustes › Seguridad**, con una app de autenticación, un código por SMS o ambos. Con ella activada, iniciar sesión te pide un código antes de abrir el panel, y puedes reconfigurar un método, cambiar su número de teléfono o eliminarlo cuando quieras.
+  {/* screenshot */}
+- <span className="cl-tag cl-improvement">Mejora</span> **Tu idioma viaja con tu cuenta**: el idioma que eliges en **Ajustes** se guarda en tu cuenta y se usa allá donde inicies sesión, en lugar de recordarse solo en el dispositivo donde lo elegiste.
+- <span className="cl-tag cl-fix">Corrección</span> **Escribe en cualquier punto de un campo y el resto se queda como estaba**: elegir una variable de zona horaria en el menú de variables la inserta en el cursor y deja el texto de alrededor intacto, y escribir en medio del campo de texto de un paso de flujo mantiene el cursor donde lo pusiste.
+- <span className="cl-tag cl-fix">Corrección</span> **Las mejoras de plan y los números de teléfono se cobran como toca**: pasar a un plan de pago superior factura al momento la diferencia del resto del periodo, y un número comprado con un descuento total se configura con su suscripción recurrente.
+
+### Agentes
+
+- <span className="cl-tag cl-feature">Nueva</span> **Publica un agente en varios números, y despublícalo cuando quieras**: el diálogo de publicación admite una lista de números de entrada y de salida en lugar de uno de cada, y te avisa cuando el número que eliges está enrutado a otro agente. Un agente publicado muestra una etiqueta **Publicado** y sus números junto al selector de versión, con **Editar números de teléfono** y **Despublicar** en su menú de acciones.
+  {/* screenshot */}
+- <span className="cl-tag cl-improvement">Mejora</span> **Una versión nueva llega con su número ya puesto**: al crear una versión, el nombre viene relleno con el número que va a llevar, así ves en qué punto de la secuencia estás justo cuando la nombras.
+- <span className="cl-tag cl-improvement">Mejora</span> **Abre un flujo desde el agente que lo usa**: la tarjeta de un flujo en la sección **Flujos** de un agente te lleva al editor, con la confirmación de siempre antes de salir. Además, el panel del agente solo se desplaza cuando hay algo que desplazar, la pestaña **Herramientas** tiene su propio título y el nombre de una integración se muestra una sola vez.
+- <span className="cl-tag cl-improvement">Mejora</span> **Un motivo claro cuando un agente no se puede eliminar**: al eliminar un agente publicado se te pide despublicarlo primero, en un aviso y no en un diálogo.
+- <span className="cl-tag cl-fix">Corrección</span> **Las plantillas de agente se muestran en tu idioma**: la galería de plantillas y el detalle de cada una siguen el idioma de tu panel, y cambiar de idioma mientras las miras las recarga.
+- <span className="cl-tag cl-fix">Corrección</span> **Cada prueba de agente empieza con el log limpio**: volver a lanzar una prueba borra las entradas de la anterior, así los tiempos son los de la ejecución que estás viendo, y el panel de pruebas ocupa todo el alto.
+- <span className="cl-tag cl-fix">Corrección</span> **Trae al frente una etiqueta de condición superpuesta**: seleccionar un paso, su línea o la propia etiqueta la eleva por encima de las de alrededor, así una rama tapada por otra se puede leer y editar.
+- <span className="cl-tag cl-fix">Corrección</span> **Un paso añadido desde la barra de herramientas aparece donde estás mirando**: las herramientas y los flujos que añades desde la barra del editor de caminos se colocan en el centro del lienzo visible, hasta donde lo hayas desplazado.
+
+### Flujos
+
+- <span className="cl-tag cl-fix">Corrección</span> **Al publicar, te quedas en la versión que has publicado**: el editor y el desplegable de versiones la muestran al momento, y editar una versión publicada te muestra el borrador que crea — sin salir de la página y volver.
+- <span className="cl-tag cl-fix">Corrección</span> **El panel de Melo no te mueve el lienzo**: abrir o ampliar el chat, empezar una conversación nueva o cambiar de proyecto deja el lienzo del flujo exactamente donde estaba, y el panel se cierra a la primera.
+- <span className="cl-tag cl-fix">Corrección</span> **Un flujo renombrado conserva su nombre nuevo**: si lo renombras en el editor y vuelves a abrirlo, aparece con el nombre que le diste.
+- <span className="cl-tag cl-fix">Corrección</span> **El editor de flujos se lee en tu idioma**: los controles del lienzo, los tooltips, los ajustes de los pasos y los mensajes del editor están traducidos en inglés y en español.
+- <span className="cl-tag cl-fix">Corrección</span> **Añadir un flujo funciona en pantallas bajas**: en el diálogo **Añadir flujo**, **Crear desde cero** se queda a la vista mientras las plantillas se desplazan, y la vista previa de una plantilla ya no muestra un aviso de publicación encima.
+- <span className="cl-tag cl-improvement">Mejora</span> **Limpiar filtros en la lista de flujos**: aparece un botón **Limpiar filtros** junto a los filtros de estado y conexión en cuanto hay uno activo, igual que en las listas de agentes, bases de conocimiento e integraciones.
+
+</Update>
+<Update label="25 de agosto de 2026" description="Detalles de llamada y filtros" tags={["Nuevas features", "Correcciones"]}>
+
+## Filtros que se quedan donde los dejaste y una vista completa de cada llamada
+
+- <span className="cl-tag cl-improvement">Mejora</span> **Tus filtros sobreviven a una recarga**: los filtros, el orden y la página que eliges en **Logs de llamada**, **Números de teléfono**, **Agentes**, **Integraciones** y **Bases de conocimiento** se guardan en la dirección de la página, así que recargar, compartir el enlace o volver desde una llamada te devuelve a la misma vista. Aparece un botón **Limpiar filtros** siempre que hay un filtro activo, y pedirle a Melo que filtre una lista funciona igual.
+- <span className="cl-tag cl-feature">Nueva</span> **Todo sobre una llamada en un mismo sitio**: una llamada muestra ahora el agente que la atendió y la versión exacta que estaba publicada, con un enlace directo a esa versión, y un menú de acciones para copiar el ID de la llamada, descargar la grabación o eliminarla.
+  {/* screenshot */}
+- <span className="cl-tag cl-fix">Corrección</span> **Copiar una versión a tu borrador se lo lleva todo**: las herramientas de llamada, las integraciones, las bases de conocimiento, las variables dinámicas y los ajustes de buzón de voz y menú telefónico viajan con el prompt y los caminos, y crear una versión nueva deja intactos los flujos del borrador.
+- <span className="cl-tag cl-fix">Corrección</span> **El agente retoma al momento cuando la persona le habla encima**: si quien llama vuelve a hablar mientras se prepara una respuesta, el agente la deja a un lado y contesta a lo que se acaba de decir, sin pausa de por medio.
+
+### Caminos conversacionales
+
+- <span className="cl-tag cl-feature">Nueva</span> **Ve por qué una llamada se quedó en un paso o avanzó**: el log de llamada registra cada decisión de rama con el nodo desde el que se tomó, si la llamada se quedó o a qué nodo fue, y el motivo detrás — así ves de un vistazo si fue la redacción de tu condición, una pregunta que el agente todavía no había hecho o una respuesta mal interpretada.
+  {/* screenshot */}
+- <span className="cl-tag cl-feature">Nueva</span> **Un error de camino se llama por su nombre**: cuando no se puede tomar una decisión de rama, el log de llamada muestra un error de camino en lugar de una espera normal, así que un paso que no avanzó nunca se confunde con uno que eligió esperar.
+- <span className="cl-tag cl-fix">Corrección</span> **En un camino, solo el camino decide qué se ejecuta**: las herramientas e integraciones vinculadas al agente ya no están disponibles desde cualquier nodo — las acciones de una llamada con camino salen de los pasos del propio camino, y esas llamadas arrancan más rápido.
+
+### Primeros pasos
+
+- <span className="cl-tag cl-feature">Nueva</span> **Pídele a Melo que te enseñe el panel**: pídele al copiloto el tour del producto y arranca el recorrido guiado desde donde estés.
+- <span className="cl-tag cl-improvement">Mejora</span> **Un tour más fluido**: el tour se sitúa justo sobre el elemento que describe, se lee bien en pantallas pequeñas, mantiene su introducción hasta que lo terminas o desactivas los consejos, y mientras avanza te mantiene la atención en el paso en curso. Su redacción, sus botones y el estilo de las tarjetas son más claros en inglés y en español.
+- <span className="cl-tag cl-fix">Corrección</span> **El tour se recuerda por cuenta**: si ya has visto los consejos se guarda por separado en cada cuenta con la que inicias sesión.
+
+</Update>
+<Update label="18 de agosto de 2026" description="Caminos conversacionales" tags={["Correcciones"]}>
+
+## Caminos conversacionales más firmes y una forma de buscar entre tus llamadas
+
+- <span className="cl-tag cl-feature">Nueva</span> **Encuentra una llamada por lo que se dijo o por quién llamó**: **Logs de llamada** tiene un buscador de conversaciones y un filtro por el número de teléfono del contacto, así vas directo a la llamada que buscas.
+  {/* screenshot */}
+- <span className="cl-tag cl-fix">Corrección</span> **Las instrucciones globales de un camino se quedan donde las pusiste**: el texto que escribes en **Instrucciones globales** se guarda por su cuenta, sobrevive a copiar una versión al borrador y siempre pertenece al camino que estás editando.
+- <span className="cl-tag cl-fix">Corrección</span> **Tus cambios se siguen guardando mientras te mueves por el editor**: el editor de agentes se recupera solo cuando dos guardados se solapan, y solo escribe en el borrador, así que cambiar de camino y de versión deja tu trabajo intacto y las versiones publicadas sin tocar.
+
+### Caminos conversacionales
+
+- <span className="cl-tag cl-fix">Corrección</span> **La llamada avanza en cuanto la respuesta de la persona decide una rama**: las condiciones se leen a la luz de lo que el agente ha preguntado de verdad, y quedarse en un paso cuya condición ya se cumple se trata como el error que es.
+- <span className="cl-tag cl-fix">Corrección</span> **Las decisiones de rama disponen del tiempo que necesitan**: cada decisión cuenta con más margen y con un segundo intento independiente, así que la conversación sigue avanzando aunque una respuesta tarde en llegar.
+- <span className="cl-tag cl-fix">Corrección</span> **El agente dice su línea antes de ejecutar el paso**: en un nodo que habla y después continúa, el agente dice su guion una sola vez y luego se ejecuta la acción.
+- <span className="cl-tag cl-fix">Corrección</span> **Una llamada solo se cuelga o se transfiere cuando la persona ha terminado de hablar**: cuando una frase le llega al agente a trozos, colgar o transferir espera a que esté completa.
+- <span className="cl-tag cl-fix">Corrección</span> **Los datos se conservan a través de un paso que solo habla**: los valores recogidos antes en un camino siguen disponibles para un paso posterior aunque entre medias haya un paso hablado.
+
+</Update>
+<Update label="4 de agosto de 2026" description="Seguridad de la cuenta" tags={["Mejoras", "Correcciones"]}>
+
+## Una página de Seguridad para tu cuenta y una visión más clara de tu uso
+
+- <span className="cl-tag cl-feature">Nueva</span> **Cómo se está iniciando sesión en tu cuenta**: la nueva página **Seguridad**, en ajustes, muestra tu sesión activa con su dispositivo, ubicación, IP y última actividad, un historial de intentos de inicio de sesión —con éxito y fallidos— y una forma de cerrar todas las demás sesiones de una vez.
+  {/* screenshot */}
+- <span className="cl-tag cl-improvement">Mejora</span> **Las llamadas simultáneas se miden como tu pico diario medio**: la tarjeta de llamadas simultáneas de **Uso** muestra la media del máximo de llamadas a la vez de cada día, contando solo los días con llamadas de los últimos 30, así la cifra crece hacia el límite de tu plan a medida que lo hace tu carga habitual y te avisa antes de alcanzarlo. Se muestra con un decimal, y el tooltip explica exactamente qué cuenta.
+
+### Caminos conversacionales
+
+- <span className="cl-tag cl-fix">Corrección</span> **Las ramas se deciden con cuidado y la llamada avanza en cuanto se cumplen**: el modelo que evalúa tus condiciones lee las de varios pasos tal como las escribiste —un "si no X" solo se cumple cuando el agente ha pedido X de verdad— y dispone del tiempo que necesita para responder, así que la llamada avanza en el momento en que la persona acepta.
+- <span className="cl-tag cl-fix">Corrección</span> **Las condiciones globales se pueden tomar desde cualquier nodo**: una condición que aplica en cualquier punto de un camino está disponible desde los nodos que no tienen ramas propias.
+- <span className="cl-tag cl-fix">Corrección</span> **Se respeta tu redacción en los pasos que ejecutan una acción**: cuando el prompt de un nodo le dice al agente que anuncie lo que va a consultar, lo dice y después se ejecuta el paso.
+
+### Facturación y planes
+
+- <span className="cl-tag cl-improvement">Mejora</span> **Tu tarjeta por defecto se usa en todas partes**: el método de pago que marcas por defecto se aplica a todas las suscripciones que pagas, la primera tarjeta que añades pasa a ser la predeterminada por su cuenta, y se elige otra por ti si eliminas la que estaba en uso. El checkout recoge tus datos de facturación y te ofrece las tarjetas que ya tienes guardadas.
+- <span className="cl-tag cl-improvement">Mejora</span> **Diez flujos en el plan Free**: el plan Free incluye 10 flujos, y la tabla comparativa de planes coincide con los precios publicados en todas sus filas —minutos, precio del minuto extra, llamadas simultáneas, Melo, almacenamiento, flujos, soporte y precio—, en inglés y en español.
+- <span className="cl-tag cl-improvement">Mejora</span> **Envía tu factura junto con la solicitud de verificación**: la verificación de empresa admite una factura además del documento firmado, así todo lo necesario para la revisión llega en un solo envío.
+- <span className="cl-tag cl-fix">Corrección</span> **Los minutos sin usar se acumulan al renovarse tu plan**: el arrastre se toma de tu suscripción cada vez que empieza un periodo nuevo.
+- <span className="cl-tag cl-fix">Corrección</span> **Todas las compras de número pasan por verificación**: los números quedan en revisión y se asignan cuando se aprueba tu empresa, también cuando un descuento deja el total del checkout en cero.
+- <span className="cl-tag cl-fix">Corrección</span> **Los números de teléfono aparecen con su nombre en tu historial de facturas**: la compra de un número aparece como "Phone number" en inglés y "Número de teléfono" en español.
+
+### Panel y acceso
+
+- <span className="cl-tag cl-improvement">Mejora</span> **Melo propone cambios pequeños sin reescribir el prompt entero**: pídele un cambio de redacción en el prompt o el saludo de un agente y Melo propone solo el fragmento que cambia, así la sugerencia llega antes. El diff en línea sigue mostrando el antes y el después completos, y las reescrituras amplias funcionan igual que antes.
+- <span className="cl-tag cl-fix">Corrección</span> **La reproducción responde a los controles multimedia de tu sistema**: pausar o reanudar la grabación de una llamada desde fuera del panel se refleja en el reproductor de la página de la llamada.
+- <span className="cl-tag cl-fix">Corrección</span> **El proyecto al que te unes o que creas está disponible al momento**: aceptar una invitación o crear un proyecto te da acceso de inmediato.
+
+</Update>
+<Update label="28 de julio de 2026" description="Registro y primeros pasos" tags={["Nuevas features", "Correcciones"]}>
+
+## Un arranque guiado para las cuentas nuevas y logs de llamada más claros
+
+- <span className="cl-tag cl-improvement">Mejora</span> **El estado y el motivo de finalización de un vistazo**: **Logs de llamada** muestra uno de cuatro estados en cada llamada —en cola, marcando, activa y finalizada— y el motivo de finalización aparece cuando la llamada ha terminado, tanto en la lista como en la página de la llamada. Las etiquetas se acortan para caber en la columna, y el texto completo se mantiene en el tooltip.
+- <span className="cl-tag cl-fix">Corrección</span> **Los filtros de fecha cubren todas las llamadas**: filtrar **Logs de llamada** por fecha devuelve todas las llamadas creadas en ese rango, se contestaran o no.
+
+### Registro y primeros pasos
+
+- <span className="cl-tag cl-feature">Nueva</span> **Verifica tu email al registrarte**: las cuentas nuevas confirman su dirección con un código de seis dígitos que se envía por email, con opción de reenviarlo y una cuenta atrás hasta que puedes pedir otro. El email de bienvenida llega una vez confirmada tu dirección.
+  {/* screenshot */}
+- <span className="cl-tag cl-feature">Nueva</span> **Un arranque guiado para las cuentas nuevas**: después de registrarte, un flujo de dos pasos te pregunta para qué vas a usar Diga y cómo nos conociste, te deja elegir el idioma de la interfaz y si quieres recibir novedades del producto, y luego te acompaña hasta elegir plan.
+  {/* screenshot */}
+- <span className="cl-tag cl-feature">Nueva</span> **Consejos que te enseñan el panel**: un tour guiado te muestra qué hace cada parte de la interfaz y resalta el elemento del que te habla a medida que avanzas, con la barra lateral abierta o plegada. Puedes saltártelo, con una confirmación antes, o desactivar los consejos del todo, y cada sección recuerda si ya has visto los suyos.
+  {/* screenshot */}
+- <span className="cl-tag cl-feature">Nueva</span> **Las plantillas de agente se abren desde un enlace compartido**: un enlace a una plantilla de agente te lleva directamente a su vista previa si has iniciado sesión. Si todavía no tienes cuenta, pasas por el registro y los primeros pasos y acabas en la plantilla que buscabas.
+
+### Flujos
+
+- <span className="cl-tag cl-feature">Nueva</span> **Crea y lista tus conexiones de piezas desde la API**: nuevos endpoints te permiten crear una conexión de cualquier tipo y listar las que ya tiene tu proyecto, así un flujo construido a través de la API puede apuntar un paso a una conexión sin pasar por una plantilla ni por el constructor. Cada conexión se identifica con un único id, el que usas para referenciarla desde un flujo.
+- <span className="cl-tag cl-feature">Nueva</span> **Copia una plantilla sin volver a introducir tus claves**: al copiar una plantilla de flujo, puedes reutilizar una conexión que ya tengas configurada —tu token de Slack, tu clave de Cal.com— en lugar de escribirla otra vez en cada plantilla.
+- <span className="cl-tag cl-fix">Corrección</span> **Los flujos posteriores a la llamada se ejecutan cuando cuelga el agente**: los flujos que se disparan al terminar una llamada también se ejecutan en las llamadas que cuelga el propio agente.
+
+### Comportamiento en llamada
+
+- <span className="cl-tag cl-fix">Corrección</span> **El agente espera a la persona, no a la línea**: los sonidos del establecimiento de la llamada ya no se toman por las primeras palabras de quien llama, así que el agente abre la conversación como tú la configuraste.
+- <span className="cl-tag cl-fix">Corrección</span> **El resultado de un paso se anuncia una sola vez**: cuando una llamada ejecuta varias herramientas seguidas, el agente le dice el resultado a la persona una sola vez y pasa al siguiente paso.
+- <span className="cl-tag cl-fix">Corrección</span> **Los pasos encadenados usan los datos correctos**: un paso que se ejecuta después de otro puede tomar valores de cualquier momento anterior de la llamada, y elige el que pide su descripción en lugar de quedarse solo con lo que produjo el paso anterior.
+
+</Update>
+<Update label="21 de julio de 2026" description="Suscripción y uso" tags={["Nuevas features", "Mejoras"]}>
+
+## Gestión completa de tu suscripción y nueva página de Uso
+
+- <span className="cl-tag cl-feature">Nueva</span> **Tu consumo frente a los límites de tu plan**: la nueva página **Uso**, en ajustes, muestra minutos de llamada, llamadas simultáneas, Melo, flujos y almacenamiento de la base de conocimiento frente a lo que incluye tu plan, con avisos a medida que te acercas a tu límite de minutos y una cuenta atrás hasta que se renuevan. Desde ahí puedes activar la facturación por uso, las mismas cifras aparecen como etiquetas en **Flujos** y en **Logs de llamada**, y Melo reconoce la página y puede llevarte a ella.
+  {/* screenshot */}
+
+### Suscripción y facturación
+
+- <span className="cl-tag cl-feature">Nueva</span> **Gestiona tu suscripción desde ajustes**: la página de suscripción reúne tu plan, el periodo de facturación y la próxima factura, te muestra qué incluirá esa factura y te deja cambiar entre facturación mensual y anual con una confirmación de lo que cambia. La tarjeta del plan enlaza directamente con **Planes**, y si la página no carga puedes reintentarlo ahí mismo.
+  {/* screenshot */}
+- <span className="cl-tag cl-feature">Nueva</span> **Gestiona tus métodos de pago**: añade una tarjeta, elige cuál se usa por defecto y elimina las que ya no necesites, todo desde la página de suscripción. Link aparece junto a las tarjetas y puede ser el método por defecto igual que ellas.
+- <span className="cl-tag cl-feature">Nueva</span> **Cancela tu suscripción por tu cuenta**: la zona de peligro de la página de suscripción te guía para cancelar tu plan, con un paso de confirmación antes de aplicar nada.
+- <span className="cl-tag cl-fix">Corrección</span> **La renovación coincide con lo que programaste**: la fecha de renovación de la tarjeta del plan tiene en cuenta los cambios de plan y de periodo de facturación que ya hayas programado.
+
+### Caminos conversacionales
+
+- <span className="cl-tag cl-feature">Nueva</span> **Los caminos los dirige Diga, no el modelo**: cada decisión de rama de un camino conversacional, y cada herramienta, webhook y paso de flujo que ejecuta, se evalúa y se ejecuta ahora en nuestro lado, así que la llamada sigue el camino que dibujaste. Las acciones se ejecutan en silencio mientras la persona espera, los anuncios se dicen antes del paso que anuncian, y un paso configurado para preguntar primero espera la respuesta antes de ejecutarse.
+- <span className="cl-tag cl-fix">Corrección</span> **El agente sigue el nodo al que llega tras una herramienta o un flujo**: cuando termina una herramienta, un webhook o un flujo —incluso si vuelve con un error—, el agente dice lo que le indica ese nodo y continúa por su cuenta, sin esperar a que hables primero.
+- <span className="cl-tag cl-fix">Corrección</span> **Cada paso se queda en su sitio**: el agente solo usa las herramientas y pide los datos del paso en el que está, en lugar de adelantarse a recoger las respuestas de un paso posterior, y nunca dice el guion de un paso posterior antes de que se cumpla la condición de esa rama. Las instrucciones internas se quedan dentro y nunca llegan a la persona que llama.
+
+### Números de teléfono
+
+- <span className="cl-tag cl-feature">Nueva</span> **Cuánto tiempo se te reserva un número**: un número pendiente de pago muestra una cuenta atrás en vivo hasta que caduca su reserva, así sabes de cuánto tiempo dispones para terminar la compra. Cada checkout cubre una selección, y **Continuar** solo aparece cuando queda algo por comprar.
+- <span className="cl-tag cl-improvement">Mejora</span> **Provincia en los números disponibles**: los números que puedes comprar muestran la provincia a la que pertenecen, en línea con las regiones por las que puedes filtrar.
+- <span className="cl-tag cl-improvement">Mejora</span> **Comprar más números reutiliza tu verificación**: una vez verificada tu empresa, el certificado de titularidad de cada número que se te asigna o que liberas se presenta ante el operador por ti, así que añadir números más adelante no requiere papeleo nuevo.
+
+### Panel
+
+- <span className="cl-tag cl-improvement">Mejora</span> **El motivo de finalización de cada llamada, desde la lista**: **Logs de llamada** muestra un motivo de finalización por llamada, con un tooltip que explica qué significa, traducido en inglés y en español. Cuando la tabla se estrecha, las columnas se pliegan en un orden sensato para que la fecha siga visible el mayor tiempo posible, y el menú de opciones tiene sitio para sus etiquetas.
+- <span className="cl-tag cl-fix">Corrección</span> **Los ajustes de llamada muestran todos sus campos**: la sección Ajustes de llamada de un agente se expande para que quepa todo, y la detección de buzón de voz y de menú telefónico se oculta en los agentes que usan caminos conversacionales, donde todavía no aplica.
+- <span className="cl-tag cl-improvement">Mejora</span> **Pequeñas mejoras de interfaz**: las páginas de ajustes mantienen la barra de scroll visible mientras te desplazas, y los errores se muestran como alertas allí donde ocurren.
+
+### Cuenta y acceso
+
+- <span className="cl-tag cl-fix">Corrección</span> **Los cambios de acceso se aplican al momento**: quitar a alguien de un proyecto, cambiar su rol o salir de un proyecto surte efecto inmediatamente.
+- <span className="cl-tag cl-improvement">Mejora</span> **Servicio más estable bajo carga**: la API y Melo aplican límites de peticiones por cuenta, así que un pico de tráfico de un cliente ya no ralentiza el servicio para los demás.
+- <span className="cl-tag cl-fix">Corrección</span> **Tu email se reconoce con cualquier combinación de mayúsculas**: los registros y las invitaciones encuentran tu cuenta aunque la dirección no se escriba tal cual se registró.
+
+</Update>
+<Update label="7 de julio de 2026" description="Contestadores y menús telefónicos" tags={["Nuevas features", "Mejoras"]}>
+
+## Llamadas salientes que saben manejar buzones de voz y menús telefónicos
+
+- <span className="cl-tag cl-feature">Nueva</span> **Tu agente sabe quién ha descolgado en una llamada saliente**: cuando se contesta la llamada, el agente distingue entre una persona, un buzón de voz, un menú telefónico y una línea no disponible, y actúa en consecuencia en lugar de hablar solo. Se configura por agente en **Personalizar → Ajustes de llamada**: en un buzón de voz, deja el mensaje que tú escribas (con variables dinámicas incluidas) o cuelga; en un menú telefónico, deja que el agente navegue hacia el objetivo que le describas o que marque la secuencia de teclas que le indiques, y que tome la línea al llegar a una persona. Si quien contesta no dice nada, el agente saluda con normalidad.
+  {/* screenshot */}
+- <span className="cl-tag cl-feature">Nueva</span> **Webhooks firmados**: cada webhook que envía Diga incluye ahora una cabecera `Diga-Signature` con un timestamp y una firma HMAC, para que tu endpoint pueda verificar que la petición viene de nosotros y rechazar reenvíos. Tu secreto de firma se muestra una sola vez al crear el webhook, y un nuevo endpoint de rotación te genera otro cuando lo necesites.
+- <span className="cl-tag cl-feature">Nueva</span> **Las llamadas esperan en cola en lugar de rechazarse**: las llamadas entrantes que superan el límite de llamadas simultáneas de tu plan pasan a una cola de espera con música y se conectan con un agente en cuanto se libera una línea, por orden de llegada. Quien cuelga mientras espera sale de la cola por su cuenta.
+
+### Números de teléfono
+
+- <span className="cl-tag cl-feature">Nueva</span> **Termina una compra de número que dejaste a medias**: un número que sigue en checkout conserva un enlace a su página de pago, así que puedes completar la compra sin empezar de cero.
+- <span className="cl-tag cl-improvement">Mejora</span> **Estado más claro mientras se aprueba un número**: los números pendientes de verificación se muestran como un estado propio, distinto de los que siguen en checkout, y aparecen como inactivos en la tabla de números hasta que se pueden usar.
+- <span className="cl-tag cl-fix">Corrección</span> **Los números liberados dejan de estorbar**: un número que liberas, o uno que pertenece a un proyecto que eliminas, desaparece de tus listas definitivamente, y ese mismo número se puede volver a importar más adelante.
+
+### Comportamiento en llamada
+
+- <span className="cl-tag cl-fix">Corrección</span> **El agente mantiene la conversación después de una herramienta o un paso de flujo**: cuando termina una herramienta, un webhook o un nodo de flujo, el agente continúa y dice el siguiente paso sin esperar a que hables primero.
+- <span className="cl-tag cl-fix">Corrección</span> **Los agentes se mantienen en el idioma que configuraste**: el agente habla durante toda la llamada en el idioma con el que lo configuraste, y las instrucciones internas nunca llegan a lo que escucha la persona que llama.
+
+### Panel
+
+- <span className="cl-tag cl-improvement">Mejora</span> **Barra lateral rediseñada**: la navegación se reordena y se reagrupa, las tarjetas de cuenta y el modal de plan tienen un aspecto renovado, y el scroll y la animación al plegarla son más suaves.
+  {/* screenshot */}
+- <span className="cl-tag cl-improvement">Mejora</span> **El nombre de tu plan es el mismo en todas partes**: tu plan aparece con el mismo nombre completo en la barra lateral, en Planes, en ajustes y en todos los diálogos de mejora, bajada y cancelación, en inglés y en español.
+- <span className="cl-tag cl-improvement">Mejora</span> **Sabes exactamente por qué se puede publicar un flujo o por qué no**: el banner de publicación te dice si el flujo es nuevo, si tiene cambios sin publicar, si no es válido o si has alcanzado el límite de flujos de tu plan, con un enlace para saber más, y el interruptor de activación refleja ese mismo límite.
+
+### Facturación
+
+- <span className="cl-tag cl-fix">Corrección</span> **Importes de las facturas en tu historial**: las facturas anteriores muestran el importe que se te cobró.
+- <span className="cl-tag cl-fix">Corrección</span> **Los minutos del plan Free siguen las reglas documentadas**: en el plan Free, cada periodo empieza con los minutos incluidos de ese periodo.
+
+</Update>
+<Update label="30 de junio de 2026" description="Aprobaciones del Copilot" tags={["Nuevas features", "Correcciones"]}>
+
+## Aprobaciones para Melo y publicación de flujos más clara
+
+- <span className="cl-tag cl-fix">Corrección</span> **La voz de tu agente durante toda la llamada**: cada turno hablado usa la voz que configuraste para el agente, y los agentes que ejecutan una herramienta o un flujo dentro de un camino conversacional se mantienen en silencio hasta que tienen algo que decirle a la persona que llama.
+- <span className="cl-tag cl-improvement">Mejora</span> **Números de teléfono comprados mientras se verifica tu empresa**: el primer mes se autoriza al hacer el pedido y se cobra cuando se aprueba la compra. Si se rechaza o la autorización caduca, no se cobra nada y los números se liberan.
+- <span className="cl-tag cl-improvement">Mejora</span> **Los destinos de los webhooks se validan**: las URLs de webhook se comprueban al crear o actualizar un webhook, de modo que solo se aceptan endpoints externos válidos.
+
+### Copilot IA (Melo)
+
+- <span className="cl-tag cl-feature">Nueva</span> **Aprueba los cambios antes de que Melo los haga**: cuando Melo quiere cambiar algo en tu cuenta, primero te lo pide con una tarjeta en el chat que muestra qué va a hacer y una vista del antes y el después. Apruébalo o recházalo y Melo continúa donde lo dejó. Las tarjetas pendientes siguen ahí después de recargar la página.
+  {/* screenshot */}
+- <span className="cl-tag cl-feature">Nueva</span> **Melo puede manejar la página en la que estás**: puede filtrar y ordenar tus listas, cambiar de pestaña y responder preguntas sobre lo que hay en pantalla, así que puedes pedirle "muéstrame los agentes activos" y luego "¿cuáles son esos?" sin salir de la conversación.
+- <span className="cl-tag cl-improvement">Mejora</span> **Mejores respuestas sobre las conexiones de tus flujos**: Melo ya puede consultar el estado de tus conexiones de piezas, así que cuando un paso de un flujo no es válido puede decirte si falta una conexión o si está en error, en lugar de adivinar.
+
+### Flujos
+
+- <span className="cl-tag cl-improvement">Mejora</span> **Sabes exactamente por qué se puede publicar un flujo o por qué no**: el banner de publicación te dice si el flujo es nuevo, si tiene cambios sin publicar o si has alcanzado el límite de flujos de tu plan, con un enlace para saber más. Descartar devuelve el constructor a la versión publicada de forma fiable.
+- <span className="cl-tag cl-fix">Corrección</span> **El estado de los flujos siempre está sincronizado**: publicar, activar o desactivar un flujo se refleja en el constructor, en la lista de flujos y en el uso de tu plan, incluso después de salir y volver.
+- <span className="cl-tag cl-fix">Corrección</span> **Asigna cualquier flujo a un agente**: el selector de flujos carga toda tu lista, tengas los flujos que tengas.
+
+### Panel
+
+- <span className="cl-tag cl-improvement">Mejora</span> **Tu plan y tu uso de un vistazo**: la tarjeta de suscripción en Planes muestra tu plan, los minutos consumidos, el próximo pago y el periodo de facturación en un solo sitio, con barras de uso que cambian de color a medida que te acercas a tu límite.
+  {/* screenshot */}
+- <span className="cl-tag cl-improvement">Mejora</span> **Detalles de llamada aunque no haya transcripción**: la página de la llamada muestra el agente, el contacto y el motivo de finalización como etiquetas, y un estado vacío claro cuando la llamada no tiene transcripción, logs ni trazas.
+- <span className="cl-tag cl-fix">Corrección</span> **Los logs de llamada en tu idioma**: el evento "Llamada desencolada" y su tiempo de espera ahora se muestran traducidos en inglés y en español.
+- <span className="cl-tag cl-fix">Corrección</span> **Retoques de interfaz en todo el panel**: las etiquetas de números de teléfono caben dentro de la tarjeta del agente y agrupan el resto en un chip `+N` que lista los números ocultos, la barra lateral de ajustes usa los colores correctos y mantiene los iconos alineados cuando está plegada, y las tarjetas de ejecución de flujo encajan con el resto de la interfaz.
+
+</Update>
 <Update label="20 de junio de 2026" description="v1.1.17" tags={["Nuevas features"]}>
 
 ## Flujos pre-llamada en salientes e interpolación de variables más completa
