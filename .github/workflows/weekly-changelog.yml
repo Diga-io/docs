@@ -42,11 +42,28 @@ jobs:
       - name: Install Claude Code
         run: npm install -g @anthropic-ai/claude-code
 
+      - name: Check the model credentials are present
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ] && [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::error::Set either CLAUDE_CODE_OAUTH_TOKEN or ANTHROPIC_API_KEY on this repo." >&2
+            echo "The runner is an ephemeral VM; it has no logged-in Claude Code to fall back on." >&2
+            exit 1
+          fi
+
       - name: Draft the entry and open the PR
         env:
           # Needs read access to Diga-io/diga and Diga-io/dashboard and write
           # access to diga-io/docs, so the default GITHUB_TOKEN is not enough.
           GH_TOKEN: ${{ secrets.CHANGELOG_GH_TOKEN }}
+          # Either one authenticates the drafting steps; set whichever suits.
+          # CLAUDE_CODE_OAUTH_TOKEN comes from `claude setup-token` on a machine
+          # already logged in, and draws on that Claude subscription.
+          # ANTHROPIC_API_KEY bills the API instead. An unset secret arrives as
+          # an empty string, which Claude Code treats as absent.
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }} # optional
         run: |
