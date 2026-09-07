@@ -15,13 +15,21 @@ on:
         type: boolean
         default: false
 
+# SECURITY: this repo is public and this job runs on a self-hosted runner.
+# Keep the triggers above limited to `schedule` and `workflow_dispatch`. Never
+# add `pull_request` or `pull_request_target` — a fork's PR would then execute
+# its own code on the runner, with whatever that box can reach.
+
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
   draft:
-    runs-on: ubuntu-latest
+    # The same box the backend deploys from. It keeps ~/.cache/diga-changelog
+    # between runs, so the repo mirrors stay warm instead of being re-cloned
+    # every Tuesday.
+    runs-on: self-hosted
     steps:
       - name: Check out the changelog tooling
         uses: actions/checkout@v4
@@ -31,16 +39,22 @@ jobs:
           # GITHUB_TOKEN cannot see it. Same token as the draft step below.
           token: ${{ secrets.CHANGELOG_GH_TOKEN }}
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Install Claude Code
-        run: npm install -g @anthropic-ai/claude-code
+      # A persistent runner supplies its own toolchain, so nothing is installed
+      # unless it is genuinely absent. Failing here is cheaper than failing
+      # forty minutes into a collection.
+      - name: Check the tools this job needs
+        run: |
+          python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 11) else 1)' || {
+            echo "::error::python3 >= 3.11 is required on this runner"; exit 1; }
+          command -v gh >/dev/null || {
+            echo "::error::the gh CLI is required on this runner"; exit 1; }
+          if ! command -v claude >/dev/null; then
+            echo "claude not on PATH; installing it"
+            npm install -g @anthropic-ai/claude-code || {
+              echo "::error::could not install Claude Code. Install it on the runner once, by hand."
+              exit 1; }
+          fi
+          echo "python $(python3 --version), gh $(gh --version | head -1), claude $(claude --version)"
 
       - name: Check the model credentials are present
         env:
