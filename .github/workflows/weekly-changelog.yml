@@ -1,0 +1,92 @@
+# Install this in diga-io/docs as .github/workflows/weekly-changelog.yml
+#
+# Runs Tuesday afternoon, while the week's work is still on `development` and
+# the release merge has not happened yet, so the draft PR is waiting for review
+# before the Tuesday-night deploy.
+name: Weekly changelog draft
+
+on:
+  schedule:
+    - cron: "0 13 * * 2" # Tuesdays 13:00 UTC — 15:00 Madrid in summer, 14:00 in winter
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Print the diff instead of opening a PR"
+        type: boolean
+        default: false
+
+# SECURITY: this repo is public and this job runs on a self-hosted runner.
+# Keep the triggers above limited to `schedule` and `workflow_dispatch`. Never
+# add `pull_request` or `pull_request_target` — a fork's PR would then execute
+# its own code on the runner, with whatever that box can reach.
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  draft:
+    # The same box the backend deploys from. It keeps ~/.cache/diga-changelog
+    # between runs, so the repo mirrors stay warm instead of being re-cloned
+    # every Tuesday.
+    runs-on: self-hosted
+    steps:
+      - name: Check out the changelog tooling
+        uses: actions/checkout@v4
+        with:
+          repository: Diga-io/auto-changelog
+          # This repo is public and the tooling repo is not, so the default
+          # GITHUB_TOKEN cannot see it. Same token as the draft step below.
+          token: ${{ secrets.CHANGELOG_GH_TOKEN }}
+
+      # A persistent runner supplies its own toolchain, so nothing is installed
+      # unless it is genuinely absent. Failing here is cheaper than failing
+      # forty minutes into a collection.
+      - name: Check the tools this job needs
+        run: |
+          python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 11) else 1)' || {
+            echo "::error::python3 >= 3.11 is required on this runner"; exit 1; }
+          command -v gh >/dev/null || {
+            echo "::error::the gh CLI is required on this runner"; exit 1; }
+          if ! command -v claude >/dev/null; then
+            echo "claude not on PATH; installing it"
+            npm install -g @anthropic-ai/claude-code || {
+              echo "::error::could not install Claude Code. Install it on the runner once, by hand."
+              exit 1; }
+          fi
+          echo "python $(python3 --version), gh $(gh --version | head -1), claude $(claude --version)"
+
+      - name: Check the model credentials are present
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ] && [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::error::Set either CLAUDE_CODE_OAUTH_TOKEN or ANTHROPIC_API_KEY on this repo." >&2
+            echo "The runner is an ephemeral VM; it has no logged-in Claude Code to fall back on." >&2
+            exit 1
+          fi
+
+      - name: Draft the entry and open the PR
+        env:
+          # Needs read access to Diga-io/diga and Diga-io/dashboard and write
+          # access to diga-io/docs, so the default GITHUB_TOKEN is not enough.
+          GH_TOKEN: ${{ secrets.CHANGELOG_GH_TOKEN }}
+          # Either one authenticates the drafting steps; set whichever suits.
+          # CLAUDE_CODE_OAUTH_TOKEN comes from `claude setup-token` on a machine
+          # already logged in, and draws on that Claude subscription.
+          # ANTHROPIC_API_KEY bills the API instead. An unset secret arrives as
+          # an empty string, which Claude Code treats as absent.
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }} # optional
+        run: |
+          ./changelog draft ${{ inputs.dry_run && '--dry-run' || '' }}
+
+      - name: Keep the artifacts for debugging
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: changelog-artifacts
+          path: out/
+          retention-days: 30
