@@ -44,17 +44,25 @@ jobs:
       # forty minutes into a collection.
       - name: Check the tools this job needs
         run: |
-          python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 11) else 1)' || {
-            echo "::error::python3 >= 3.11 is required on this runner"; exit 1; }
-          command -v gh >/dev/null || {
-            echo "::error::the gh CLI is required on this runner"; exit 1; }
+          missing=""
+          python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 11) else 1)' \
+            2>/dev/null || missing="$missing python3>=3.11"
+          command -v git >/dev/null || missing="$missing git"
           if ! command -v claude >/dev/null; then
-            echo "claude not on PATH; installing it"
-            npm install -g @anthropic-ai/claude-code || {
-              echo "::error::could not install Claude Code. Install it on the runner once, by hand."
-              exit 1; }
+            if command -v npm >/dev/null && npm install -g @anthropic-ai/claude-code; then
+              echo "installed Claude Code"
+            else
+              missing="$missing claude"
+            fi
           fi
-          echo "python $(python3 --version), gh $(gh --version | head -1), claude $(claude --version)"
+          # Everything at once: one failed run should tell you the whole gap,
+          # not the first item of it.
+          if [ -n "$missing" ]; then
+            echo "::error::missing on this runner:$missing"
+            echo "The pipeline needs only python3 >= 3.11, git, and claude." >&2
+            exit 1
+          fi
+          echo "python $(python3 --version) | $(git --version) | claude $(claude --version)"
 
       - name: Check the model credentials are present
         env:
