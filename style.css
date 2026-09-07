@@ -14,3 +14,27 @@ img[src*="/icons/"][src*=".svg"] {
 .dark img[src*="/icons/"][src*=".svg"] {
   filter: invert(93%) sepia(82%) saturate(2391%) hue-rotate(179deg) brightness(99%) contrast(104%);
 }
+
+/* Changelog bullet tags — what kind of change each line is.
+   Written by the changelog pipeline as:
+     - <span className="cl-tag cl-fix">Fix</span> **Benefit**: explanation */
+.cl-tag {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 700 !important;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.25rem;
+  margin-right: 0.45rem;
+  vertical-align: 0.09em;
+  white-space: nowrap;
+}
+.cl-feature     { background: #D7DAFF; color: #343E96; }
+.cl-improvement { background: #E2F3EE; color: #1F7A66; }
+.cl-fix         { background: #FBEFD9; color: #8A5A12; }
+
+.dark .cl-feature     { background: #262C63; color: #C3C8FF; }
+.dark .cl-improvement { background: #12332B; color: #6FD8BE; }
+.dark .cl-fix         { background: #3A2B10; color: #E8BE72; }
