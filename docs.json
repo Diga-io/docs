@@ -60,6 +60,7 @@
         "tabs": [
           {
             "tab": "Documentación",
+            "icon": "book-open",
             "groups": [
               {
                 "group": "Comenzar",
@@ -175,6 +176,7 @@
           },
           {
             "tab": "Plantillas",
+            "icon": "layout-template",
             "groups": [
               {
                 "group": "Comenzar",
@@ -217,10 +219,12 @@
           },
           {
             "tab": "API reference",
+            "icon": "code",
             "openapi": "/api-reference/openapi.json"
           },
           {
             "tab": "Changelog",
+            "icon": "history",
             "pages": [
               "es/changelog"
             ]
@@ -232,6 +236,7 @@
         "tabs": [
           {
             "tab": "Documentation",
+            "icon": "book-open",
             "groups": [
               {
                 "group": "Get Started",
@@ -347,6 +352,7 @@
           },
           {
             "tab": "Templates",
+            "icon": "layout-template",
             "groups": [
               {
                 "group": "Get Started",
@@ -389,10 +395,12 @@
           },
           {
             "tab": "API Reference",
+            "icon": "code",
             "openapi": "/api-reference/openapi.json"
           },
           {
             "tab": "Changelog",
+            "icon": "history",
             "pages": [
               "en/changelog"
             ]

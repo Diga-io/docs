@@ -4,6 +4,214 @@ description: "Registro de actualizaciones y mejoras de la plataforma Diga"
 rss: true
 ---
 
+<Update label="1 de septiembre de 2026" description="v1.1.26" tags={["Nuevas features", "Mejoras", "Correcciones"]}>
+
+## Autenticación en dos pasos, publicación con varios números y mejoras de UX en workflows
+
+### Seguridad y cuenta
+
+- **Autenticación en dos pasos**: activa un segundo factor desde Ajustes y confirma un código en cada inicio de sesión. Los códigos pueden enviarse por SMS.
+- **Idioma preferido**: elige tu idioma en el perfil; el selector de idioma de Ajustes ahora se aplica al instante.
+- **Tour de navegación**: los nuevos usuarios reciben un recorrido guiado por el dashboard en su primera visita.
+
+### Agentes
+
+- **Publicar con varios números**: asigna más de un número de teléfono a un agente al publicarlo.
+- **Botón Publicar más claro**: el botón refleja si hay algo que publicar, y la versión publicada se puede editar directamente.
+
+### Facturación
+
+- **Prorrateo inmediato en mejoras de plan**: al subir de plan se emite la factura prorrateada en el momento, sin esperar al siguiente ciclo.
+- **Cobro recurrente de números tras cupón del 100%**: los números aprobados con un cupón de descuento total ahora se renuevan correctamente.
+
+### Correcciones en workflows y editor de caminos
+
+- **Modal de flujos**: ya no se corta en pantallas pequeñas y su vista previa es más limpia.
+- **Borrar un agente publicado** muestra un error específico explicando por qué está bloqueado.
+- **Abrir un workflow desde la página del agente** con un enlace directo a su editor.
+- **Áreas de texto** del constructor de workflows aceptan escribir en medio del texto.
+- **Variables de zona horaria** se insertan en la posición del cursor en el editor de prompts.
+- **Nodos nuevos** añadidos desde la barra de herramientas se centran en el lienzo visible.
+- **Plantillas de agente** se cargan en el idioma activo del dashboard.
+- **Nombre de nueva versión** prellenado con su número.
+- **Lienzo del workflow** se mantiene quieto al abrir o cambiar el panel de Melo.
+- **Constructor de workflows** totalmente traducido; la lista de flujos tiene botón de limpiar filtros y se mantiene sincronizada al renombrar un workflow.
+- **Sesiones de prueba** reinician sus logs al iniciar una nueva prueba.
+
+### Servidor MCP
+
+- **v0.1.4**: el transporte HTTP incluye valores por defecto listos para uso público y seguridad configurable por entorno, para exponer el servidor MCP de Diga a tus propias herramientas.
+
+</Update>
+
+<Update label="19 de agosto de 2026" description="v1.1.24 – v1.1.25" tags={["Nuevas features", "Correcciones"]}>
+
+## Logs del router, búsqueda de llamadas y opciones de grabación
+
+### Llamadas
+
+- **Logs del router de caminos**: las decisiones de enrutamiento de tus caminos conversacionales durante una llamada ahora son visibles en los logs de la llamada.
+- **Búsqueda de conversaciones**: busca en la lista de llamadas por texto de la transcripción y filtra por teléfono del contacto.
+- **Filtros en la URL**: los filtros de las listas se mantienen en la URL, para compartir o guardar una vista filtrada.
+- **Versión del agente en el detalle de llamada**, más un nuevo menú de acciones en esa página.
+
+### Audio
+
+- **Grabar el audio entrante del llamante** como pista independiente opcional.
+- **Captura de cancelación de ruido**: conserva el audio antes y después de la cancelación de ruido por participante.
+
+### Verificación y facturación
+
+- **PDF de factura obligatorio** para completar la verificación de empresa.
+- **Proyectos partner** en Netelip usan facturación medida por defecto; los proyectos partner se pueden eliminar.
+
+### Correcciones
+
+- **Herramientas y flujos** ya no se pierden al copiar una versión a borrador o al crear una versión nueva.
+- **Instrucciones globales del camino** ya no se pierden al guardar un agente.
+- **Modo camino** ignora las herramientas ligadas al agente y las herramientas de llamada que no pertenecen al nodo actual.
+- **Respuestas descartadas** terminan al instante en vez de bloquear al agente cinco segundos.
+
+</Update>
+
+<Update label="2 de agosto de 2026" description="v1.1.23" tags={["Mejoras", "Correcciones"]}>
+
+## Métricas de concurrencia y correcciones de facturación
+
+- **Media diaria de pico de concurrencia** en la página de uso, y las llamadas atascadas en marcación se limpian automáticamente.
+- **Cupones del 100%** saltan la verificación de empresa al comprar números.
+- **Método de pago por defecto** y notificaciones de verificación unificados.
+- **Compras de números** traducidas en el historial de facturas.
+- **Plan gratuito**: límite de flujos subido a 10; etiquetas del nivel Custom corregidas.
+- **Autoguardado del editor** se recupera de conflictos de edición concurrente en vez de fallar.
+- **Router de caminos**: los veredictos se alinean con el modelo en vivo y los argumentos encadenados se conservan entre nodos saltados.
+
+</Update>
+
+<Update label="28 de julio de 2026" description="v1.1.22" tags={["Nuevas features", "Mejoras"]}>
+
+## Seguridad de cuenta, onboarding y plantillas compartibles
+
+### Seguridad
+
+- **Historial de accesos**: una nueva página Seguridad en Ajustes muestra tu último acceso, la sesión activa y el historial de inicios de sesión.
+- **Verificación de email** por código de un solo uso, con email de bienvenida al confirmar.
+
+### Onboarding y crecimiento
+
+- **Onboarding tras el registro** que guía a las cuentas nuevas en su primera configuración.
+- **Enlaces compartibles a plantillas de agente**: comparte un enlace a una plantilla; quien se registre desde él aterriza en la plantilla tras el onboarding.
+
+### Facturación
+
+- **Página de suscripción rediseñada**: tarjeta del plan con detalles de renovación, cambio de periodo mensual/anual y sección de próxima factura.
+
+### Melo
+
+- **Edición de prompts en streaming**: Melo aplica los cambios en el prompt de forma incremental mientras los escribe.
+
+### Workflows y llamadas
+
+- **Reutilización de conexiones existentes** al copiar plantillas de workflow.
+- **Filtros de fecha de llamadas** usan la fecha de creación; corregidos los badges de llamada y la reproducción tras pausar; la tabla de llamadas es más compacta en español.
+- **Router de caminos**: modelo más rápido, razonamiento ajustable, tiempos de espera separados y condiciones globales; los prompts de las etapas de acción ya no se contradicen.
+
+### Digapieces
+
+- **Acción Find Booking de Cal.com** para buscar reservas por asistente.
+- **Arranque de trabajos más rápido** en la ejecución de workflows.
+
+</Update>
+
+<Update label="22 de julio de 2026" description="v1.1.21" tags={["Nuevas features", "Correcciones"]}>
+
+## API de conexiones de workflows y vista previa de la próxima factura
+
+- **API de conexiones**: crea y lista conexiones de workflows desde la API pública.
+- **Vista previa de la próxima factura**: consulta lo que incluirá tu próxima factura antes de que se emita.
+- **Workflows post-llamada** se ejecutan aunque sea el agente quien cuelgue.
+- **Cancelación de ruido**: la detección de voz se retiene durante el arranque de la llamada para evitar interrupciones falsas.
+- **Digapieces**: Cal.com usa la versión de API correcta por endpoint y está traducido al español; los webhooks síncronos devuelven un error de tiempo de espera en vez de un éxito vacío.
+
+</Update>
+
+<Update label="16 de julio de 2026" description="v1.1.20" tags={["Nuevas features", "Mejoras"]}>
+
+## Caminos V3, límites de peticiones y nueva página de uso
+
+### Caminos conversacionales
+
+- **Nuevo router en el servidor**: los caminos conversacionales ahora los enruta un motor dedicado que decide las transiciones fuera del modelo de voz, con cambios de nodo más predecibles, vistas previas condicionadas y continuidad correcta tras nodos de herramienta y flujo.
+
+### Plataforma
+
+- **Límites de peticiones** en la API y en Melo.
+- **Certificado de titularidad de Netelip** enviado automáticamente al dar de alta o de baja un número.
+- **Las reservas de números caducan** pasado un tiempo, y el modal de compra de números se ha rediseñado.
+
+### Dashboard
+
+- **Nueva tabla de llamadas** con diseño adaptable.
+- **Nueva página de uso** con concurrencia en vivo, y Melo ahora reconoce la sección de ajustes de uso.
+
+</Update>
+
+<Update label="7 de julio de 2026" description="v1.1.19" tags={["Nuevas features", "Mejoras"]}>
+
+## Detección de contestador, webhooks firmados y límites de concurrencia
+
+### Llamadas salientes
+
+- **Detección de contestador**: las llamadas salientes detectan buzones de voz y menús IVR, y pueden navegar el IVR hasta llegar a una persona. Se configura por agente.
+- **Límites de llamadas concurrentes por plan**: las llamadas que superan la concurrencia de tu plan se ponen en cola y entran a medida que se liberan huecos, en vez de fallar.
+
+### Seguridad
+
+- **Webhooks salientes firmados**: cada webhook lleva una firma HMAC y una marca de tiempo basadas en un secreto por webhook, para que puedas verificar su origen.
+- **Credenciales SIP cifradas en reposo**.
+
+### Números y facturación
+
+- **Estado pendiente de verificación**: los números comprados antes de verificar la empresa aparecen como pendientes, y el pago se puede reanudar donde se quedó.
+- **Borrado suave de números importados**.
+- **Sin acumulación de saldo en planes gratuitos**, e importes corregidos en el historial de facturación.
+- **Aviso de publicación y límite de workflows**: el dashboard avisa cuando un agente necesita publicarse y aplica el número de workflows que permite tu plan.
+
+### Dashboard
+
+- **Barra lateral rediseñada** y etiquetas de plan unificadas en toda la aplicación.
+
+### Caminos conversacionales
+
+- **Las transiciones de nodo despiertan al modelo**, de modo que el agente habla justo después de pasar a un nodo visible.
+- **Menos deriva de idioma y fugas de prompt** en los caminos en tiempo real.
+
+</Update>
+
+<Update label="25 de junio de 2026" description="v1.1.18" tags={["Nuevas features", "Mejoras"]}>
+
+## Melo pasa a la acción, diagnóstico de workflows y webhooks más seguros
+
+### Melo
+
+- **Acciones de escritura con tarjetas de aprobación**: Melo ahora puede editar agentes y otros recursos. Cada cambio muestra una tarjeta de aprobación nativa para que lo confirmes antes de aplicarlo.
+- **Conciencia de la página**: Melo sabe qué filas ves en la lista que tienes abierta y puede actuar sobre ellas.
+- **Diagnóstico de workflows**: Melo lista las conexiones que usan tus workflows para ayudarte a depurar piezas que fallan. La misma capacidad está disponible como herramienta en el servidor MCP (v0.1.3).
+
+### Seguridad y fiabilidad
+
+- **Validación de URLs de webhooks** que bloquea direcciones internas y privadas.
+- **Continuidad de voz** cuando el modelo de voz cae a modo solo texto.
+- **Los nodos de herramienta y flujo** de los caminos ya no pronuncian directivas internas de enrutamiento.
+
+### Facturación y dashboard
+
+- **Retención de autorización** en lugar de cobro inmediato al comprar números antes de verificar la empresa.
+- **Tarjeta de resumen de suscripción** rediseñada; barra lateral de Ajustes renovada.
+- **Paginación de la lista de workflows** corregida para cuentas con muchos flujos.
+
+</Update>
+
 <Update label="20 de junio de 2026" description="v1.1.17" tags={["Nuevas features"]}>
 
 ## Flujos pre-llamada en salientes e interpolación de variables más completa
@@ -67,11 +275,34 @@ rss: true
 
 </Update>
 
+<Update label="17 de abril de 2026" description="v1.1.9" tags={["Nuevas features", "Mejoras"]}>
+
+## Voces de Gemini
+
+Diga pasa a usar **Gemini** como motor de voz en tiempo real. Las voces ya no dependen de ElevenLabs.
+
+### Nuevo catálogo de voces
+
+- **Catálogo curado de Gemini**: 30 voces con muestra de audio y clasificadas por género, disponibles directamente en el selector de voz
+- **Voces multilingües**: cualquier voz habla todos los idiomas soportados, así que no hace falta elegir una voz por idioma
+- **Favoritos y búsqueda**: marca tus voces favoritas para tenerlas siempre a mano y filtra por nombre o género
+
+### Cambios respecto a las voces anteriores
+
+- **Migración automática**: los agentes que usaban una voz de ElevenLabs pasaron a una voz de Gemini equivalente del mismo género. Revisa la voz de tus agentes y cámbiala si prefieres otra
+- **Controles retirados**: desaparecen los ajustes de velocidad y temperatura de la voz y la opción de usar una voz de ElevenLabs por ID. El volumen se mantiene. Para ajustar el ritmo o el tono, indícalo en el prompt o en las instrucciones globales
+
+</Update>
+
 <Update label="11 de marzo de 2026" description="v1.1.6" tags={["Nuevas features"]}>
 
 ## Voces mejoradas, sonido en herramientas y pieza de Holded
 
 ### Más control sobre las voces
+
+<Note>
+Estas opciones de voz se sustituyeron en la versión v1.1.9 por el catálogo de voces de Gemini. Consulta la entrada del 17 de abril de 2026.
+</Note>
 
 - **Catálogo ampliado de voces**: Busca entre miles de voces disponibles y elige la que mejor encaje según idioma, acento, tono y más
 - **Soporte directo de ElevenLabs**: Usa cualquier voz de ElevenLabs introduciendo directamente su ID
