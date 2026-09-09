@@ -1,0 +1,171 @@
+---
+title: "Servidor MCP de Diga para asistentes de IA"
+description: "Conecta Cursor, Claude, Codex y otros clientes MCP a Diga con una API key de proyecto."
+---
+
+Usa el servidor Model Context Protocol (MCP) alojado por Diga para crear y gestionar agentes de voz desde asistentes de IA y herramientas de desarrollo compatibles.
+
+<Note>
+Esta página explica cómo conectar un asistente **a Diga**. Para que un agente de voz de Diga acceda a un servidor MCP externo durante una llamada, consulta [Integraciones MCP](../build/integraciones/integraciones-mcp).
+</Note>
+
+## Requisitos previos
+
+Antes de comenzar, necesitas:
+
+- Una cuenta de Diga con acceso de administrador a un proyecto
+- Una API key de Diga creada en ese proyecto
+- Un cliente MCP compatible con servidores remotos mediante Streamable HTTP
+
+Si todavía no tienes una clave, sigue los pasos para [crear una API key](../plataforma/api-keys#crear-una-api-key). Crea una clave restringida con solo los permisos que necesite tu asistente.
+
+## Qué puedes hacer
+
+El servidor MCP de Diga convierte las operaciones de la API de Diga en herramientas que tu asistente puede descubrir y utilizar. Según los permisos de tu API key, puedes usar lenguaje natural para:
+
+- Crear, actualizar, publicar, listar y consultar agentes de voz y sus versiones
+- Crear llamadas y consultar sus detalles, mensajes, grabaciones, logs y trazas
+- Crear y mantener bases de conocimiento a partir de texto, URLs y archivos
+- Gestionar números de teléfono, voces, integraciones, webhooks y flujos
+- Consultar miembros, uso, facturación y otros recursos del proyecto
+
+Tu cliente MCP muestra las herramientas exactas disponibles, incluida la descripción y los parámetros requeridos de cada una.
+
+## Cómo funcionan la autenticación y la selección de proyecto
+
+Tu cliente MCP se conecta a Diga mediante Streamable HTTP y envía tu API key con cada solicitud.
+
+| Ajuste | Valor |
+|---|---|
+| Nombre del servidor | `diga` |
+| URL del servidor | `https://mcp.diga.io/mcp` |
+| Header de autenticación | `x-api-key: <DIGA_API_KEY>` |
+
+<Info>
+Una API key pertenece al proyecto de Diga donde la creaste. Ese proyecto es la empresa que gestiona el asistente. Para trabajar con otra empresa, crea o copia una clave de ese proyecto y sustituye la clave en la configuración de tu cliente MCP.
+</Info>
+
+## Conecta tu cliente MCP
+
+Elige tu cliente y sustituye `<DIGA_API_KEY>` por tu API key completa de Diga.
+
+<Tabs>
+  <Tab title="Cursor">
+    Abre **Cursor Settings → MCP → Add new global MCP server** y añade:
+
+    ```json
+    {
+      "mcpServers": {
+        "diga": {
+          "url": "https://mcp.diga.io/mcp",
+          "headers": {
+            "x-api-key": "<DIGA_API_KEY>"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="Claude Desktop">
+    Abre **Settings → Developer → Edit Config** y añade:
+
+    ```json
+    {
+      "mcpServers": {
+        "diga": {
+          "url": "https://mcp.diga.io/mcp",
+          "headers": {
+            "x-api-key": "<DIGA_API_KEY>"
+          }
+        }
+      }
+    }
+    ```
+
+    Reinicia Claude Desktop después de guardar el archivo. La disponibilidad de headers para servidores remotos puede variar según la versión de Claude Desktop.
+  </Tab>
+
+  <Tab title="Claude Code">
+    Ejecuta:
+
+    ```bash
+    claude mcp add --transport http diga \
+      --header "x-api-key: <DIGA_API_KEY>" \
+      https://mcp.diga.io/mcp
+    ```
+  </Tab>
+
+  <Tab title="Codex">
+    Añade el servidor a `~/.codex/config.toml`:
+
+    ```toml
+    [mcp_servers.diga]
+    url = "https://mcp.diga.io/mcp"
+    bearer_token_env_var = "DIGA_API_KEY"
+    ```
+
+    Después, define la variable de entorno antes de iniciar Codex:
+
+    ```bash
+    export DIGA_API_KEY="<DIGA_API_KEY>"
+    ```
+
+    Codex envía este valor como `Authorization: Bearer <DIGA_API_KEY>`, un formato que también acepta el servidor MCP de Diga.
+  </Tab>
+
+  <Tab title="Otros clientes">
+    Configura un servidor remoto Streamable HTTP con estos valores:
+
+    ```json
+    {
+      "name": "diga",
+      "url": "https://mcp.diga.io/mcp",
+      "headers": {
+        "x-api-key": "<DIGA_API_KEY>"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<Warning>
+Nunca incluyas una API key en la URL del servidor ni la subas al control de versiones. Las URLs pueden aparecer en el historial, los logs del proxy y las analíticas. Usa variables de entorno cuando tu cliente MCP lo permita.
+</Warning>
+
+## Verifica la conexión
+
+Después de guardar la configuración, reinicia o recarga tu cliente MCP. Comprueba que aparece un servidor llamado **diga** y que sus herramientas están disponibles.
+
+Empieza con una solicitud de solo lectura, por ejemplo:
+
+> Lista mis agentes de Diga.
+
+Tu cliente debería pedir confirmación antes de ejecutar una herramienta si sus ajustes de permisos así lo requieren.
+
+## Solución de problemas
+
+<AccordionGroup>
+  <Accordion title="El servidor devuelve 401 Unauthorized">
+    Confirma que has copiado la API key completa y que el cliente la envía como `x-api-key` sin el prefijo `Bearer`. Si usas el header `Authorization`, su valor debe ser `Bearer <DIGA_API_KEY>`.
+  </Accordion>
+
+  <Accordion title="Una herramienta devuelve 403 Forbidden">
+    La API key es válida, pero no tiene permiso para usar ese recurso. Actualiza las restricciones de la clave en **Ajustes → Proyecto → API Keys** o usa otra clave restringida con el permiso necesario.
+  </Accordion>
+
+  <Accordion title="El asistente muestra una empresa incorrecta o ningún recurso">
+    La API key determina el proyecto. Sustitúyela por una clave creada en el proyecto de Diga correcto y reinicia el cliente MCP para que vuelva a cargar la configuración.
+  </Accordion>
+
+  <Accordion title="El cliente no puede conectarse al servidor">
+    Verifica que la URL sea exactamente `https://mcp.diga.io/mcp` y que el cliente admita servidores MCP remotos mediante Streamable HTTP. Algunos clientes necesitan reiniciarse después de cambiar la configuración.
+  </Accordion>
+</AccordionGroup>
+
+## Recomendaciones de seguridad
+
+- Crea una API key diferente para cada cliente MCP y entorno
+- Concede solo los permisos de lectura o escritura que necesite el asistente
+- Revisa las llamadas a herramientas antes de aprobar acciones que modifiquen o eliminen recursos
+- Rota la clave inmediatamente si queda expuesta

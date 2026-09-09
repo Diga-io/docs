@@ -163,6 +163,17 @@
             ]
           },
           {
+            "tab": "MCP",
+            "groups": [
+              {
+                "group": "Comenzar",
+                "pages": [
+                  "es/mcp/servidor-mcp"
+                ]
+              }
+            ]
+          },
+          {
             "tab": "Plantillas",
             "groups": [
               {
@@ -319,6 +330,17 @@
                   "en/deployment/monitoring-logs",
                   "en/deployment/call-logs",
                   "en/deployment/call-traces"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "MCP",
+            "groups": [
+              {
+                "group": "Get Started",
+                "pages": [
+                  "en/mcp/mcp-server"
                 ]
               }
             ]
