@@ -1,8 +1,14 @@
-# Install this in diga-io/docs as .github/workflows/weekly-changelog.yml
+# Install this in Diga-io/docs as .github/workflows/weekly-changelog.yml
 #
 # Runs Tuesday afternoon, while the week's work is still on `development` and
 # the release merge has not happened yet, so the draft PR is waiting for review
 # before the Tuesday-night deploy.
+#
+# Four jobs rather than four steps, on purpose. Collecting and classifying take
+# about twenty minutes between them; publishing takes seconds and is the part
+# that fails on a permission or a network blip. As separate jobs each hands the
+# next one its artifact, so "Re-run failed jobs" repeats only what broke and
+# reuses the rest.
 name: Weekly changelog draft
 
 on:
@@ -15,7 +21,7 @@ on:
         type: boolean
         default: false
 
-# SECURITY: this repo is public and this job runs on a self-hosted runner.
+# SECURITY: this repo is public and these jobs run on a self-hosted runner.
 # Keep the triggers above limited to `schedule` and `workflow_dispatch`. Never
 # add `pull_request` or `pull_request_target` — a fork's PR would then execute
 # its own code on the runner, with whatever that box can reach.
@@ -24,24 +30,21 @@ permissions:
   contents: write
   pull-requests: write
 
+env:
+  TOOLING_REPO: Diga-io/auto-changelog
+
 jobs:
-  draft:
-    # The same box the backend deploys from. It keeps ~/.cache/diga-changelog
-    # between runs, so the repo mirrors stay warm instead of being re-cloned
-    # every Tuesday.
+  # ---------------------------------------------------------------- collect --
+  collect:
     runs-on: self-hosted
     steps:
-      - name: Check out the changelog tooling
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           repository: Diga-io/auto-changelog
           # This repo is public and the tooling repo is not, so the default
-          # GITHUB_TOKEN cannot see it. Same token as the draft step below.
+          # GITHUB_TOKEN cannot see it.
           token: ${{ secrets.CHANGELOG_GH_TOKEN }}
 
-      # A persistent runner supplies its own toolchain, so nothing is installed
-      # unless it is genuinely absent. Failing here is cheaper than failing
-      # forty minutes into a collection.
       - name: Check the tools this job needs
         run: |
           missing=""
@@ -55,46 +58,132 @@ jobs:
               missing="$missing claude"
             fi
           fi
-          # Everything at once: one failed run should tell you the whole gap,
-          # not the first item of it.
           if [ -n "$missing" ]; then
             echo "::error::missing on this runner:$missing"
-            echo "The pipeline needs only python3 >= 3.11, git, and claude." >&2
             exit 1
           fi
           echo "python $(python3 --version) | $(git --version) | claude $(claude --version)"
 
-      - name: Check the model credentials are present
+      - name: Check the credentials before spending twenty minutes
         env:
+          GH_TOKEN: ${{ secrets.CHANGELOG_GH_TOKEN }}
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ] && [ -z "$ANTHROPIC_API_KEY" ]; then
-            echo "::error::Set either CLAUDE_CODE_OAUTH_TOKEN or ANTHROPIC_API_KEY on this repo." >&2
-            echo "The runner is an ephemeral VM; it has no logged-in Claude Code to fall back on." >&2
+            echo "::error::Set either CLAUDE_CODE_OAUTH_TOKEN or ANTHROPIC_API_KEY." >&2
+            echo "The runner is a shared box with no logged-in Claude Code of its own." >&2
             exit 1
           fi
+          # Read is not enough: the last step of the pipeline pushes a branch
+          # here. Posting a ref with an unusable sha can never create anything —
+          # it comes back 422 when the token may write, 403 when it may not.
+          code=$(curl -s -o /tmp/write-probe.json -w '%{http_code}' -X POST \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/git/refs" \
+            -d '{"ref":"refs/heads/changelog-write-probe","sha":"0000000000000000000000000000000000000000"}')
+          case "$code" in
+            422) echo "CHANGELOG_GH_TOKEN can write to ${{ github.repository }}" ;;
+            403|404)
+              echo "::error::CHANGELOG_GH_TOKEN cannot write to ${{ github.repository }}." >&2
+              echo "On the fine-grained PAT, set Contents and Pull requests to Read and write." >&2
+              cat /tmp/write-probe.json >&2
+              exit 1 ;;
+            201)
+              echo "::warning::the probe ref was created; removing it"
+              curl -s -X DELETE -H "Authorization: Bearer $GH_TOKEN" \
+                "https://api.github.com/repos/${{ github.repository }}/git/refs/heads/changelog-write-probe" ;;
+            *) echo "::error::unexpected $code from the write probe" >&2
+               cat /tmp/write-probe.json >&2; exit 1 ;;
+          esac
 
-      - name: Draft the entry and open the PR
+      - name: Collect the window
         env:
-          # Needs read access to Diga-io/diga and Diga-io/dashboard and write
-          # access to diga-io/docs, so the default GITHUB_TOKEN is not enough.
           GH_TOKEN: ${{ secrets.CHANGELOG_GH_TOKEN }}
-          # Either one authenticates the drafting steps; set whichever suits.
-          # CLAUDE_CODE_OAUTH_TOKEN comes from `claude setup-token` on a machine
-          # already logged in, and draws on that Claude subscription.
-          # ANTHROPIC_API_KEY bills the API instead. An unset secret arrives as
-          # an empty string, which Claude Code treats as absent.
+        run: ./changelog collect
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: collected
+          path: out/collect.json
+          retention-days: 30
+
+  # --------------------------------------------------------------- classify --
+  classify:
+    needs: collect
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: Diga-io/auto-changelog
+          token: ${{ secrets.CHANGELOG_GH_TOKEN }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: collected
+          path: out
+
+      - name: Decide what a customer would notice
+        env:
+          GH_TOKEN: ${{ secrets.CHANGELOG_GH_TOKEN }}
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }} # optional
-        run: |
-          ./changelog draft ${{ inputs.dry_run && '--dry-run' || '' }}
+        run: ./changelog classify --artifact out/collect.json
 
-      - name: Keep the artifacts for debugging
-        if: always()
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: changelog-artifacts
-          path: out/
+          name: classified
+          path: out/classified.json
           retention-days: 30
+
+  # ------------------------------------------------------------------ draft --
+  draft:
+    needs: classify
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: Diga-io/auto-changelog
+          token: ${{ secrets.CHANGELOG_GH_TOKEN }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: classified
+          path: out
+
+      - name: Write both locales
+        env:
+          GH_TOKEN: ${{ secrets.CHANGELOG_GH_TOKEN }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: ./changelog draft --artifact out/classified.json --no-publish
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: drafted
+          path: out/drafted.json
+          retention-days: 30
+
+  # ---------------------------------------------------------------- publish --
+  publish:
+    needs: draft
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: Diga-io/auto-changelog
+          token: ${{ secrets.CHANGELOG_GH_TOKEN }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: drafted
+          path: out
+
+      - name: Open the pull request
+        env:
+          GH_TOKEN: ${{ secrets.CHANGELOG_GH_TOKEN }}
+        run: |
+          ./changelog publish --artifact out/drafted.json \
+            ${{ inputs.dry_run && '--dry-run' || '' }}
