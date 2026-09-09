@@ -4,6 +4,250 @@ description: "Release notes and platform improvements for Diga"
 rss: true
 ---
 
+<Update label="September 8, 2026" description="Notification delivery" tags={["Fixes"]}>
+
+## Notifications reach you as configured
+
+- <span className="cl-tag cl-fix">Fix</span> **Email and webhook notifications are delivered**: notifications go out to your email address and to the webhook endpoints you have set up, exactly as configured.
+
+</Update>
+<Update label="September 1, 2026" description="Two-factor authentication" tags={["New features", "Fixes"]}>
+
+## Two-step sign-in, and agents published to several numbers
+
+- <span className="cl-tag cl-feature">Feature</span> **Protect your account with a second step at sign-in**: turn on two-factor authentication under **Settings › Security**, with an authenticator app, an SMS code, or both. Once it is on, signing in asks for a code before the dashboard opens, and you can reconfigure, change the phone number for, or remove a method at any time.
+  {/* screenshot */}
+- <span className="cl-tag cl-improvement">Improvement</span> **Your language follows your account**: the language you pick in **Settings** is saved to your account and used wherever you sign in, instead of being remembered only on the device where you chose it.
+- <span className="cl-tag cl-fix">Fix</span> **Type anywhere in a field and the rest stays as you left it**: picking a time-zone variable from the variables menu inserts it at the cursor and leaves the surrounding text untouched, and typing in the middle of a workflow step's text field keeps the cursor where you put it.
+- <span className="cl-tag cl-fix">Fix</span> **Plan upgrades and phone numbers bill as expected**: moving to a higher paid plan invoices the difference for the rest of the period straight away, and a phone number bought with a full discount is set up with its recurring subscription.
+
+### Agents
+
+- <span className="cl-tag cl-feature">Feature</span> **Publish an agent to several numbers, and unpublish it again**: the publish dialog takes a list of inbound and outbound numbers rather than one of each, and warns you when a number you pick is currently routed to another agent. A published agent shows a **Published** badge and its numbers next to the version selector, with **Edit phone numbers** and **Unpublish** in its actions menu.
+  {/* screenshot */}
+- <span className="cl-tag cl-improvement">Improvement</span> **A new version arrives with its number already filled in**: creating a version prefills the name with the number that version will carry, so you can see where you are in the sequence at the moment you name it.
+- <span className="cl-tag cl-improvement">Improvement</span> **Open a workflow straight from the agent that uses it**: a workflow card in an agent's **Workflows** section takes you to the builder, with the usual confirmation before you leave. The agent drawer also scrolls only when there is something to scroll, the **Tools** tab has its own heading, and an integration's name is shown once.
+- <span className="cl-tag cl-improvement">Improvement</span> **A clear reason when an agent cannot be deleted**: deleting an agent that is published tells you to unpublish it first, in a toast rather than a dialog.
+- <span className="cl-tag cl-fix">Fix</span> **Agent templates are shown in your language**: the template gallery and each template's detail follow the language of your dashboard, and switching language while browsing reloads them.
+- <span className="cl-tag cl-fix">Fix</span> **Every agent test starts with a clean log**: running a test again clears the previous run's entries, so timings belong to the run you are watching, and the test panel fills the height of the drawer.
+- <span className="cl-tag cl-fix">Fix</span> **Bring an overlapping condition label to the front**: selecting a step, its line, or the label itself lifts that label above the ones around it, so a branch hidden underneath another can be read and edited.
+- <span className="cl-tag cl-fix">Fix</span> **A step added from the toolbar appears where you are looking**: tools and workflows added from the path editor's toolbar are placed in the middle of the visible canvas, wherever you have panned to.
+
+### Workflows
+
+- <span className="cl-tag cl-fix">Fix</span> **After publishing, you are looking at the version you published**: the builder and the versions dropdown both show it straight away, and editing a published version shows the draft it creates — without leaving the page and coming back.
+- <span className="cl-tag cl-fix">Fix</span> **The Melo panel leaves your canvas alone**: opening or expanding the chat, starting a new conversation or switching project keeps the workflow canvas exactly where it was, and the panel closes the first time you ask it to.
+- <span className="cl-tag cl-fix">Fix</span> **A renamed workflow keeps its new name**: reopening a workflow after renaming it in the builder shows the name you gave it.
+- <span className="cl-tag cl-fix">Fix</span> **The workflow builder reads in your language**: canvas controls, tooltips, step settings and builder messages are translated in English and Spanish.
+- <span className="cl-tag cl-fix">Fix</span> **Adding a workflow works on a short screen**: in the **Add workflow** dialog, **Create from scratch** stays in view while the templates scroll, and a template preview no longer shows a publishing banner over it.
+- <span className="cl-tag cl-improvement">Improvement</span> **Clear filters on the workflows list**: a **Clear filters** button appears next to the status and connection filters as soon as one is active, matching the agents, knowledge bases and integrations lists.
+
+</Update>
+<Update label="August 25, 2026" description="Call details and filters" tags={["New features", "Fixes"]}>
+
+## Filters that stay where you left them, and a fuller view of every call
+
+- <span className="cl-tag cl-improvement">Improvement</span> **Your filters survive a reload**: the filters, sort order and page you choose on **Call logs**, **Phone numbers**, **Agents**, **Integrations** and **Knowledge bases** are kept in the page's address, so refreshing, sharing the link or coming back from a call returns you to the same view. A **Clear filters** button appears whenever a filter is active, and asking Melo to filter a list works the same way.
+- <span className="cl-tag cl-feature">Feature</span> **Everything about a call in one place**: a call now shows the agent that handled it and the exact version that was live, with a link straight to that version, and an actions menu for copying the call ID, downloading the recording or deleting the call.
+  {/* screenshot */}
+- <span className="cl-tag cl-fix">Fix</span> **Copying a version to your draft brings all of it**: call tools, integrations, knowledge bases, dynamic variables and voicemail and phone-menu settings travel with the prompt and paths, and creating a new version leaves the draft's workflows in place.
+- <span className="cl-tag cl-fix">Fix</span> **The agent picks up straight away when the caller talks over it**: if the caller starts speaking again while a reply is being prepared, the agent sets that reply aside and answers what was just said, without a pause in between.
+
+### Conversational paths
+
+- <span className="cl-tag cl-feature">Feature</span> **See why a call stayed on a step or moved on**: the call log records every branch decision with the node it was taken from, whether the call stayed or which node it went to, and the reason behind it — so you can tell at a glance whether it was your condition's wording, a question the agent had not yet asked, or a misread answer.
+  {/* screenshot */}
+- <span className="cl-tag cl-feature">Feature</span> **A path error is named as one**: when a branch decision cannot be reached, the call log shows a path error rather than an ordinary stay, so a step that did not advance is never mistaken for one that chose to wait.
+- <span className="cl-tag cl-fix">Fix</span> **On a path, only the path decides what runs**: tools and integrations linked to the agent are no longer available from every node — actions on a path call come from the path's own steps, and those calls start faster.
+
+### Getting started
+
+- <span className="cl-tag cl-feature">Feature</span> **Ask Melo to show you around**: ask the copilot for the product tour and it starts the guided walkthrough from wherever you are.
+- <span className="cl-tag cl-improvement">Improvement</span> **A smoother tour**: the tour lands squarely on the element it is describing, reads well on small screens, keeps its introduction until you finish it or turn tips off, and holds your attention on the step at hand while it runs. Its wording, buttons and card styling are clearer in English and Spanish.
+- <span className="cl-tag cl-fix">Fix</span> **The tour is remembered per account**: whether you have seen the tips is kept separately for each account you sign in to.
+
+</Update>
+<Update label="August 18, 2026" description="Conversational paths" tags={["Fixes"]}>
+
+## Steadier conversational paths, and a way to search your calls
+
+- <span className="cl-tag cl-feature">Feature</span> **Find a call by what was said or who called**: **Call logs** has a search bar for conversations and a filter for the contact's phone number, so you can go straight to the call you are looking for.
+  {/* screenshot */}
+- <span className="cl-tag cl-fix">Fix</span> **A path's global instructions stay where you put them**: text typed into **Global instructions** saves on its own, survives copying a version to the draft, and always belongs to the path you are editing.
+- <span className="cl-tag cl-fix">Fix</span> **Your edits keep saving as you move around the editor**: the agent editor recovers on its own when two saves overlap, and only ever writes to the draft, so switching between paths and versions leaves your work intact and published versions untouched.
+
+### Conversational paths
+
+- <span className="cl-tag cl-fix">Fix</span> **A call advances as soon as the caller's answer settles a branch**: conditions are read in the light of what the agent actually asked, and staying on a step whose condition is already met is treated as the mistake it is.
+- <span className="cl-tag cl-fix">Fix</span> **Branch decisions have the time they need**: each decision is given a longer budget and a second, independent attempt, so the conversation keeps moving even when an answer is slow to arrive.
+- <span className="cl-tag cl-fix">Fix</span> **The agent says its line before the step runs**: on a node that speaks and then moves on, the agent delivers its script once, and the action follows.
+- <span className="cl-tag cl-fix">Fix</span> **A call ends or transfers only once the caller has finished speaking**: when a sentence reaches the agent in pieces, hanging up or handing over waits for the whole of it.
+- <span className="cl-tag cl-fix">Fix</span> **Details carry across a step that only speaks**: values collected earlier in a path are still available to a later step when a spoken step sits between them.
+
+</Update>
+<Update label="August 4, 2026" description="Account security" tags={["Improvements", "Fixes"]}>
+
+## A Security page for your account, and a clearer view of your usage
+
+- <span className="cl-tag cl-feature">Feature</span> **See how your account is being signed in to**: a new **Security** page under settings shows your active session with its device, location, IP and last activity, a history of sign-in attempts — successful and failed — and a way to sign out of every other session at once.
+  {/* screenshot */}
+- <span className="cl-tag cl-improvement">Improvement</span> **Concurrent calls measured as your average daily peak**: the concurrent-calls card on **Usage** shows the average of each day's highest number of simultaneous calls, counting only the days you had calls in the last 30, so the figure grows towards your plan's limit as your usual load does and warns you before you reach it. It is shown to one decimal, and the tooltip explains exactly what it counts.
+
+### Conversational paths
+
+- <span className="cl-tag cl-fix">Fix</span> **Branches are decided carefully, and the call moves on as soon as they are met**: the model that evaluates your conditions reads multi-step ones the way you wrote them — an "if not X" only holds once the agent has actually asked for X — and it is given the time it needs to answer, so a call advances the moment the caller agrees.
+- <span className="cl-tag cl-fix">Fix</span> **Global conditions can be taken from any node**: a condition that applies anywhere in a path is available from nodes that have no branches of their own.
+- <span className="cl-tag cl-fix">Fix</span> **Your wording is followed on steps that run an action**: when a node's prompt tells the agent to say what it is about to look up, it says it and then the step runs.
+
+### Billing and plans
+
+- <span className="cl-tag cl-improvement">Improvement</span> **Your default card is used everywhere**: the payment method you set as default applies to every subscription you pay for, the first card you add becomes the default on its own, and another is chosen for you if you remove the one in use. Checkout collects your billing details and offers the cards you have already saved.
+- <span className="cl-tag cl-improvement">Improvement</span> **Ten workflows on the Free plan**: the Free plan includes 10 workflows, and the plan comparison table matches the published pricing on every row — minutes, extra-minute price, concurrent calls, Melo, storage, workflows, support and price — in English and Spanish.
+- <span className="cl-tag cl-improvement">Improvement</span> **Send your invoice with your verification request**: company verification takes an invoice alongside the signed document, so everything needed for the review arrives in one submission.
+- <span className="cl-tag cl-fix">Fix</span> **Unused minutes carry over when your plan renews**: rollover is taken from your subscription each time a new period starts.
+- <span className="cl-tag cl-fix">Fix</span> **Every phone-number purchase goes through verification**: numbers are held for review and assigned once your company is approved, including when a discount brings the checkout total to zero.
+- <span className="cl-tag cl-fix">Fix</span> **Phone numbers are named in your invoice history**: a phone-number purchase appears as "Phone number" in English and "Número de teléfono" in Spanish.
+
+### Dashboard and access
+
+- <span className="cl-tag cl-improvement">Improvement</span> **Melo suggests small prompt changes without rewriting the whole prompt**: ask for a wording change to an agent's prompt or greeting and Melo proposes just the passage it is changing, so the suggestion arrives sooner. The inline diff still shows the complete before and after, and broad rewrites work as they did.
+- <span className="cl-tag cl-fix">Fix</span> **Playback follows your system's media controls**: pausing or resuming a call recording from outside the dashboard is reflected in the player on the call page.
+- <span className="cl-tag cl-fix">Fix</span> **A project you join or create is available immediately**: accepting an invitation or creating a project gives you access to it right away.
+
+</Update>
+<Update label="July 28, 2026" description="Sign-up and onboarding" tags={["New features", "Fixes"]}>
+
+## A guided start for new accounts, and clearer call logs
+
+- <span className="cl-tag cl-improvement">Improvement</span> **Call status and end reason at a glance**: **Call logs** shows one of four states for every call — in queue, dialing, active and ended — and the end reason appears once a call has finished, both in the list and on the call page. Labels are shortened to fit the column, with the full wording kept in the tooltip.
+- <span className="cl-tag cl-fix">Fix</span> **Date filters cover every call**: filtering **Call logs** by date returns every call created in the range, answered or not.
+
+### Signing up and onboarding
+
+- <span className="cl-tag cl-feature">Feature</span> **Verify your email when you sign up**: new accounts confirm their address with a six-digit code sent by email, with a resend option and a countdown until you can ask for another one. The welcome email arrives once your address is confirmed.
+  {/* screenshot */}
+- <span className="cl-tag cl-feature">Feature</span> **A guided start for new accounts**: after registering, a two-step flow asks what you plan to use Diga for and how you heard about us, lets you choose the language of the interface and whether you want product news, and then takes you through picking a plan.
+  {/* screenshot */}
+- <span className="cl-tag cl-feature">Feature</span> **Tips that show you around the dashboard**: a guided tour points out what each part of the interface does, highlighting the element it is describing as you move through it, with the sidebar open or collapsed. You can skip it, with a confirmation first, or turn tips off altogether, and each section remembers whether you have seen its tips.
+  {/* screenshot */}
+- <span className="cl-tag cl-feature">Feature</span> **Agent templates open from a shared link**: a link to an agent template takes you straight to its preview when you are signed in. If you do not have an account yet, you are taken through sign-up and onboarding and then land on the template you came for.
+
+### Workflows
+
+- <span className="cl-tag cl-feature">Feature</span> **Create and list your piece connections from the API**: new endpoints let you create a connection of any type and list the ones your project already has, so a workflow built through the API can point a step at a connection without going through a template or the builder. Each connection is identified by a single id, the one you use to reference it from a flow.
+- <span className="cl-tag cl-feature">Feature</span> **Copy a template without re-entering your keys**: when you copy a workflow template, you can reuse a connection you have already configured — your Slack token, your Cal.com key — instead of typing it in again for every template.
+- <span className="cl-tag cl-fix">Fix</span> **Post-call workflows run when the agent ends the call**: workflows triggered by a finished call also run for calls the agent hangs up itself.
+
+### Call behaviour
+
+- <span className="cl-tag cl-fix">Fix</span> **The agent waits for the caller, not for the line**: the sounds of a call being connected are no longer taken as the caller's first words, so the agent opens the conversation the way you configured it.
+- <span className="cl-tag cl-fix">Fix</span> **The outcome of a step is announced once**: when a call runs several tools one after another, the agent tells the caller the result a single time and then moves on to the next step.
+- <span className="cl-tag cl-fix">Fix</span> **Chained steps use the right details**: a step that runs after another one can take values from anywhere earlier in the call, choosing the one its description asks for rather than only what the previous step produced.
+
+</Update>
+<Update label="July 21, 2026" description="Subscription and usage" tags={["New features", "Improvements"]}>
+
+## Full subscription management and a new Usage page
+
+- <span className="cl-tag cl-feature">Feature</span> **See your usage against your plan limits**: a new **Usage** page under settings shows call minutes, concurrent calls, Melo, workflows and knowledge-base storage against what your plan includes, with alerts as you approach your minutes limit and a countdown to when they reset. You can turn usage-based billing on from there, the same figures appear as badges on **Workflows** and **Call logs**, and Melo recognizes the page and can take you to it.
+  {/* screenshot */}
+
+### Subscription and billing
+
+- <span className="cl-tag cl-feature">Feature</span> **Manage your subscription from settings**: the subscription page brings your plan, billing period and next invoice together, shows what your next invoice will contain, and lets you switch between monthly and yearly billing with a confirmation of what changes. The plan card links straight to **Plans**, and if the page cannot load you can retry it in place.
+  {/* screenshot */}
+- <span className="cl-tag cl-feature">Feature</span> **Manage your payment methods**: add a card, set which one is used by default and remove the ones you no longer need, all from the subscription page. Link is listed alongside cards and can be made the default like any of them.
+- <span className="cl-tag cl-feature">Feature</span> **Cancel your subscription yourself**: the danger zone on the subscription page takes you through cancelling your plan, with a confirmation step before anything is applied.
+- <span className="cl-tag cl-fix">Fix</span> **The renewal note matches what you scheduled**: the plan card's renewal date takes into account plan and billing-period changes you have already scheduled.
+
+### Conversational paths
+
+- <span className="cl-tag cl-feature">Feature</span> **Paths are driven by Diga, not by the model**: every branch decision in a conversational path, and every tool, webhook and flow step it runs, is now evaluated and executed on our side, so a call follows the path you drew. Actions run silently while the caller waits, announcements are spoken before the step they announce, and a step set to ask first waits for the caller's answer before it runs.
+- <span className="cl-tag cl-fix">Fix</span> **The agent follows the node it lands on after a tool or flow**: when a tool, webhook or flow finishes — including when it comes back with an error — the agent says what that node tells it to say and moves on by itself, without waiting for the caller to speak first.
+- <span className="cl-tag cl-fix">Fix</span> **Each step keeps to its own stage**: the agent only uses the tools and asks for the details belonging to the step it is on, instead of collecting a later step's answers early, and it never speaks a later step's script before that branch's condition is met. Internal instructions stay internal and never reach the caller.
+
+### Phone numbers
+
+- <span className="cl-tag cl-feature">Feature</span> **See how long a number is held for you**: a number waiting for payment shows a live countdown to when its reservation expires, so you know how long you have to finish the purchase. Each checkout covers one selection, and **Continue** is only offered when there is something left to buy.
+- <span className="cl-tag cl-improvement">Improvement</span> **Province tags on available numbers**: numbers you can buy show the Spanish province they belong to, matching the regions you can filter by.
+- <span className="cl-tag cl-improvement">Improvement</span> **Buying more numbers reuses your verification**: once your company is verified, the ownership certificate for every number you are assigned or release is filed with the carrier for you, so adding numbers later needs no new paperwork.
+
+### Dashboard
+
+- <span className="cl-tag cl-improvement">Improvement</span> **See why every call ended, straight from the list**: **Call logs** shows an end reason for each call, with a tooltip explaining what it means, translated in English and Spanish. As the table narrows, columns collapse in a sensible order so the date stays visible longest, and the overflow menu has room for its labels.
+- <span className="cl-tag cl-fix">Fix</span> **Call settings show all their fields**: the Call settings section of an agent expands to fit everything inside it, and voicemail and phone-menu detection are hidden on agents that use conversational paths, where they do not apply yet.
+- <span className="cl-tag cl-improvement">Improvement</span> **Small interface improvements**: settings pages keep a visible scrollbar as you move through them, and errors are surfaced as alerts where they happen.
+
+### Account and access
+
+- <span className="cl-tag cl-fix">Fix</span> **Access changes apply immediately**: removing someone from a project, changing their role, or leaving a project takes effect right away.
+- <span className="cl-tag cl-improvement">Improvement</span> **Steadier service under load**: the API and Melo apply request limits per account, so a burst of traffic from one client no longer slows things down for everyone else.
+- <span className="cl-tag cl-fix">Fix</span> **Your email is matched however it is capitalized**: sign-ups and invitations find your account whether or not the address is typed in the same case it was registered with.
+
+</Update>
+<Update label="July 7, 2026" description="Answering machines and phone menus" tags={["New features", "Improvements"]}>
+
+## Outbound calls that handle voicemail and phone menus
+
+- <span className="cl-tag cl-feature">Feature</span> **Your agent knows what picked up an outbound call**: when a call is answered, the agent tells apart a person, a voicemail box, a phone menu and an unavailable line, and reacts accordingly instead of talking into the void. Configure it per agent under **Customize → Call settings**: on voicemail, leave a message you write (dynamic variables included) or hang up; on a phone menu, let the agent navigate towards a goal you describe or press a key sequence you give it, then take the line once it reaches a person. Quiet callers still get a normal greeting.
+  {/* screenshot */}
+- <span className="cl-tag cl-feature">Feature</span> **Signed webhook deliveries**: every webhook Diga sends now carries a `Diga-Signature` header with a timestamp and an HMAC signature, so your endpoint can verify the request came from us and reject replays. Your signing secret is shown once when you create the webhook, and a new rotate endpoint issues a fresh one whenever you need it.
+- <span className="cl-tag cl-feature">Feature</span> **Calls wait in line instead of being turned away**: inbound calls beyond your plan's concurrent-call limit are placed in a hold queue with hold music and connected to an agent as soon as a line frees up, in the order they arrived. Callers who hang up while waiting leave the queue on their own.
+
+### Phone numbers
+
+- <span className="cl-tag cl-feature">Feature</span> **Finish a number purchase you left halfway**: a number still in checkout keeps a link back to its payment page, so you can complete the purchase without starting over.
+- <span className="cl-tag cl-improvement">Improvement</span> **Clearer status while a number is being approved**: numbers awaiting verification are shown as a state of their own, distinct from numbers still in checkout, and appear as inactive in the numbers table until they are ready to use.
+- <span className="cl-tag cl-fix">Fix</span> **Released numbers stay out of your way**: a number you release, or one belonging to a project you delete, disappears from your lists for good, and the same number can be imported again later.
+
+### Call behaviour
+
+- <span className="cl-tag cl-fix">Fix</span> **The agent keeps the conversation going after a tool or flow step**: once a tool, webhook or flow node finishes, the agent moves on and speaks the next step without waiting for you to say something first.
+- <span className="cl-tag cl-fix">Fix</span> **Agents stay in the language you configured**: an agent speaks the language you set it up in for the whole call, and internal instructions never make it into what the caller hears.
+
+### Dashboard
+
+- <span className="cl-tag cl-improvement">Improvement</span> **A redesigned sidebar**: navigation is reordered and regrouped, the account cards and plan modal have a refreshed look, and scrolling and the collapse animation are smoother.
+  {/* screenshot */}
+- <span className="cl-tag cl-improvement">Improvement</span> **Plan names read the same everywhere**: your plan is called by the same full name in the sidebar, on Plans, in settings and in every upgrade, downgrade and cancellation dialog, in English and Spanish.
+- <span className="cl-tag cl-improvement">Improvement</span> **Know exactly why a workflow can or cannot be published**: the publish banner tells you whether the workflow is new, has unpublished changes, is invalid, or has reached the workflow limit of your plan, with a link to learn more, and the enable toggle reflects the same limit.
+
+### Billing
+
+- <span className="cl-tag cl-fix">Fix</span> **Invoice amounts in your billing history**: past invoices show the amount you were charged.
+- <span className="cl-tag cl-fix">Fix</span> **Free plan minutes follow the documented rules**: on the Free plan, each period starts with that period's included minutes.
+
+</Update>
+<Update label="June 30, 2026" description="Copilot approvals" tags={["New features", "Fixes"]}>
+
+## Approvals for Melo, and clearer workflow publishing
+
+- <span className="cl-tag cl-fix">Fix</span> **Your agent's own voice, all the way through the call**: every spoken turn uses the voice you configured for the agent, and agents running a tool or flow inside a conversational path stay silent until they have something to say to the caller.
+- <span className="cl-tag cl-improvement">Improvement</span> **Phone numbers bought while your company is being verified**: the first month is authorized when you place the order and charged once the purchase is approved. If it is rejected or the authorization expires, nothing is charged and the numbers are released.
+- <span className="cl-tag cl-improvement">Improvement</span> **Webhook destinations are validated**: webhook URLs are checked when you create or update a webhook, so only valid external endpoints are accepted.
+
+### AI Copilot (Melo)
+
+- <span className="cl-tag cl-feature">Feature</span> **Approve changes before Melo makes them**: when Melo wants to change something in your account, it asks first with a card in the chat showing what it will do and a before-and-after view of the change. Approve or reject it, and Melo picks up where it left off. Pending cards are still there after you reload the page.
+  {/* screenshot */}
+- <span className="cl-tag cl-feature">Feature</span> **Melo can drive the page you are on**: it can filter and sort your lists, switch tabs, and answer questions about what is currently on screen, so you can ask "show me the active agents" and then "which ones are those?" without leaving the conversation.
+- <span className="cl-tag cl-improvement">Improvement</span> **Better answers about workflow connections**: Melo can now check the status of your existing piece connections, so when a workflow step is not valid it can tell you whether a connection is missing or in error instead of guessing.
+
+### Workflows
+
+- <span className="cl-tag cl-improvement">Improvement</span> **Know exactly why a workflow can or cannot be published**: the publish banner tells you whether the workflow is new, has unpublished changes, or has reached the workflow limit of your plan, with a link to learn more. Discard reliably returns the builder to the published version.
+- <span className="cl-tag cl-fix">Fix</span> **Workflow status stays in sync everywhere**: publishing, enabling or disabling a workflow is reflected in the builder, the workflow list and your plan usage, including after navigating away and back.
+- <span className="cl-tag cl-fix">Fix</span> **Assign any workflow to an agent**: the workflow picker loads through your full list, however many workflows you have.
+
+### Dashboard
+
+- <span className="cl-tag cl-improvement">Improvement</span> **Your plan and usage at a glance**: the subscription card on Plans shows your plan, minutes used, next payment and billing period in one place, with usage bars that change color as you get closer to your limit.
+  {/* screenshot */}
+- <span className="cl-tag cl-improvement">Improvement</span> **Call details for calls without a transcript**: the call page shows the agent, contact and end reason as badges, and a clear empty state when a call has no transcript, logs or traces.
+- <span className="cl-tag cl-fix">Fix</span> **Call logs read in your language**: the "Call dequeued" event and its wait time are now shown translated in English and Spanish.
+- <span className="cl-tag cl-fix">Fix</span> **Interface polish across the dashboard**: phone-number badges fit inside the agent card and collapse the rest into a `+N` chip that lists the hidden numbers, the settings sidebar uses the right colors and keeps its icons aligned when collapsed, and workflow run cards match the rest of the interface.
+
+</Update>
 <Update label="June 20, 2026" description="v1.1.17" tags={["New features"]}>
 
 ## Outbound pre-call flows and richer variable interpolation
