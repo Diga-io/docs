@@ -29,6 +29,11 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  # Declaring this block sets every scope not named here to `none`, and the
+  # stages hand each other artifacts: download-artifact calls the ListArtifacts
+  # REST API and 403s without this. Uploading needs nothing, which is why the
+  # first job passed and the second did not.
+  actions: read
 
 env:
   TOOLING_REPO: Diga-io/auto-changelog
