@@ -1,34 +1,54 @@
 ---
-title: "About Melo"
-description: "Why Melo can occasionally provide incorrect responses and how to use it effectively"
+title: "Melo"
+description: "Melo is the AI assistant in Diga's dashboard: what it can do for you, how to get the most out of it, and the limits worth keeping in mind"
 ---
 
-# Melo can make mistakes
+## What is Melo?
 
 Melo is the AI assistant inside Diga's dashboard. It helps you build, test, and operate your voice agents — answering questions, suggesting changes, and guiding you through the platform.
 
-Like any frontier AI assistant, Melo can occasionally produce responses that are **incorrect or misleading**. This is a known limitation of generative AI models — sometimes called **"hallucination"** — and it's worth keeping in mind whenever you act on Melo's output.
+Unlike a regular chat, Melo runs on MCP tools connected to your project. That means it doesn't just answer: it can also act on your Diga resources, such as creating an agent or editing a prompt, without you leaving the conversation.
 
-## Why this happens
+## What it can do
+
+<CardGroup cols={2}>
+  <Card title="Answer your questions" icon="message-circle-question">
+    It resolves doubts about the platform and guides you as you build and manage your agents.
+  </Card>
+  <Card title="Edit your resources" icon="pencil">
+    It can modify agents and other resources. Every change shows an approval card so you confirm it before it's applied.
+  </Card>
+  <Card title="Understand what you're seeing" icon="eye">
+    Melo knows which rows are visible in the list you have open and can act directly on them.
+  </Card>
+  <Card title="Help you debug flows" icon="wrench">
+    It lists the connections your flows use, which helps you find why a piece is failing.
+  </Card>
+</CardGroup>
+
+When you ask for changes to a prompt, Melo applies them incrementally as it writes them, so you see the result take shape in real time.
+
+## How to get the most out of Melo
+
+- **Provide context.** Reference the agent, project, or feature you're working on. The richer the context, the better the response.
+- **Be specific.** Vague questions tend to produce vague or speculative answers. The more specific your question, the more reliable Melo's reply will be.
+- **Cross-check generated content.** If Melo writes a prompt, a tool definition, or a configuration value, read it before saving. A response that *looks* correct can still be subtly wrong.
+- **Verify high-stakes advice.** Anything that touches a live agent, billing, telephony routing, or a published workflow should be double-checked against the relevant page in this documentation or with your team.
+
+## Keep its limits in mind
+
+Like any frontier AI assistant, Melo can occasionally produce responses that are **incorrect or misleading**. This is a known limitation of generative AI models — sometimes called **"hallucination"** — and it's worth keeping in mind whenever you act on Melo's output.
 
 A few situations where Melo's response may not be reliable:
 
 - **Outdated information.** Melo may not have been trained on the latest changes to Diga, third-party integrations, or external services, and it can get confused when asked about very recent updates.
 - **Plausible but inaccurate detail.** Melo can produce prompts, configuration values, or numbers that look authoritative but aren't grounded in your actual project.
 - **Limited project context.** Even when Melo has access to your project state, it may miss context that lives outside the dashboard — your team's conventions, an external system's behavior, or a custom workflow.
-- **Ambiguous prompts.** Vague questions tend to produce vague or speculative answers. The more specific your question, the more reliable Melo's reply will be.
-
-## How to use Melo well
+- **Ambiguous prompts.** Vague questions tend to produce vague or speculative answers.
 
 <Note>
 Treat Melo as a **knowledgeable collaborator**, not a singular source of truth. The final decision — and the responsibility for what runs in production — is yours.
 </Note>
-
-A few practical habits:
-
-- **Verify high-stakes advice.** Anything that touches a live agent, billing, telephony routing, or a published workflow should be double-checked against the relevant page in this documentation or with your team.
-- **Cross-check generated content.** If Melo writes a prompt, a tool definition, or a configuration value, read it before saving. A response that *looks* correct can still be subtly wrong.
-- **Provide context.** Reference the agent, project, or feature you're working on. The richer the context, the better the response.
 
 ## Send feedback
 
