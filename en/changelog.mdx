@@ -4,6 +4,214 @@ description: "Release notes and platform improvements for Diga"
 rss: true
 ---
 
+<Update label="September 1, 2026" description="v1.1.26" tags={["New features", "Improvements", "Fixes"]}>
+
+## Two-factor authentication, multi-number publishing, and a workflow UX pass
+
+### Security and account
+
+- **Two-factor authentication**: enroll a second factor from Settings, and confirm a code on each login. Codes can be delivered by SMS.
+- **Preferred language**: set your language on your profile, and the language switcher in Settings now applies immediately.
+- **Navigation tour**: new users get a guided tour of the dashboard on their first visit.
+
+### Agents
+
+- **Publish with several phone numbers**: assign more than one phone number to an agent when publishing it.
+- **Clearer Publish button**: the button now reflects whether there is anything to publish, and the published version can be edited in place.
+
+### Billing
+
+- **Immediate prorations on upgrades**: moving to a higher plan now issues the prorated invoice right away instead of waiting for the next cycle.
+- **Recurring phone charges after a 100% coupon**: phone numbers approved with a full-discount coupon now renew correctly.
+
+### Workflows and path editor fixes
+
+- **Flows modal** no longer gets cut off on small screens, and its preview is cleaner.
+- **Deleting a published agent** shows a specific error explaining why it is blocked.
+- **Open a workflow from the agent page** with a direct link to its editor.
+- **Text areas** in the workflow builder now accept typing in the middle of the text.
+- **Timezone variables** are inserted at the caret in the prompt editor.
+- **New path nodes** added from the toolbar are centered in the visible canvas.
+- **Agent templates** load in the active dashboard language.
+- **New version names** are prefilled with the version number.
+- **Workflow canvas** stays still when the Melo panel opens or switches.
+- **Workflow builder** is fully translated; the flows list has a clear-filters button and stays in sync after renaming a workflow.
+- **Test sessions** reset their logs when a new test starts.
+
+### MCP server
+
+- **v0.1.4**: the HTTP transport ships with public-ready defaults and environment-configurable security, so you can expose the Diga MCP server to your own tools.
+
+</Update>
+
+<Update label="August 19, 2026" description="v1.1.24 – v1.1.25" tags={["New features", "Fixes"]}>
+
+## Router logs, call search, and recording options
+
+### Calls
+
+- **Path router logs**: the routing decisions your conversational paths make during a call are now visible in the call logs.
+- **Conversation search**: search the call list by transcript text and filter by contact phone number.
+- **Filters in the URL**: list filters persist in the URL, so you can share or bookmark a filtered view.
+- **Agent version in call details**, plus a new actions menu on the call details page.
+
+### Audio
+
+- **Record the caller's inbound audio** as an optional separate track.
+- **Noise-cancellation capture**: keep the audio before and after noise cancellation for each participant.
+
+### Verification and billing
+
+- **Invoice PDF required** to complete company verification.
+- **Partner projects** on Netelip default to metered billing; partner projects can be deleted.
+
+### Fixes
+
+- **Tools and flows** are no longer lost when copying a version to draft or creating a new version.
+- **Path global instructions** are no longer dropped when saving an agent.
+- **Path mode** ignores agent-linked tools and call tools that don't belong to the current node.
+- **Discarded replies** end instantly instead of blocking the agent for five seconds.
+
+</Update>
+
+<Update label="August 2, 2026" description="v1.1.23" tags={["Improvements", "Fixes"]}>
+
+## Concurrency insights and billing fixes
+
+- **Average daily peak concurrency** is shown on the usage page, and calls stuck in dialing are swept automatically.
+- **100% coupons** skip company verification when purchasing phone numbers.
+- **Default payment method** handling and verification notifications are unified.
+- **Phone purchases** are translated in the invoice history.
+- **Free plan** flow limit raised to 10; Custom tier labels corrected.
+- **Editor autosave** recovers from concurrent-edit conflicts instead of failing.
+- **Path router**: verdicts are aligned with the live model, and chained arguments are kept across skipped nodes.
+
+</Update>
+
+<Update label="July 28, 2026" description="v1.1.22" tags={["New features", "Improvements"]}>
+
+## Account security, onboarding, and shareable templates
+
+### Security
+
+- **Login history**: a new Security page in Settings shows your last login, active session, and login history.
+- **Email verification** by one-time code, with a welcome email once confirmed.
+
+### Onboarding and growth
+
+- **Post-registration onboarding** guides new accounts through their first setup.
+- **Shareable agent-template links**: share a link to an agent template; people who sign up from it land on the template after onboarding.
+
+### Billing
+
+- **Subscription page redesign**: plan card with renewal details, monthly/annual billing period switch, and a next-invoice section.
+
+### Melo
+
+- **Streaming prompt edits**: Melo applies prompt changes incrementally as it writes them.
+
+### Workflows and calls
+
+- **Reuse existing connections** when copying workflow templates.
+- **Call date filters** use the call's creation date; call badges and playback after pause are fixed; the calls table is more compact in Spanish.
+- **Path router**: faster model, tunable thinking, separate timeouts, and global conditions; action-stage prompts no longer contradict themselves.
+
+### Digapieces
+
+- **Cal.com Find Booking** action to look up bookings by attendee.
+- **Faster job pickup** in workflow execution.
+
+</Update>
+
+<Update label="July 22, 2026" description="v1.1.21" tags={["New features", "Fixes"]}>
+
+## Workflow connections API and next-invoice preview
+
+- **Connections API**: create and list workflow connections from the public API.
+- **Next invoice preview**: see what your upcoming invoice will contain before it is issued.
+- **Post-call workflows** run even when the agent is the one hanging up.
+- **Noise cancellation**: voice detection is gated during call startup to avoid false interruptions.
+- **Digapieces**: Cal.com uses the right API version per endpoint and is translated to Spanish; synchronous webhooks return a timeout error instead of an empty success.
+
+</Update>
+
+<Update label="July 16, 2026" description="v1.1.20" tags={["New features", "Improvements"]}>
+
+## Paths V3, rate limiting, and a new usage page
+
+### Conversational paths
+
+- **New server-side router**: conversational paths are now routed by a dedicated engine that decides transitions outside the voice model, giving more predictable node changes, condition-gated previews, and correct follow-through after tool and flow nodes.
+
+### Platform
+
+- **Rate limiting** on the API and on Melo.
+- **Netelip ownership certificate** is sent automatically when a number is added or removed.
+- **Phone reservations expire** after a set time, and the buy-phone modal was redesigned.
+
+### Dashboard
+
+- **New calls table** with a responsive layout.
+- **New usage page** with live concurrency, and Melo now recognizes the usage settings section.
+
+</Update>
+
+<Update label="July 7, 2026" description="v1.1.19" tags={["New features", "Improvements"]}>
+
+## Answering machine detection, signed webhooks, and concurrency limits
+
+### Outbound calls
+
+- **Answering machine detection**: outbound calls can detect voicemail and IVR menus, and navigate the IVR to reach a person. Configure it per agent.
+- **Concurrent-call limits per plan**: calls above your plan's concurrency are queued and admitted as slots free up instead of failing.
+
+### Security
+
+- **Signed outbound webhooks**: every customer webhook carries an HMAC signature and timestamp based on a per-webhook secret, so you can verify its origin.
+- **SIP credentials encrypted at rest**.
+
+### Phone numbers and billing
+
+- **Pending verification state**: numbers bought before company verification show as pending, and checkout can be resumed from where it left off.
+- **Soft delete for imported numbers**.
+- **No rollover on free plans**, and corrected amounts in the billing history.
+- **Publish banner and workflow limits**: the dashboard shows when an agent needs publishing and enforces the number of workflows your plan allows.
+
+### Dashboard
+
+- **Sidebar redesign** and unified plan labels across the app.
+
+### Conversational paths
+
+- **Node transitions wake the model** so the agent speaks right after moving to a visible node.
+- **Less language drift and prompt leakage** in realtime paths.
+
+</Update>
+
+<Update label="June 25, 2026" description="v1.1.18" tags={["New features", "Improvements"]}>
+
+## Melo takes action, workflow diagnostics, and safer webhooks
+
+### Melo
+
+- **Write actions with approval cards**: Melo can now edit agents and other resources. Each change shows a native approval card so you confirm before it is applied.
+- **Page awareness**: Melo knows which rows are visible in the list you're looking at and can act on them.
+- **Workflow diagnostics**: Melo lists the connections used by your workflows to help debug failing pieces. The same capability is available as a tool in the MCP server (v0.1.3).
+
+### Security and reliability
+
+- **Webhook URL validation** blocks internal and private addresses.
+- **Voice continuity** is kept when the voice model falls back to text-only mode.
+- **Path tool and flow nodes** no longer speak internal routing directives.
+
+### Billing and dashboard
+
+- **Authorization hold** instead of an immediate charge when buying numbers before company verification.
+- **Subscription summary card** redesigned; Settings sidebar refreshed.
+- **Workflow list pagination** fixed for accounts with many flows.
+
+</Update>
+
 <Update label="June 20, 2026" description="v1.1.17" tags={["New features"]}>
 
 ## Outbound pre-call flows and richer variable interpolation
