@@ -4,6 +4,23 @@ description: "Release notes and platform improvements for Diga"
 rss: true
 ---
 
+<Update label="September 22, 2026" description="Filters and Search" tags={["New features", "Fixes"]}>
+
+## Grouped filters, list search, and end-reason filtering
+
+### Filtering and search
+
+- <span className="cl-tag cl-improvement">Improvement</span> **Unified filter bar**: Filters on every list page are now grouped behind a single Filters button showing how many are active; each applied filter appears as a badge you can clear with one click.
+
+- <span className="cl-tag cl-feature">Feature</span> **Search across every list**: A search box in the filter bar narrows the calls, agents, phone numbers, integrations, knowledge bases, and workflows lists as you type.
+
+- <span className="cl-tag cl-feature">Feature</span> **Filter calls by end reason**: The calls filter menu now includes an end-reason option, using the same icons and labels shown in the call table.
+
+- <span className="cl-tag cl-fix">Fix</span> **API keys for a deleted project stop working immediately**: Removing a project now clears its cached authorization right away.
+
+- <span className="cl-tag cl-fix">Fix</span> **Numbers bought before verification now activate**: Phone numbers purchased before a company's verification is approved activate correctly when the verification completes, even if an older subscription for the project no longer exists in Stripe.
+
+</Update>
 <Update label="September 8, 2026" description="Notification delivery" tags={["Fixes"]}>
 
 ## Notifications reach you as configured

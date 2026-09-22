@@ -4,6 +4,23 @@ description: "Registro de actualizaciones y mejoras de la plataforma Diga"
 rss: true
 ---
 
+<Update label="22 de septiembre de 2026" description="Filtros y búsqueda" tags={["Nuevas features", "Correcciones"]}>
+
+## Filtros agrupados, búsqueda en listas y filtrado por motivo de fin
+
+### Filtrado y búsqueda
+
+- <span className="cl-tag cl-improvement">Mejora</span> **Barra de filtros unificada**: los filtros de todas las listas están ahora agrupados en un único botón Filtros que muestra cuántos hay activos; cada filtro aplicado aparece como una etiqueta que puedes eliminar con un clic.
+
+- <span className="cl-tag cl-feature">Nueva</span> **Búsqueda en todas las listas**: un campo de búsqueda en la barra de filtros filtra las listas de llamadas, agentes, números de teléfono, integraciones, bases de conocimiento y workflows mientras escribes.
+
+- <span className="cl-tag cl-feature">Nueva</span> **Filtrar llamadas por motivo de fin**: el menú de filtros de llamadas incluye ahora una opción de motivo de fin, con los mismos iconos y etiquetas que aparecen en la tabla de llamadas.
+
+- <span className="cl-tag cl-fix">Corrección</span> **Las API keys de un proyecto eliminado dejan de funcionar al instante**: al eliminar un proyecto, su autorización en caché se borra de inmediato.
+
+- <span className="cl-tag cl-fix">Corrección</span> **Los números comprados antes de la verificación se activan correctamente**: los números de teléfono comprados antes de que se apruebe la verificación de empresa se activan al completarse la verificación, aunque la suscripción anterior del proyecto ya no exista en Stripe.
+
+</Update>
 <Update label="8 de septiembre de 2026" description="Envío de notificaciones" tags={["Correcciones"]}>
 
 ## Las notificaciones te llegan tal y como las configuraste
