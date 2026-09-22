@@ -4,6 +4,22 @@ description: "Release notes and platform improvements for Diga"
 rss: true
 ---
 
+<Update label="September 22, 2026" description="Client Connection Requests" tags={["New features", "Fixes"]}>
+
+## Client connection requests, OAuth consent, and canvas controls
+
+- <span className="cl-tag cl-feature">Feature</span> **Send clients a link to set up their own connections**: from **Settings › Connections**, you can now generate a secure link and share it with a client so they can complete a connection themselves. The client opens a dedicated page and enters credentials or goes through OAuth directly — no workspace access or credentials are shared with your agency. Requests can be copied, regenerated, or revoked at any time, and the page is available in English and Spanish.
+  {/* screenshot */}
+
+- <span className="cl-tag cl-fix">Fix</span> **The OAuth consent screen appears when connecting a new application**: authorizing an application for the first time now shows the consent card so you can review and approve the request before being redirected.
+
+- <span className="cl-tag cl-fix">Fix</span> **Calls past your included minutes are not charged when usage-based billing is off**: if usage-based billing is off, calls that run past your included minutes are not billed as extra usage.
+
+- <span className="cl-tag cl-improvement">Improvement</span> **Remove a template workflow without setting it up first**: a template flow added to an agent that still requires configuration now shows a remove button alongside the setup prompt, so you can take it off the agent right away.
+
+- <span className="cl-tag cl-improvement">Improvement</span> **See your whole conversational path at once**: the path canvas now zooms much further out, so a large flow fits on screen in one view. Zoom out, zoom in, and fit-to-screen controls are available on the canvas toolbar.
+
+</Update>
 <Update label="September 22, 2026" description="Filters and Search" tags={["New features", "Fixes"]}>
 
 ## Grouped filters, list search, and end-reason filtering
