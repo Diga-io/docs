@@ -1,0 +1,171 @@
+---
+title: "Diga MCP server for AI assistants"
+description: "Connect Cursor, Claude, Codex, and other MCP clients to Diga with a project API key."
+---
+
+Use Diga's hosted Model Context Protocol (MCP) server to build and manage voice agents from compatible AI assistants and development tools.
+
+<Note>
+This page explains how to connect an assistant **to Diga**. To give a Diga voice agent access to an external MCP server during a call, see [MCP integrations](../build/integrations/mcp-integrations).
+</Note>
+
+## Prerequisites
+
+Before you begin, you need:
+
+- A Diga account with administrator access to a project
+- A Diga API key from that project
+- An MCP client that supports remote servers over Streamable HTTP
+
+If you do not have a key yet, follow [Create an API key](../platform/api-keys#create-an-api-key). Create a restricted key with only the permissions your assistant needs.
+
+## What you can do
+
+The Diga MCP server turns Diga API operations into tools your assistant can discover and call. Depending on your API key permissions, you can use natural language to:
+
+- Create, update, publish, list, and inspect voice agents and their versions
+- Create calls and retrieve call details, messages, recordings, logs, and traces
+- Create and maintain knowledge bases from text, URLs, and files
+- Manage phone numbers, voices, integrations, webhooks, and workflows
+- Review project members, usage, billing, and other project resources
+
+Your MCP client shows the exact tools available to it, including each tool's description and required parameters.
+
+## How authentication and project selection work
+
+Your MCP client connects to Diga over Streamable HTTP and sends your API key with every request.
+
+| Setting | Value |
+|---|---|
+| Server name | `diga` |
+| Server URL | `https://mcp.diga.io/mcp` |
+| Authentication header | `x-api-key: <DIGA_API_KEY>` |
+
+<Info>
+An API key belongs to the Diga project where you created it. That project is the company the assistant manages. To work with another company, create or copy a key from that project and replace the key in your MCP client configuration.
+</Info>
+
+## Connect your MCP client
+
+Choose your client and replace `<DIGA_API_KEY>` with your complete Diga API key.
+
+<Tabs>
+  <Tab title="Cursor">
+    Open **Cursor Settings → MCP → Add new global MCP server**, then add:
+
+    ```json
+    {
+      "mcpServers": {
+        "diga": {
+          "url": "https://mcp.diga.io/mcp",
+          "headers": {
+            "x-api-key": "<DIGA_API_KEY>"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="Claude Desktop">
+    Open **Settings → Developer → Edit Config**, then add:
+
+    ```json
+    {
+      "mcpServers": {
+        "diga": {
+          "url": "https://mcp.diga.io/mcp",
+          "headers": {
+            "x-api-key": "<DIGA_API_KEY>"
+          }
+        }
+      }
+    }
+    ```
+
+    Restart Claude Desktop after saving the file. Availability of remote server headers can vary by Claude Desktop version.
+  </Tab>
+
+  <Tab title="Claude Code">
+    Run:
+
+    ```bash
+    claude mcp add --transport http diga \
+      --header "x-api-key: <DIGA_API_KEY>" \
+      https://mcp.diga.io/mcp
+    ```
+  </Tab>
+
+  <Tab title="Codex">
+    Add the server to `~/.codex/config.toml`:
+
+    ```toml
+    [mcp_servers.diga]
+    url = "https://mcp.diga.io/mcp"
+    bearer_token_env_var = "DIGA_API_KEY"
+    ```
+
+    Then set the environment variable before starting Codex:
+
+    ```bash
+    export DIGA_API_KEY="<DIGA_API_KEY>"
+    ```
+
+    Codex sends this value as `Authorization: Bearer <DIGA_API_KEY>`, which the Diga MCP server also accepts.
+  </Tab>
+
+  <Tab title="Other clients">
+    Configure a remote Streamable HTTP server with these values:
+
+    ```json
+    {
+      "name": "diga",
+      "url": "https://mcp.diga.io/mcp",
+      "headers": {
+        "x-api-key": "<DIGA_API_KEY>"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<Warning>
+Never put an API key in the server URL or commit it to source control. URLs can appear in browser history, proxy logs, and analytics. Prefer environment-variable support when your MCP client provides it.
+</Warning>
+
+## Verify the connection
+
+After saving the configuration, restart or reload your MCP client. Check that a server named **diga** appears and that its tools are available.
+
+Start with a read-only request such as:
+
+> List my Diga agents.
+
+Your client should ask for approval before running a tool if its permission settings require confirmation.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="The server returns 401 Unauthorized">
+    Confirm that you copied the complete API key and that the client sends it as `x-api-key` without the `Bearer` prefix. If you use the `Authorization` header instead, its value must be `Bearer <DIGA_API_KEY>`.
+  </Accordion>
+
+  <Accordion title="A tool returns 403 Forbidden">
+    The API key is valid but does not have permission to use that resource. Update the key's restrictions in **Settings → Project → API Keys**, or use a different restricted key with the required permission.
+  </Accordion>
+
+  <Accordion title="The assistant shows the wrong company or no resources">
+    The API key determines the project. Replace it with a key created in the intended Diga project, then restart the MCP client so it reloads the configuration.
+  </Accordion>
+
+  <Accordion title="The client cannot connect to the server">
+    Verify that the URL is exactly `https://mcp.diga.io/mcp` and that the client supports remote MCP servers using Streamable HTTP. Some clients require a restart after configuration changes.
+  </Accordion>
+</AccordionGroup>
+
+## Security recommendations
+
+- Create a separate API key for each MCP client and environment
+- Grant only the read or write permissions the assistant needs
+- Review tool calls before approving actions that change or delete resources
+- Rotate the key immediately if it is exposed

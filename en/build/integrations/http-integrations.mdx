@@ -96,6 +96,10 @@ Once the integration is created, you need to define the **tools** (specific acti
 
 </Steps>
 
+<Note>
+  Tools get the same built-in handling as flows when the caller interrupts a running tool or the request fails mid-call: the execution is never cancelled, the agent is told the real outcome, and it never claims a result it can't confirm. See [When the caller interrupts a running flow](/en/build/flows/during-call-flows#when-the-caller-interrupts-a-running-flow).
+</Note>
+
 ## Complete Example: CRM Integration
 
 Let's create an integration with a fictional CRM to search for customers.
