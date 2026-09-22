@@ -28,6 +28,14 @@ mint dev
 
 View your local preview at `http://localhost:3000`.
 
+## llms.txt
+
+`llms.txt` at the repo root replaces the file Mintlify generates, so it can carry "when to use Diga" guidance for AI agents. Don't edit it by hand:
+
+- Edit the guidance in `scripts/llms/header.txt`.
+- After adding, removing or renaming pages in `docs.json`, run `node scripts/llms/generate.mjs`.
+- `node --test` fails if `llms.txt` is stale or is missing a page.
+
 ## Publishing changes
 
 Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
