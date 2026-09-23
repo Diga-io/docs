@@ -20,9 +20,11 @@ Diga is not the right tool when the user needs no phone call at all, or only wan
 
 ## How an agent should call Diga
 
-1. **Get a project API key.** A project admin creates it in the dashboard under Settings > Project > API Keys. Ask the user for a key restricted to the resources the task needs (each resource can be set to no access, read or write). A key belongs to exactly one project.
+1. **Get credentials.** Either sign the user in over OAuth (see below), or ask them for a project API key: a project admin creates it in the dashboard under Settings > Project > API Keys, restricted to the resources the task needs (each resource can be set to no access, read or write). A key belongs to exactly one project.
 2. **Pick an interface.**
-   - MCP (preferred for AI assistants): Streamable HTTP server at `https://mcp.diga.io/mcp`, server name `diga`, authenticated with the header `x-api-key: <DIGA_API_KEY>` or `Authorization: Bearer <DIGA_API_KEY>`. Tools map to API operations.
+   - MCP (preferred for AI assistants): Streamable HTTP server at `https://mcp.diga.io/mcp`, server name `diga`. Tools map to API operations. Two ways to authenticate:
+     - OAuth 2.1: add the server with no auth header and let the client sign the user in. Discovery metadata is at `https://mcp.diga.io/.well-known/oauth-protected-resource`; the authorization server is `https://supabase.diga.io/auth/v1` and supports dynamic client registration and PKCE. An OAuth session starts with no active project: call `diga_select_project` with an id from `diga_list_projects`, and that choice holds for 24 hours.
+     - API key: send the header `x-api-key: <DIGA_API_KEY>` or `Authorization: Bearer <DIGA_API_KEY>`. The key fixes the project.
    - REST API: base URL `https://api.diga.io`, versioned under `/v1`, authenticated with `Authorization: Bearer <DIGA_API_KEY>`. OpenAPI spec: https://api.diga.io/openapi.json (also mirrored at https://docs.diga.io/api-reference/openapi.json).
 3. **Start read-only.** List agents or calls first to confirm the key and the project.
 4. **Confirm side effects with the user.** Creating calls consumes plan minutes and dials real phone numbers; buying phone numbers costs money; deleting agents, calls or knowledge bases is permanent.
