@@ -1,6 +1,6 @@
 ---
 title: "Diga MCP server for AI assistants"
-description: "Connect Cursor, Claude, Codex, and other MCP clients to Diga with a project API key."
+description: "Connect Cursor, Claude, Codex, and other MCP clients to Diga with an OAuth sign-in or a project API key."
 ---
 
 Use Diga's hosted Model Context Protocol (MCP) server to build and manage voice agents from compatible AI assistants and development tools.
@@ -13,8 +13,8 @@ This page explains how to connect an assistant **to Diga**. To give a Diga voice
 
 Before you begin, you need:
 
-- A Diga account with administrator access to a project
-- A Diga API key from that project
+- A Diga account that belongs to a project
+- Either an MCP client that supports OAuth for remote servers, or a Diga API key from that project (administrators can create one)
 - An MCP client that supports remote servers over Streamable HTTP
 
 If you do not have a key yet, follow [Create an API key](../platform/api-keys#create-an-api-key). Create a restricted key with only the permissions your assistant needs.
@@ -31,7 +31,36 @@ The Diga MCP server turns Diga API operations into tools your assistant can disc
 
 Your MCP client shows the exact tools available to it, including each tool's description and required parameters.
 
-## How authentication and project selection work
+## Choose how to authenticate
+
+The Diga MCP server accepts two kinds of credentials.
+
+| Method | Best for | How the project is chosen |
+|---|---|---|
+| **Sign in with your Diga account (OAuth)** | A personal assistant, when your MCP client supports OAuth for remote servers | You choose it per session, and can switch at any time |
+| **Project API key** | Shared setups, automation, and clients without OAuth support | Fixed: the project where you created the key |
+
+Both give the same tools. An OAuth session has the permissions of your role in the project; an API key has the permissions you granted the key.
+
+## Sign in with your Diga account (OAuth)
+
+Add the server without any authentication header:
+
+```bash
+claude mcp add --transport http diga https://mcp.diga.io/mcp
+```
+
+Your client registers itself with Diga's authorization server and opens a browser window. Sign in with your Diga account and approve access.
+
+### Select a project
+
+Your account can belong to several projects, so an OAuth session starts without one. The first tool call returns an error listing the projects you belong to. Ask your assistant to pick one:
+
+> Use the Diga project Acme.
+
+This calls the `diga_select_project` tool. The choice is stored for 24 hours and applies to every later call in the session. Ask again at any time to switch projects.
+
+## Connect with a project API key
 
 Your MCP client connects to Diga over Streamable HTTP and sends your API key with every request.
 
@@ -146,6 +175,14 @@ Your client should ask for approval before running a tool if its permission sett
 ## Troubleshooting
 
 <AccordionGroup>
+  <Accordion title="A tool says no project is selected">
+    You are signed in with OAuth, which starts without an active project. Ask your assistant to select one of the projects listed in the error message; the choice lasts 24 hours.
+  </Accordion>
+
+  <Accordion title="The browser sign-in never opens">
+    Your MCP client does not support OAuth for remote servers. Connect with a project API key instead.
+  </Accordion>
+
   <Accordion title="The server returns 401 Unauthorized">
     Confirm that you copied the complete API key and that the client sends it as `x-api-key` without the `Bearer` prefix. If you use the `Authorization` header instead, its value must be `Bearer <DIGA_API_KEY>`.
   </Accordion>
