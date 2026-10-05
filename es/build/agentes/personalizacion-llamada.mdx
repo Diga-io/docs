@@ -91,7 +91,7 @@ Las voces no tienen ajustes de velocidad, temperatura ni estabilidad, y no es po
 - **Volumen de la voz**. Controla lo alto que se escucha al agente durante la llamada, de `0` (bajo) a `100` (alto).
   - **Valor por defecto:** `50`
 
-- **Instrucciones globales**. Define instrucciones generales que orienten el comportamiento del agente durante la llamada.  Estas directrices complementan el prompt y **se aplican de forma consistente a todas las interacciones**.
+- **Instrucciones globales (Caminos conversacionales)**. Define instrucciones generales que orienten el comportamiento del agente durante la llamada.
 
 ## Ajustes de llamada
 Controla el comportamiento del agente durante la llamada, incluyendo el sonido ambiente y la gestión de silencios.
@@ -105,20 +105,12 @@ Controla el comportamiento del agente durante la llamada, incluyendo el sonido a
 El sistema de detección de inactividad ayuda a mantener la conversación activa cuando el usuario deja de responder. Este mecanismo es fundamental para evitar silencios largos que terminan con la llamada o generan una mala experiencia.
 
 <Frame>
-  <img src="/images/recordatorio-inactividad.png" alt="Diagrama de flujo mostrando el sistema de detección de inactividad con recordatorios progresivos" />
+  <img src="/images/recordatorio-inactividad.png" alt="Diagrama de flujo mostrando el sistema de detección de inactividad con recordatorios progresivos" style={{ maxWidth: "60%" }}/>
 </Frame>
 
 - **Mensajes en caso de silencio**. Configura los mensajes que el agente podrá usar cuando no haya respuesta.
   - **Mensajes fijos:** Una lista de frases específicas que el agente usará de manera aleatoria
   - **Mensajes generados:** El agente generará mensajes naturales basándose en el contexto. Este es el enfoque recomendado para una experiencia más humana.
-
-- **Frecuencia de recordatorios**. Define cada cuánto tiempo (en milisegundos) el agente debe enviar un recordatorio si no detecta actividad.
-  - **Valor por defecto:** `7500` (7.5 segundos)
-  - **Rango recomendado:** `5000` a `15000` ms
-
-<Warning>
-**Evita valores muy bajos**: Frecuencias menores a 5 segundos pueden hacer que el agente interrumpa al usuario mientras piensa su respuesta, generando una experiencia frustrante.
-</Warning>
 
 - **Número máximo de recordatorios**. Especifica cuántos recordatorios enviará el agente antes de terminar la llamada por inactividad.
   - **Valor por defecto:** `3`
@@ -131,6 +123,10 @@ Vincula documentos a tu agente para que pueda consultar información relevante d
 1. Haz clic en **Vincular documentos**.
 2. Busca y selecciona los documentos o colecciones que quieras asociar al agente, o sube uno nuevo.
 3. Los documentos vinculados aparecerán listados y podrás eliminarlos en cualquier momento.
+
+<Frame>
+  <img src="/images/vincular-base-conocimiento.png" alt="Menu para vincular la base de conocimiento al agente" style={{ maxWidth: "60%" }}/>
+</Frame>
 
 Una vez vinculados, el agente consultará automáticamente estos documentos cuando necesite información adicional para responder durante la llamada.
 

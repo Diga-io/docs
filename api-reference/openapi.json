@@ -252,6 +252,22 @@
               ],
               "title": "Search"
             }
+          },
+          {
+            "name": "end_reason",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/EndReason"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "End Reason"
+            }
           }
         ],
         "responses": {
@@ -413,6 +429,242 @@
                   "status": "error",
                   "error_code": "SIP_CONFIG_NOT_SET",
                   "message": "SIP configuration not set for this project"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/call/ids": {
+      "get": {
+        "tags": [
+          "Calls"
+        ],
+        "summary": "List call ids",
+        "description": "Return the ids of every call matching the same filters as the call list, newest first, capped at 1000. Meant for select-all bulk actions.",
+        "operationId": "list_call_ids_v1_call_ids_get",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "agent_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Agent Id"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CallStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CallType"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Type"
+            }
+          },
+          {
+            "name": "start_created_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Start Created Date"
+            }
+          },
+          {
+            "name": "end_created_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "End Created Date"
+            }
+          },
+          {
+            "name": "contact_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Contact Id"
+            }
+          },
+          {
+            "name": "phone_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Phone Id"
+            }
+          },
+          {
+            "name": "contact_phone",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 3
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Contact Phone"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 2
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search"
+            }
+          },
+          {
+            "name": "end_reason",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/EndReason"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "End Reason"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CallIdsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid field",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "NOT_VALID_FIELD",
+                  "message": "Invalid field value in query parameters"
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponseSchema"
@@ -864,6 +1116,84 @@
         ]
       }
     },
+    "/v1/call/message/bulk": {
+      "post": {
+        "tags": [
+          "Calls"
+        ],
+        "summary": "Bulk download transcripts",
+        "description": "Download the transcripts of multiple calls as a ZIP file with one `{call_id}.json` per call, each holding the same message list as the call messages endpoint. Calls without messages are skipped.",
+        "operationId": "bulk_download_transcripts_v1_call_message_bulk_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkTranscriptRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "ZIP archive",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Transcripts Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                },
+                "example": {
+                  "status": "error",
+                  "error_code": "NO_TRANSCRIPTS_FOUND",
+                  "message": "None of the requested calls have transcripts available"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                },
+                "example": {
+                  "status": "error",
+                  "error_code": "INTERNAL_SERVER_ERROR",
+                  "message": "Error: Internal Server Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
     "/v1/recording/{call_id}": {
       "get": {
         "tags": [
@@ -935,10 +1265,13 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "ZIP archive",
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/zip": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
               }
             }
           },
@@ -3580,6 +3913,74 @@
         }
       }
     },
+    "/v1/knowledge/item/{id}/refresh": {
+      "post": {
+        "tags": [
+          "Knowledge Items"
+        ],
+        "summary": "Refresh Knowledge Item",
+        "description": "Re-crawl a URL knowledge item so its indexed content matches the live page.\nReturns the item with status `indexing`; poll the item until it is `uploaded`\n(or `error`). `updated_date` is set once the refresh succeeds.",
+        "operationId": "refresh_knowledge_item_v1_knowledge_item__id__refresh_post",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/FileKnowledgeItemResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/URLKnowledgeItemResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TextKnowledgeItemResponse"
+                    }
+                  ],
+                  "discriminator": {
+                    "propertyName": "category",
+                    "mapping": {
+                      "file": "#/components/schemas/FileKnowledgeItemResponse",
+                      "url": "#/components/schemas/URLKnowledgeItemResponse",
+                      "txt": "#/components/schemas/TextKnowledgeItemResponse"
+                    }
+                  },
+                  "title": "Response Refresh Knowledge Item V1 Knowledge Item  Id  Refresh Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/agent/template": {
       "get": {
         "tags": [
@@ -4078,6 +4479,24 @@
               "type": "boolean",
               "default": false,
               "title": "Is Published"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search"
             }
           }
         ],
@@ -5238,7 +5657,7 @@
           "Voices"
         ],
         "summary": "List Voices",
-        "description": "List the Gemini voices available in Diga. Supports cursor pagination and optional filtering by name and gender.",
+        "description": "List voices available in Diga. Defaults to Gemini and supports filtering by provider, name, and gender.",
         "operationId": "list_voices_v1_voice__get",
         "security": [
           {
@@ -5321,6 +5740,15 @@
               "type": "string",
               "default": "desc",
               "title": "Order"
+            }
+          },
+          {
+            "name": "provider",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/VoiceProvider",
+              "default": "gemini"
             }
           },
           {
@@ -6148,6 +6576,24 @@
                 }
               ],
               "title": "Integration Type"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search"
             }
           }
         ],
@@ -7769,6 +8215,24 @@
                 }
               ],
               "title": "End Assigned At"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search"
             }
           }
         ],
@@ -10511,51 +10975,191 @@
         ]
       }
     },
-    "/v1/notification/usage_alert": {
+    "/v1/notification": {
       "get": {
         "tags": [
           "Notifications"
         ],
-        "summary": "Get Usage Alert Config",
-        "description": "Retrieve information about usage_alert",
-        "operationId": "get_usage_alert_config_v1_notification_usage_alert_get",
+        "summary": "List Notifications",
+        "operationId": "list_notifications_v1_notification_get",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Fetch items strictly after this id",
+              "title": "After"
+            },
+            "description": "Fetch items strictly after this id"
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Fetch items strictly before this id",
+              "title": "Before"
+            },
+            "description": "Fetch items strictly before this id"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Page number for page-based pagination",
+              "title": "Page"
+            },
+            "description": "Page number for page-based pagination"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of items to return. Max 100, default 20",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of items to return. Max 100, default 20"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string",
+              "description": "Sort by created_date then id",
+              "default": "desc",
+              "title": "Order"
+            },
+            "description": "Sort by created_date then id"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "usage",
+                      "billing",
+                      "team",
+                      "security",
+                      "operational",
+                      "product"
+                    ],
+                    "type": "string"
+                  },
+                  "minItems": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Category"
+            }
+          },
+          {
+            "name": "severity",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Severity"
+            }
+          },
+          {
+            "name": "unread",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Unread"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Project Id"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UsageAlertConfigurationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Not Valid Field",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                },
-                "example": {
-                  "status": "error",
-                  "error_code": "NOT_VALID_FIELD",
-                  "message": "Invalid field value in query parameters"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden - Insufficient permissions",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                },
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Missing required permissions"
+                  "$ref": "#/components/schemas/PaginatedResponse_NotificationResponse_"
                 }
               }
             }
@@ -10569,41 +11173,104 @@
                 }
               }
             }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                },
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Error: Internal Server Error"
-                }
-              }
-            }
           }
-        },
+        }
+      }
+    },
+    "/v1/notification/unread-count": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Get Unread Notification Count",
+        "operationId": "get_unread_notification_count_v1_notification_unread_count_get",
         "security": [
           {
             "CustomHTTPBearer": []
           }
-        ]
-      },
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "usage",
+                      "billing",
+                      "team",
+                      "security",
+                      "operational",
+                      "product"
+                    ],
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Category"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnreadNotificationCountResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/notification/read": {
       "post": {
         "tags": [
           "Notifications"
         ],
-        "summary": "Update Usage Alert Config",
-        "description": "Create a new usage_alert",
-        "operationId": "update_usage_alert_config_v1_notification_usage_alert_post",
+        "summary": "Mark Notifications Read",
+        "operationId": "mark_notifications_read_v1_notification_read_post",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UsageAlertNotificationRequest"
+                "$ref": "#/components/schemas/MarkNotificationsReadRequest"
               }
             }
           },
@@ -10615,37 +11282,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UsageAlertConfigurationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Not Valid Field",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                },
-                "example": {
-                  "status": "error",
-                  "error_code": "NOT_VALID_FIELD",
-                  "message": "Invalid field value in query parameters"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden - Insufficient permissions",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                },
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Missing required permissions"
+                  "$ref": "#/components/schemas/MarkNotificationsReadResponse"
                 }
               }
             }
@@ -10659,18 +11296,141 @@
                 }
               }
             }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/notification/unread": {
+      "post": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Mark Notifications Unread",
+        "operationId": "mark_notifications_unread_v1_notification_unread_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkNotificationsReadRequest"
+              }
+            }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                  "$ref": "#/components/schemas/MarkNotificationsReadResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/notification/preferences": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Get Notification Preferences",
+        "operationId": "get_notification_preferences_v1_notification_preferences_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/NotificationPreferenceResponse"
+                  },
+                  "type": "array",
+                  "title": "Response Get Notification Preferences V1 Notification Preferences Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Update Notification Preferences",
+        "operationId": "update_notification_preferences_v1_notification_preferences_patch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/NotificationPreferenceRequest"
                 },
-                "example": {
-                  "status": "error",
-                  "error_code": "INTERNAL_SERVER_ERROR",
-                  "message": "Error: Internal Server Error"
+                "type": "array",
+                "title": "Preferences"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/NotificationPreferenceResponse"
+                  },
+                  "type": "array",
+                  "title": "Response Update Notification Preferences V1 Notification Preferences Patch"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -11082,6 +11842,718 @@
           },
           "503": {
             "description": "Workflow service unavailable"
+          }
+        }
+      }
+    },
+    "/v1/workflow/client-connection-requests": {
+      "post": {
+        "tags": [
+          "Workflows - Client Connections"
+        ],
+        "summary": "Create Client Connection Request",
+        "operationId": "create_client_connection_request_v1_workflow_client_connection_requests_post",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateClientConnectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientConnectionRequestWithLinkResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Workflows - Client Connections"
+        ],
+        "summary": "List Client Connection Requests",
+        "operationId": "list_client_connection_requests_v1_workflow_client_connection_requests_get",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "statuses",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClientConnectionStatus"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Statuses"
+            }
+          },
+          {
+            "name": "piece_name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 255
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Piece Name"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 255
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClientConnectionRequestResponse"
+                  },
+                  "title": "Response List Client Connection Requests V1 Workflow Client Connection Requests Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/workflow/client-connection-requests/{request_id}": {
+      "get": {
+        "tags": [
+          "Workflows - Client Connections"
+        ],
+        "summary": "Get Client Connection Request",
+        "operationId": "get_client_connection_request_v1_workflow_client_connection_requests__request_id__get",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Request Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientConnectionRequestResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Workflows - Client Connections"
+        ],
+        "summary": "Delete Client Connection Request",
+        "operationId": "delete_client_connection_request_v1_workflow_client_connection_requests__request_id__delete",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Request Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/workflow/client-connection-requests/{request_id}/link": {
+      "post": {
+        "tags": [
+          "Workflows - Client Connections"
+        ],
+        "summary": "Copy Client Connection Link",
+        "operationId": "copy_client_connection_link_v1_workflow_client_connection_requests__request_id__link_post",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Request Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientConnectionLinkResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/workflow/client-connection-requests/{request_id}/regenerate": {
+      "post": {
+        "tags": [
+          "Workflows - Client Connections"
+        ],
+        "summary": "Regenerate Client Connection Link",
+        "operationId": "regenerate_client_connection_link_v1_workflow_client_connection_requests__request_id__regenerate_post",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Request Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientConnectionLinkResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/workflow/client-connection-requests/{request_id}/revoke": {
+      "post": {
+        "tags": [
+          "Workflows - Client Connections"
+        ],
+        "summary": "Revoke Client Connection Request",
+        "operationId": "revoke_client_connection_request_v1_workflow_client_connection_requests__request_id__revoke_post",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Request Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientConnectionRequestResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/public/client-connection-requests/exchange": {
+      "post": {
+        "tags": [
+          "Public Client Connections"
+        ],
+        "summary": "Exchange Client Connection Token",
+        "operationId": "exchange_client_connection_token_v1_public_client_connection_requests_exchange_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExchangeClientConnectionTokenRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicClientConnectionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/public/client-connection-requests/{request_id}/current": {
+      "get": {
+        "tags": [
+          "Public Client Connections"
+        ],
+        "summary": "Get Current Client Connection Request",
+        "operationId": "get_current_client_connection_request_v1_public_client_connection_requests__request_id__current_get",
+        "parameters": [
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Request Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicClientConnectionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/public/client-connection-requests/{request_id}/credentials": {
+      "post": {
+        "tags": [
+          "Public Client Connections"
+        ],
+        "summary": "Submit Client Connection Credentials",
+        "operationId": "submit_client_connection_credentials_v1_public_client_connection_requests__request_id__credentials_post",
+        "parameters": [
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Request Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitClientCredentialsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientConnectionCompletionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/public/client-connection-requests/{request_id}/oauth/start": {
+      "post": {
+        "tags": [
+          "Public Client Connections"
+        ],
+        "summary": "Start Client Connection Oauth",
+        "operationId": "start_client_connection_oauth_v1_public_client_connection_requests__request_id__oauth_start_post",
+        "parameters": [
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Request Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OAuthStartRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthStartResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/public/client-connection-requests/{request_id}/oauth/complete": {
+      "post": {
+        "tags": [
+          "Public Client Connections"
+        ],
+        "summary": "Complete Cloud Client Connection Oauth",
+        "operationId": "complete_cloud_client_connection_oauth_v1_public_client_connection_requests__request_id__oauth_complete_post",
+        "parameters": [
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Request Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OAuthCompleteRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientConnectionCompletionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/public/client-connection-requests/oauth/callback": {
+      "get": {
+        "tags": [
+          "Public Client Connections"
+        ],
+        "summary": "Complete Client Connection Oauth",
+        "operationId": "complete_client_connection_oauth_v1_public_client_connection_requests_oauth_callback_get",
+        "parameters": [
+          {
+            "name": "state",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024,
+              "title": "State"
+            }
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 16384
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Code"
+            }
+          },
+          {
+            "name": "error",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 255
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Error"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
           }
         }
       }
@@ -13398,7 +14870,31 @@
               }
             ],
             "title": "Prompt",
-            "description": "The prompt given to the agent"
+            "description": "Shared task and business instructions for the agent"
+          },
+          "voice_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Voice Prompt",
+            "description": "FREE mode only: speaking style and conversational instructions. GPT Live sends this only to the voice model; single-model providers combine it with the shared prompt."
+          },
+          "backend_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Backend Prompt",
+            "description": "FREE mode only: tool execution and validation instructions. GPT Live sends this only to the backend model; single-model providers combine it with the shared prompt."
           },
           "greeting": {
             "anyOf": [
@@ -13423,6 +14919,29 @@
             ],
             "title": "Time Before Start",
             "description": "The time in seconds before the agent starts to speak"
+          },
+          "thinking_level": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ThinkingLevel"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thinking Level",
+            "description": "Reasoning level (MINIMAL, LOW, MEDIUM, HIGH) for the realtime provider: Gemini thinking level, GPT-Live backend reasoning effort, Grok reasoning (MEDIUM/HIGH enable it). Unset means MINIMAL, the lowest latency."
+          },
+          "realtime_provider": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RealtimeProvider"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Primary realtime provider. When omitted on creation, inferred from the selected voice."
           },
           "voice_id": {
             "type": "string",
@@ -13503,7 +15022,7 @@
           "mode": {
             "$ref": "#/components/schemas/AgentMode",
             "title": "Agent Mode",
-            "description": "Conversation mode. 'free' (default) is a single-prompt agent. 'path' is a structured graph; setting mode='path' REQUIRES `conversational_path_id` to point at an already-created path (call `diga_create_path` first to obtain it).",
+            "description": "Conversation mode. 'free' (default) is a freely conversational agent. 'path' is a structured graph; setting mode='path' REQUIRES `conversational_path_id` to point at an already-created path (call `diga_create_path` first to obtain it).",
             "default": "free"
           },
           "conversational_path_id": {
@@ -13634,6 +15153,24 @@
             "title": "Flow IDs",
             "description": "List of flow IDs to assign to the agent",
             "default": []
+          },
+          "enable_recording": {
+            "type": "boolean",
+            "title": "Enable Recording",
+            "description": "Record the audio of the calls this agent handles",
+            "default": true
+          },
+          "enable_transcription": {
+            "type": "boolean",
+            "title": "Enable Transcription",
+            "description": "Store the transcript of the calls this agent handles. When disabled, conversation text is also kept out of call logs and traces",
+            "default": true
+          },
+          "enable_contact_collection": {
+            "type": "boolean",
+            "title": "Enable Contact Collection",
+            "description": "Store the caller (or callee, on outbound calls) as a contact linked to the call. When disabled, calls are stored without a contact",
+            "default": true
           },
           "voicemail_detection": {
             "type": "boolean",
@@ -13804,7 +15341,31 @@
               }
             ],
             "title": "Prompt",
-            "description": "The prompt given to the agent"
+            "description": "Shared task and business instructions for the agent"
+          },
+          "voice_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Voice Prompt",
+            "description": "FREE mode only: speaking style and conversational instructions. GPT Live sends this only to the voice model; single-model providers combine it with the shared prompt."
+          },
+          "backend_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Backend Prompt",
+            "description": "FREE mode only: tool execution and validation instructions. GPT Live sends this only to the backend model; single-model providers combine it with the shared prompt."
           },
           "greeting": {
             "anyOf": [
@@ -13829,6 +15390,22 @@
             ],
             "title": "Time Before Start",
             "description": "The time in seconds before the agent starts to speak"
+          },
+          "thinking_level": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ThinkingLevel"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thinking Level",
+            "description": "Reasoning level (MINIMAL, LOW, MEDIUM, HIGH) for the realtime provider: Gemini thinking level, GPT-Live backend reasoning effort, Grok reasoning (MEDIUM/HIGH enable it). Unset means MINIMAL, the lowest latency."
+          },
+          "realtime_provider": {
+            "$ref": "#/components/schemas/RealtimeProvider",
+            "description": "Primary realtime provider. Use this to filter GET /v1/voice/."
           },
           "voice": {
             "$ref": "#/components/schemas/VoiceResponseSchema",
@@ -14002,6 +15579,24 @@
             "title": "Source Template ID",
             "description": "The ID of the agent template this agent was created from"
           },
+          "enable_recording": {
+            "type": "boolean",
+            "title": "Enable Recording",
+            "description": "Record the audio of the calls this agent handles",
+            "default": true
+          },
+          "enable_transcription": {
+            "type": "boolean",
+            "title": "Enable Transcription",
+            "description": "Store the transcript of the calls this agent handles. When disabled, conversation text is also kept out of call logs and traces",
+            "default": true
+          },
+          "enable_contact_collection": {
+            "type": "boolean",
+            "title": "Enable Contact Collection",
+            "description": "Store the caller (or callee, on outbound calls) as a contact linked to the call. When disabled, calls are stored without a contact",
+            "default": true
+          },
           "voicemail_detection": {
             "type": "boolean",
             "title": "Voicemail Detection",
@@ -14092,6 +15687,7 @@
           "version_id",
           "version_number",
           "version_created_at",
+          "realtime_provider",
           "voice",
           "language",
           "mode"
@@ -14211,7 +15807,31 @@
               }
             ],
             "title": "Prompt",
-            "description": "The prompt given to the agent"
+            "description": "Shared task and business instructions for the agent"
+          },
+          "voice_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Voice Prompt",
+            "description": "FREE mode only: speaking style and conversational instructions. GPT Live sends this only to the voice model; single-model providers combine it with the shared prompt."
+          },
+          "backend_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Backend Prompt",
+            "description": "FREE mode only: tool execution and validation instructions. GPT Live sends this only to the backend model; single-model providers combine it with the shared prompt."
           },
           "greeting": {
             "anyOf": [
@@ -14236,6 +15856,22 @@
             ],
             "title": "Time Before Start",
             "description": "The time in seconds before the agent starts to speak"
+          },
+          "thinking_level": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ThinkingLevel"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thinking Level",
+            "description": "Reasoning level (MINIMAL, LOW, MEDIUM, HIGH) for the realtime provider: Gemini thinking level, GPT-Live backend reasoning effort, Grok reasoning (MEDIUM/HIGH enable it). Unset means MINIMAL, the lowest latency."
+          },
+          "realtime_provider": {
+            "$ref": "#/components/schemas/RealtimeProvider",
+            "description": "Primary realtime provider. Select a matching voice before launch or publish."
           },
           "voice_id": {
             "type": "string",
@@ -14306,7 +15942,7 @@
           "mode": {
             "$ref": "#/components/schemas/AgentMode",
             "title": "Agent Mode",
-            "description": "Conversation mode. 'free' is a single-prompt agent; 'path' is a structured graph and REQUIRES `conversational_path_id` (set either in this same request or pre-existing on the agent)."
+            "description": "Conversation mode. 'free' is a freely conversational agent; 'path' is a structured graph and REQUIRES `conversational_path_id` (set either in this same request or pre-existing on the agent)."
           },
           "conversational_path_id": {
             "anyOf": [
@@ -14415,6 +16051,21 @@
             ],
             "title": "Flow IDs",
             "description": "List of flow IDs to assign to the agent. If provided, replaces all existing flow assignments."
+          },
+          "enable_recording": {
+            "type": "boolean",
+            "title": "Enable Recording",
+            "description": "Record the audio of the calls this agent handles"
+          },
+          "enable_transcription": {
+            "type": "boolean",
+            "title": "Enable Transcription",
+            "description": "Store the transcript of the calls this agent handles. When disabled, conversation text is also kept out of call logs and traces"
+          },
+          "enable_contact_collection": {
+            "type": "boolean",
+            "title": "Enable Contact Collection",
+            "description": "Store the caller (or callee, on outbound calls) as a contact linked to the call. When disabled, calls are stored without a contact"
           },
           "voicemail_detection": {
             "type": "boolean",
@@ -14922,19 +16573,6 @@
             "format": "binary",
             "title": "Invoice",
             "description": "Invoice document (PDF)"
-          },
-          "notification_email": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "email"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Notification Email",
-            "description": "The email to notify once the verification is reviewed."
           }
         },
         "type": "object",
@@ -15228,6 +16866,50 @@
         ],
         "title": "BulkRecordingRequest"
       },
+      "BulkTranscriptRequest": {
+        "properties": {
+          "call_ids": {
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "type": "array",
+            "maxItems": 500,
+            "minItems": 1,
+            "title": "Call IDs",
+            "description": "UUIDs of the calls whose transcripts to download. Up to 500 per request."
+          }
+        },
+        "type": "object",
+        "required": [
+          "call_ids"
+        ],
+        "title": "BulkTranscriptRequest"
+      },
+      "CallIdsResponse": {
+        "properties": {
+          "call_ids": {
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "type": "array",
+            "title": "Call IDs",
+            "description": "Ids of the calls matching the filters."
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "Number of ids returned."
+          }
+        },
+        "type": "object",
+        "required": [
+          "call_ids",
+          "total"
+        ],
+        "title": "CallIdsResponse"
+      },
       "CallLogResponse": {
         "properties": {
           "id": {
@@ -15460,9 +17142,16 @@
             "description": "The reason for call termination, if the call has ended"
           },
           "contact": {
-            "$ref": "#/components/schemas/ContactResponseSchema",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ContactResponseSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Contact",
-            "description": "Details of the contact that initiated or received the call"
+            "description": "Details of the contact that initiated or received the call. `null` when the agent has contact collection disabled."
           },
           "phone_register_id": {
             "anyOf": [
@@ -15504,7 +17193,6 @@
           "agent_version_id",
           "status",
           "type",
-          "contact",
           "phone_register_id",
           "created_date"
         ],
@@ -15626,6 +17314,600 @@
           "web"
         ],
         "title": "Channel"
+      },
+      "ClientConnectionAuthMethod": {
+        "properties": {
+          "auth_property_index": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Auth Property Index"
+          },
+          "connection_type": {
+            "$ref": "#/components/schemas/ClientConnectionType"
+          },
+          "oauth_grant_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OAuthGrantType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "auth_property_index",
+          "connection_type"
+        ],
+        "title": "ClientConnectionAuthMethod"
+      },
+      "ClientConnectionCompletionResponse": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/ClientConnectionStatus"
+          },
+          "connection_external_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Connection External Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "ClientConnectionCompletionResponse"
+      },
+      "ClientConnectionEventResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "event_type": {
+            "type": "string",
+            "title": "Event Type"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "event_type",
+          "created_at"
+        ],
+        "title": "ClientConnectionEventResponse"
+      },
+      "ClientConnectionLinkResponse": {
+        "properties": {
+          "link": {
+            "type": "string",
+            "title": "Link"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "link",
+          "expires_at"
+        ],
+        "title": "ClientConnectionLinkResponse"
+      },
+      "ClientConnectionRequestResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "resource_type": {
+            "type": "string",
+            "title": "Resource Type",
+            "default": "CLIENT_CONNECTION_REQUEST"
+          },
+          "piece_name": {
+            "type": "string",
+            "title": "Piece Name"
+          },
+          "piece_version": {
+            "type": "string",
+            "title": "Piece Version"
+          },
+          "piece_display_name": {
+            "type": "string",
+            "title": "Piece Display Name"
+          },
+          "piece_logo_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Piece Logo Url"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "purpose": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purpose"
+          },
+          "requester_name": {
+            "type": "string",
+            "title": "Requester Name"
+          },
+          "requester_company_name": {
+            "type": "string",
+            "title": "Requester Company Name"
+          },
+          "auth_property_index": {
+            "type": "integer",
+            "title": "Auth Property Index"
+          },
+          "connection_type": {
+            "$ref": "#/components/schemas/ClientConnectionType"
+          },
+          "oauth_grant_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OAuthGrantType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "$ref": "#/components/schemas/ClientConnectionStatus"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          },
+          "target_connection_external_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Connection External Id"
+          },
+          "result_connection_external_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Connection External Id"
+          },
+          "safe_identity": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Safe Identity"
+          },
+          "last_error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Error Code"
+          },
+          "last_error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Error Message"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "opened_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opened At"
+          },
+          "authentication_started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Authentication Started At"
+          },
+          "completed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "events": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ClientConnectionEventResponse"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Events"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "piece_name",
+          "piece_version",
+          "piece_display_name",
+          "piece_logo_url",
+          "display_name",
+          "purpose",
+          "requester_name",
+          "requester_company_name",
+          "auth_property_index",
+          "connection_type",
+          "oauth_grant_type",
+          "status",
+          "expires_at",
+          "target_connection_external_id",
+          "result_connection_external_id",
+          "safe_identity",
+          "last_error_code",
+          "last_error_message",
+          "created_at",
+          "updated_at",
+          "opened_at",
+          "authentication_started_at",
+          "completed_at"
+        ],
+        "title": "ClientConnectionRequestResponse"
+      },
+      "ClientConnectionRequestWithLinkResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "resource_type": {
+            "type": "string",
+            "title": "Resource Type",
+            "default": "CLIENT_CONNECTION_REQUEST"
+          },
+          "piece_name": {
+            "type": "string",
+            "title": "Piece Name"
+          },
+          "piece_version": {
+            "type": "string",
+            "title": "Piece Version"
+          },
+          "piece_display_name": {
+            "type": "string",
+            "title": "Piece Display Name"
+          },
+          "piece_logo_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Piece Logo Url"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "purpose": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purpose"
+          },
+          "requester_name": {
+            "type": "string",
+            "title": "Requester Name"
+          },
+          "requester_company_name": {
+            "type": "string",
+            "title": "Requester Company Name"
+          },
+          "auth_property_index": {
+            "type": "integer",
+            "title": "Auth Property Index"
+          },
+          "connection_type": {
+            "$ref": "#/components/schemas/ClientConnectionType"
+          },
+          "oauth_grant_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OAuthGrantType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "$ref": "#/components/schemas/ClientConnectionStatus"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          },
+          "target_connection_external_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Connection External Id"
+          },
+          "result_connection_external_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Connection External Id"
+          },
+          "safe_identity": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Safe Identity"
+          },
+          "last_error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Error Code"
+          },
+          "last_error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Error Message"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "opened_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opened At"
+          },
+          "authentication_started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Authentication Started At"
+          },
+          "completed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "events": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ClientConnectionEventResponse"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Events"
+          },
+          "link": {
+            "type": "string",
+            "title": "Link"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "piece_name",
+          "piece_version",
+          "piece_display_name",
+          "piece_logo_url",
+          "display_name",
+          "purpose",
+          "requester_name",
+          "requester_company_name",
+          "auth_property_index",
+          "connection_type",
+          "oauth_grant_type",
+          "status",
+          "expires_at",
+          "target_connection_external_id",
+          "result_connection_external_id",
+          "safe_identity",
+          "last_error_code",
+          "last_error_message",
+          "created_at",
+          "updated_at",
+          "opened_at",
+          "authentication_started_at",
+          "completed_at",
+          "link"
+        ],
+        "title": "ClientConnectionRequestWithLinkResponse"
+      },
+      "ClientConnectionStatus": {
+        "type": "string",
+        "enum": [
+          "AWAITING_CLIENT",
+          "CONNECTED",
+          "EXPIRED",
+          "REVOKED",
+          "CONNECTION_ERROR",
+          "RECONNECTION_REQUESTED"
+        ],
+        "title": "ClientConnectionStatus"
+      },
+      "ClientConnectionType": {
+        "type": "string",
+        "enum": [
+          "OAUTH2",
+          "PLATFORM_OAUTH2",
+          "CLOUD_OAUTH2",
+          "SECRET_TEXT",
+          "BASIC_AUTH",
+          "CUSTOM_AUTH"
+        ],
+        "title": "ClientConnectionType"
       },
       "ConnectionCredential": {
         "properties": {
@@ -16216,6 +18498,83 @@
         ],
         "title": "CopyTemplateResponse",
         "description": "Response after copying a template."
+      },
+      "CreateClientConnectionRequest": {
+        "properties": {
+          "piece_name": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Piece Name"
+          },
+          "piece_version": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Piece Version"
+          },
+          "display_name": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Display Name"
+          },
+          "purpose": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purpose"
+          },
+          "auth_method": {
+            "$ref": "#/components/schemas/ClientConnectionAuthMethod"
+          },
+          "expires_in_days": {
+            "type": "integer",
+            "maximum": 30.0,
+            "minimum": 1.0,
+            "title": "Expires In Days",
+            "default": 7
+          },
+          "target_connection_external_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Connection External Id"
+          },
+          "locale": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-z]{2}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Locale",
+            "description": "Language for the service's own field labels and instructions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "piece_name",
+          "piece_version",
+          "display_name",
+          "auth_method"
+        ],
+        "title": "CreateClientConnectionRequest"
       },
       "CreateFlowRequest": {
         "properties": {
@@ -17010,6 +19369,29 @@
         "title": "EndNodeResponseSchema",
         "description": "Defines an end node with all its properties."
       },
+      "EndReason": {
+        "type": "string",
+        "enum": [
+          "user_hang_up",
+          "agent_hang_up",
+          "user_did_not_answer",
+          "answering_machine_detected",
+          "voicemail_left",
+          "mailbox_unavailable",
+          "ivr_unreachable",
+          "ivr_no_answer",
+          "path_completed",
+          "transfer",
+          "error",
+          "pre_call_flow_failed",
+          "concurrency_limit",
+          "no_remaining_seconds",
+          "user_left_queue",
+          "queue_timeout",
+          "unknown"
+        ],
+        "title": "EndReason"
+      },
       "ErrorResponseSchema": {
         "properties": {
           "status": {
@@ -17046,6 +19428,21 @@
         ],
         "title": "ErrorResponseSchema",
         "description": "Standard error response format for all API errors."
+      },
+      "ExchangeClientConnectionTokenRequest": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 20,
+            "title": "Token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token"
+        ],
+        "title": "ExchangeClientConnectionTokenRequest"
       },
       "ExecutionAudio": {
         "type": "string",
@@ -17121,6 +19518,19 @@
             "format": "date-time",
             "title": "Created Date",
             "description": "When the item was created"
+          },
+          "updated_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated Date",
+            "description": "When the item content was last refreshed from its source, if ever"
           },
           "category": {
             "type": "string",
@@ -19084,6 +21494,46 @@
         ],
         "title": "LoginHistoryItem"
       },
+      "MarkNotificationsReadRequest": {
+        "properties": {
+          "ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "type": "array",
+                "minItems": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ids"
+          },
+          "all": {
+            "type": "boolean",
+            "title": "All",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "MarkNotificationsReadRequest"
+      },
+      "MarkNotificationsReadResponse": {
+        "properties": {
+          "updated": {
+            "type": "integer",
+            "title": "Updated"
+          }
+        },
+        "type": "object",
+        "required": [
+          "updated"
+        ],
+        "title": "MarkNotificationsReadResponse"
+      },
       "McpToolSchema": {
         "properties": {
           "id": {
@@ -19335,6 +21785,215 @@
         ],
         "title": "MoveBranchRequest",
         "description": "Request to move a branch to a different position."
+      },
+      "NotificationPreferenceRequest": {
+        "properties": {
+          "key": {
+            "$ref": "#/components/schemas/PreferenceKey"
+          },
+          "email_enabled": {
+            "type": "boolean",
+            "title": "Email Enabled"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "email_enabled"
+        ],
+        "title": "NotificationPreferenceRequest"
+      },
+      "NotificationPreferenceResponse": {
+        "properties": {
+          "key": {
+            "$ref": "#/components/schemas/PreferenceKey"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "account",
+              "project"
+            ],
+            "title": "Scope"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "usage",
+              "billing",
+              "team",
+              "security",
+              "operational",
+              "product"
+            ],
+            "title": "Category"
+          },
+          "group": {
+            "type": "string",
+            "title": "Group"
+          },
+          "email_enabled": {
+            "type": "boolean",
+            "title": "Email Enabled"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "scope",
+          "category",
+          "group",
+          "email_enabled"
+        ],
+        "title": "NotificationPreferenceResponse"
+      },
+      "NotificationResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "event_type": {
+            "type": "string",
+            "title": "Event Type"
+          },
+          "severity": {
+            "type": "string",
+            "title": "Severity"
+          },
+          "tone": {
+            "type": "string",
+            "title": "Tone"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "params": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Params"
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Project Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "read_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Read At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "event_type",
+          "severity",
+          "tone",
+          "category",
+          "params",
+          "created_at"
+        ],
+        "title": "NotificationResponse"
+      },
+      "OAuthCompleteRequest": {
+        "properties": {
+          "state": {
+            "type": "string",
+            "maxLength": 1024,
+            "minLength": 1,
+            "title": "State"
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 16384,
+            "minLength": 1,
+            "title": "Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "state",
+          "code"
+        ],
+        "title": "OAuthCompleteRequest"
+      },
+      "OAuthGrantType": {
+        "type": "string",
+        "enum": [
+          "AUTHORIZATION_CODE",
+          "CLIENT_CREDENTIALS"
+        ],
+        "title": "OAuthGrantType"
+      },
+      "OAuthStartRequest": {
+        "properties": {
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 16384
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id"
+          },
+          "client_secret": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 16384
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Secret"
+          },
+          "props": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Props"
+          }
+        },
+        "type": "object",
+        "title": "OAuthStartRequest"
+      },
+      "OAuthStartResponse": {
+        "properties": {
+          "authorization_url": {
+            "type": "string",
+            "title": "Authorization Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "authorization_url"
+        ],
+        "title": "OAuthStartResponse"
       },
       "OutboundConfigSchema": {
         "properties": {
@@ -20398,6 +23057,73 @@
           "has_more"
         ],
         "title": "PaginatedResponse[MessageResponse]"
+      },
+      "PaginatedResponse_NotificationResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/NotificationResponse"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "first_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Id"
+          },
+          "last_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Id"
+          },
+          "has_more": {
+            "type": "boolean",
+            "title": "Has More"
+          },
+          "current_page": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Current Page"
+          },
+          "total_pages": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Pages"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "has_more"
+        ],
+        "title": "PaginatedResponse[NotificationResponse]"
       },
       "PaginatedResponse_PathResponseSchema_": {
         "properties": {
@@ -22428,6 +25154,28 @@
         ],
         "title": "PostImportPhoneNumberRequestSchema"
       },
+      "PreferenceKey": {
+        "type": "string",
+        "enum": [
+          "api_key_expiring",
+          "approaching_minutes_limit",
+          "calls_queued_limit_reached",
+          "calls_rejected_queue_full",
+          "knowledge_storage_limit_reached",
+          "minutes_exhausted",
+          "payment_card_removed",
+          "payment_failed",
+          "phone_number_released",
+          "plan_change_applied",
+          "plan_downgrade_scheduled",
+          "security",
+          "subscription_cancelled",
+          "usage_based_billing_started",
+          "verification_results",
+          "workflow_limit_reached"
+        ],
+        "title": "PreferenceKey"
+      },
       "ProjectResponseSchema": {
         "properties": {
           "id": {
@@ -22466,6 +25214,132 @@
           "members_count"
         ],
         "title": "ProjectResponseSchema"
+      },
+      "PublicClientConnectionResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "service_name": {
+            "type": "string",
+            "title": "Service Name"
+          },
+          "service_logo_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Service Logo Url"
+          },
+          "connection_name": {
+            "type": "string",
+            "title": "Connection Name"
+          },
+          "requester_name": {
+            "type": "string",
+            "title": "Requester Name"
+          },
+          "requester_company_name": {
+            "type": "string",
+            "title": "Requester Company Name"
+          },
+          "purpose": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purpose"
+          },
+          "connection_type": {
+            "$ref": "#/components/schemas/ClientConnectionType"
+          },
+          "oauth_grant_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OAuthGrantType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "auth_schema": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Auth Schema"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ClientConnectionStatus"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          },
+          "safe_identity": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Safe Identity"
+          },
+          "last_error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Error Code"
+          },
+          "last_error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Error Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "service_name",
+          "service_logo_url",
+          "connection_name",
+          "requester_name",
+          "requester_company_name",
+          "purpose",
+          "connection_type",
+          "oauth_grant_type",
+          "auth_schema",
+          "status",
+          "expires_at",
+          "safe_identity",
+          "last_error_code",
+          "last_error_message"
+        ],
+        "title": "PublicClientConnectionResponse"
       },
       "PublishAgentRequest": {
         "properties": {
@@ -22631,6 +25505,16 @@
         ],
         "title": "QueryParamSchema",
         "description": "Schema for defining parameters with specific validations."
+      },
+      "RealtimeProvider": {
+        "type": "string",
+        "enum": [
+          "gemini",
+          "grok",
+          "gpt_live"
+        ],
+        "title": "RealtimeProvider",
+        "description": "Primary realtime providers selectable on an agent version."
       },
       "RecordingResponse": {
         "properties": {
@@ -23390,6 +26274,18 @@
               }
             ],
             "title": "Executiontype"
+          },
+          "sourceCode": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sourcecode"
           }
         },
         "type": "object",
@@ -23437,6 +26333,20 @@
         ],
         "title": "StepTestResponse",
         "description": "Result of testing a single step."
+      },
+      "SubmitClientCredentialsRequest": {
+        "properties": {
+          "value": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "SubmitClientCredentialsRequest"
       },
       "SubscriptionPhaseSchema": {
         "properties": {
@@ -23757,6 +26667,19 @@
             "title": "Created Date",
             "description": "When the item was created"
           },
+          "updated_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated Date",
+            "description": "When the item content was last refreshed from its source, if ever"
+          },
           "category": {
             "type": "string",
             "const": "txt",
@@ -23814,6 +26737,17 @@
           "status"
         ],
         "title": "TextKnowledgeItemResponse"
+      },
+      "ThinkingLevel": {
+        "type": "string",
+        "enum": [
+          "MINIMAL",
+          "LOW",
+          "MEDIUM",
+          "HIGH"
+        ],
+        "title": "ThinkingLevel",
+        "description": "Reasoning level for an agent version. Unset in the DB means MINIMAL.\n\nGemini Live applies it as its thinking level, GPT-Live as the backend\nResponses model's reasoning effort, Grok as reasoning on/off."
       },
       "ToolApprovalUpdate": {
         "properties": {
@@ -24177,7 +27111,7 @@
               }
             ],
             "title": "Target Number",
-            "description": "Phone number to transfer to (E.164, may include extension via '#1234'). Accepted under either 'target_number' or 'phone_number'."
+            "description": "Transfer destination passed to SIP as configured after resolving {{variable_name}} from current call variables. Accepted under either 'target_number' or 'phone_number'."
           },
           "description": {
             "anyOf": [
@@ -24284,7 +27218,18 @@
           },
           "phone_number": {
             "type": "string",
-            "title": "Phone Number"
+            "title": "Phone Number",
+            "description": "Transfer destination passed to SIP as configured after resolving {{variable_name}} from current call variables when the node executes."
+          },
+          "transfer_type": {
+            "type": "string",
+            "enum": [
+              "transfer",
+              "invite"
+            ],
+            "title": "Transfer Type",
+            "description": "'transfer' for a cold SIP REFER (the agent hands the call over and leaves), 'invite' for a warm SIP INVITE (the destination is dialled into the room).",
+            "default": "invite"
           }
         },
         "type": "object",
@@ -24369,6 +27314,16 @@
           "phone_number": {
             "type": "string",
             "title": "Phone Number"
+          },
+          "transfer_type": {
+            "type": "string",
+            "enum": [
+              "transfer",
+              "invite"
+            ],
+            "title": "Transfer Type",
+            "description": "'transfer' for a cold SIP REFER, 'invite' for a warm SIP INVITE.",
+            "default": "invite"
           }
         },
         "type": "object",
@@ -24625,6 +27580,19 @@
             "title": "Created Date",
             "description": "When the item was created"
           },
+          "updated_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated Date",
+            "description": "When the item content was last refreshed from its source, if ever"
+          },
           "category": {
             "type": "string",
             "const": "url",
@@ -24702,6 +27670,24 @@
           "failed_items"
         ],
         "title": "URLUploadResponse"
+      },
+      "UnreadNotificationCountResponse": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "critical": {
+            "type": "integer",
+            "title": "Critical"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "critical"
+        ],
+        "title": "UnreadNotificationCountResponse"
       },
       "UpcomingInvoiceSchema": {
         "properties": {
@@ -25134,84 +28120,6 @@
         "title": "UpdateTriggerRequest",
         "description": "Request to update the flow's trigger configuration."
       },
-      "UsageAlertConfigurationResponse": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Notification Id",
-            "description": "The unique identifier for the notification"
-          },
-          "enabled": {
-            "type": "boolean",
-            "title": "Enabled",
-            "description": "Whether the usage alert is enabled"
-          },
-          "percent": {
-            "type": "integer",
-            "maximum": 99.0,
-            "minimum": 1.0,
-            "title": "Threshold Percent",
-            "description": "Percentage of included minutes USED at which the alert is triggered (1-99)",
-            "examples": [
-              80,
-              75
-            ]
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Last Updated At",
-            "description": "The timestamp when the configuration was last updated"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "enabled",
-          "percent",
-          "updated_at"
-        ],
-        "title": "UsageAlertConfigurationResponse"
-      },
-      "UsageAlertNotificationRequest": {
-        "properties": {
-          "enabled": {
-            "type": "boolean",
-            "title": "Enabled",
-            "description": "Whether the usage alert is enabled",
-            "examples": [
-              true
-            ]
-          },
-          "percent": {
-            "type": "integer",
-            "maximum": 99.0,
-            "minimum": 1.0,
-            "title": "Threshold Percent",
-            "description": "Percentage of included minutes USED at which the alert will fire (1-99)",
-            "examples": [
-              80
-            ]
-          },
-          "notification_email": {
-            "type": "string",
-            "format": "email",
-            "title": "Notification Email",
-            "description": "The email address to send usage alert notifications to",
-            "examples": [
-              "contact@diga.io"
-            ]
-          }
-        },
-        "type": "object",
-        "required": [
-          "enabled",
-          "percent",
-          "notification_email"
-        ],
-        "title": "UsageAlertNotificationRequest"
-      },
       "ValidationError": {
         "properties": {
           "loc": {
@@ -25381,7 +28289,9 @@
         "type": "string",
         "enum": [
           "elevenlabs",
-          "gemini"
+          "gemini",
+          "grok",
+          "gpt_live"
         ],
         "title": "VoiceProvider"
       },

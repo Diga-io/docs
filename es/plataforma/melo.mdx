@@ -1,34 +1,54 @@
 ---
-title: "Sobre Melo"
-description: "Por qué Melo puede dar respuestas incorrectas y cómo usarlo de forma efectiva"
+title: "Melo"
+description: "Melo es el asistente de IA del dashboard de Diga: qué puede hacer por ti, cómo sacarle partido y qué límites conviene tener en cuenta"
 ---
 
-# Melo puede cometer errores
+## ¿Qué es Melo?
 
 Melo es el asistente de IA dentro del dashboard de Diga. Te ayuda a construir, probar y operar tus agentes de voz — respondiendo preguntas, sugiriendo cambios y guiándote por la plataforma.
 
-Como cualquier asistente de IA de frontera, Melo puede ocasionalmente generar respuestas **incorrectas o engañosas**. Es una limitación conocida de los modelos generativos — a veces llamada **"alucinación"** — y conviene tenerla presente siempre que actúes sobre lo que Melo te diga.
+A diferencia de un chat convencional, Melo funciona con herramientas MCP conectadas a tu proyecto. Eso significa que no solo responde: también puede actuar sobre tus recursos de Diga, como crear un agente o editar un prompt, sin que tengas que salir de la conversación.
 
-## Por qué ocurre
+## Qué puede hacer
+
+<CardGroup cols={2}>
+  <Card title="Responder tus preguntas" icon="message-circle-question">
+    Resuelve dudas sobre la plataforma y te orienta mientras construyes y gestionas tus agentes.
+  </Card>
+  <Card title="Editar tus recursos" icon="pencil">
+    Puede modificar agentes y otros recursos. Cada cambio muestra una tarjeta de aprobación para que lo confirmes antes de aplicarlo.
+  </Card>
+  <Card title="Entender lo que estás viendo" icon="eye">
+    Melo sabe qué filas ves en la lista que tienes abierta y puede actuar directamente sobre ellas.
+  </Card>
+  <Card title="Ayudarte a depurar flujos" icon="wrench">
+    Lista las conexiones que usan tus flujos, lo que te ayuda a encontrar por qué falla una pieza.
+  </Card>
+</CardGroup>
+
+Cuando le pides cambios en un prompt, Melo los aplica de forma incremental mientras los escribe, así que ves el resultado tomando forma en tiempo real.
+
+## Cómo sacarle partido
+
+- **Aporta contexto.** Menciona el agente, proyecto o funcionalidad sobre el que trabajas. Cuanto mejor sea el contexto, mejor será la respuesta.
+- **Sé específico.** Las preguntas vagas tienden a producir respuestas vagas o especulativas. Cuanto más concreta sea tu pregunta, más fiable será la respuesta.
+- **Revisa el contenido generado.** Si Melo escribe un prompt, una definición de herramienta o un valor de configuración, léelo antes de guardar. Una respuesta que *parece* correcta puede estar sutilmente equivocada.
+- **Verifica los consejos críticos.** Cualquier cosa que afecte a un agente en producción, la facturación, el enrutamiento telefónico o un flujo publicado conviene contrastarla con la página correspondiente de esta documentación o con tu equipo.
+
+## Ten en cuenta sus límites
+
+Como cualquier asistente de IA de frontera, Melo puede ocasionalmente generar respuestas **incorrectas o engañosas**. Es una limitación conocida de los modelos generativos — a veces llamada **"alucinación"** — y conviene tenerla presente siempre que actúes sobre lo que Melo te diga.
 
 Algunos casos en los que la respuesta de Melo puede no ser fiable:
 
 - **Información desactualizada.** Es posible que Melo no haya sido entrenado con los últimos cambios de Diga, integraciones de terceros o servicios externos, y puede confundirse al preguntarle por novedades muy recientes.
 - **Detalles plausibles pero inexactos.** Melo puede generar prompts, valores de configuración o cifras que parecen autorizadas pero no se sustentan en tu proyecto real.
 - **Contexto limitado del proyecto.** Aunque Melo tenga acceso al estado de tu proyecto, puede pasar por alto contexto que vive fuera del dashboard — las convenciones de tu equipo, el comportamiento de un sistema externo o un flujo personalizado.
-- **Preguntas ambiguas.** Las preguntas vagas tienden a producir respuestas vagas o especulativas. Cuanto más específica sea tu pregunta, más fiable será la respuesta.
-
-## Cómo aprovechar Melo
+- **Preguntas ambiguas.** Las preguntas vagas tienden a producir respuestas vagas o especulativas.
 
 <Note>
 Trata a Melo como un **colaborador con conocimiento**, no como una única fuente de verdad. La decisión final — y la responsabilidad de lo que se ejecuta en producción — es tuya.
 </Note>
-
-Algunos hábitos prácticos:
-
-- **Verifica los consejos críticos.** Cualquier cosa que afecte a un agente en producción, la facturación, el enrutamiento telefónico o un flujo publicado conviene contrastarla con la página correspondiente de esta documentación o con tu equipo.
-- **Revisa el contenido generado.** Si Melo escribe un prompt, una definición de herramienta o un valor de configuración, léelo antes de guardar. Una respuesta que *parece* correcta puede estar sutilmente equivocada.
-- **Aporta contexto.** Menciona el agente, proyecto o funcionalidad sobre el que trabajas. Cuanto mejor sea el contexto, mejor será la respuesta.
 
 ## Envíanos feedback
 
