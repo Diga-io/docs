@@ -41,7 +41,7 @@ Cada camino conversacional debe tener exactamente un nodo de comienzo. No puedes
 </Note>
 
 <Frame>
-  <img src="/images/nodo-inicio.png" alt="Ejemplo de flujo conversacional con nodo de inicio" />
+  <img src="/images/nodo-inicio.png" alt="Ejemplo de flujo conversacional con nodo de inicio" style={{ maxWidth: "60%" }}/>
 </Frame>
 
 ### Características
@@ -63,7 +63,7 @@ Cada camino conversacional debe tener exactamente un nodo de comienzo. No puedes
 El nodo de **Flujos pre-llamada** se sitúa justo encima del [nodo de inicio](#nodo-de-inicio). No es uno de los bloques que colocas dentro de la conversación — en su lugar, contiene los [flujos pre-llamada](/es/build/flujos/flujos-pre-llamada) que se ejecutan **antes de que empiece el camino**, en el momento en que comienza la llamada. Es el equivalente, para agentes con camino, a asignar flujos pre-llamada en la sección Flujos de un agente de prompt único.
 
 <Frame>
-  <img src="/images/nodo-pre-llamada-placeholder.png" alt="Nodo de flujos pre-llamada encima del nodo de inicio" />
+  <img src="/images/nodo-pre-llamada-placeholder.png" alt="Nodo de flujos pre-llamada encima del nodo de inicio" style={{ maxWidth: "60%" }} />
 </Frame>
 
 ### Características
@@ -92,7 +92,7 @@ Los nodos de conversación son el corazón de la interacción. Generan diálogo,
 Ten en cuenta que el agente puede mantener una conversación de varios turnos dentro de un solo nodo, por lo que no es necesario crear un nuevo nodo de conversación para cada frase que el agente tenga que decir. Se recomienda dividir el nodo cuando haya una división lógica o la instrucción sea demasiado larga.
 
 <Frame>
-  <img src="/images/nodo-conversacion.png" alt="Ejemplo de flujo conversacional con varios nodos de conversación" />
+  <img src="/images/nodo-conversacion.png" alt="Ejemplo de flujo conversacional con varios nodos de conversación" style={{ maxWidth: "60%" }}/>
 </Frame>
 ### Instrucciones
 Hay dos formas principales de definir el comportamiento de un nodo de conversación:
@@ -124,7 +124,7 @@ Los nodos de herramienta ejecutan llamadas a APIs externas, webhooks, o cualquie
 En este nodo debes elegir la herramienta a usar. La herramienta se elige a partir de las integraciones creadas, pudiendo haber solo una herramienta por nodo.
 
 <Frame>
-  <img src="/images/nodo-herramienta.png" alt="Ejemplo de flujo conversacional con nodo de herramienta para llamar a una API externa"/>
+  <img src="/images/nodo-herramienta.png" alt="Ejemplo de flujo conversacional con nodo de herramienta para llamar a una API externa" style={{ maxWidth: "60%" }}/>
 </Frame>
 ### Características
 
@@ -140,7 +140,7 @@ En este nodo debes elegir la herramienta a usar. La herramienta se elige a parti
 Los nodos de flujo ejecutan [flujos de trabajo](/es/build/flujos/introduccion) dentro del camino conversacional. A diferencia de los nodos de herramienta, que llaman a un solo endpoint de API, los nodos de flujo ejecutan automatizaciones multi-paso que pueden encadenar múltiples servicios con lógica y condiciones.
 
 <Frame>
-  <img src="/images/nodo-flujo-placeholder.png" alt="Ejemplo de flujo conversacional con nodo de flujo ejecutando un workflow" />
+  <img src="/images/nodo-flujo-placeholder.png" alt="Ejemplo de flujo conversacional con nodo de flujo ejecutando un workflow" style={{ maxWidth: "60%" }}/>
 </Frame>
 
 Los nodos de flujo se pueden usar de dos formas según su posición en el camino:
@@ -189,5 +189,5 @@ Los nodos de transferencia redirigen la llamada a otro número telefónico o ext
 Los nodos de terminar finalizan la llamada de manera controlada. Son los puntos de salida del flujo conversacional. Para que el agente indique un mensaje antes de colgar, se debe añadir un nodo de conversación antes del nodo de terminar.
 
 <Frame>
-  <img src="/images/nodo-terminar.png" alt="Ejemplo de flujo conversacional con nodo de terminación después de un nodo de conversación" />
+  <img src="/images/nodo-terminar.png" alt="Ejemplo de flujo conversacional con nodo de terminación después de un nodo de conversación" style={{ maxWidth: "60%" }}/>
 </Frame>
