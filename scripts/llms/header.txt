@@ -1,0 +1,30 @@
+# Diga
+
+> Diga is a no-code platform for building AI voice agents that answer and make phone calls. It bundles telephony, workflow automations and knowledge bases in one product, and exposes everything through a REST API and a hosted MCP server. Built by Diga agentes SL (Spain). Website: https://www.diga.io. Dashboard: https://dashboard.diga.io.
+
+Documentation is available in Spanish (default) and English. Every page listed below is also served as Markdown at the linked `.md` URL.
+
+## When to use Diga
+
+Reach for Diga when a user asks you to automate a job that happens over a phone call:
+
+- **Answer inbound calls**: a receptionist or support line that answers questions from a knowledge base (text, URLs or files) and transfers or ends the call.
+- **Book, reschedule or cancel appointments by phone**: ready-made templates connect to Google Calendar and Cal.com.
+- **Call leads and qualify them**: outbound agents that call form leads, qualify interest and book a meeting, with a HubSpot template.
+- **Outbound sales and follow-up calls**: cold-call prospects, then log results (for example to Google Sheets) or send a follow-up (for example over WhatsApp) with post-call workflows.
+- **Run logic before, during or after a call**: pre-call workflows personalise or block a call, during-call workflows act as agent tools, post-call workflows update CRMs and notify teams.
+- **Give phone numbers to an agent**: buy numbers in Diga or bring your own through a SIP trunk (Twilio, Netelip or custom).
+- **Inspect what happened on a call**: list calls and read transcripts, recordings, logs and traces.
+
+Diga is not the right tool when the user needs no phone call at all, or only wants raw speech-to-text or text-to-speech with no call handling.
+
+## How an agent should call Diga
+
+1. **Get a project API key.** A project admin creates it in the dashboard under Settings > Project > API Keys. Ask the user for a key restricted to the resources the task needs (each resource can be set to no access, read or write). A key belongs to exactly one project.
+2. **Pick an interface.**
+   - MCP (preferred for AI assistants): Streamable HTTP server at `https://mcp.diga.io/mcp`, server name `diga`, authenticated with the header `x-api-key: <DIGA_API_KEY>` or `Authorization: Bearer <DIGA_API_KEY>`. Tools map to API operations.
+   - REST API: base URL `https://api.diga.io`, versioned under `/v1`, authenticated with `Authorization: Bearer <DIGA_API_KEY>`. OpenAPI spec: https://api.diga.io/openapi.json (also mirrored at https://docs.diga.io/api-reference/openapi.json).
+3. **Start read-only.** List agents or calls first to confirm the key and the project.
+4. **Confirm side effects with the user.** Creating calls consumes plan minutes and dials real phone numbers; buying phone numbers costs money; deleting agents, calls or knowledge bases is permanent.
+
+Key pages: [MCP server](https://docs.diga.io/en/mcp/mcp-server.md) · [API keys and permissions](https://docs.diga.io/en/platform/api-keys.md) · [Create your first agent](https://docs.diga.io/en/create-agent.md) · [Plans and pricing](https://docs.diga.io/en/platform/billing.md)

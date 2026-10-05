@@ -1,0 +1,282 @@
+# Diga
+
+> Diga is a no-code platform for building AI voice agents that answer and make phone calls. It bundles telephony, workflow automations and knowledge bases in one product, and exposes everything through a REST API and a hosted MCP server. Built by Diga agentes SL (Spain). Website: https://www.diga.io. Dashboard: https://dashboard.diga.io.
+
+Documentation is available in Spanish (default) and English. Every page listed below is also served as Markdown at the linked `.md` URL.
+
+## When to use Diga
+
+Reach for Diga when a user asks you to automate a job that happens over a phone call:
+
+- **Answer inbound calls**: a receptionist or support line that answers questions from a knowledge base (text, URLs or files) and transfers or ends the call.
+- **Book, reschedule or cancel appointments by phone**: ready-made templates connect to Google Calendar and Cal.com.
+- **Call leads and qualify them**: outbound agents that call form leads, qualify interest and book a meeting, with a HubSpot template.
+- **Outbound sales and follow-up calls**: cold-call prospects, then log results (for example to Google Sheets) or send a follow-up (for example over WhatsApp) with post-call workflows.
+- **Run logic before, during or after a call**: pre-call workflows personalise or block a call, during-call workflows act as agent tools, post-call workflows update CRMs and notify teams.
+- **Give phone numbers to an agent**: buy numbers in Diga or bring your own through a SIP trunk (Twilio, Netelip or custom).
+- **Inspect what happened on a call**: list calls and read transcripts, recordings, logs and traces.
+
+Diga is not the right tool when the user needs no phone call at all, or only wants raw speech-to-text or text-to-speech with no call handling.
+
+## How an agent should call Diga
+
+1. **Get a project API key.** A project admin creates it in the dashboard under Settings > Project > API Keys. Ask the user for a key restricted to the resources the task needs (each resource can be set to no access, read or write). A key belongs to exactly one project.
+2. **Pick an interface.**
+   - MCP (preferred for AI assistants): Streamable HTTP server at `https://mcp.diga.io/mcp`, server name `diga`, authenticated with the header `x-api-key: <DIGA_API_KEY>` or `Authorization: Bearer <DIGA_API_KEY>`. Tools map to API operations.
+   - REST API: base URL `https://api.diga.io`, versioned under `/v1`, authenticated with `Authorization: Bearer <DIGA_API_KEY>`. OpenAPI spec: https://api.diga.io/openapi.json (also mirrored at https://docs.diga.io/api-reference/openapi.json).
+3. **Start read-only.** List agents or calls first to confirm the key and the project.
+4. **Confirm side effects with the user.** Creating calls consumes plan minutes and dials real phone numbers; buying phone numbers costs money; deleting agents, calls or knowledge bases is permanent.
+
+Key pages: [MCP server](https://docs.diga.io/en/mcp/mcp-server.md) · [API keys and permissions](https://docs.diga.io/en/platform/api-keys.md) · [Create your first agent](https://docs.diga.io/en/create-agent.md) · [Plans and pricing](https://docs.diga.io/en/platform/billing.md)
+
+## Docs (Español)
+
+### Documentación
+
+#### Comenzar
+
+- [Introducción](https://docs.diga.io/es/index.md): Diga es la plataforma no-code para crear agentes de voz con IA que atienden llamadas. Empieza aquí para construir, configurar y desplegar tu primer agente.
+- [Crea tu primer agente](https://docs.diga.io/es/crear-agente.md): Guia paso a paso para crear tu primer agente en Diga
+
+#### Construir
+
+- [Bases de conocimiento](https://docs.diga.io/es/build/bases-conocimiento.md): Crea y gestiona bases de conocimiento para proporcionar información personalizada a tus agentes.
+
+##### Agentes
+
+- [Como hacer prompts](https://docs.diga.io/es/build/agentes/prompt-unico.md): Mejores prácticas para escribir prompts efectivos que creen agentes telefónicos confiables y naturales
+- [Personalización de Llamadas](https://docs.diga.io/es/build/agentes/personalizacion-llamada.md): Configura la **identidad**, el **comportamiento** y los **ajustes técnicos** de tu agente para optimizar la experiencia en llamadas telefónicas.
+- [Detección de buzón y menús telefónicos](https://docs.diga.io/es/build/agentes/deteccion-buzon-menu-telefonico.md): Detecta contestadores automáticos y navega menús telefónicos (IVR) en llamadas salientes
+- [Variables Dinámicas](https://docs.diga.io/es/build/agentes/variables-dinamicas.md): Personaliza las respuestas de tu agente con información contextual usando variables dinámicas
+- [Control de versiones](https://docs.diga.io/es/build/agentes/control-versiones.md): Gestiona y prueba múltiples versiones de tus agentes de forma segura
+- [Duplicar Agentes Entre Proyectos](https://docs.diga.io/es/build/agentes/duplicar-agentes.md): Reutiliza la configuración de un agente en otro proyecto sin copiar datos de clientes ni secretos
+- [Herramientas de llamada](https://docs.diga.io/es/build/agentes/herramientas-llamada.md): Herramientas predefinidas para controlar el flujo de llamadas telefónicas
+- [Añade bases de conocimiento](https://docs.diga.io/es/build/agentes/bases-conocimiento.md): Asigna bases de conocimiento a tus agentes para que accedan a información de tu negocio durante las conversaciones.
+- [Añade tus integraciones externas](https://docs.diga.io/es/build/agentes/anadir-integraciones.md): Conecta tu agente con servicios externos para ampliar su funcionalidad
+- [Prueba tu agente](https://docs.diga.io/es/build/agentes/llamadas-test.md): Aprende a probar tu agente directamente desde el editor antes de publicarlo, sin salir del navegador.
+- [Plantillas de Agentes](https://docs.diga.io/es/build/agentes/plantillas.md): Crea agentes pre-configurados en segundos usando plantillas listas para usar
+
+###### Caminos Conversacionales
+
+- [Como funciona](https://docs.diga.io/es/build/agentes/camino-conversacional.md): Construye agentes telefónicos con flujos estructurados mediante nodos y transiciones para escenarios de llamadas complejas
+- [Tipos de Nodos](https://docs.diga.io/es/build/agentes/camino-conversacional/tipos-nodos.md): Guía completa de los seis tipos de nodos disponibles en caminos conversacionales y cuándo usar cada uno
+
+##### Integraciones
+
+- [Introducción a las Integraciones](https://docs.diga.io/es/build/integraciones/introduccion.md): Conecta tus agentes con sistemas externos para realizar acciones durante las llamadas telefónicas
+- [Integraciones HTTP](https://docs.diga.io/es/build/integraciones/integraciones-http.md): Conecta cualquier API REST a tus agentes telefónicos mediante integraciones HTTP
+- [Integraciones MCP](https://docs.diga.io/es/build/integraciones/integraciones-mcp.md): Conecta servidores MCP a tus agentes para sincronizar herramientas automáticamente
+
+##### Flujos
+
+- [Introducción a los Flujos](https://docs.diga.io/es/build/flujos/introduccion.md): Orquesta automatizaciones multi-paso antes, durante y después de las llamadas de tus agentes
+- [Crear Flujos](https://docs.diga.io/es/build/flujos/crear-flujos.md): Guía paso a paso para crear flujos de automatización en el constructor visual
+- [Plantillas de Flujos](https://docs.diga.io/es/build/flujos/plantillas.md): Usa flujos pre-configurados para empezar rápidamente con automatizaciones probadas
+- [Asignar Flujos a Agentes](https://docs.diga.io/es/build/flujos/asignar-agentes.md): Conecta tus flujos con agentes específicos para que se ejecuten durante o después de las llamadas
+- [La Pieza de Diga](https://docs.diga.io/es/build/flujos/pieza-diga.md): Referencia completa de los triggers y acciones de Diga para conectar flujos con llamadas
+- [Flujos Pre-llamada](https://docs.diga.io/es/build/flujos/flujos-pre-llamada.md): Ejecuta un flujo antes de que empiece la conversación para validar, personalizar y controlar cada llamada
+- [Flujos Post-llamada](https://docs.diga.io/es/build/flujos/flujos-post-llamada.md): Ejecuta un flujo automáticamente cuando una llamada termina para registrar, notificar y actualizar tus sistemas
+- [Flujos Durante Llamada](https://docs.diga.io/es/build/flujos/flujos-durante-llamada.md): Permite que tu agente ejecute un flujo multi-paso en mitad de la conversación, como una herramienta
+- [Conexiones](https://docs.diga.io/es/build/flujos/conexiones.md): Conecta servicios externos a tus flujos mediante claves de API o OAuth
+
+#### Telefonía
+
+- [Comprar Números de Teléfono](https://docs.diga.io/es/telefonia/comprar-telefonos.md): Compra y gestión de números de teléfono para tus agentes de voz
+
+##### Importar números mediante SIP Trunk
+
+- [Números Personalizados](https://docs.diga.io/es/telefonia/sip-trunks.md): Importa tus propios números de teléfono a Diga mediante SIP trunks personalizados y mantén el control total de tu telefonía con agentes de voz IA.
+- [Netelip - Importar número](https://docs.diga.io/es/telefonia/sip-trunks/netelip.md): Guía paso a paso para conectar tu cuenta de Netelip mediante SIP trunking
+- [Twilio - Importar número](https://docs.diga.io/es/telefonia/sip-trunks/twilio.md): Guía paso a paso para conectar tu cuenta de Twilio mediante SIP trunking
+
+#### Plataforma
+
+- [Cuenta de usuario](https://docs.diga.io/es/plataforma/cuentas.md): Gestiona tu cuenta de Diga: perfil personal, ajustes de seguridad y los proyectos a los que perteneces, todo desde un mismo lugar.
+- [Sobre Melo](https://docs.diga.io/es/plataforma/melo.md): Por qué Melo puede dar respuestas incorrectas y cómo usarlo de forma efectiva
+
+##### Proyectos
+
+- [Proyectos](https://docs.diga.io/es/plataforma/proyectos.md): Los proyectos son la unidad organizativa central de Diga, cada uno con agentes, llamadas, números y facturación aislados. Aprende a crearlos y gestionarlos.
+- [Equipo](https://docs.diga.io/es/plataforma/equipo.md): Invita usuarios a tu proyecto, gestiona sus roles y controla los permisos de acceso.
+- [Suscripción](https://docs.diga.io/es/plataforma/suscripcion.md): Gestiona tu plan actual, métodos de pago e historial de pagos desde los ajustes de tu proyecto.
+- [Planes y precios](https://docs.diga.io/es/plataforma/facturacion.md): Compara los planes disponibles en Diga, cambia de plan y gestiona tu período de facturación.
+- [Uso y límites](https://docs.diga.io/es/plataforma/uso.md): Consulta el consumo de tu plan en tiempo real: minutos, llamadas simultáneas, Melo, flujos publicados y almacenamiento.
+- [API Keys](https://docs.diga.io/es/plataforma/api-keys.md): Crea y gestiona claves API para conectarte a la API de Diga y controlar los permisos de acceso.
+- [Conexiones](https://docs.diga.io/es/plataforma/conexiones.md): Gestiona y mantén integradas todas las conexiones externas de tu proyecto.
+
+#### Analíticas
+
+- [Monitoreo de Llamadas](https://docs.diga.io/es/despliegue/monitoreo-logs.md): Consulta y analiza todas las llamadas realizadas por tus agentes en tiempo real
+- [Logs de llamadas](https://docs.diga.io/es/despliegue/logs-llamadas.md): Consulta los eventos detallados de cada llamada para entender qué ocurrió en cada momento
+- [Trazas de llamadas](https://docs.diga.io/es/despliegue/trazas-llamadas.md): Visualiza el flujo completo de una llamada con trazas distribuidas para analizar tiempos y comportamiento
+
+### MCP
+
+#### Comenzar
+
+- [Servidor MCP de Diga para asistentes de IA](https://docs.diga.io/es/mcp/servidor-mcp.md): Conecta Cursor, Claude, Codex y otros clientes MCP a Diga con una API key de proyecto.
+
+### Plantillas
+
+#### Comenzar
+
+- [Introducción a las Plantillas](https://docs.diga.io/es/plantillas/introduccion.md): Elige una plantilla y ponla en marcha en unos minutos
+
+#### Catálogo
+
+##### Agentes
+
+- [Gestión de citas (Google Calendar)](https://docs.diga.io/es/plantillas/agentes/gestion-citas-google-calendar.md): Recepcionista telefónica que consulta tu agenda y deja la cita creada en Google Calendar
+- [Gestión de leads (HubSpot)](https://docs.diga.io/es/plantillas/agentes/gestion-leads.md): Agente que llama a los leads que rellenan tu formulario y les agenda una cita con el equipo
+- [Gestión de citas (Cal.com)](https://docs.diga.io/es/plantillas/agentes/gestion-citas-calcom.md): Agente que agenda, reprograma y cancela citas por voz usando Cal.com
+- [Ventas outbound](https://docs.diga.io/es/plantillas/agentes/ventas-outbound.md): Agente que llama en frío a prospectos, califica su interés y agenda una demo con ventas
+
+##### Flujos
+
+- [Comprobar disponibilidad (Google Calendar)](https://docs.diga.io/es/plantillas/flujos/comprobar-disponibilidad.md): Flujo durante llamada que devuelve los huecos libres de tu Google Calendar
+- [Crear cita (Google Calendar)](https://docs.diga.io/es/plantillas/flujos/crear-cita.md): Flujo durante llamada que comprueba el hueco y crea el evento en tu Google Calendar
+- [Disparador de llamada mediante Webhook](https://docs.diga.io/es/plantillas/flujos/llamada-saliente-formulario.md): Flujo lanzador de llamadas que toma el teléfono del lead y llama un minuto después de recibir el formulario
+- [Gestión de lead postllamada (HubSpot)](https://docs.diga.io/es/plantillas/flujos/gestion-leads-hubspot.md): Flujo post-llamada que clasifica el resultado, actualiza el contacto en HubSpot y envía el email correspondiente
+- [Obtener tipos de cita (Cal.com)](https://docs.diga.io/es/plantillas/flujos/obtener-eventos-calcom.md): Flujo pre-llamada que trae los tipos de cita disponibles en Cal.com antes de que el agente hable
+- [Comprobar disponibilidad (Cal.com)](https://docs.diga.io/es/plantillas/flujos/comprobar-disponibilidad-calcom.md): Flujo durante llamada que devuelve los huecos libres de un tipo de cita en Cal.com
+- [Crear cita (Cal.com)](https://docs.diga.io/es/plantillas/flujos/crear-cita-calcom.md): Flujo durante llamada que crea la reserva en Cal.com
+- [Buscar cita (Cal.com)](https://docs.diga.io/es/plantillas/flujos/buscar-cita-calcom.md): Flujo durante llamada que localiza las citas futuras de un cliente en Cal.com por su email
+- [Reprogramar cita (Cal.com)](https://docs.diga.io/es/plantillas/flujos/reprogramar-cita-calcom.md): Flujo durante llamada que mueve una reserva existente a un nuevo hueco en Cal.com
+- [Cancelar cita (Cal.com)](https://docs.diga.io/es/plantillas/flujos/cancelar-cita-calcom.md): Flujo durante llamada que anula una reserva existente en Cal.com
+- [Guardar resultado de llamada (Google Sheets)](https://docs.diga.io/es/plantillas/flujos/guardar-resultado-llamada-sheets.md): Flujo post-llamada que extrae con IA el resultado de una llamada de ventas y lo guarda en Google Sheets
+- [Enviar información (WhatsApp)](https://docs.diga.io/es/plantillas/flujos/enviar-informacion-whatsapp.md): Flujo post-llamada que manda por WhatsApp un enlace de recursos un minuto después de colgar
+
+### Changelog
+
+- [Actualizaciones](https://docs.diga.io/es/changelog.md): Registro de actualizaciones y mejoras de la plataforma Diga
+
+## Docs (English)
+
+### Documentation
+
+#### Get Started
+
+- [Introduction](https://docs.diga.io/en/index.md): Diga is a no-code platform for building AI voice agents that answer and make phone calls. Start here to create, configure, and deploy your first agent.
+- [Create Your First Agent](https://docs.diga.io/en/create-agent.md): Step-by-step guide to create your first agent on Diga
+
+#### Build
+
+- [Knowledge Bases](https://docs.diga.io/en/build/knowledge-bases.md): Create and manage knowledge bases to provide personalized information to your agents.
+
+##### Agents
+
+- [How to Write Prompts](https://docs.diga.io/en/build/agents/single-prompt.md): Best practices for writing effective prompts that create reliable and natural-sounding phone agents
+- [Call Customization](https://docs.diga.io/en/build/agents/call-customization.md): Configure voice, language, volume, inactivity detection, and duration limits to optimize your phone agents' experience
+- [Voicemail & Phone Menu Detection](https://docs.diga.io/en/build/agents/voicemail-phone-menu-detection.md): Detect answering machines and navigate automated phone menus (IVR) on outbound calls
+- [Dynamic Variables](https://docs.diga.io/en/build/agents/dynamic-variables.md): Personalize your agent's responses with contextual information using dynamic variables
+- [Version Control](https://docs.diga.io/en/build/agents/version-control.md): Manage and test multiple versions of your agents safely
+- [Duplicate Agents Across Projects](https://docs.diga.io/en/build/agents/duplicate-agents.md): Reuse an agent configuration in another project without copying customer data or secrets
+- [Call Tools](https://docs.diga.io/en/build/agents/call-tools.md): Built-in call tools let your Diga voice agent transfer, end, and control phone calls in real time during a conversation — no external integration needed.
+- [Add Knowledge Bases](https://docs.diga.io/en/build/agents/knowledge-bases.md): Assign knowledge bases to your agents so they can access your business information during conversations.
+- [Add Your External Integrations](https://docs.diga.io/en/build/agents/add-integrations.md): Connect your agent with external services to expand its functionality
+- [Test your agent](https://docs.diga.io/en/build/agents/test-calls.md): Learn how to test your agent before publishing it without leaving the editor.
+- [Agent Templates](https://docs.diga.io/en/build/agents/templates.md): Create pre-configured agents in seconds using ready-to-use templates
+
+###### Conversational Paths
+
+- [How it Works](https://docs.diga.io/en/build/agents/conversational-paths.md): Build phone agents with structured flows using nodes and transitions for complex call scenarios
+- [Node Types](https://docs.diga.io/en/build/agents/conversational-paths/node-types.md): Complete guide to the six types of nodes available in conversational paths and when to use each one
+
+##### Integrations
+
+- [Introduction to Integrations](https://docs.diga.io/en/build/integrations/introduction.md): Connect your agents with external systems to perform actions during phone calls
+- [HTTP Integrations](https://docs.diga.io/en/build/integrations/http-integrations.md): Connect any REST API to your phone agents via HTTP integrations
+- [MCP Integrations](https://docs.diga.io/en/build/integrations/mcp-integrations.md): Connect MCP servers to your agents to automatically sync tools
+
+##### Workflows
+
+- [Introduction to Workflows](https://docs.diga.io/en/build/flows/introduction.md): Orchestrate multi-step automations before, during, and after your agent calls
+- [Creating Workflows](https://docs.diga.io/en/build/flows/creating-workflows.md): Step-by-step guide to creating automation workflows in the visual builder
+- [Workflow Templates](https://docs.diga.io/en/build/flows/templates.md): Use pre-configured workflows to get started quickly with proven automations
+- [Assign Workflows to Agents](https://docs.diga.io/en/build/flows/assign-agents.md): Connect your workflows with specific agents so they execute during or after calls
+- [The Diga Piece](https://docs.diga.io/en/build/flows/diga-piece.md): Complete reference for Diga triggers and actions to connect workflows with calls
+- [Pre-call Flows](https://docs.diga.io/en/build/flows/pre-call-flows.md): Run a workflow before the conversation starts to validate, personalize, and control each call
+- [Post-call Flows](https://docs.diga.io/en/build/flows/post-call-flows.md): Run a workflow automatically after a call ends to log, notify, and update your systems
+- [During-call Flows](https://docs.diga.io/en/build/flows/during-call-flows.md): Let your agent run a multi-step workflow mid-conversation, as a tool
+- [Connections](https://docs.diga.io/en/build/flows/connections.md): Connect external services to your workflows using API keys or OAuth
+
+#### Telephony
+
+- [Buy Phone Numbers](https://docs.diga.io/en/telephony/buy-numbers.md): Purchase and manage phone numbers for your voice agents
+
+##### Import Numbers via SIP Trunk
+
+- [Import Custom Numbers](https://docs.diga.io/en/telephony/sip-trunks.md): Import your own phone numbers into Diga with custom SIP trunks, keeping full control of your telephony while running AI voice agents.
+- [Netelip - Import Number](https://docs.diga.io/en/telephony/sip-trunks/netelip.md): Step-by-step guide to connect your Netelip account via SIP trunking
+- [Twilio - Import Number](https://docs.diga.io/en/telephony/sip-trunks/twilio.md): A step by step guide to connect your Twilio account via SIP trunking
+
+#### Platform
+
+- [User Account](https://docs.diga.io/en/platform/accounts.md): Manage your Diga account: personal profile, security settings, and the projects you belong to — all from one place.
+- [About Melo](https://docs.diga.io/en/platform/melo.md): Why Melo can occasionally provide incorrect responses and how to use it effectively
+
+##### Projects
+
+- [Projects](https://docs.diga.io/en/platform/projects.md): Projects are Diga's core organizational unit, each with isolated agents, calls, phone numbers, and billing. Learn how to create and manage them.
+- [Team](https://docs.diga.io/en/platform/team.md): Invite users to your project, manage their roles, and control access permissions.
+- [Subscription](https://docs.diga.io/en/platform/subscription.md): Manage your current plan, payment methods, and payment history from your project settings.
+- [Plans and Pricing](https://docs.diga.io/en/platform/billing.md): Compare available plans on Diga, change plans, and manage your billing period.
+- [Usage and limits](https://docs.diga.io/en/platform/usage.md): Track your plan consumption in real time: minutes, concurrent calls, Melo, published flows, and storage.
+- [API Keys](https://docs.diga.io/en/platform/api-keys.md): Create and manage API keys to connect to the Diga API and control access permissions.
+- [Connections](https://docs.diga.io/en/platform/connections.md): Manage and maintain all external connections integrated with your project.
+
+#### Analytics
+
+- [Call Monitoring](https://docs.diga.io/en/deployment/monitoring-logs.md): Review and analyze all calls made by your agents in real-time
+- [Call Logs](https://docs.diga.io/en/deployment/call-logs.md): View detailed events from each call to understand what happened at every moment
+- [Call Traces](https://docs.diga.io/en/deployment/call-traces.md): Visualize the complete flow of a call with distributed traces to analyze timing and behavior
+
+### MCP
+
+#### Get Started
+
+- [Diga MCP server for AI assistants](https://docs.diga.io/en/mcp/mcp-server.md): Connect Cursor, Claude, Codex, and other MCP clients to Diga with a project API key.
+
+### Templates
+
+#### Get Started
+
+- [Introduction to Templates](https://docs.diga.io/en/templates/introduction.md): Pick a template and get it running in minutes
+
+#### Catalog
+
+##### Agents
+
+- [Appointment management (Google Calendar)](https://docs.diga.io/en/templates/agents/appointment-management-google-calendar.md): A phone receptionist that checks your schedule and books the appointment in Google Calendar
+- [Lead management (HubSpot)](https://docs.diga.io/en/templates/agents/lead-management.md): Agent that calls the leads who fill in your form and books an appointment with the team
+- [Appointment management (Cal.com)](https://docs.diga.io/en/templates/agents/appointment-management-cal-com.md): Agent that books, reschedules, and cancels appointments by voice using Cal.com
+- [Outbound sales](https://docs.diga.io/en/templates/agents/outbound-sales.md): Agent that cold-calls prospects, qualifies their interest, and books a demo with sales
+
+##### Flows
+
+- [Check availability (Google Calendar)](https://docs.diga.io/en/templates/flows/check-availability.md): During-call workflow that returns the free slots in your Google Calendar
+- [Create appointment (Google Calendar)](https://docs.diga.io/en/templates/flows/create-appointment.md): During-call workflow that checks the slot and creates the event in your Google Calendar
+- [Outbound call trigger (Webhook)](https://docs.diga.io/en/templates/flows/outbound-call-form-trigger.md): Call-launching workflow that takes the lead's phone number and calls one minute after the form arrives
+- [Post-call lead management (HubSpot)](https://docs.diga.io/en/templates/flows/post-call-lead-management-hubspot.md): Post-call workflow that classifies the outcome, updates the contact in HubSpot, and sends the matching email
+- [Get event types (Cal.com)](https://docs.diga.io/en/templates/flows/get-event-types-cal-com.md): Pre-call workflow that fetches the available appointment types from Cal.com before the agent speaks
+- [Check availability (Cal.com)](https://docs.diga.io/en/templates/flows/check-availability-cal-com.md): During-call workflow that returns the free slots for an appointment type in Cal.com
+- [Create appointment (Cal.com)](https://docs.diga.io/en/templates/flows/create-appointment-cal-com.md): During-call workflow that books the appointment in Cal.com
+- [Find appointment (Cal.com)](https://docs.diga.io/en/templates/flows/find-appointment-cal-com.md): During-call workflow that looks up a customer's upcoming Cal.com appointments by email
+- [Reschedule appointment (Cal.com)](https://docs.diga.io/en/templates/flows/reschedule-appointment-cal-com.md): During-call workflow that moves an existing Cal.com booking to a new slot
+- [Cancel appointment (Cal.com)](https://docs.diga.io/en/templates/flows/cancel-appointment-cal-com.md): During-call workflow that cancels an existing Cal.com booking
+- [Save call result (Google Sheets)](https://docs.diga.io/en/templates/flows/save-call-result-sheets.md): Post-call workflow that uses AI to extract a sales call's outcome and saves it to Google Sheets
+- [Send follow-up (WhatsApp)](https://docs.diga.io/en/templates/flows/send-follow-up-whatsapp.md): Post-call workflow that sends a resource link over WhatsApp one minute after the call ends
+
+### Changelog
+
+- [Updates](https://docs.diga.io/en/changelog.md): Release notes and platform improvements for Diga
+
+## API reference
+
+- [Diga API OpenAPI spec (live)](https://api.diga.io/openapi.json): Machine-readable description of every REST endpoint
+- [Diga API OpenAPI spec (docs mirror)](https://docs.diga.io/api-reference/openapi.json)
+
+## Optional
+
+- [Support](https://www.diga.io/contact)
+- [Dashboard](https://dashboard.diga.io)
