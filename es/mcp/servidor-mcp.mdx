@@ -1,6 +1,6 @@
 ---
 title: "Servidor MCP de Diga para asistentes de IA"
-description: "Conecta Cursor, Claude, Codex y otros clientes MCP a Diga con una API key de proyecto."
+description: "Conecta Cursor, Claude, Codex y otros clientes MCP a Diga iniciando sesión con tu cuenta de Diga o con una API key de proyecto."
 ---
 
 Usa el servidor Model Context Protocol (MCP) alojado por Diga para crear y gestionar agentes de voz desde asistentes de IA y herramientas de desarrollo compatibles.
@@ -13,15 +13,13 @@ Esta página explica cómo conectar un asistente **a Diga**. Para que un agente 
 
 Antes de comenzar, necesitas:
 
-- Una cuenta de Diga con acceso de administrador a un proyecto
-- Una API key de Diga creada en ese proyecto
+- Una cuenta de Diga que pertenezca al menos a un proyecto
 - Un cliente MCP compatible con servidores remotos mediante Streamable HTTP
-
-Si todavía no tienes una clave, sigue los pasos para [crear una API key](../plataforma/api-keys#crear-una-api-key). Crea una clave restringida con solo los permisos que necesite tu asistente.
+- Solo si usas una API key en lugar de iniciar sesión: una API key de Diga del proyecto que quieres gestionar. Sigue los pasos para [crear una API key](../plataforma/api-keys#crear-una-api-key) y crea una clave restringida con solo los permisos que necesite tu asistente.
 
 ## Qué puedes hacer
 
-El servidor MCP de Diga convierte las operaciones de la API de Diga en herramientas que tu asistente puede descubrir y utilizar. Según los permisos de tu API key, puedes usar lenguaje natural para:
+El servidor MCP de Diga convierte las operaciones de la API de Diga en herramientas que tu asistente puede descubrir y utilizar. Según tus permisos, puedes usar lenguaje natural para:
 
 - Crear, actualizar, publicar, listar y consultar agentes de voz y sus versiones
 - Crear llamadas y consultar sus detalles, mensajes, grabaciones, logs y trazas
@@ -31,68 +29,95 @@ El servidor MCP de Diga convierte las operaciones de la API de Diga en herramien
 
 Tu cliente MCP muestra las herramientas exactas disponibles, incluida la descripción y los parámetros requeridos de cada una.
 
-## Cómo funcionan la autenticación y la selección de proyecto
+## Elige cómo autenticarte
 
-Tu cliente MCP se conecta a Diga mediante Streamable HTTP y envía tu API key con cada solicitud.
+Tu cliente MCP se conecta a Diga mediante Streamable HTTP. Elige una de estas dos formas de autenticarte:
+
+| | Iniciar sesión con Diga (OAuth) | API key |
+|---|---|---|
+| Configuración | Añade solo la URL del servidor. Tu cliente abre una ventana del navegador donde inicias sesión en Diga. | Añade la URL del servidor y un header `x-api-key`. |
+| Permisos | Tu rol en el proyecto | Las restricciones de la clave |
+| Proyecto | Cualquier proyecto al que pertenezcas. Elige uno después de conectar y cámbialo cuando quieras. | Fijo al proyecto donde se creó la clave |
+| Ideal para | Personas que usan un asistente de forma interactiva | Scripts, entornos compartidos y clientes sin soporte de OAuth |
 
 | Ajuste | Valor |
 |---|---|
 | Nombre del servidor | `diga` |
 | URL del servidor | `https://mcp.diga.io/mcp` |
-| Header de autenticación | `x-api-key: <DIGA_API_KEY>` |
+| Header de API key (solo con API key) | `x-api-key: <DIGA_API_KEY>` |
 
 <Info>
-Una API key pertenece al proyecto de Diga donde la creaste. Ese proyecto es la empresa que gestiona el asistente. Para trabajar con otra empresa, crea o copia una clave de ese proyecto y sustituye la clave en la configuración de tu cliente MCP.
+**Al iniciar sesión con Diga:** tu cuenta puede pertenecer a varios proyectos, así que el servidor necesita saber en cuál trabajar. La primera vez que pides algo, el asistente lista tus proyectos y te pide que elijas uno. También puede llamar directamente a la herramienta `diga_select_project`. La elección se recuerda durante 24 horas y puedes cambiar de proyecto en cualquier momento pidiéndoselo al asistente.
+
+**Al usar una API key:** la clave pertenece al proyecto donde la creaste, así que no hace falta elegir. Para gestionar otro proyecto, sustituye la clave por una de ese proyecto.
 </Info>
 
 ## Conecta tu cliente MCP
 
-Elige tu cliente y sustituye `<DIGA_API_KEY>` por tu API key completa de Diga.
+Elige tu cliente. Si usas API key, sustituye `<DIGA_API_KEY>` por tu API key completa de Diga.
 
 <Tabs>
-  <Tab title="Cursor">
-    Abre **Cursor Settings → MCP → Add new global MCP server** y añade:
+  <Tab title="Claude (web y escritorio)">
+    Abre **Settings → Connectors → Add custom connector**, ponle el nombre **Diga** e introduce `https://mcp.diga.io/mcp` como URL. Al activar el conector, Claude abre una ventana del navegador para iniciar sesión en Diga.
+
+    Para usar una API key, abre **Request headers** en los ajustes del conector y añade `x-api-key` con tu clave como valor. Si tu versión de Claude no muestra esa opción, usa el puente `mcp-remote` en Claude Desktop (**Settings → Developer → Edit Config**):
 
     ```json
     {
       "mcpServers": {
         "diga": {
-          "url": "https://mcp.diga.io/mcp",
-          "headers": {
-            "x-api-key": "<DIGA_API_KEY>"
-          }
+          "command": "npx",
+          "args": ["-y", "mcp-remote", "https://mcp.diga.io/mcp", "--header", "x-api-key:<DIGA_API_KEY>"]
         }
       }
     }
     ```
-  </Tab>
-
-  <Tab title="Claude Desktop">
-    Abre **Settings → Developer → Edit Config** y añade:
-
-    ```json
-    {
-      "mcpServers": {
-        "diga": {
-          "url": "https://mcp.diga.io/mcp",
-          "headers": {
-            "x-api-key": "<DIGA_API_KEY>"
-          }
-        }
-      }
-    }
-    ```
-
-    Reinicia Claude Desktop después de guardar el archivo. La disponibilidad de headers para servidores remotos puede variar según la versión de Claude Desktop.
   </Tab>
 
   <Tab title="Claude Code">
-    Ejecuta:
+    Inicia sesión con Diga:
+
+    ```bash
+    claude mcp add --transport http diga https://mcp.diga.io/mcp
+    ```
+
+    Después ejecuta `/mcp` dentro de Claude Code y elige **diga** para completar el inicio de sesión en el navegador.
+
+    Para usar una API key:
 
     ```bash
     claude mcp add --transport http diga \
       --header "x-api-key: <DIGA_API_KEY>" \
       https://mcp.diga.io/mcp
+    ```
+  </Tab>
+
+  <Tab title="Cursor">
+    Abre **Cursor Settings → MCP → Add new global MCP server**. Para iniciar sesión con Diga, añade solo la URL y completa el inicio de sesión cuando Cursor abra tu navegador:
+
+    ```json
+    {
+      "mcpServers": {
+        "diga": {
+          "url": "https://mcp.diga.io/mcp"
+        }
+      }
+    }
+    ```
+
+    Para usar una API key, añade el header:
+
+    ```json
+    {
+      "mcpServers": {
+        "diga": {
+          "url": "https://mcp.diga.io/mcp",
+          "headers": {
+            "x-api-key": "<DIGA_API_KEY>"
+          }
+        }
+      }
+    }
     ```
   </Tab>
 
@@ -102,10 +127,11 @@ Elige tu cliente y sustituye `<DIGA_API_KEY>` por tu API key completa de Diga.
     ```toml
     [mcp_servers.diga]
     url = "https://mcp.diga.io/mcp"
-    bearer_token_env_var = "DIGA_API_KEY"
     ```
 
-    Después, define la variable de entorno antes de iniciar Codex:
+    Para iniciar sesión con Diga, ejecuta `codex mcp login diga` y completa el inicio de sesión en el navegador.
+
+    Para usar una API key, añade `bearer_token_env_var = "DIGA_API_KEY"` al bloque anterior y define la variable antes de iniciar Codex:
 
     ```bash
     export DIGA_API_KEY="<DIGA_API_KEY>"
@@ -115,7 +141,7 @@ Elige tu cliente y sustituye `<DIGA_API_KEY>` por tu API key completa de Diga.
   </Tab>
 
   <Tab title="Otros clientes">
-    Configura un servidor remoto Streamable HTTP con estos valores:
+    Configura un servidor remoto Streamable HTTP con la URL `https://mcp.diga.io/mcp`. Los clientes compatibles con OAuth descubren automáticamente el inicio de sesión de Diga y abren una ventana del navegador. Para acceder con API key, añade el header:
 
     ```json
     {
@@ -141,21 +167,29 @@ Empieza con una solicitud de solo lectura, por ejemplo:
 
 > Lista mis agentes de Diga.
 
-Tu cliente debería pedir confirmación antes de ejecutar una herramienta si sus ajustes de permisos así lo requieren.
+Si iniciaste sesión con Diga y perteneces a más de un proyecto, el asistente te preguntará primero qué proyecto usar. Tu cliente debería pedir confirmación antes de ejecutar una herramienta si sus ajustes de permisos así lo requieren.
 
 ## Solución de problemas
 
 <AccordionGroup>
+  <Accordion title="El asistente me pide que seleccione un proyecto">
+    Iniciaste sesión con Diga y todavía no has elegido un proyecto, o la elección caducó pasadas 24 horas. Dile al asistente qué proyecto usar o pídele que liste tus proyectos primero.
+  </Accordion>
+
+  <Accordion title="La conexión falla porque se requiere la autenticación en dos pasos">
+    Tu cuenta de Diga tiene activada la autenticación en dos pasos y el inicio de sesión no pasó por una sesión verificada con 2FA. Inicia sesión en el panel y completa el segundo paso; después desconecta y vuelve a conectar el servidor de Diga en tu cliente MCP. Como alternativa, conéctate con una API key.
+  </Accordion>
+
   <Accordion title="El servidor devuelve 401 Unauthorized">
-    Confirma que has copiado la API key completa y que el cliente la envía como `x-api-key` sin el prefijo `Bearer`. Si usas el header `Authorization`, su valor debe ser `Bearer <DIGA_API_KEY>`.
+    Si iniciaste sesión con Diga, puede que tu sesión haya caducado. Desconecta y vuelve a conectar el servidor para iniciar sesión de nuevo. Si usas una API key, confirma que has copiado la clave completa y que el cliente la envía como `x-api-key` sin el prefijo `Bearer`. Si usas el header `Authorization`, su valor debe ser `Bearer <DIGA_API_KEY>`.
   </Accordion>
 
   <Accordion title="Una herramienta devuelve 403 Forbidden">
-    La API key es válida, pero no tiene permiso para usar ese recurso. Actualiza las restricciones de la clave en **Ajustes → Proyecto → API Keys** o usa otra clave restringida con el permiso necesario.
+    Estás autenticado, pero no tienes permiso para usar ese recurso. Si iniciaste sesión con Diga, pide a un administrador del proyecto que actualice tu rol. Si usas una API key, actualiza las restricciones de la clave en **Ajustes → Proyecto → API Keys** o usa otra clave restringida con el permiso necesario.
   </Accordion>
 
   <Accordion title="El asistente muestra una empresa incorrecta o ningún recurso">
-    La API key determina el proyecto. Sustitúyela por una clave creada en el proyecto de Diga correcto y reinicia el cliente MCP para que vuelva a cargar la configuración.
+    Si iniciaste sesión con Diga, pide al asistente que cambie al proyecto correcto. Si usas una API key, la clave determina el proyecto. Sustitúyela por una clave creada en el proyecto de Diga correcto y reinicia el cliente MCP para que vuelva a cargar la configuración.
   </Accordion>
 
   <Accordion title="El cliente no puede conectarse al servidor">
@@ -165,7 +199,8 @@ Tu cliente debería pedir confirmación antes de ejecutar una herramienta si sus
 
 ## Recomendaciones de seguridad
 
-- Crea una API key diferente para cada cliente MCP y entorno
+- Prefiere iniciar sesión con Diga para el uso interactivo. El acceso sigue tu rol y termina al desconectar.
+- Si usas API keys, crea una clave diferente para cada cliente MCP y entorno
 - Concede solo los permisos de lectura o escritura que necesite el asistente
 - Revisa las llamadas a herramientas antes de aprobar acciones que modifiquen o eliminen recursos
-- Rota la clave inmediatamente si queda expuesta
+- Rota una clave inmediatamente si queda expuesta
