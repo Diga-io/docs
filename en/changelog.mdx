@@ -11,9 +11,42 @@ rss: true
 - <span className="cl-tag cl-feature">Feature</span> **Connect AI assistants without an API key**: the Diga MCP server now supports signing in with your Diga account. Add `https://mcp.diga.io/mcp` to Claude, Claude Code, Cursor, Codex, or any OAuth-capable MCP client, sign in when the browser opens, and pick the project you want to work on. Your access follows your role in that project, and you can switch projects at any time. API keys keep working for scripts and clients without OAuth support. See [Diga MCP server](/en/mcp/mcp-server).
 
 </Update>
-<Update label="September 22, 2026" description="Filters and Search" tags={["New features", "Fixes"]}>
+<Update label="October 6, 2026" description="Agent Privacy Settings" tags={["New features", "Fixes"]}>
 
-## Grouped filters, list search, and end-reason filtering
+## Per-agent privacy controls and MCP two-factor support
+
+- <span className="cl-tag cl-feature">Feature</span> **Control recording, transcription, and contact collection per agent**: A new Privacy settings section in each agent's Customize tab lets you toggle call recording, transcription, and contact collection independently. The call details page adapts to match — audio controls appear only when recording is on, and the transcript and contact fields reflect whichever captures are switched off.
+  {/* screenshot */}
+
+- <span className="cl-tag cl-fix">Fix</span> **MCP clients connect to accounts with two-factor authentication**: Claude and other MCP clients can now complete the OAuth authorization flow on accounts that have 2FA enabled. The authorization screen asks for your two-factor code if the current session has not already passed it.
+
+</Update>
+<Update label="September 29, 2026" description="In-app Notifications" tags={["New features", "Fixes"]}>
+
+## In-app notifications, knowledge base refresh, and sidebar tutorials
+
+- <span className="cl-tag cl-feature">Feature</span> **See your notifications in the dashboard**: a bell in the header shows your unread count and opens a notification drawer; the **Notifications** page lets you filter and mark items read; **Settings** lets you choose which events reach you by email. A **What's new** panel in the sidebar shows product announcements — critical releases appear as a modal, important ones as a dismissible card in the top corner.
+  {/* screenshot */}
+
+- <span className="cl-tag cl-feature">Feature</span> **Refresh a website source to re-index its current content**: a **Refresh** action on any URL source re-crawls the linked page and updates the indexed content; once complete, a **Last updated** date on the source shows when it was last re-fetched.
+
+- <span className="cl-tag cl-fix">Fix</span> **Updating a knowledge item keeps the detail panel open**: saving a change to a knowledge item shows the updated information in place rather than collapsing into an error.
+
+- <span className="cl-tag cl-feature">Feature</span> **Hover a section in the sidebar to see a tutorial video for it**: a card with the video thumbnail appears after a moment; clicking it plays the video in a modal without leaving the dashboard.
+  {/* screenshot */}
+
+- <span className="cl-tag cl-fix">Fix</span> **Workflows triggered automatically in a path can use pre-call data as parameters**: a workflow that runs right after a path step can now draw its arguments from variables set before the call, including what a pre-call workflow returned to the agent. Call logs also record what each pre-call workflow passed back.
+
+- <span className="cl-tag cl-fix">Fix</span> **The AI assistant reads the code inside Code steps**: Melo can now see and work with the full contents of Code steps when inspecting or editing a workflow.
+
+- <span className="cl-tag cl-fix">Fix</span> **Onboarding tips appear only once per account**: tips persist as seen once you dismiss them and do not reappear when navigating between projects or opening the dashboard before your profile has finished loading.
+
+- <span className="cl-tag cl-fix">Fix</span> **Phone numbers activate with their subscription when a verification is approved**: approving a company's verification activates the assigned phone numbers and confirms the subscription in the same operation.
+
+</Update>
+<Update label="September 22, 2026" description="Filters, Search, and Client Connections" tags={["New features", "Fixes"]}>
+
+## Grouped filters, list search, and client connection requests
 
 ### Filtering and search
 
@@ -26,6 +59,19 @@ rss: true
 - <span className="cl-tag cl-fix">Fix</span> **API keys for a deleted project stop working immediately**: Removing a project now clears its cached authorization right away.
 
 - <span className="cl-tag cl-fix">Fix</span> **Numbers bought before verification now activate**: Phone numbers purchased before a company's verification is approved activate correctly when the verification completes, even if an older subscription for the project no longer exists in Stripe.
+
+### Client connections, billing, and canvas
+
+- <span className="cl-tag cl-feature">Feature</span> **Send clients a link to set up their own connections**: from **Settings › Connections**, you can now generate a secure link and share it with a client so they can complete a connection themselves. The client opens a dedicated page and enters credentials or goes through OAuth directly — no workspace access or credentials are shared with your agency. Requests can be copied, regenerated, or revoked at any time, and the page is available in English and Spanish.
+  {/* screenshot */}
+
+- <span className="cl-tag cl-fix">Fix</span> **The OAuth consent screen appears when connecting a new application**: authorizing an application for the first time now shows the consent card so you can review and approve the request before being redirected.
+
+- <span className="cl-tag cl-fix">Fix</span> **Calls past your included minutes are not charged when usage-based billing is off**: if usage-based billing is off, calls that run past your included minutes are not billed as extra usage.
+
+- <span className="cl-tag cl-improvement">Improvement</span> **Remove a template workflow without setting it up first**: a template flow added to an agent that still requires configuration now shows a remove button alongside the setup prompt, so you can take it off the agent right away.
+
+- <span className="cl-tag cl-improvement">Improvement</span> **See your whole conversational path at once**: the path canvas now zooms much further out, so a large flow fits on screen in one view. Zoom out, zoom in, and fit-to-screen controls are available on the canvas toolbar.
 
 </Update>
 <Update label="September 8, 2026" description="Notification delivery" tags={["Fixes"]}>
