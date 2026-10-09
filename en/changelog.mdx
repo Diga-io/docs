@@ -11,6 +11,29 @@ rss: true
 - <span className="cl-tag cl-feature">Feature</span> **Connect AI assistants without an API key**: the Diga MCP server now supports signing in with your Diga account. Add `https://mcp.diga.io/mcp` to Claude, Claude Code, Cursor, Codex, or any OAuth-capable MCP client, sign in when the browser opens, and pick the project you want to work on. Your access follows your role in that project, and you can switch projects at any time. API keys keep working for scripts and clients without OAuth support. See [Diga MCP server](/en/mcp/mcp-server).
 
 </Update>
+<Update label="September 29, 2026" description="In-app Notifications" tags={["New features", "Fixes"]}>
+
+## In-app notifications, knowledge base refresh, and sidebar tutorials
+
+- <span className="cl-tag cl-feature">Feature</span> **See your notifications in the dashboard**: a bell in the header shows your unread count and opens a notification drawer; the **Notifications** page lets you filter and mark items read; **Settings** lets you choose which events reach you by email. A **What's new** panel in the sidebar shows product announcements — critical releases appear as a modal, important ones as a dismissible card in the top corner.
+  {/* screenshot */}
+
+- <span className="cl-tag cl-feature">Feature</span> **Refresh a website source to re-index its current content**: a **Refresh** action on any URL source re-crawls the linked page and updates the indexed content; once complete, a **Last updated** date on the source shows when it was last re-fetched.
+
+- <span className="cl-tag cl-fix">Fix</span> **Updating a knowledge item keeps the detail panel open**: saving a change to a knowledge item shows the updated information in place rather than collapsing into an error.
+
+- <span className="cl-tag cl-feature">Feature</span> **Hover a section in the sidebar to see a tutorial video for it**: a card with the video thumbnail appears after a moment; clicking it plays the video in a modal without leaving the dashboard.
+  {/* screenshot */}
+
+- <span className="cl-tag cl-fix">Fix</span> **Workflows triggered automatically in a path can use pre-call data as parameters**: a workflow that runs right after a path step can now draw its arguments from variables set before the call, including what a pre-call workflow returned to the agent. Call logs also record what each pre-call workflow passed back.
+
+- <span className="cl-tag cl-fix">Fix</span> **The AI assistant reads the code inside Code steps**: Melo can now see and work with the full contents of Code steps when inspecting or editing a workflow.
+
+- <span className="cl-tag cl-fix">Fix</span> **Onboarding tips appear only once per account**: tips persist as seen once you dismiss them and do not reappear when navigating between projects or opening the dashboard before your profile has finished loading.
+
+- <span className="cl-tag cl-fix">Fix</span> **Phone numbers activate with their subscription when a verification is approved**: approving a company's verification activates the assigned phone numbers and confirms the subscription in the same operation.
+
+</Update>
 <Update label="September 22, 2026" description="Filters and Search" tags={["New features", "Fixes"]}>
 
 ## Grouped filters, list search, and end-reason filtering
