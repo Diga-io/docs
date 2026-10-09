@@ -28,6 +28,22 @@ rss: true
 - <span className="cl-tag cl-fix">Fix</span> **Numbers bought before verification now activate**: Phone numbers purchased before a company's verification is approved activate correctly when the verification completes, even if an older subscription for the project no longer exists in Stripe.
 
 </Update>
+<Update label="September 22, 2026" description="Client Connection Requests" tags={["New features", "Fixes"]}>
+
+## Client connection requests, OAuth consent, and canvas controls
+
+- <span className="cl-tag cl-feature">Feature</span> **Send clients a link to set up their own connections**: from **Settings › Connections**, you can now generate a secure link and share it with a client so they can complete a connection themselves. The client opens a dedicated page and enters credentials or goes through OAuth directly — no workspace access or credentials are shared with your agency. Requests can be copied, regenerated, or revoked at any time, and the page is available in English and Spanish.
+  {/* screenshot */}
+
+- <span className="cl-tag cl-fix">Fix</span> **The OAuth consent screen appears when connecting a new application**: authorizing an application for the first time now shows the consent card so you can review and approve the request before being redirected.
+
+- <span className="cl-tag cl-fix">Fix</span> **Calls past your included minutes are not charged when usage-based billing is off**: if usage-based billing is off, calls that run past your included minutes are not billed as extra usage.
+
+- <span className="cl-tag cl-improvement">Improvement</span> **Remove a template workflow without setting it up first**: a template flow added to an agent that still requires configuration now shows a remove button alongside the setup prompt, so you can take it off the agent right away.
+
+- <span className="cl-tag cl-improvement">Improvement</span> **See your whole conversational path at once**: the path canvas now zooms much further out, so a large flow fits on screen in one view. Zoom out, zoom in, and fit-to-screen controls are available on the canvas toolbar.
+
+</Update>
 <Update label="September 8, 2026" description="Notification delivery" tags={["Fixes"]}>
 
 ## Notifications reach you as configured
@@ -281,7 +297,6 @@ rss: true
 - **Injected variables in function-call logs**: variables injected into a during-call function call are now shown in the function-call logs, making it easier to debug what the agent passed to each tool.
 
 </Update>
-
 <Update label="June 19, 2026" description="Activepieces pieces" tags={["New features", "Improvements"]}>
 
 ## New and improved workflow pieces
@@ -291,7 +306,6 @@ rss: true
 - **Form styling**: improved styling for forms in the workflow builder.
 
 </Update>
-
 <Update label="June 18, 2026" description="AI Copilot (Melo)" tags={["New features"]}>
 
 ## Meet Melo, your in-dashboard AI assistant
@@ -301,7 +315,6 @@ rss: true
 - **Per-plan usage**: Melo usage is included with weekly limits that scale with your plan.
 
 </Update>
-
 <Update label="June 18, 2026" description="Call Traces" tags={["New features"]}>
 
 ## Call Traces with a waterfall view
@@ -311,7 +324,6 @@ rss: true
 - **Diagnose performance**: quickly identify slow steps, verify conversational flows, and review tool executions with their arguments and timing.
 
 </Update>
-
 <Update label="June 17, 2026" description="v1.1.16" tags={["New features"]}>
 
 ## Pre-call flows and flow-driven variables
@@ -334,7 +346,6 @@ rss: true
 - **New "Call launcher" category**: workflows that start outbound calls with the Make Call action are now labeled **Call launcher**, distinct from the new **Pre-call** flows.
 
 </Update>
-
 <Update label="April 17, 2026" description="v1.1.9" tags={["New features", "Improvements"]}>
 
 ## Gemini voices
@@ -353,7 +364,6 @@ Diga now uses **Gemini** as its realtime voice engine. Voices no longer depend o
 - **Removed controls**: the voice speed and temperature settings and the option to use an ElevenLabs voice by ID are gone. Volume stays. To adjust pace or tone, describe it in the prompt or in the global instructions
 
 </Update>
-
 <Update label="March 11, 2026" description="v1.1.6" tags={["New features"]}>
 
 ## Improved voices, tool sounds, and Holded piece
@@ -378,7 +388,6 @@ These voice options were replaced in v1.1.9 by the Gemini voice catalog. See the
 - **Holded integration**: Connect your agents with Holded to talk directly to your ERP — for example, assist customers by looking up their invoices in real time
 
 </Update>
-
 <Update label="March 11, 2026" description="v1.1.5" tags={["Improvements"]}>
 
 ## Improved turn detection model
@@ -387,7 +396,6 @@ These voice options were replaced in v1.1.9 by the Gemini voice catalog. See the
 - **Background sound in flows**: Tools and flows can now play background sound while executing
 
 </Update>
-
 <Update label="March 4, 2026" description="v1.1.4" tags={["Fixes"]}>
 
 ## Workflow and session fixes
@@ -396,7 +404,6 @@ These voice options were replaced in v1.1.9 by the Gemini voice catalog. See the
 - **OAuth session persistence**: Fixed an issue where Google OAuth sessions were not persisting across tabs, even with the "Remember me" option enabled
 
 </Update>
-
 <Update label="March 2, 2026" description="v1.1.3" tags={["New features"]}>
 
 ## Bulk recording downloads and RAG improvements
@@ -405,7 +412,6 @@ These voice options were replaced in v1.1.9 by the Gemini voice catalog. See the
 - **RAG improvements**: Bug fixes and improvements to the knowledge base for more reliable information retrieval
 
 </Update>
-
 <Update label="February 24, 2026" description="v1.1.2" tags={["Fixes"]}>
 
 ## Permission and navigation fixes
@@ -415,7 +421,6 @@ These voice options were replaced in v1.1.9 by the Gemini voice catalog. See the
 - **404 page**: Improved error page for unknown routes
 
 </Update>
-
 <Update label="February 17, 2026" description="v1.1.0" tags={["New features"]}>
 
 ## Logs, RAG, and Workflows
@@ -443,7 +448,6 @@ These voice options were replaced in v1.1.9 by the Gemini voice catalog. See the
 - **Pre-built templates**: Use ready-made templates to quickly set up common workflows
 
 </Update>
-
 <Update label="December 17, 2025" description="v1.0.0" tags={["New features"]}>
 
 ## Diga Initial Launch
