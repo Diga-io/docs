@@ -180,6 +180,10 @@ If you signed in with Diga and belong to more than one project, the assistant fi
     Your Diga account has two-factor authentication enabled, and the sign-in did not go through a 2FA-verified session. Sign in to the dashboard and complete the second step, then disconnect and reconnect the Diga server in your MCP client. Alternatively, connect with an API key.
   </Accordion>
 
+  <Accordion title="The browser sign-in never opens">
+    Your MCP client does not support OAuth for remote servers. Connect with a project API key instead.
+  </Accordion>
+
   <Accordion title="The server returns 401 Unauthorized">
     If you signed in with Diga, your session may have expired. Disconnect and reconnect the server to sign in again. If you use an API key, confirm that you copied the complete key and that the client sends it as `x-api-key` without the `Bearer` prefix. If you use the `Authorization` header instead, its value must be `Bearer <DIGA_API_KEY>`.
   </Accordion>

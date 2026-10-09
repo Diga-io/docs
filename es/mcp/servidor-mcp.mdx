@@ -180,6 +180,10 @@ Si iniciaste sesión con Diga y perteneces a más de un proyecto, el asistente t
     Tu cuenta de Diga tiene activada la autenticación en dos pasos y el inicio de sesión no pasó por una sesión verificada con 2FA. Inicia sesión en el panel y completa el segundo paso; después desconecta y vuelve a conectar el servidor de Diga en tu cliente MCP. Como alternativa, conéctate con una API key.
   </Accordion>
 
+  <Accordion title="El inicio de sesión en el navegador nunca se abre">
+    Tu cliente MCP no admite OAuth para servidores remotos. Conéctate con una API key de proyecto.
+  </Accordion>
+
   <Accordion title="El servidor devuelve 401 Unauthorized">
     Si iniciaste sesión con Diga, puede que tu sesión haya caducado. Desconecta y vuelve a conectar el servidor para iniciar sesión de nuevo. Si usas una API key, confirma que has copiado la clave completa y que el cliente la envía como `x-api-key` sin el prefijo `Bearer`. Si usas el header `Authorization`, su valor debe ser `Bearer <DIGA_API_KEY>`.
   </Accordion>
