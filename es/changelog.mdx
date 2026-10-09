@@ -8,7 +8,7 @@ rss: true
 
 ## Inicia sesión en el servidor MCP de Diga con tu cuenta
 
-- <span className="cl-tag cl-feature">Feature</span> **Conecta asistentes de IA sin API key**: el servidor MCP de Diga ahora permite iniciar sesión con tu cuenta de Diga. Añade `https://mcp.diga.io/mcp` en Claude, Claude Code, Cursor, Codex o cualquier cliente MCP compatible con OAuth, inicia sesión cuando se abra el navegador y elige el proyecto en el que quieres trabajar. Tu acceso sigue tu rol en ese proyecto y puedes cambiar de proyecto en cualquier momento. Las API keys siguen funcionando para scripts y clientes sin soporte de OAuth. Consulta [Servidor MCP de Diga](/es/mcp/servidor-mcp).
+- <span className="cl-tag cl-feature">Nueva</span> **Conecta asistentes de IA sin API key**: el servidor MCP de Diga ahora permite iniciar sesión con tu cuenta de Diga. Añade `https://mcp.diga.io/mcp` en Claude, Claude Code, Cursor, Codex o cualquier cliente MCP compatible con OAuth, inicia sesión cuando se abra el navegador y elige el proyecto en el que quieres trabajar. Tu acceso sigue tu rol en ese proyecto y puedes cambiar de proyecto en cualquier momento. Las API keys siguen funcionando para scripts y clientes sin soporte de OAuth. Consulta [Servidor MCP de Diga](/es/mcp/servidor-mcp).
 
 </Update>
 <Update label="6 de octubre de 2026" description="Ajustes de privacidad del agente" tags={["Nuevas features", "Correcciones"]}>
@@ -44,9 +44,9 @@ rss: true
 - <span className="cl-tag cl-fix">Corrección</span> **Los números de teléfono se activan con su suscripción al aprobar la verificación**: aprobar la verificación de una empresa activa los números asignados y confirma la suscripción en la misma operación.
 
 </Update>
-<Update label="22 de septiembre de 2026" description="Filtros y búsqueda" tags={["Nuevas features", "Correcciones"]}>
+<Update label="22 de septiembre de 2026" description="Filtros, búsqueda y conexiones de clientes" tags={["Nuevas features", "Correcciones"]}>
 
-## Filtros agrupados, búsqueda en listas y filtrado por motivo de fin
+## Filtros agrupados, búsqueda en listas y solicitudes de conexión de clientes
 
 ### Filtrado y búsqueda
 
@@ -60,10 +60,7 @@ rss: true
 
 - <span className="cl-tag cl-fix">Corrección</span> **Los números comprados antes de la verificación se activan correctamente**: los números de teléfono comprados antes de que se apruebe la verificación de empresa se activan al completarse la verificación, aunque la suscripción anterior del proyecto ya no exista en Stripe.
 
-</Update>
-<Update label="22 de septiembre de 2026" description="Solicitudes de conexión de clientes" tags={["Nuevas features", "Correcciones"]}>
-
-## Solicitudes de conexión de clientes, consentimiento OAuth y controles del lienzo
+### Conexiones de clientes, facturación y lienzo
 
 - <span className="cl-tag cl-feature">Nueva</span> **Envía a tus clientes un enlace para que configuren sus propias conexiones**: desde **Ajustes › Conexiones**, puedes generar un enlace seguro y compartirlo con un cliente para que complete la conexión por su cuenta. El cliente abre una página dedicada e introduce sus credenciales o pasa por OAuth directamente — ni el acceso al workspace ni las credenciales se comparten con tu agencia. Los enlaces se pueden copiar, regenerar o revocar en cualquier momento, y la página está disponible en inglés y en español.
   {/* screenshot */}
@@ -330,6 +327,7 @@ rss: true
 - **Variables inyectadas en los logs de llamada a función**: las variables inyectadas en una llamada a función durante la llamada ahora se muestran en los logs de llamada a función, lo que facilita depurar qué pasó el agente a cada herramienta.
 
 </Update>
+
 <Update label="19 de junio de 2026" description="Piezas de Activepieces" tags={["Nuevas features", "Mejoras"]}>
 
 ## Piezas de workflow nuevas y mejoradas
@@ -339,6 +337,7 @@ rss: true
 - **Estilos de formularios**: estilos mejorados para los formularios en el constructor de flujos.
 
 </Update>
+
 <Update label="18 de junio de 2026" description="Copilot IA (Melo)" tags={["Nuevas features"]}>
 
 ## Conoce a Melo, tu asistente de IA dentro del panel
@@ -348,6 +347,7 @@ rss: true
 - **Uso según el plan**: el uso de Melo está incluido con límites semanales que escalan según tu plan.
 
 </Update>
+
 <Update label="18 de junio de 2026" description="Trazas de llamadas" tags={["Nuevas features"]}>
 
 ## Trazas de llamadas con vista en cascada
@@ -357,6 +357,7 @@ rss: true
 - **Diagnostica el rendimiento**: identifica rápidamente los pasos lentos, verifica los flujos conversacionales y revisa las ejecuciones de herramientas con sus argumentos y tiempos.
 
 </Update>
+
 <Update label="17 de junio de 2026" description="v1.1.16" tags={["Nuevas features"]}>
 
 ## Flujos pre-llamada y variables impulsadas por flujos
@@ -379,6 +380,7 @@ rss: true
 - **Nueva categoría "Lanzador de llamadas"**: los flujos que inician llamadas salientes con la acción Hacer llamada ahora se etiquetan como **Lanzador de llamadas**, distintos de los nuevos flujos **Pre-llamada**.
 
 </Update>
+
 <Update label="17 de abril de 2026" description="v1.1.9" tags={["Nuevas features", "Mejoras"]}>
 
 ## Voces de Gemini
@@ -397,6 +399,7 @@ Diga pasa a usar **Gemini** como motor de voz en tiempo real. Las voces ya no de
 - **Controles retirados**: desaparecen los ajustes de velocidad y temperatura de la voz y la opción de usar una voz de ElevenLabs por ID. El volumen se mantiene. Para ajustar el ritmo o el tono, indícalo en el prompt o en las instrucciones globales
 
 </Update>
+
 <Update label="11 de marzo de 2026" description="v1.1.6" tags={["Nuevas features"]}>
 
 ## Voces mejoradas, sonido en herramientas y pieza de Holded
@@ -421,6 +424,7 @@ Estas opciones de voz se sustituyeron en la versión v1.1.9 por el catálogo de 
 - **Integración con Holded**: Conecta tus agentes con Holded para que hablen directamente con tu ERP — por ejemplo, atender clientes consultando sus facturas en tiempo real
 
 </Update>
+
 <Update label="11 de marzo de 2026" description="v1.1.5" tags={["Mejoras"]}>
 
 ## Modelo de detección de turnos mejorado
@@ -429,6 +433,7 @@ Estas opciones de voz se sustituyeron en la versión v1.1.9 por el catálogo de 
 - **Sonido de fondo en flujos**: Las herramientas y flujos ahora pueden reproducir sonido de fondo mientras se ejecutan
 
 </Update>
+
 <Update label="4 de marzo de 2026" description="v1.1.4" tags={["Correcciones"]}>
 
 ## Correcciones en workflows y sesiones
@@ -437,6 +442,7 @@ Estas opciones de voz se sustituyeron en la versión v1.1.9 por el catálogo de 
 - **Persistencia de sesiones OAuth**: Corregido un problema donde las sesiones de Google OAuth no se mantenían entre pestañas, incluso con la opción de "Recuérdame" activada
 
 </Update>
+
 <Update label="2 de marzo de 2026" description="v1.1.3" tags={["Nuevas features"]}>
 
 ## Descarga masiva de grabaciones y mejoras en RAG
@@ -445,6 +451,7 @@ Estas opciones de voz se sustituyeron en la versión v1.1.9 por el catálogo de 
 - **Mejoras en RAG**: Correcciones y mejoras en la base de conocimiento para una recuperación de información más fiable
 
 </Update>
+
 <Update label="24 de febrero de 2026" description="v1.1.2" tags={["Correcciones"]}>
 
 ## Correcciones de permisos y navegación
@@ -454,6 +461,7 @@ Estas opciones de voz se sustituyeron en la versión v1.1.9 por el catálogo de 
 - **Página 404**: Mejorada la página de error para rutas no encontradas
 
 </Update>
+
 <Update label="17 de febrero de 2026" description="v1.1.0" tags={["Nuevas features"]}>
 
 ## Logs, RAG y Workflows
@@ -481,6 +489,7 @@ Estas opciones de voz se sustituyeron en la versión v1.1.9 por el catálogo de 
 - **Plantillas predefinidas**: Usa plantillas listas para configurar workflows comunes rápidamente
 
 </Update>
+
 <Update label="17 de diciembre de 2025" description="v1.0.0" tags={["Nuevas features"]}>
 
 ## Lanzamiento inicial de Diga
