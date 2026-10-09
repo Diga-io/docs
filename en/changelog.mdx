@@ -11,6 +11,16 @@ rss: true
 - <span className="cl-tag cl-feature">Feature</span> **Connect AI assistants without an API key**: the Diga MCP server now supports signing in with your Diga account. Add `https://mcp.diga.io/mcp` to Claude, Claude Code, Cursor, Codex, or any OAuth-capable MCP client, sign in when the browser opens, and pick the project you want to work on. Your access follows your role in that project, and you can switch projects at any time. API keys keep working for scripts and clients without OAuth support. See [Diga MCP server](/en/mcp/mcp-server).
 
 </Update>
+<Update label="October 6, 2026" description="Agent Privacy Settings" tags={["New features", "Fixes"]}>
+
+## Per-agent privacy controls and MCP two-factor support
+
+- <span className="cl-tag cl-feature">Feature</span> **Control recording, transcription, and contact collection per agent**: A new Privacy settings section in each agent's Customize tab lets you toggle call recording, transcription, and contact collection independently. The call details page adapts to match — audio controls appear only when recording is on, and the transcript and contact fields reflect whichever captures are switched off.
+  {/* screenshot */}
+
+- <span className="cl-tag cl-fix">Fix</span> **MCP clients connect to accounts with two-factor authentication**: Claude and other MCP clients can now complete the OAuth authorization flow on accounts that have 2FA enabled. The authorization screen asks for your two-factor code if the current session has not already passed it.
+
+</Update>
 <Update label="September 29, 2026" description="In-app Notifications" tags={["New features", "Fixes"]}>
 
 ## In-app notifications, knowledge base refresh, and sidebar tutorials
