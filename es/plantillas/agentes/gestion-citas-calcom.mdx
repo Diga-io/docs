@@ -77,10 +77,6 @@ El agente nunca menciona que está usando una herramienta ni explica sus resulta
     Varios flujos traen `Europe/Madrid` fijado. Si operas en otra zona horaria, revísala en cada uno: [Comprobar disponibilidad](/es/plantillas/flujos/comprobar-disponibilidad-calcom#revisa-la-zona-horaria), [Crear cita](/es/plantillas/flujos/crear-cita-calcom#revisa-la-zona-horaria) y [Reprogramar cita](/es/plantillas/flujos/reprogramar-cita-calcom#revisa-la-zona-horaria).
   </Step>
 
-  <Step title="Marca start_date como obligatorio en Crear cita">
-    El flujo [Crear cita (Cal.com)](/es/plantillas/flujos/crear-cita-calcom#marca-start-date-como-obligatorio) trae la fecha de la cita como parámetro opcional, cuando en realidad es imprescindible. Corrígelo antes de publicar.
-  </Step>
-
   <Step title="Publica los flujos">
     Cada flujo hay que [publicarlo](/es/build/flujos/crear-flujos#borrador-vs-publicado). Si este paso no se ejecuta, el agente no podrá hacer uso de los flujos.
   </Step>
@@ -94,7 +90,7 @@ El agente nunca menciona que está usando una herramienta ni explica sus resulta
 
 Ten en cuenta los siguientes puntos a la hora de configurar tu plantilla:
 
-- **Crear cita sin comprobación previa:** si quieres que el flujo vuelva a comprobar el hueco justo antes de reservar (como sí hacen reprogramar y cancelar), tendrás que añadirlo tú; de base, [Crear cita](/es/plantillas/flujos/crear-cita-calcom#antes-de-publicar) confía en que Cal.com rechace un hueco ya ocupado, y si eso ocurre, el agente se queda sin respuesta en lugar de recibir un mensaje de error.
+- **Crear cita sin comprobación previa:** si quieres que el flujo vuelva a comprobar el hueco justo antes de reservar, tendrás que añadirlo tú; de base, [Crear cita](/es/plantillas/flujos/crear-cita-calcom#antes-de-publicar) confía en que Cal.com rechace un hueco ya ocupado, y si eso ocurre, el agente recibe un mensaje de error para disculparse y ofrecer otra hora.
 - **Motivo de la reprogramación:** si quieres que el motivo del cambio quede registrado en Cal.com, tendrás que añadirlo; de base, [Reprogramar cita](/es/plantillas/flujos/reprogramar-cita-calcom#antes-de-publicar) lo manda siempre vacío, aunque sí recoge el motivo de la cancelación.
 - **Transferir a una persona:** añade la [herramienta de transferencia](/es/build/agentes/herramientas-llamada) si quieres que el agente pueda hacerlo; de base, ante temas fuera de la agenda dice que el equipo se lo verá, pero no transfiere la llamada.
 - **Atender en varios idiomas:** cambia el [selector de idioma](/es/build/agentes/personalizacion-llamada#identidad-del-agente) a **Multilingüe** para que el agente detecte el idioma de cada paciente y responda en ese mismo idioma. Por defecto solo habla español.
