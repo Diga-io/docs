@@ -77,10 +77,6 @@ The agent never mentions that it's using a tool or explains its internal results
     Several workflows ship with `Europe/Madrid` fixed. If you operate in a different time zone, check it in each one: [Check availability](/en/templates/flows/check-availability-cal-com#check-the-time-zone), [Create appointment](/en/templates/flows/create-appointment-cal-com#check-the-time-zone), and [Reschedule appointment](/en/templates/flows/reschedule-appointment-cal-com#check-the-time-zone).
   </Step>
 
-  <Step title="Mark start_date as required in Create appointment">
-    The [Create appointment (Cal.com)](/en/templates/flows/create-appointment-cal-com#mark-start-date-as-required) workflow ships with the appointment date as an optional parameter, when it's actually required. Fix this before publishing.
-  </Step>
-
   <Step title="Publish the workflows">
     Each workflow has to be [published](/en/build/flows/creating-workflows#draft-vs-published). If you skip this step, the agent won't be able to use them.
   </Step>
@@ -94,7 +90,7 @@ The agent never mentions that it's using a tool or explains its internal results
 
 Keep in mind the following points when setting up your template:
 
-- **Creating an appointment with no pre-check:** if you want the workflow to re-check the slot right before booking (like reschedule and cancel already do), you'll have to add it yourself; by default, [Create appointment](/en/templates/flows/create-appointment-cal-com#before-publishing) relies on Cal.com to reject an already-taken slot, and when that happens the agent is left with no response instead of an error message.
+- **Creating an appointment with no pre-check:** if you want the workflow to re-check the slot right before booking, you'll have to add it yourself; by default, [Create appointment](/en/templates/flows/create-appointment-cal-com#before-publishing) relies on Cal.com to reject an already-taken slot, and when that happens the agent gets an error message telling it to apologize and offer another time.
 - **Reschedule reason:** if you want the reason for a reschedule recorded in Cal.com, you'll have to add it; by default, [Reschedule appointment](/en/templates/flows/reschedule-appointment-cal-com#before-publishing) always sends it empty, even though it does collect a reason for cancellations.
 - **Transferring to a person:** add the [transfer tool](/en/build/agents/call-tools) if you want the agent to be able to do this; by default, for anything outside scheduling it says the team will look into it, but it doesn't transfer the call.
 - **Handling several languages:** switch the [language selector](/en/build/agents/call-customization#language) to **Multilingual** so the agent detects each patient's language and replies in that same language. By default it only speaks Spanish.

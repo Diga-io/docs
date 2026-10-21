@@ -22,7 +22,7 @@ Es un [flujo durante llamada](/es/build/flujos/flujos-durante-llamada): el agent
 | Paso | Qué hace |
 |---|---|
 | **Obtener fecha actual en UTC** | Calcula el instante actual, para no traer citas ya pasadas. |
-| **Buscar reservas en Cal** | Consulta en Cal.com hasta 10 reservas futuras (`status: upcoming`) que coincidan con el nombre y el email del cliente. |
+| **Buscar reservas en Cal** | Consulta en Cal.com hasta 10 reservas futuras (`status: upcoming`) que coincidan con el email del cliente. |
 | **Formatear citas a hora local** | Extrae el tipo de cita del título de cada reserva, convierte fecha y hora a hora local, y ordena la lista cronológicamente. |
 | **Devolver respuesta** | Entrega la lista al agente, indicándole que el `uid` es interno (nunca se dice en voz alta) y que ignore también `inicio_utc`. Si la lista llega vacía, le dice que pida el email de nuevo. |
 
@@ -52,7 +52,7 @@ Es un [flujo durante llamada](/es/build/flujos/flujos-durante-llamada): el agent
 
 ## Antes de publicar
 
-- **La búsqueda es por nombre y email, no por teléfono.** Si el cliente llama desde un número distinto al que usó para reservar, el flujo igualmente encuentra la cita mientras el email coincida.
+- **La búsqueda es solo por email, no por nombre ni por teléfono.** Si el cliente llama desde un número distinto al que usó para reservar, el flujo igualmente encuentra la cita mientras el email coincida. El nombre no se usa porque Cal.com lo guarda tal como se dio al reservar, y una variante (por ejemplo, con un apellido más) haría que no apareciera ninguna cita.
 - **Trae hasta 10 citas futuras.** Si el cliente tiene más de 10 reservas pendientes, las más lejanas en el tiempo no aparecerán en la lista.
 - **El tipo de cita se extrae del título de la reserva en Cal.com**, no de un campo dedicado. Si cambias el formato del título en Cal.com, revisa que el flujo lo siga interpretando bien.
 - **Si el email no coincide con ninguna reserva, la lista llega vacía** y es el prompt del agente quien decide qué hacer — la plantilla del agente pide el correo de nuevo y, si sigue sin aparecer, avisa de que el equipo llamará.
