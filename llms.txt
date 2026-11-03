@@ -84,6 +84,7 @@ Key pages: [MCP server](https://docs.diga.io/en/mcp/mcp-server.md) · [API keys 
 #### Telefonía
 
 - [Comprar Números de Teléfono](https://docs.diga.io/es/telefonia/comprar-telefonos.md): Compra y gestión de números de teléfono para tus agentes de voz
+- [Números 400](https://docs.diga.io/es/telefonia/numeros-400.md): Números para hacer llamadas comerciales salientes en España
 
 ##### Importar números mediante SIP Trunk
 
@@ -205,6 +206,7 @@ Key pages: [MCP server](https://docs.diga.io/en/mcp/mcp-server.md) · [API keys 
 #### Telephony
 
 - [Buy Phone Numbers](https://docs.diga.io/en/telephony/buy-numbers.md): Purchase and manage phone numbers for your voice agents
+- [400 Numbers](https://docs.diga.io/en/telephony/400-numbers.md): Numbers for making outbound commercial calls in Spain
 
 ##### Import Numbers via SIP Trunk
 

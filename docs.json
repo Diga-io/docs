@@ -124,6 +124,7 @@
                 "group": "Telefonía",
                 "pages": [
                   "es/telefonia/comprar-telefonos",
+                  "es/telefonia/numeros-400",
                   {
                     "group": "Importar números mediante SIP Trunk",
                     "pages": [
@@ -300,6 +301,7 @@
                 "group": "Telephony",
                 "pages": [
                   "en/telephony/buy-numbers",
+                  "en/telephony/400-numbers",
                   {
                     "group": "Import Numbers via SIP Trunk",
                     "pages": [
