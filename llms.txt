@@ -82,6 +82,7 @@ Key pages: [MCP server](https://docs.diga.io/en/mcp/mcp-server.md) · [API keys 
 #### Telefonía
 
 - [Comprar Números de Teléfono](https://docs.diga.io/es/telefonia/comprar-telefonos.md): Compra y gestión de números de teléfono para tus agentes de voz
+- [Números 400](https://docs.diga.io/es/telefonia/numeros-400.md): Números para hacer llamadas comerciales salientes en España
 
 ##### Importar números mediante SIP Trunk
 
@@ -92,7 +93,7 @@ Key pages: [MCP server](https://docs.diga.io/en/mcp/mcp-server.md) · [API keys 
 #### Plataforma
 
 - [Cuenta de usuario](https://docs.diga.io/es/plataforma/cuentas.md): Gestiona tu cuenta de Diga: perfil personal, ajustes de seguridad y los proyectos a los que perteneces, todo desde un mismo lugar.
-- [Sobre Melo](https://docs.diga.io/es/plataforma/melo.md): Por qué Melo puede dar respuestas incorrectas y cómo usarlo de forma efectiva
+- [Melo](https://docs.diga.io/es/plataforma/melo.md): Melo es el asistente de IA del dashboard de Diga: qué puede hacer por ti, cómo sacarle partido y qué límites conviene tener en cuenta
 
 ##### Proyectos
 
@@ -203,6 +204,7 @@ Key pages: [MCP server](https://docs.diga.io/en/mcp/mcp-server.md) · [API keys 
 #### Telephony
 
 - [Buy Phone Numbers](https://docs.diga.io/en/telephony/buy-numbers.md): Purchase and manage phone numbers for your voice agents
+- [400 Numbers](https://docs.diga.io/en/telephony/400-numbers.md): Numbers for making outbound commercial calls in Spain
 
 ##### Import Numbers via SIP Trunk
 
@@ -213,7 +215,7 @@ Key pages: [MCP server](https://docs.diga.io/en/mcp/mcp-server.md) · [API keys 
 #### Platform
 
 - [User Account](https://docs.diga.io/en/platform/accounts.md): Manage your Diga account: personal profile, security settings, and the projects you belong to — all from one place.
-- [About Melo](https://docs.diga.io/en/platform/melo.md): Why Melo can occasionally provide incorrect responses and how to use it effectively
+- [Melo](https://docs.diga.io/en/platform/melo.md): Melo is the AI assistant in Diga's dashboard: what it can do for you, how to get the most out of it, and the limits worth keeping in mind
 
 ##### Projects
 
