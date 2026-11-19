@@ -1,0 +1,48 @@
+---
+title: "Email agents"
+description: "Connect an Outlook mailbox and let your agent answer the email it receives, as a draft or by sending it itself."
+---
+
+# Email agents
+
+A Diga agent can handle the email of a real mailbox. You connect an Outlook mailbox, assign it a published agent, and the agent replies in the same thread, **writing in the first person as the owner of the mailbox**.
+
+It is the same agent that takes calls: it uses its prompt, its [integrations](/en/build/agents/add-integrations), its [workflows](/en/build/flows/introduction) and its [knowledge bases](/en/build/agents/knowledge-bases). What changes is the channel.
+
+## How it works
+
+<Steps>
+  <Step title="An email arrives">
+    Diga receives the mailbox's new email almost instantly. Each email thread is a conversation.
+  </Step>
+  <Step title="Diga decides whether to answer">
+    The mailbox's [reply rules](/en/email/reply-rules) leave out what the agent must not answer: newsletters, automatic replies, internal mail, or threads a person is handling.
+  </Step>
+  <Step title="The agent writes the reply">
+    It reads the thread and the [attached files](/en/email/attachments), uses its tools if it needs them, and writes a reply to everyone on the email.
+  </Step>
+  <Step title="The reply reaches the mailbox">
+    Depending on the [send mode](/en/email/replies), it stays as a draft for you to review or it is sent on its own.
+  </Step>
+</Steps>
+
+## What you need
+
+- An **Outlook** mailbox on Microsoft 365. Shared mailboxes and mailboxes without an Exchange Online license cannot be connected.
+- A **published agent** of the [single prompt](/en/build/agents/single-prompt) type. Conversational path agents do not answer email.
+
+## Variables available in the prompt
+
+Besides your own [dynamic variables](/en/build/agents/dynamic-variables), in an email conversation the agent has:
+
+| Variable | Content |
+|---|---|
+| `mailbox_owner_name` | Name of the mailbox's owner |
+| `mailbox_address` | Address of the mailbox |
+| `sender_address` | Address of the person writing |
+| `email_subject` | Subject of the email |
+| `email_attachments` | Files of the thread, for workflows (see [Attachments](/en/email/attachments)) |
+
+<Note>
+If your agent's prompt has instructions meant for calls (how to pronounce numbers, short sentences for voice), in email the agent ignores them and writes a normal email.
+</Note>

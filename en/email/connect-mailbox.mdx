@@ -1,0 +1,35 @@
+---
+title: "Connect a mailbox"
+description: "Connect an Outlook mailbox to your project and assign the agent that will answer it."
+---
+
+# Connect a mailbox
+
+A mailbox is an email address that an agent answers. Each mailbox has its own agent, send mode, reply rules, signature and tags.
+
+{/* PENDING (dashboard): add the screen steps and screenshots once the mailboxes section exists in the dashboard. */}
+
+## Connecting
+
+To connect a mailbox you sign in with the mailbox's Microsoft account and accept the permissions Diga needs:
+
+| Permission | What for |
+|---|---|
+| Read and write mail | Read incoming emails and leave replies as drafts |
+| Send mail | Send replies when the mailbox sends on its own |
+| Mailbox settings | Create the Outlook categories that [tags](/en/email/tags) use |
+| Calendar | Used by workflows that share the same Outlook connection |
+
+The connected account is a [connection](/en/platform/connections) of the project: the same one your workflows can use.
+
+<Note>
+Many organizations require an administrator to approve the application before a user can connect their mailbox. If Microsoft shows you that notice, ask your Microsoft 365 administrator to approve it for the whole organization.
+</Note>
+
+## Assigning an agent
+
+A mailbox without an agent stores the emails that arrive but answers none. The agent must be published. One agent can answer several mailboxes, and each mailbox has a single agent.
+
+## If the mailbox disconnects
+
+Microsoft can withdraw access when the account's password changes or when someone revokes the permission. When that happens the agent stops answering in that mailbox and your team gets an [alert](/en/email/alerts). Connect the account again so the agent keeps answering.

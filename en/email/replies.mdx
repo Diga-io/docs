@@ -1,0 +1,46 @@
+---
+title: "Replies"
+description: "Choose whether the agent's replies stay as drafts or are sent on their own, with what delay, signature and notice."
+---
+
+# Replies
+
+The agent always replies **in the same thread and to everyone** on the email. You decide what happens to each reply it writes.
+
+{/* PENDING (dashboard): add the screen steps and screenshots once the mailboxes section exists in the dashboard. */}
+
+## Send mode
+
+| Mode | What it does |
+|---|---|
+| **Draft** (default) | The reply stays in Outlook's Drafts folder. You review it, change it if you want, and send it. |
+| **Automatic send** | The agent sends the reply itself. |
+
+### In draft mode
+
+- If the customer writes again before you send the draft, the agent **replaces** it with a new one that answers everything pending.
+- If you have **edited** the draft, the agent leaves it alone and writes no other.
+- If you **send** the draft from Outlook, it counts as the agent's reply.
+- If you **delete** it, that reply is discarded.
+
+### Delay before sending
+
+With automatic send you can set a delay in minutes. The reply waits that long in Drafts and is then sent on its own. While it waits you can read it and change it.
+
+<Warning>
+If you edit a reply while it waits, **it is no longer sent on its own**: it stays as a draft for you to send when you are done.
+</Warning>
+
+A waiting reply is not sent either if a person takes the thread, if you switch the mailbox to draft mode, or if the customer writes again (the agent then writes a new reply).
+
+## Signature
+
+Each mailbox has its signature, added at the end of every reply. The agent does not write contact details or a signature itself: it ends with a short sign-off and the name of the mailbox's owner.
+
+## Artificial intelligence notice
+
+Replies the agent sends on its own end with a notice that they were written by an artificial intelligence, in the language of the reply. Drafts carry no notice, because a person reviews and sends them. You can turn the notice off per mailbox.
+
+## When a conversation closes
+
+A thread with no email for 72 hours is considered finished and its [post-call workflows](/en/build/flows/post-call-flows) run. If the customer replies later in the same thread, a new conversation opens and keeps the history.

@@ -1,0 +1,45 @@
+---
+title: "Reglas de respuesta"
+description: "Decide qué correos responde el agente y cuáles deja sin tocar, y consulta por qué se descartó cada uno."
+---
+
+# Reglas de respuesta
+
+Un buzón real recibe boletines, correo interno, respuestas automáticas y conversaciones que quieres llevar tú. Las reglas de respuesta deciden, correo a correo, si el agente contesta. Cada decisión queda en el registro de la conversación con su motivo.
+
+## Lo que nunca se responde
+
+Estas reglas son fijas y no se pueden desactivar:
+
+- Los correos enviados desde el propio buzón.
+- El correo generado automáticamente: respuestas de "fuera de la oficina", boletines, listas de distribución y rebotes.
+- Los hilos que lleva una persona (consulta [Intervención humana](/es/correo/intervencion-humana)).
+- Los correos que superan los límites diarios de respuestas, que protegen de un bucle con otro sistema automático.
+
+## Reglas que puedes cambiar
+
+| Regla | Por defecto | Qué hace |
+|---|---|---|
+| Ignorar remitentes "no-reply" | Activada | Descarta `no-reply`, `mailer-daemon` y `postmaster`. Desactívala si el buzón recibe formularios web desde una dirección no-reply. |
+| Ignorar remitentes internos | Activada | Descarta los correos del mismo dominio que el buzón. |
+| Solo si el buzón es destinatario directo | Activada | Descarta los correos donde el buzón solo va en copia. |
+| Solo hilos nuevos | Activada | Descarta los hilos que ya estaban en marcha antes de conectar el buzón. |
+| Parar cuando responde el dueño | Activada | Si el dueño escribe en un hilo, el agente lo deja. |
+| Remitentes bloqueados | Vacía | Direcciones o dominios que nunca se responden. |
+| Palabras excluidas | Vacía | Palabras o frases. Un correo que las contiene en el asunto o el cuerpo se descarta. |
+| Respuestas por hilo al día | 10 | Máximo de respuestas del agente en un hilo en 24 horas. |
+| Respuestas por remitente al día | 20 | Máximo de respuestas del agente a un mismo remitente en 24 horas. |
+
+## Instrucción de respuesta
+
+Además de las reglas anteriores puedes escribir una instrucción en texto libre, por ejemplo:
+
+```text
+Responde solo a los correos que piden un presupuesto.
+```
+
+Se comprueba después de las reglas, con un modelo de lenguaje, sobre cada correo que las pasa. Si la dejas vacía, el agente responde a todo lo que pasa las reglas.
+
+<Tip>
+Usa las reglas para lo que se puede decidir sin leer el correo (quién escribe, a quién va dirigido) y la instrucción para lo que depende del contenido.
+</Tip>

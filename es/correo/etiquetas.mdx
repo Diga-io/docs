@@ -1,0 +1,44 @@
+---
+title: "Etiquetas"
+description: "Define etiquetas para que el agente clasifique los correos con categorías de Outlook."
+---
+
+# Etiquetas
+
+El agente lee todos los correos que responde, así que puede decirte de qué va cada uno sin que lo abras. Tú defines las etiquetas y el agente las pone como **categorías de Outlook** en el correo del cliente.
+
+{/* PENDIENTE (panel): añadir los pasos de pantalla y capturas cuando exista la sección de buzones en el panel. */}
+
+## Definir etiquetas
+
+Cada buzón admite hasta 10 etiquetas. Cada una tiene:
+
+| Campo | Descripción |
+|---|---|
+| **Nombre** | La categoría tal como se ve en Outlook. Hasta 50 caracteres, sin comas ni punto y coma. |
+| **Cuándo usarla** | Texto que lee el agente para decidir si la pone. Por ejemplo: "El remitente pide un precio o un presupuesto". |
+| **Color** (opcional) | Uno de los colores de categoría de Outlook. |
+
+El agente solo puede elegir entre las etiquetas que has definido. No puede inventar una.
+
+<Tip>
+Escribe "Cuándo usarla" como se lo explicarías a una persona nueva en el equipo: una frase concreta sobre el contenido del correo.
+</Tip>
+
+## Etiquetar sin responder
+
+Si en "Cuándo usarla" o en el prompt del agente indicas que ese tipo de correo no se responde, el agente pone la etiqueta y deja el correo sin contestar. Por ejemplo:
+
+```text
+Publicidad: correo comercial no solicitado que intenta vendernos algo. No se responde.
+```
+
+En ese caso no se avisa a nadie: la etiqueta en Outlook es el registro.
+
+## Cómo se comportan en Outlook
+
+- Si la categoría no existe en el buzón, Diga la crea con el color elegido.
+- Si ya existe una categoría con ese nombre, se usa tal cual y conserva su color.
+- El agente añade categorías, nunca quita las que el correo ya tuviera.
+- Cambiar el nombre de una etiqueta en Diga no renombra la categoría de Outlook: se crea una nueva y los correos anteriores conservan la antigua.
+- Los correos que las [reglas de respuesta](/es/correo/reglas-respuesta) descartan no reciben etiqueta.

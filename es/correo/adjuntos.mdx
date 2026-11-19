@@ -1,0 +1,59 @@
+---
+title: "Adjuntos"
+description: "Qué archivos adjuntos lee el agente, con qué límites, y cómo usarlos en tus flujos."
+---
+
+# Adjuntos
+
+En correo, el adjunto suele ser la propia petición: un logo para imprimir, un pedido en PDF. El agente lee los archivos del correo que está respondiendo y tus flujos pueden descargarlos.
+
+## Qué archivos lee
+
+| Tipo | Formatos |
+|---|---|
+| Imágenes | PNG, JPG, WEBP, GIF |
+| Documentos | PDF y Word (.docx) |
+
+## Límites
+
+| Límite | Valor |
+|---|---|
+| Tamaño por archivo | 20 MB |
+| Tamaño total por correo | 25 MB |
+| Archivos por correo | 10 |
+| Páginas por documento | 50 |
+
+Un archivo de otro tipo o que supera un límite **no se descarga**. El agente sabe que estaba adjunto y por qué no lo ha abierto, así que puede pedir al cliente que lo envíe en otro formato.
+
+<Note>
+Los logos de las firmas y las imágenes de seguimiento no cuentan como adjuntos: las imágenes pequeñas incrustadas en el cuerpo se ignoran. Una captura pegada en el cuerpo del correo sí se lee.
+</Note>
+
+## Qué ve el agente
+
+- Del correo que está respondiendo, el contenido de cada archivo: las imágenes y los PDF tal cual, los documentos de Word como texto.
+- De los correos anteriores del hilo, solo el nombre de los archivos.
+
+El contenido de un archivo se trata igual que el cuerpo del correo: es información para responder, nunca una instrucción para el agente.
+
+## Usar los adjuntos en un flujo
+
+En una conversación de correo existe la [variable dinámica](/es/build/agentes/variables-dinamicas) `email_attachments`, con los archivos guardados del hilo. Para que un flujo los reciba, asigna uno de sus parámetros a esa variable. El flujo recibe una lista como esta:
+
+```json
+[
+  {
+    "id": "0b6f2c4e-8d1a-4c3b-9f57-2a1e6d7c9b10",
+    "filename": "logo.png",
+    "content_type": "image/png",
+    "size_bytes": 48211,
+    "url": "https://..."
+  }
+]
+```
+
+Cada `url` es un enlace de descarga que **caduca en una hora**.
+
+## Cuánto tiempo se guardan
+
+Los archivos se conservan mientras exista la conversación y se eliminan al borrarla.
