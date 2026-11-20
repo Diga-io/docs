@@ -1,11 +1,11 @@
 ---
 title: "Adjuntos"
-description: "Qué archivos adjuntos lee el agente, con qué límites, y cómo usarlos en tus flujos."
+description: "Qué archivos adjuntos lee el agente, cómo usarlos en tus flujos y cómo envía archivos en sus respuestas."
 ---
 
 # Adjuntos
 
-En correo, el adjunto suele ser la propia petición: un logo para imprimir, un pedido en PDF. El agente lee los archivos del correo que está respondiendo y tus flujos pueden descargarlos.
+En correo, el adjunto suele ser la propia petición: un logo para imprimir, un pedido en PDF. El agente lee los archivos del correo que está respondiendo, tus flujos pueden descargarlos y la respuesta puede llevar archivos adjuntos.
 
 ## Qué archivos lee
 
@@ -53,6 +53,50 @@ En una conversación de correo existe la [variable dinámica](/es/build/agentes/
 ```
 
 Cada `url` es un enlace de descarga que **caduca en una hora**.
+
+## Enviar archivos en la respuesta
+
+El agente puede adjuntar archivos a su respuesta: un presupuesto en PDF que ha generado un flujo, un boceto, un documento que el cliente envió antes en el mismo hilo.
+
+### Devolver archivos desde un flujo
+
+En un flujo de tipo [llamada de función](/es/build/flujos/introduccion) en modo síncrono, la acción **Devolver respuesta** de Diga tiene el campo **Archivos**. Añade ahí los archivos que producen los pasos anteriores (por ejemplo, el PDF de un paso que genera documentos) y, si quieres, el nombre con el que los verá el destinatario.
+
+{/* PENDIENTE (panel): captura de la acción Devolver respuesta con el campo Archivos */}
+
+Si tu flujo responde con otro paso, devuelve en la respuesta una lista `diga_files` con el nombre y el enlace de cada archivo:
+
+```json
+{
+  "total": "1.240 € + IVA",
+  "diga_files": [
+    { "filename": "presupuesto.pdf", "url": "https://..." }
+  ]
+}
+```
+
+Diga descarga cada archivo cuando el flujo responde y lo guarda en la conversación. El enlace debe ser público.
+
+### Qué adjunta el agente
+
+El agente decide qué archivos van en cada respuesta. Puede adjuntar:
+
+- Los archivos que sus flujos han devuelto en esa conversación.
+- Los archivos recibidos en el hilo que se pudieron leer.
+
+No puede adjuntar archivos de otras conversaciones. Indica en el prompt cuándo debe hacerlo, por ejemplo: «Cuando calcules un presupuesto, adjunta siempre el PDF a tu respuesta».
+
+| Límite | Valor |
+|---|---|
+| Archivos por respuesta | 10 |
+| Tamaño total por respuesta | 20 MB |
+| Tipo de archivo | Cualquiera |
+
+Si el buzón está en modo borrador, los archivos quedan adjuntos al borrador en Outlook y puedes quitarlos o añadir otros antes de enviarlo.
+
+<Note>
+Los flujos en modo asíncrono no devuelven archivos, porque el agente no espera su respuesta.
+</Note>
 
 ## Cuánto tiempo se guardan
 
