@@ -136,6 +136,19 @@
                 ]
               },
               {
+                "group": "Correo",
+                "pages": [
+                  "es/correo/introduccion",
+                  "es/correo/conectar-buzon",
+                  "es/correo/respuestas",
+                  "es/correo/reglas-respuesta",
+                  "es/correo/intervencion-humana",
+                  "es/correo/etiquetas",
+                  "es/correo/adjuntos",
+                  "es/correo/avisos"
+                ]
+              },
+              {
                 "group": "Plataforma",
                 "pages": [
                   "es/plataforma/cuentas",
@@ -310,6 +323,19 @@
                       "en/telephony/sip-trunks/twilio"
                     ]
                   }
+                ]
+              },
+              {
+                "group": "Email",
+                "pages": [
+                  "en/email/introduction",
+                  "en/email/connect-mailbox",
+                  "en/email/replies",
+                  "en/email/reply-rules",
+                  "en/email/human-takeover",
+                  "en/email/tags",
+                  "en/email/attachments",
+                  "en/email/alerts"
                 ]
               },
               {

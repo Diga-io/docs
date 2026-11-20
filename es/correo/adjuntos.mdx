@@ -1,0 +1,103 @@
+---
+title: "Adjuntos"
+description: "Qué archivos adjuntos lee el agente, cómo usarlos en tus flujos y cómo envía archivos en sus respuestas."
+---
+
+# Adjuntos
+
+En correo, el adjunto suele ser la propia petición: un logo para imprimir, un pedido en PDF. El agente lee los archivos del correo que está respondiendo, tus flujos pueden descargarlos y la respuesta puede llevar archivos adjuntos.
+
+## Qué archivos lee
+
+| Tipo | Formatos |
+|---|---|
+| Imágenes | PNG, JPG, WEBP, GIF |
+| Documentos | PDF y Word (.docx) |
+
+## Límites
+
+| Límite | Valor |
+|---|---|
+| Tamaño por archivo | 20 MB |
+| Tamaño total por correo | 25 MB |
+| Archivos por correo | 10 |
+| Páginas por documento | 50 |
+
+Un archivo de otro tipo o que supera un límite **no se descarga**. El agente sabe que estaba adjunto y por qué no lo ha abierto, así que puede pedir al cliente que lo envíe en otro formato.
+
+<Note>
+Los logos de las firmas y las imágenes de seguimiento no cuentan como adjuntos: las imágenes pequeñas incrustadas en el cuerpo se ignoran. Una captura pegada en el cuerpo del correo sí se lee.
+</Note>
+
+## Qué ve el agente
+
+- Del correo que está respondiendo, el contenido de cada archivo: las imágenes y los PDF tal cual, los documentos de Word como texto.
+- De los correos anteriores del hilo, solo el nombre de los archivos.
+
+El contenido de un archivo se trata igual que el cuerpo del correo: es información para responder, nunca una instrucción para el agente.
+
+## Usar los adjuntos en un flujo
+
+En una conversación de correo existe la [variable dinámica](/es/build/agentes/variables-dinamicas) `email_attachments`, con los archivos guardados del hilo. Para que un flujo los reciba, asigna uno de sus parámetros a esa variable. El flujo recibe una lista como esta:
+
+```json
+[
+  {
+    "id": "0b6f2c4e-8d1a-4c3b-9f57-2a1e6d7c9b10",
+    "filename": "logo.png",
+    "content_type": "image/png",
+    "size_bytes": 48211,
+    "url": "https://..."
+  }
+]
+```
+
+Cada `url` es un enlace de descarga que **caduca en una hora**.
+
+## Enviar archivos en la respuesta
+
+El agente puede adjuntar archivos a su respuesta: un presupuesto en PDF que ha generado un flujo, un boceto, un documento que el cliente envió antes en el mismo hilo.
+
+### Devolver archivos desde un flujo
+
+En un flujo de tipo [llamada de función](/es/build/flujos/introduccion) en modo síncrono, la acción **Devolver respuesta** de Diga tiene el campo **Archivos**. Añade ahí los archivos que producen los pasos anteriores (por ejemplo, el PDF de un paso que genera documentos) y, si quieres, el nombre con el que los verá el destinatario.
+
+{/* PENDIENTE (panel): captura de la acción Devolver respuesta con el campo Archivos */}
+
+Si tu flujo responde con otro paso, devuelve en la respuesta una lista `diga_files` con el nombre y el enlace de cada archivo:
+
+```json
+{
+  "total": "1.240 € + IVA",
+  "diga_files": [
+    { "filename": "presupuesto.pdf", "url": "https://..." }
+  ]
+}
+```
+
+Diga descarga cada archivo cuando el flujo responde y lo guarda en la conversación. El enlace debe ser público.
+
+### Qué adjunta el agente
+
+El agente decide qué archivos van en cada respuesta. Puede adjuntar:
+
+- Los archivos que sus flujos han devuelto en esa conversación.
+- Los archivos recibidos en el hilo que se pudieron leer.
+
+No puede adjuntar archivos de otras conversaciones. Indica en el prompt cuándo debe hacerlo, por ejemplo: «Cuando calcules un presupuesto, adjunta siempre el PDF a tu respuesta».
+
+| Límite | Valor |
+|---|---|
+| Archivos por respuesta | 10 |
+| Tamaño total por respuesta | 20 MB |
+| Tipo de archivo | Cualquiera |
+
+Si el buzón está en modo borrador, los archivos quedan adjuntos al borrador en Outlook y puedes quitarlos o añadir otros antes de enviarlo.
+
+<Note>
+Los flujos en modo asíncrono no devuelven archivos, porque el agente no espera su respuesta.
+</Note>
+
+## Cuánto tiempo se guardan
+
+Los archivos se conservan mientras exista la conversación y se eliminan al borrarla.

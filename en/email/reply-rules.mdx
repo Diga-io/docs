@@ -1,0 +1,45 @@
+---
+title: "Reply rules"
+description: "Decide which emails the agent answers and which it leaves alone, and see why each one was skipped."
+---
+
+# Reply rules
+
+A real mailbox receives newsletters, internal mail, automatic replies and conversations you want to handle yourself. Reply rules decide, email by email, whether the agent answers. Each decision is written to the conversation's log with its reason.
+
+## What is never answered
+
+These rules are fixed and cannot be turned off:
+
+- Emails sent from the mailbox itself.
+- Automatically generated mail: out-of-office replies, newsletters, mailing lists and bounces.
+- Threads a person is handling (see [Human takeover](/en/email/human-takeover)).
+- Emails over the daily reply limits, which protect against a loop with another automatic system.
+
+## Rules you can change
+
+| Rule | Default | What it does |
+|---|---|---|
+| Ignore "no-reply" senders | On | Skips `no-reply`, `mailer-daemon` and `postmaster`. Turn it off if the mailbox receives web forms from a no-reply address. |
+| Ignore internal senders | On | Skips emails from the mailbox's own domain. |
+| Only when the mailbox is a direct recipient | On | Skips emails where the mailbox is only in copy. |
+| Only new threads | On | Skips threads that were already going on before the mailbox was connected. |
+| Stop when the owner replies | On | Once the owner writes in a thread, the agent leaves it. |
+| Blocked senders | Empty | Addresses or domains that are never answered. |
+| Excluded keywords | Empty | Words or phrases. An email with one in its subject or body is skipped. |
+| Replies per thread per day | 10 | Most replies the agent sends in one thread in 24 hours. |
+| Replies per sender per day | 20 | Most replies the agent sends to one sender in 24 hours. |
+
+## Reply instruction
+
+On top of the rules above you can write a free-text instruction, for example:
+
+```text
+Only answer emails that ask for a quote.
+```
+
+It is checked after the rules, with a language model, on every email that passes them. If you leave it empty, the agent answers everything that passes the rules.
+
+<Tip>
+Use the rules for what can be decided without reading the email (who writes, who it is addressed to) and the instruction for what depends on its content.
+</Tip>

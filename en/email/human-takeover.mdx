@@ -1,0 +1,37 @@
+---
+title: "Human takeover"
+description: "What happens when a person answers a thread or the agent asks for help, and how to hand the thread back to the agent."
+---
+
+# Human takeover
+
+The agent never answers on top of a person. When someone on your team takes charge of a thread, the agent leaves it until it is handed back.
+
+## A person takes the thread
+
+It happens in two ways:
+
+- **The owner replies from Outlook.** As soon as they send an email of their own in the thread, the thread is theirs. This depends on the rule "Stop when the owner replies", on by default.
+- **Someone takes it over in Diga.**
+
+From then on:
+
+- The agent does not answer the customer's later emails in that thread.
+- If a draft of the agent was waiting, it is deleted from the mailbox. If you had edited it, it is kept and is no longer sent on its own.
+- If the agent was writing a reply at that moment, it is discarded.
+
+<Note>
+Sending from Outlook the draft the agent wrote does **not** count as taking the thread: it is the agent's reply.
+</Note>
+
+## The agent asks for a person
+
+If your agent has a [transfer](/en/build/agents/call-tools) tool, in email it uses it to ask for help: when its task says so or the email needs a person to decide.
+
+In that case **nothing is sent to the customer**. The email stays unanswered and your team gets an [alert](/en/email/alerts) so someone answers from the mailbox. The agent writes as the mailbox's owner, so "I am passing you to a person" would make no sense.
+
+## Handing the thread back to the agent
+
+The agent only returns to a thread when someone releases it in Diga. It does not come back on its own as time passes. Once released, it answers the customer's next email.
+
+{/* PENDING (dashboard): add the screen steps and screenshots once the mailboxes section exists in the dashboard. */}
