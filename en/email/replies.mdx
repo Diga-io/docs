@@ -35,7 +35,20 @@ A waiting reply is not sent either if a person takes the thread, if you switch t
 
 ## Signature
 
-Each mailbox has its signature, added at the end of every reply. The agent does not write contact details or a signature itself: it ends with a short sign-off and the name of the mailbox's owner.
+Each mailbox has its signature, added at the end of every reply. You can set it in two ways:
+
+- **Write it in Diga**, with formatting, links and your logo.
+- **Detect it**: Diga reads the last emails you sent from that mailbox, finds the block they end with and proposes it. Nothing is saved until you confirm, and you can edit it first.
+
+{/* PENDING (dashboard): add the screen steps and screenshots of the signature editor once it exists in the dashboard. */}
+
+Keep in mind:
+
+- **The logo travels inside the email**, as in Outlook, so the customer sees it without downloading images. It accepts PNG, JPEG or GIF up to 1 MB. If the detected signature has a larger image or one in another format, the proposal tells you it was left out.
+- **Detection needs at least two sent emails that end the same way.** If there are none, it proposes nothing rather than inventing a signature.
+- **If you always sign off the same way** ("Best regards,"), the sign-off may come in the proposal with the signature. You can keep it or remove it.
+- **The agent reads the signature** and does not repeat what it already says: if the signature includes the sign-off and your name, the reply ends with its last sentence. With no signature, the agent ends with a short sign-off and the name of the mailbox's owner.
+- For safety, scripts and forms are removed from the signature.
 
 ## Artificial intelligence notice
 
