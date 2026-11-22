@@ -1,0 +1,63 @@
+---
+title: "Respuestas"
+description: "Elige si las respuestas del agente quedan como borrador o se envían solas, con qué retraso, con qué firma y con qué aviso."
+---
+
+# Respuestas
+
+El agente responde siempre **en el mismo hilo y a todos** los destinatarios del correo. Tú decides qué pasa con cada respuesta que escribe.
+
+{/* PENDIENTE (panel): añadir los pasos de pantalla y capturas cuando exista la sección de buzones en el panel. */}
+
+## Modo de envío
+
+| Modo | Qué hace |
+|---|---|
+| **Borrador** (por defecto) | La respuesta queda en la carpeta Borradores de Outlook. Tú la revisas, la cambias si quieres y la envías. |
+| **Envío automático** | El agente envía la respuesta él mismo. |
+
+### En modo borrador
+
+- Si el cliente vuelve a escribir antes de que envíes el borrador, el agente lo **sustituye** por uno nuevo que responde a todo lo pendiente.
+- Si has **editado** el borrador, el agente no lo toca y no escribe otro.
+- Si **envías** el borrador desde Outlook, cuenta como respuesta del agente.
+- Si lo **borras**, esa respuesta se descarta.
+
+### Retraso antes de enviar
+
+En envío automático puedes fijar un retraso en minutos (hasta 7 días). La respuesta espera ese tiempo en Borradores y después se envía sola. Durante la espera puedes leerla y cambiarla.
+
+<Warning>
+Si editas una respuesta mientras espera, **ya no se envía sola**: se queda como borrador para que la envíes tú cuando termines.
+</Warning>
+
+Una respuesta en espera tampoco se envía si una persona toma el hilo, si cambias el buzón a modo borrador o si el cliente escribe de nuevo (en ese caso el agente escribe una respuesta nueva). Si no se puede enviar durante la hora siguiente a su momento de envío (por ejemplo, porque el buzón está desconectado), se queda como borrador y tu equipo recibe un [aviso](/es/correo/avisos).
+
+### Varios correos seguidos
+
+El agente espera un minuto antes de responder. Si el cliente envía dos correos seguidos, recibe una sola respuesta que contesta a los dos.
+
+## Firma
+
+Cada buzón tiene su firma, que se añade al final de todas las respuestas. Puedes ponerla de dos formas:
+
+- **Escribirla en Diga**, con formato, enlaces y tu logo.
+- **Detectarla**: Diga lee los últimos correos que has enviado desde ese buzón, busca el bloque con el que terminan y te lo propone. No se guarda nada hasta que lo confirmas, y puedes retocarla antes.
+
+{/* PENDIENTE (panel): añadir los pasos de pantalla y capturas del editor de firma cuando exista en el panel. */}
+
+Ten en cuenta:
+
+- **El logo viaja dentro del correo**, igual que en Outlook, así que el cliente lo ve sin tener que descargar imágenes. Admite hasta 5 imágenes PNG, JPEG o GIF de hasta 1 MB cada una. Si la firma detectada tiene una imagen más grande o de otro formato, la propuesta te avisa de que la ha dejado fuera.
+- **La detección necesita al menos dos correos enviados que terminen igual.** Si no los hay, no propone nada en vez de inventar una firma.
+- **Si siempre te despides igual** ("Un saludo,"), la despedida puede venir en la propuesta junto a la firma. Puedes dejarla o quitarla.
+- **El agente lee la firma** y no repite lo que ya dice: si la firma incluye la despedida y tu nombre, la respuesta termina con su última frase. Sin firma, el agente se despide brevemente con el nombre del dueño del buzón.
+- Por seguridad, de la firma se eliminan los scripts y los formularios.
+
+## Aviso de inteligencia artificial
+
+Las respuestas que el agente envía solo (también las que esperan el retraso antes de enviarse) llevan al final un aviso de que se han redactado con ayuda de inteligencia artificial. El aviso está en el idioma del agente (en un agente multilingüe, el de la respuesta) si es español o catalán, y en inglés para cualquier otro idioma. Los borradores no lo llevan, porque los revisa y envía una persona. Puedes desactivar el aviso en cada buzón.
+
+## Cuándo se cierra una conversación
+
+Un hilo sin correos durante 72 horas se da por terminado. Los [flujos post-llamada](/es/build/flujos/flujos-post-llamada) no se ejecutan con el correo: están pensados para llamadas. Si el agente no llegó a escribir en el hilo (por ejemplo, una newsletter que sus reglas descartaron), tampoco se envían webhooks. Si el cliente responde más tarde en el mismo hilo, se abre una conversación nueva que conserva el historial. Con los [seguimientos](/es/correo/seguimientos) activados, la conversación sigue abierta mientras el agente espera para escribir un recordatorio.

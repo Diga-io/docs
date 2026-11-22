@@ -1,0 +1,44 @@
+---
+title: "Tags"
+description: "Define tags so the agent classifies emails with Outlook categories."
+---
+
+# Tags
+
+The agent reads every email it answers, so it can tell you what each one is about without you opening it. You define the tags and the agent puts them as **Outlook categories** on the customer's email.
+
+{/* PENDING (dashboard): add the screen steps and screenshots once the mailboxes section exists in the dashboard. */}
+
+## Defining tags
+
+Each mailbox takes up to 10 tags. Each one has:
+
+| Field | Description |
+|---|---|
+| **Name** | The category as it shows in Outlook. Up to 50 characters, no commas or semicolons. |
+| **When to use** | Text the agent reads to decide whether to apply it. For example: "The sender asks for a price or a quote". |
+| **Color** (optional) | One of Outlook's category colors. |
+
+The agent can only choose among the tags you defined. It cannot make one up.
+
+<Tip>
+Write "When to use" as you would explain it to someone new on the team: one concrete sentence about the content of the email.
+</Tip>
+
+## Tagging without replying
+
+If "When to use" or the agent's prompt says that kind of email is not answered, the agent applies the tag and leaves the email unanswered. For example:
+
+```text
+Advertising: unsolicited commercial email trying to sell us something. Not answered.
+```
+
+Nobody is notified in that case: the tag in Outlook is the record.
+
+## How they behave in Outlook
+
+- If the category does not exist in the mailbox, Diga creates it with the chosen color.
+- If a category with that name already exists, it is used as is and keeps its color.
+- The agent adds categories; it never removes the ones the email already had.
+- Renaming a tag in Diga does not rename the Outlook category: a new one is created and earlier emails keep the old one.
+- Emails that the [reply rules](/en/email/reply-rules) skip get no tag.

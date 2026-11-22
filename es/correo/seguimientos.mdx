@@ -1,0 +1,52 @@
+---
+title: "Seguimientos"
+description: "Haz que el agente escriba un recordatorio cuando el cliente no contesta: cuántos días espera, cuántas veces insiste y si lo envía solo."
+---
+
+# Seguimientos
+
+Un presupuesto sin respuesta es una venta que se pierde si nadie insiste. Con los seguimientos activados, cuando el cliente no contesta al último correo del agente, el agente escribe un **recordatorio breve en el mismo hilo**.
+
+{/* PENDIENTE (panel): añadir los pasos de pantalla y capturas cuando exista la sección de buzones en el panel. */}
+
+## Ajustes del buzón
+
+| Ajuste | Qué hace |
+|---|---|
+| **Días de espera** | Días sin respuesta antes de escribir el recordatorio (de 1 a 90). Sin valor, los seguimientos están desactivados. |
+| **Máximo de recordatorios** | Cuántas veces seguidas puede insistir el agente (de 1 a 10; por defecto, 1). |
+| **Modo de envío de los recordatorios** | **Borrador** o **Envío automático**. Si no lo eliges, los recordatorios salen igual que las [respuestas](/es/correo/respuestas). |
+
+El modo de envío de los recordatorios es independiente del de las respuestas. Puedes, por ejemplo, revisar tú cada respuesta y dejar que los recordatorios salgan solos.
+
+## Cuándo escribe un recordatorio
+
+- El último correo del hilo lo **envió el agente** y han pasado los días de espera. Son días naturales, contados desde que el correo se envió de verdad.
+- El cliente **no ha escrito** desde entonces. Las respuestas automáticas (fuera de la oficina, acuses de lectura) no cuentan: ni cancelan el recordatorio ni reinician la espera.
+- Ninguna persona ha [tomado el hilo](/es/correo/intervencion-humana).
+- Quedan recordatorios por enviar. Si el cliente vuelve a escribir, la cuenta empieza de nuevo.
+
+Con una espera de 3 días y un máximo de 2, un cliente que no contesta recibe un recordatorio a los 3 días, otro a los 6, y la conversación se cierra a los 9.
+
+<Note>
+Una respuesta que sigue en Borradores no ha llegado al cliente, así que no genera recordatorio. La espera empieza cuando la envías.
+</Note>
+
+## Cuándo no lo escribe
+
+El agente lee el hilo antes de escribir. Si su último correo no esperaba respuesta (un agradecimiento, una despedida, una confirmación), **no envía nada** y deja anotado el motivo en la conversación.
+
+Tampoco hay recordatorio si se ha alcanzado alguno de los [límites diarios de respuestas](/es/correo/reglas-respuesta#reglas-que-puedes-cambiar) del buzón: los recordatorios cuentan como respuestas.
+
+## Recordatorios en borrador
+
+El recordatorio queda en la carpeta Borradores de Outlook, dentro del hilo. Tenlo en cuenta:
+
+- Nada te avisa de que está ahí: revisa Borradores con frecuencia.
+- Hay como mucho **un recordatorio pendiente por hilo**.
+- Si el cliente escribe antes de que lo envíes, el agente lo sustituye por su respuesta.
+- Si no lo envías, **se borra solo** cuando la conversación se cierra, unos 3 días después. Si lo has editado, no se borra.
+
+## Recordatorios con envío automático
+
+Se envían como cualquier respuesta automática: respetan el [retraso antes de enviar](/es/correo/respuestas#retraso-antes-de-enviar) y llevan el aviso de inteligencia artificial. Si el cliente escribe mientras el recordatorio espera el retraso, no se envía.

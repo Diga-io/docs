@@ -1,0 +1,69 @@
+---
+title: "Información para el administrador de Microsoft 365"
+description: "Qué permisos solicita Diga al conectar un buzón de Outlook, a qué puede acceder y a qué no, cómo aprobarlo para tu organización y cómo retirar el acceso."
+---
+
+# Información para el administrador de Microsoft 365
+
+Esta página es para el administrador de Microsoft 365 de una organización en la que alguien quiere conectar su buzón de Outlook a Diga. Diga es una plataforma de agentes de inteligencia artificial: al conectar un buzón, un agente lee los correos que llegan y redacta las respuestas, que quedan como borrador o se envían según cómo se configure ese buzón.
+
+## Resumen
+
+- Diga usa **solo permisos delegados**. No solicita permisos de aplicación.
+- Diga accede **únicamente al buzón de la persona que inicia sesión** y acepta los permisos. No puede leer los buzones de otros usuarios ni buzones compartidos.
+- El acceso se puede retirar en cualquier momento, desde Diga o desde Microsoft Entra.
+
+## Permisos que solicita Diga
+
+Todos son permisos delegados de Microsoft Graph:
+
+| Permiso | Para qué lo usa Diga |
+|---|---|
+| `Mail.ReadWrite` | Leer los correos que llegan a la Bandeja de entrada y los que el usuario envía desde Elementos enviados; dejar las respuestas del agente como borrador; borrar los borradores del propio agente cuando ya no sirven; poner categorías de Outlook en los correos. |
+| `Mail.Send` | Enviar las respuestas del agente, solo si el buzón está configurado para enviar sin revisión. |
+| `MailboxSettings.ReadWrite` | Crear en la lista de categorías del buzón las categorías con las que el agente clasifica los correos. Diga no lo usa para nada más. |
+| `Calendars.ReadWrite` | No lo usa el agente de correo. Lo usan las automatizaciones de Diga que trabajan con Outlook Calendar, que comparten la misma conexión. |
+| `offline_access` | Mantener el acceso sin que el usuario tenga que volver a iniciar sesión. |
+| `User.Read` | Leer el perfil básico del usuario que inicia sesión (dirección y nombre) para saber qué cuenta se ha conectado. |
+
+## A qué accede Diga
+
+- **Correo nuevo de la Bandeja de entrada**, desde el momento en que se conecta el buzón. Diga no importa el correo anterior.
+- **Correos de Elementos enviados**: los que forman parte de un hilo que el agente ya está atendiendo (para saber si una persona ha respondido) y, cuando alguien del proyecto lo pide, los últimos 25 enviados, para proponer su firma.
+- **Archivos adjuntos** de los correos que el agente responde: imágenes, PDF y documentos de Word.
+- **Lista de categorías** del buzón, para añadir las que use el agente.
+- **Perfil básico** del usuario: dirección y nombre.
+
+Diga guarda en el proyecto del cliente los correos que procesa y los adjuntos que lee, junto con el registro de por qué cada correo se respondió o no.
+
+## A qué no accede Diga
+
+- Los buzones de otros usuarios de la organización.
+- Los buzones compartidos.
+- El correo anterior a la conexión.
+- Ningún dato del directorio más allá del perfil básico de quien inicia sesión.
+
+Como los permisos son delegados, Diga nunca tiene más acceso que la propia persona que conecta su buzón.
+
+## Aprobar Diga para la organización
+
+Si tu organización no permite que los usuarios den consentimiento a aplicaciones, quien intente conectar su buzón verá un aviso de que necesita la aprobación de un administrador. Para aprobar Diga, un administrador con permiso para conceder consentimiento en nombre de la organización (por ejemplo, un administrador global o un administrador de aplicaciones en la nube) puede:
+
+- **Abrir el enlace de aprobación que Diga ha generado** y que te habrá enviado el usuario, iniciar sesión con su cuenta de administrador y aceptar los permisos.
+- **Iniciar sesión él mismo** desde Diga o desde el enlace de conexión que ha recibido el usuario y marcar la opción de dar consentimiento en nombre de la organización.
+- Si tu organización tiene activado el **flujo de trabajo de consentimiento del administrador**, aprobar la solicitud que el usuario envía desde la pantalla de Microsoft.
+
+La aprobación se hace una sola vez. A partir de ahí, cada persona de la organización que quiera usar Diga tiene que conectar su propio buzón: aprobar Diga no da acceso a ningún buzón por sí mismo.
+
+## Retirar el acceso
+
+Para que Diga deje de acceder a un buzón:
+
+1. **En Diga**, desconecta la conexión de Outlook. Las credenciales se borran en el momento para todos los agentes y automatizaciones que la usan. Borrar solo el buzón no basta: la conexión se mantiene.
+2. **En Microsoft Entra**, en **Aplicaciones empresariales**, busca Diga y:
+   - en **Permisos**, revisa y revoca los permisos concedidos, o
+   - elimina la aplicación para retirarla de toda la organización.
+
+Para retirar el acceso de un solo usuario sin afectar al resto, también puedes revocar sus sesiones de inicio de sesión desde su perfil en Microsoft Entra: invalida las credenciales que Diga tenía guardadas.
+
+Cuando Microsoft retira el acceso, Diga deja de responder en ese buzón y avisa al equipo del proyecto.

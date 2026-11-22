@@ -1,0 +1,44 @@
+---
+title: "Intervención humana"
+description: "Qué pasa cuando una persona responde un hilo o el agente pide ayuda, y cómo devolverle el hilo al agente."
+---
+
+# Intervención humana
+
+El agente nunca responde encima de una persona. Cuando alguien de tu equipo se hace cargo de un hilo, el agente lo deja hasta que se lo devuelvan.
+
+## Una persona toma el hilo
+
+Ocurre de dos formas:
+
+- **El dueño responde desde Outlook.** En cuanto envía un correo propio en el hilo, el hilo pasa a ser suyo. Depende de la regla "Parar cuando responde el dueño", activada por defecto.
+- **Alguien lo toma desde Diga.**
+
+Desde ese momento:
+
+- El agente no responde a los siguientes correos del cliente en ese hilo.
+- Si el agente estaba escribiendo una respuesta en ese instante, se descarta.
+- Una respuesta del agente que esperaba para enviarse sola ya no se envía.
+
+Qué pasa con el borrador del agente que estaba en Borradores depende de cómo se tomó el hilo:
+
+| Cómo se toma el hilo | Borrador del agente |
+|---|---|
+| El dueño responde desde Outlook | Se borra del buzón. Si lo habías editado, se conserva. |
+| Alguien lo toma desde Diga | Se queda en Borradores. Puedes enviarlo, cambiarlo o borrarlo tú. |
+
+<Note>
+Enviar desde Outlook el borrador que escribió el agente **no** cuenta como tomar el hilo: es la respuesta del agente.
+</Note>
+
+## El agente pide una persona
+
+Si tu agente tiene una herramienta de [transferencia](/es/build/agentes/herramientas-llamada), en correo la usa para pedir ayuda: cuando su tarea lo indica o el correo necesita que decida una persona.
+
+En ese caso **no se envía nada al cliente**. El correo queda sin responder y tu equipo recibe un [aviso](/es/correo/avisos) para que alguien conteste desde el buzón. El agente escribe como el dueño del buzón, así que un "te paso con una persona" no tendría sentido.
+
+## Devolver el hilo al agente
+
+El agente solo vuelve a un hilo cuando alguien lo suelta desde Diga. No vuelve por su cuenta aunque pase el tiempo. Una vez suelto, responde al siguiente correo del cliente.
+
+{/* PENDIENTE (panel): añadir los pasos de pantalla y capturas cuando exista la sección de buzones en el panel. */}

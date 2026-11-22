@@ -1,0 +1,48 @@
+---
+title: "Agentes de correo"
+description: "Conecta un buzón de Outlook y deja que tu agente responda los correos que recibe, como borrador o enviándolos él mismo."
+---
+
+# Agentes de correo
+
+Un agente de Diga puede atender el correo de un buzón real. Conectas un buzón de Outlook, le asignas un agente publicado y el agente responde en el mismo hilo, **escribiendo en primera persona como el dueño del buzón**.
+
+El agente es el mismo que atiende llamadas: usa su prompt, sus [integraciones](/es/build/agentes/anadir-integraciones), sus [flujos](/es/build/flujos/introduccion) y sus [bases de conocimiento](/es/build/agentes/bases-conocimiento). Lo que cambia es el canal.
+
+## Cómo funciona
+
+<Steps>
+  <Step title="Llega un correo">
+    Diga recibe el correo nuevo del buzón casi al instante. Cada hilo de correo es una conversación.
+  </Step>
+  <Step title="Se decide si se responde">
+    Las [reglas de respuesta](/es/correo/reglas-respuesta) del buzón descartan lo que el agente no debe contestar: boletines, respuestas automáticas, correo interno o hilos que ya lleva una persona.
+  </Step>
+  <Step title="El agente escribe la respuesta">
+    Lee el hilo y los [archivos adjuntos](/es/correo/adjuntos), usa sus herramientas si las necesita y redacta una respuesta para todos los destinatarios del correo.
+  </Step>
+  <Step title="La respuesta llega al buzón">
+    Según el [modo de envío](/es/correo/respuestas), queda como borrador para que la revises o se envía sola.
+  </Step>
+</Steps>
+
+## Qué necesitas
+
+- Un buzón de **Outlook** con Microsoft 365. Los buzones compartidos o sin licencia de Exchange Online no se pueden conectar.
+- Un **agente publicado** de tipo [prompt único](/es/build/agentes/prompt-unico). Los agentes de caminos conversacionales no responden correo.
+
+## Variables disponibles en el prompt
+
+Además de tus [variables dinámicas](/es/build/agentes/variables-dinamicas), en una conversación de correo el agente dispone de:
+
+| Variable | Contenido |
+|---|---|
+| `mailbox_owner_name` | Nombre del dueño del buzón |
+| `mailbox_address` | Dirección del buzón |
+| `sender_address` | Dirección de quien escribe |
+| `email_subject` | Asunto del correo |
+| `email_attachments` | Archivos del hilo, para los flujos (consulta [Adjuntos](/es/correo/adjuntos)) |
+
+<Note>
+Si el prompt de tu agente tiene instrucciones pensadas para llamadas (cómo pronunciar números, frases cortas para voz), en correo el agente las ignora y escribe un correo normal.
+</Note>

@@ -1,0 +1,103 @@
+---
+title: "Attachments"
+description: "Which attached files the agent reads, how to use them in your workflows and how it sends files with its replies."
+---
+
+# Attachments
+
+In email, the attachment is often the request itself: a logo to print, an order as a PDF. The agent reads the files of the email it is answering, your workflows can download them and the reply can carry attached files.
+
+## Which files it reads
+
+| Type | Formats |
+|---|---|
+| Images | PNG, JPG, WEBP, GIF |
+| Documents | PDF and Word (.docx) |
+
+## Limits
+
+| Limit | Value |
+|---|---|
+| Size per file | 20 MB |
+| Total size per email | 25 MB |
+| Files per email | 10 |
+| Pages per document | 50 |
+
+A file of another type or over a limit **is not downloaded**. The agent knows it was attached and why it could not open it, so it can ask the customer to send it in another format.
+
+<Note>
+Signature logos and tracking images do not count as attachments: small images embedded in the body are ignored. A screenshot pasted into the body of the email is read.
+</Note>
+
+## What the agent sees
+
+- For the email it is answering, the content of each file: images and PDFs as they are, Word documents as text.
+- For earlier emails in the thread, only the names of the files.
+
+A file's content is treated like the body of the email: it is information to answer with, never an instruction for the agent.
+
+## Using attachments in a workflow
+
+An email conversation has the [dynamic variable](/en/build/agents/dynamic-variables) `email_attachments`, with the stored files of the thread. For a workflow to receive them, map one of its parameters to that variable. The workflow receives a list like this:
+
+```json
+[
+  {
+    "id": "0b6f2c4e-8d1a-4c3b-9f57-2a1e6d7c9b10",
+    "filename": "logo.png",
+    "content_type": "image/png",
+    "size_bytes": 48211,
+    "url": "https://..."
+  }
+]
+```
+
+Each `url` is a download link that **expires in one hour**.
+
+## Sending files with the reply
+
+The agent can attach files to its reply: a quote as a PDF that a workflow generated, a mockup, a document the customer sent earlier in the same thread.
+
+### Returning files from a workflow
+
+In a [function call](/en/build/flows/introduction) workflow in synchronous mode, Diga's **Return Response** action has a **Files** field. Add the files that earlier steps produce (for example, the PDF from a step that generates documents) and, if you want, the name the recipient will see.
+
+{/* PENDING (dashboard): screenshot of the Return Response action with the Files field */}
+
+If your workflow answers with another step, return a `diga_files` list in the response with the name and link of each file:
+
+```json
+{
+  "total": "€1,240 + VAT",
+  "diga_files": [
+    { "filename": "quote.pdf", "url": "https://..." }
+  ]
+}
+```
+
+Diga downloads each file when the workflow answers and keeps it in the conversation. The link must be public.
+
+### What the agent attaches
+
+The agent decides which files go with each reply. It can attach:
+
+- The files its workflows returned in that conversation.
+- The files received in the thread that could be read.
+
+It cannot attach files from other conversations. Say in the prompt when it should do so, for example: "When you work out a quote, always attach the PDF to your reply".
+
+| Limit | Value |
+|---|---|
+| Files per reply | 10 |
+| Total size per reply | 20 MB |
+| File type | Any |
+
+If the mailbox is in draft mode, the files are attached to the draft in Outlook, and you can remove them or add others before sending it.
+
+<Note>
+Workflows in asynchronous mode return no files, because the agent does not wait for their response.
+</Note>
+
+## How long they are kept
+
+Files are kept while the conversation exists and are removed when it is deleted.

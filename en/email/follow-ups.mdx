@@ -1,0 +1,52 @@
+---
+title: "Follow-ups"
+description: "Have the agent write a reminder when the customer does not answer: how many days it waits, how many times it insists and whether it sends it on its own."
+---
+
+# Follow-ups
+
+A quote that gets no answer is a lost sale if nobody chases it. With follow-ups on, when the customer does not answer the agent's last email, the agent writes a **short reminder in the same thread**.
+
+{/* PENDING (dashboard): add the screen steps and screenshots once the mailbox section exists in the dashboard. */}
+
+## Mailbox settings
+
+| Setting | What it does |
+|---|---|
+| **Days to wait** | Days without an answer before the reminder is written (1 to 90). With no value, follow-ups are off. |
+| **Maximum reminders** | How many times in a row the agent may insist (1 to 10; 1 by default). |
+| **Send mode of the reminders** | **Draft** or **Automatic send**. If you do not choose, reminders go out the same way as [replies](/en/email/replies). |
+
+The send mode of the reminders is independent of the one for replies. You can, for example, review every reply yourself and let the reminders go out on their own.
+
+## When it writes a reminder
+
+- The last email of the thread was **sent by the agent** and the days to wait have passed. They are calendar days, counted from when the email was really sent.
+- The customer **has not written** since. Automatic replies (out of office, read receipts) do not count: they neither cancel the reminder nor restart the wait.
+- No person has [taken the thread over](/en/email/human-takeover).
+- There are reminders left. If the customer writes again, the count starts over.
+
+With a wait of 3 days and a maximum of 2, a customer who never answers gets a reminder after 3 days, another after 6, and the conversation closes after 9.
+
+<Note>
+A reply that is still in Drafts has not reached the customer, so it gets no reminder. The wait starts when you send it.
+</Note>
+
+## When it does not
+
+The agent reads the thread before writing. If its last email did not expect an answer (a thank you, a goodbye, a confirmation), it **sends nothing** and notes the reason in the conversation.
+
+There is also no reminder when one of the mailbox's [daily reply limits](/en/email/reply-rules#rules-you-can-change) has been reached: reminders count as replies.
+
+## Reminders as drafts
+
+The reminder is left in Outlook's Drafts folder, inside the thread. Keep in mind:
+
+- Nothing tells you it is there: check Drafts often.
+- There is at most **one pending reminder per thread**.
+- If the customer writes before you send it, the agent replaces it with its reply.
+- If you do not send it, it is **deleted on its own** when the conversation closes, about 3 days later. If you edited it, it is not deleted.
+
+## Reminders sent automatically
+
+They are sent like any automatic reply: they respect the [delay before sending](/en/email/replies#delay-before-sending) and carry the AI notice. If the customer writes while the reminder waits out the delay, it is not sent.
