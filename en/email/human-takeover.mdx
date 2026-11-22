@@ -17,8 +17,15 @@ It happens in two ways:
 From then on:
 
 - The agent does not answer the customer's later emails in that thread.
-- If a draft of the agent was waiting, it is deleted from the mailbox. If you had edited it, it is kept and is no longer sent on its own.
 - If the agent was writing a reply at that moment, it is discarded.
+- A reply of the agent that was waiting to be sent on its own is no longer sent.
+
+What happens to the agent's draft in Drafts depends on how the thread was taken:
+
+| How the thread is taken | The agent's draft |
+|---|---|
+| The owner replies from Outlook | It is deleted from the mailbox. If you had edited it, it is kept. |
+| Someone takes it over in Diga | It stays in Drafts. You can send it, change it or delete it yourself. |
 
 <Note>
 Sending from Outlook the draft the agent wrote does **not** count as taking the thread: it is the agent's reply.

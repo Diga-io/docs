@@ -140,6 +140,7 @@
                 "pages": [
                   "es/correo/introduccion",
                   "es/correo/conectar-buzon",
+                  "es/correo/administrador-microsoft",
                   "es/correo/respuestas",
                   "es/correo/seguimientos",
                   "es/correo/reglas-respuesta",
@@ -331,6 +332,7 @@
                 "pages": [
                   "en/email/introduction",
                   "en/email/connect-mailbox",
+                  "en/email/microsoft-admin",
                   "en/email/replies",
                   "en/email/follow-ups",
                   "en/email/reply-rules",

@@ -17,8 +17,15 @@ Ocurre de dos formas:
 Desde ese momento:
 
 - El agente no responde a los siguientes correos del cliente en ese hilo.
-- Si había un borrador del agente esperando, se borra del buzón. Si lo habías editado, se conserva y ya no se envía solo.
 - Si el agente estaba escribiendo una respuesta en ese instante, se descarta.
+- Una respuesta del agente que esperaba para enviarse sola ya no se envía.
+
+Qué pasa con el borrador del agente que estaba en Borradores depende de cómo se tomó el hilo:
+
+| Cómo se toma el hilo | Borrador del agente |
+|---|---|
+| El dueño responde desde Outlook | Se borra del buzón. Si lo habías editado, se conserva. |
+| Alguien lo toma desde Diga | Se queda en Borradores. Puedes enviarlo, cambiarlo o borrarlo tú. |
 
 <Note>
 Enviar desde Outlook el borrador que escribió el agente **no** cuenta como tomar el hilo: es la respuesta del agente.

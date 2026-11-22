@@ -1,6 +1,6 @@
 ---
 title: "Connect a mailbox"
-description: "Connect an Outlook mailbox to your project and assign the agent that will answer it."
+description: "Connect an Outlook mailbox to your project, or send your customer a link to connect theirs, and assign the agent that will answer it."
 ---
 
 # Connect a mailbox
@@ -11,20 +11,42 @@ A mailbox is an email address that an agent answers. Each mailbox has its own ag
 
 ## Connecting
 
-To connect a mailbox you sign in with the mailbox's Microsoft account and accept the permissions Diga needs:
+To connect a mailbox you sign in with the mailbox's Microsoft account and accept the permissions Diga requests:
 
 | Permission | What for |
 |---|---|
-| Read and write mail | Read incoming emails and leave replies as drafts |
-| Send mail | Send replies when the mailbox sends on its own |
-| Mailbox settings | Create the Outlook categories that [tags](/en/email/tags) use |
-| Calendar | Used by workflows that share the same Outlook connection |
+| `Mail.ReadWrite` | Read incoming emails, leave replies as drafts, delete the agent's drafts that are no longer needed and put [tags](/en/email/tags) on emails |
+| `Mail.Send` | Send replies when the mailbox sends on its own |
+| `MailboxSettings.ReadWrite` | Create in Outlook the categories that [tags](/en/email/tags) use |
+| `Calendars.ReadWrite` | Not used by the email agent: used by workflows with the Outlook Calendar integration, which share this connection |
+| `offline_access` | Keep working without you having to sign in again |
+| `User.Read` | Know which account was connected: its address and name |
+
+They are **delegated** permissions: Diga only accesses the mailbox of the account that signs in, never those of other users in the organization. If your Microsoft 365 administrator needs the details, send them [Information for your Microsoft 365 administrator](/en/email/microsoft-admin).
 
 The connected account is a [connection](/en/platform/connections) of the project: the same one your workflows can use.
 
+When you connect, Diga checks with Microsoft that the account has a mailbox it can use. Shared mailboxes, accounts without an Exchange Online license and on-premises mailboxes cannot be connected.
+
 <Note>
-Many organizations require an administrator to approve the application before a user can connect their mailbox. If Microsoft shows you that notice, ask your Microsoft 365 administrator to approve it for the whole organization.
+Diga reads the **Inbox** and **Sent Items** from the moment you connect the mailbox. Earlier emails do not come in, and an email that an Outlook rule moves to another folder is not answered.
 </Note>
+
+### If Microsoft asks for an administrator's approval
+
+Many organizations only allow a new application once an administrator approves it for the whole organization. In that case Microsoft shows you a notice when you sign in, and Diga gives you an **approval link for the administrator**.
+
+Send that link to your Microsoft 365 administrator together with [Information for your Microsoft 365 administrator](/en/email/microsoft-admin). Once they approve it, connect the mailbox again. The approval is done once: after that, anyone in the organization can connect their own mailbox.
+
+## Connecting a customer's mailbox
+
+If the mailbox belongs to a customer of yours, you do not need their password. Send them a **connection link**: your customer opens it, signs in with their Microsoft account and accepts the permissions. The connection lands in your project, and you turn it into a mailbox from there.
+
+- The link expires after 7 days by default (you can choose 1 to 30), and you can generate a new one if it expires.
+- If your customer's organization requires an administrator's approval, the connection fails until their administrator approves Diga. Send them [Information for your Microsoft 365 administrator](/en/email/microsoft-admin).
+- A link to **reconnect** an existing connection only accepts the same account that was connected the first time, so the mailboxes and workflows that use it keep working.
+
+{/* PENDING (dashboard): steps and screenshots to create a connection link. */}
 
 ## Assigning an agent
 
@@ -33,3 +55,8 @@ A mailbox without an agent stores the emails that arrive but answers none. The a
 ## If the mailbox disconnects
 
 Microsoft can withdraw access when the account's password changes or when someone revokes the permission. When that happens the agent stops answering in that mailbox and your team gets an [alert](/en/email/alerts). Connect the account again so the agent keeps answering.
+
+## Stop using a mailbox
+
+- **Deleting the mailbox** makes the agent stop answering at that address. The Outlook connection stays (your workflows can use it) and so do the conversations.
+- **Disconnecting the connection** clears the credentials at once for every agent and workflow that uses it. Do this if you want Diga to stop having access to the account.

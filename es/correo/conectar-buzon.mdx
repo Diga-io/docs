@@ -1,6 +1,6 @@
 ---
 title: "Conectar un buzón"
-description: "Conecta un buzón de Outlook a tu proyecto y asígnale el agente que va a responder."
+description: "Conecta un buzón de Outlook a tu proyecto, o envía a tu cliente un enlace para que conecte el suyo, y asígnale el agente que va a responder."
 ---
 
 # Conectar un buzón
@@ -11,20 +11,42 @@ Un buzón es una dirección de correo que un agente atiende. Cada buzón tiene s
 
 ## Conectar
 
-Al conectar un buzón inicias sesión con la cuenta de Microsoft del buzón y aceptas los permisos que Diga necesita:
+Al conectar un buzón inicias sesión con la cuenta de Microsoft del buzón y aceptas los permisos que Diga solicita:
 
 | Permiso | Para qué |
 |---|---|
-| Leer y escribir el correo | Leer los correos que llegan y dejar las respuestas como borrador |
-| Enviar correo | Enviar las respuestas cuando el buzón envía solo |
-| Ajustes del buzón | Crear las categorías de Outlook que usan las [etiquetas](/es/correo/etiquetas) |
-| Calendario | Lo usan los flujos con la misma conexión de Outlook |
+| `Mail.ReadWrite` | Leer los correos que llegan, dejar las respuestas como borrador, borrar los borradores del agente que ya no sirven y poner [etiquetas](/es/correo/etiquetas) en los correos |
+| `Mail.Send` | Enviar las respuestas cuando el buzón envía solo |
+| `MailboxSettings.ReadWrite` | Crear en Outlook las categorías que usan las [etiquetas](/es/correo/etiquetas) |
+| `Calendars.ReadWrite` | No lo usa el agente de correo: lo usan los flujos con la integración de Outlook Calendar, que comparten esta conexión |
+| `offline_access` | Seguir funcionando sin que tengas que volver a iniciar sesión |
+| `User.Read` | Saber qué cuenta se ha conectado: su dirección y su nombre |
+
+Son permisos **delegados**: Diga accede solo al buzón de la cuenta que inicia sesión, nunca a los de otros usuarios de la organización. Si tu administrador de Microsoft 365 necesita el detalle, envíale [Información para el administrador de Microsoft 365](/es/correo/administrador-microsoft).
 
 La cuenta conectada es una [conexión](/es/plataforma/conexiones) del proyecto: la misma que pueden usar tus flujos.
 
+Al conectar, Diga comprueba con Microsoft que la cuenta tiene un buzón que se puede usar. Los buzones compartidos, las cuentas sin licencia de Exchange Online y los buzones locales (on-premises) no se pueden conectar.
+
 <Note>
-Muchas organizaciones exigen que un administrador apruebe la aplicación antes de que un usuario pueda conectar su buzón. Si Microsoft te muestra ese aviso, pide a tu administrador de Microsoft 365 que la apruebe para toda la organización.
+Diga lee la **Bandeja de entrada** y los **Elementos enviados** a partir del momento en que conectas el buzón. Los correos anteriores no entran, y un correo que una regla de Outlook mueve a otra carpeta no se responde.
 </Note>
+
+### Si Microsoft pide la aprobación de un administrador
+
+Muchas organizaciones solo dejan usar una aplicación nueva cuando un administrador la aprueba para toda la organización. En ese caso, Microsoft te muestra un aviso al iniciar sesión y Diga te da un **enlace de aprobación para el administrador**.
+
+Envía ese enlace a tu administrador de Microsoft 365 junto con [Información para el administrador de Microsoft 365](/es/correo/administrador-microsoft). Cuando lo apruebe, vuelve a conectar el buzón. La aprobación se hace una sola vez: después, cualquier persona de la organización puede conectar su propio buzón.
+
+## Conectar el buzón de un cliente
+
+Si el buzón es de un cliente tuyo, no necesitas su contraseña. Envíale un **enlace de conexión**: tu cliente lo abre, inicia sesión con su cuenta de Microsoft y acepta los permisos. La conexión queda en tu proyecto y desde ahí la conviertes en buzón.
+
+- El enlace caduca a los 7 días por defecto (puedes elegir entre 1 y 30) y puedes generar uno nuevo si caduca.
+- Si la organización de tu cliente exige la aprobación de un administrador, la conexión falla hasta que su administrador apruebe Diga. Envíale [Información para el administrador de Microsoft 365](/es/correo/administrador-microsoft).
+- Un enlace para **reconectar** una conexión existente solo acepta la misma cuenta que se conectó la primera vez, así que los buzones y los flujos que la usan siguen funcionando.
+
+{/* PENDIENTE (panel): pasos y capturas para crear un enlace de conexión. */}
 
 ## Asignar un agente
 
@@ -33,3 +55,8 @@ Un buzón sin agente guarda los correos que llegan pero no responde ninguno. El 
 ## Si el buzón se desconecta
 
 Microsoft puede retirar el acceso cuando cambia la contraseña de la cuenta o cuando alguien revoca el permiso. Cuando ocurre, el agente deja de responder en ese buzón y tu equipo recibe un [aviso](/es/correo/avisos). Vuelve a conectar la cuenta para que el agente siga respondiendo.
+
+## Dejar de usar un buzón
+
+- **Borrar el buzón** hace que el agente deje de responder en esa dirección. La conexión de Outlook se mantiene (tus flujos pueden usarla) y las conversaciones también.
+- **Desconectar la conexión** borra en el momento las credenciales para todos los agentes y flujos que la usan. Es lo que debes hacer si quieres que Diga deje de tener acceso a la cuenta.

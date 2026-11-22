@@ -25,13 +25,17 @@ The agent always replies **in the same thread and to everyone** on the email. Yo
 
 ### Delay before sending
 
-With automatic send you can set a delay in minutes. The reply waits that long in Drafts and is then sent on its own. While it waits you can read it and change it.
+With automatic send you can set a delay in minutes (up to 7 days). The reply waits that long in Drafts and is then sent on its own. While it waits you can read it and change it.
 
 <Warning>
 If you edit a reply while it waits, **it is no longer sent on its own**: it stays as a draft for you to send when you are done.
 </Warning>
 
-A waiting reply is not sent either if a person takes the thread, if you switch the mailbox to draft mode, or if the customer writes again (the agent then writes a new reply).
+A waiting reply is not sent either if a person takes the thread, if you switch the mailbox to draft mode, or if the customer writes again (the agent then writes a new reply). If it cannot be sent within the hour after its send time (for example, because the mailbox is disconnected), it stays as a draft and your team gets an [alert](/en/email/alerts).
+
+### Several emails in a row
+
+The agent waits a minute before answering. If the customer sends two emails in a row, they get a single reply that answers both.
 
 ## Signature
 
@@ -44,7 +48,7 @@ Each mailbox has its signature, added at the end of every reply. You can set it 
 
 Keep in mind:
 
-- **The logo travels inside the email**, as in Outlook, so the customer sees it without downloading images. It accepts PNG, JPEG or GIF up to 1 MB. If the detected signature has a larger image or one in another format, the proposal tells you it was left out.
+- **The logo travels inside the email**, as in Outlook, so the customer sees it without downloading images. It accepts up to 5 PNG, JPEG or GIF images of up to 1 MB each. If the detected signature has a larger image or one in another format, the proposal tells you it was left out.
 - **Detection needs at least two sent emails that end the same way.** If there are none, it proposes nothing rather than inventing a signature.
 - **If you always sign off the same way** ("Best regards,"), the sign-off may come in the proposal with the signature. You can keep it or remove it.
 - **The agent reads the signature** and does not repeat what it already says: if the signature includes the sign-off and your name, the reply ends with its last sentence. With no signature, the agent ends with a short sign-off and the name of the mailbox's owner.
@@ -52,7 +56,7 @@ Keep in mind:
 
 ## Artificial intelligence notice
 
-Replies the agent sends on its own end with a notice that they were written by an artificial intelligence, in the language of the reply. Drafts carry no notice, because a person reviews and sends them. You can turn the notice off per mailbox.
+Replies the agent sends on its own (including those waiting out the delay before sending) end with a notice that they were written with the help of artificial intelligence. The notice is in the agent's language (for a multilingual agent, the reply's) when that is Spanish or Catalan, and in English for any other language. Drafts carry no notice, because a person reviews and sends them. You can turn the notice off per mailbox.
 
 ## When a conversation closes
 

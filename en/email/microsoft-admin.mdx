@@ -1,0 +1,69 @@
+---
+title: "Information for your Microsoft 365 administrator"
+description: "Which permissions Diga requests when an Outlook mailbox is connected, what it can and cannot access, how to approve it for your organization and how to revoke access."
+---
+
+# Information for your Microsoft 365 administrator
+
+This page is for the Microsoft 365 administrator of an organization where someone wants to connect their Outlook mailbox to Diga. Diga is a platform for artificial intelligence agents: once a mailbox is connected, an agent reads the emails that arrive and writes the replies, which stay as drafts or are sent depending on how that mailbox is set up.
+
+## Summary
+
+- Diga uses **delegated permissions only**. It does not request application permissions.
+- Diga accesses **only the mailbox of the person who signs in** and accepts the permissions. It cannot read other users' mailboxes or shared mailboxes.
+- Access can be revoked at any time, from Diga or from Microsoft Entra.
+
+## Permissions Diga requests
+
+All of them are delegated Microsoft Graph permissions:
+
+| Permission | What Diga uses it for |
+|---|---|
+| `Mail.ReadWrite` | Read the emails that reach the Inbox and the ones the user sends from Sent Items; leave the agent's replies as drafts; delete the agent's own drafts when they are no longer needed; put Outlook categories on emails. |
+| `Mail.Send` | Send the agent's replies, only when the mailbox is set to send without review. |
+| `MailboxSettings.ReadWrite` | Add to the mailbox's category list the categories the agent classifies emails with. Diga uses it for nothing else. |
+| `Calendars.ReadWrite` | Not used by the email agent. Used by Diga automations that work with Outlook Calendar, which share the same connection. |
+| `offline_access` | Keep access without the user having to sign in again. |
+| `User.Read` | Read the basic profile of the user who signs in (address and name) to know which account was connected. |
+
+## What Diga accesses
+
+- **New mail in the Inbox**, from the moment the mailbox is connected. Diga does not import earlier mail.
+- **Emails in Sent Items**: those that are part of a thread the agent is already handling (to know whether a person replied) and, when someone in the project asks for it, the last 25 sent emails, to propose the user's signature.
+- **Attachments** of the emails the agent answers: images, PDFs and Word documents.
+- The mailbox's **category list**, to add the ones the agent uses.
+- The user's **basic profile**: address and name.
+
+Diga stores in the customer's project the emails it processes and the attachments it reads, together with the record of why each email was or was not answered.
+
+## What Diga does not access
+
+- Other users' mailboxes in the organization.
+- Shared mailboxes.
+- Mail from before the connection.
+- Any directory data beyond the basic profile of the person who signs in.
+
+Because the permissions are delegated, Diga never has more access than the person who connects their mailbox.
+
+## Approving Diga for the organization
+
+If your organization does not let users consent to applications, whoever tries to connect their mailbox sees a notice that they need an administrator's approval. To approve Diga, an administrator who can grant consent on behalf of the organization (for example, a Global Administrator or a Cloud Application Administrator) can:
+
+- **Open the approval link Diga generated**, which the user will have sent you, sign in with the administrator account and accept the permissions.
+- **Sign in themselves** from Diga or from the connection link the user received, and tick the option to consent on behalf of the organization.
+- If your organization has the **admin consent workflow** enabled, approve the request the user sends from the Microsoft screen.
+
+The approval is done once. After that, each person in the organization who wants to use Diga has to connect their own mailbox: approving Diga does not give access to any mailbox by itself.
+
+## Revoking access
+
+To make Diga stop accessing a mailbox:
+
+1. **In Diga**, disconnect the Outlook connection. The credentials are cleared at once for every agent and automation that uses it. Deleting only the mailbox is not enough: the connection stays.
+2. **In Microsoft Entra**, under **Enterprise applications**, find Diga and either:
+   - under **Permissions**, review and revoke the permissions granted, or
+   - delete the application to remove it from the whole organization.
+
+To revoke a single user's access without affecting anyone else, you can also revoke that user's sign-in sessions from their profile in Microsoft Entra: it invalidates the credentials Diga had stored.
+
+When Microsoft withdraws access, Diga stops answering in that mailbox and alerts the project's team.

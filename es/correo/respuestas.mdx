@@ -25,13 +25,17 @@ El agente responde siempre **en el mismo hilo y a todos** los destinatarios del 
 
 ### Retraso antes de enviar
 
-En envío automático puedes fijar un retraso en minutos. La respuesta espera ese tiempo en Borradores y después se envía sola. Durante la espera puedes leerla y cambiarla.
+En envío automático puedes fijar un retraso en minutos (hasta 7 días). La respuesta espera ese tiempo en Borradores y después se envía sola. Durante la espera puedes leerla y cambiarla.
 
 <Warning>
 Si editas una respuesta mientras espera, **ya no se envía sola**: se queda como borrador para que la envíes tú cuando termines.
 </Warning>
 
-Una respuesta en espera tampoco se envía si una persona toma el hilo, si cambias el buzón a modo borrador o si el cliente escribe de nuevo (en ese caso el agente escribe una respuesta nueva).
+Una respuesta en espera tampoco se envía si una persona toma el hilo, si cambias el buzón a modo borrador o si el cliente escribe de nuevo (en ese caso el agente escribe una respuesta nueva). Si no se puede enviar durante la hora siguiente a su momento de envío (por ejemplo, porque el buzón está desconectado), se queda como borrador y tu equipo recibe un [aviso](/es/correo/avisos).
+
+### Varios correos seguidos
+
+El agente espera un minuto antes de responder. Si el cliente envía dos correos seguidos, recibe una sola respuesta que contesta a los dos.
 
 ## Firma
 
@@ -44,7 +48,7 @@ Cada buzón tiene su firma, que se añade al final de todas las respuestas. Pued
 
 Ten en cuenta:
 
-- **El logo viaja dentro del correo**, igual que en Outlook, así que el cliente lo ve sin tener que descargar imágenes. Admite PNG, JPEG o GIF de hasta 1 MB. Si la firma detectada tiene una imagen más grande o de otro formato, la propuesta te avisa de que la ha dejado fuera.
+- **El logo viaja dentro del correo**, igual que en Outlook, así que el cliente lo ve sin tener que descargar imágenes. Admite hasta 5 imágenes PNG, JPEG o GIF de hasta 1 MB cada una. Si la firma detectada tiene una imagen más grande o de otro formato, la propuesta te avisa de que la ha dejado fuera.
 - **La detección necesita al menos dos correos enviados que terminen igual.** Si no los hay, no propone nada en vez de inventar una firma.
 - **Si siempre te despides igual** ("Un saludo,"), la despedida puede venir en la propuesta junto a la firma. Puedes dejarla o quitarla.
 - **El agente lee la firma** y no repite lo que ya dice: si la firma incluye la despedida y tu nombre, la respuesta termina con su última frase. Sin firma, el agente se despide brevemente con el nombre del dueño del buzón.
@@ -52,7 +56,7 @@ Ten en cuenta:
 
 ## Aviso de inteligencia artificial
 
-Las respuestas que el agente envía solo llevan al final un aviso de que las ha escrito una inteligencia artificial, en el idioma de la respuesta. Los borradores no lo llevan, porque los revisa y envía una persona. Puedes desactivar el aviso en cada buzón.
+Las respuestas que el agente envía solo (también las que esperan el retraso antes de enviarse) llevan al final un aviso de que se han redactado con ayuda de inteligencia artificial. El aviso está en el idioma del agente (en un agente multilingüe, el de la respuesta) si es español o catalán, y en inglés para cualquier otro idioma. Los borradores no lo llevan, porque los revisa y envía una persona. Puedes desactivar el aviso en cada buzón.
 
 ## Cuándo se cierra una conversación
 
