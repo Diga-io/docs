@@ -33,9 +33,9 @@
 - Relative paths for internal links
 
 ## API reference
-- `api-reference/openapi.json` is the API's spec, exported from the production API
-- Every time you replace it, run `python3 scripts/nest_api_tags.py api-reference/openapi.json`: it groups the sidebar into sections with collapsible groups (OpenAPI 3.2 tag `parent`)
-- A new API tag that the script reports as "Not in TREE" goes into `TREE` in that script
+- `api-reference/openapi.json` is a copy of the production API's spec (`https://api.diga.io/openapi.json`); do not edit it by hand
+- The `Sync API reference` workflow downloads it every day and opens a PR when production changed
+- The sidebar groups (sections, collapsible groups) come from the spec's OpenAPI 3.2 tags, defined in the API (`api/src/api/openapi_tags.py` in Diga-io/diga)
 
 ## Git workflow
 - NEVER use --no-verify when committing
