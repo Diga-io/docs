@@ -32,6 +32,11 @@
 - Alt text on all images
 - Relative paths for internal links
 
+## API reference
+- `api-reference/openapi.json` is the API's spec, exported from the production API
+- Every time you replace it, run `python3 scripts/nest_api_tags.py api-reference/openapi.json`: it groups the sidebar into sections with collapsible groups (OpenAPI 3.2 tag `parent`)
+- A new API tag that the script reports as "Not in TREE" goes into `TREE` in that script
+
 ## Git workflow
 - NEVER use --no-verify when committing
 - Ask how to handle uncommitted changes before starting
