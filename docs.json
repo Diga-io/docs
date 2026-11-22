@@ -139,14 +139,24 @@
                 "group": "Correo",
                 "pages": [
                   "es/correo/introduccion",
-                  "es/correo/conectar-buzon",
-                  "es/correo/administrador-microsoft",
-                  "es/correo/respuestas",
-                  "es/correo/seguimientos",
-                  "es/correo/reglas-respuesta",
-                  "es/correo/intervencion-humana",
-                  "es/correo/etiquetas",
-                  "es/correo/adjuntos",
+                  {
+                    "group": "Configurar el buzón",
+                    "pages": [
+                      "es/correo/conectar-buzon",
+                      "es/correo/administrador-microsoft",
+                      "es/correo/reglas-respuesta",
+                      "es/correo/etiquetas"
+                    ]
+                  },
+                  {
+                    "group": "Cómo responde el agente",
+                    "pages": [
+                      "es/correo/respuestas",
+                      "es/correo/adjuntos",
+                      "es/correo/seguimientos",
+                      "es/correo/intervencion-humana"
+                    ]
+                  },
                   "es/correo/avisos"
                 ]
               },
@@ -331,14 +341,24 @@
                 "group": "Email",
                 "pages": [
                   "en/email/introduction",
-                  "en/email/connect-mailbox",
-                  "en/email/microsoft-admin",
-                  "en/email/replies",
-                  "en/email/follow-ups",
-                  "en/email/reply-rules",
-                  "en/email/human-takeover",
-                  "en/email/tags",
-                  "en/email/attachments",
+                  {
+                    "group": "Set up the mailbox",
+                    "pages": [
+                      "en/email/connect-mailbox",
+                      "en/email/microsoft-admin",
+                      "en/email/reply-rules",
+                      "en/email/tags"
+                    ]
+                  },
+                  {
+                    "group": "How the agent replies",
+                    "pages": [
+                      "en/email/replies",
+                      "en/email/attachments",
+                      "en/email/follow-ups",
+                      "en/email/human-takeover"
+                    ]
+                  },
                   "en/email/alerts"
                 ]
               },
