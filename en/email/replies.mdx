@@ -60,4 +60,4 @@ Replies the agent sends on its own (including those waiting out the delay before
 
 ## When a conversation closes
 
-A thread with no email for 72 hours is considered finished and its [post-call workflows](/en/build/flows/post-call-flows) run. If the agent never wrote in the thread (for example, a newsletter its rules skipped), it closes without running workflows or webhooks. If the customer replies later in the same thread, a new conversation opens and keeps the history. With [follow-ups](/en/email/follow-ups) on, the conversation stays open while the agent waits to write a reminder.
+A thread with no email for 72 hours is considered finished. [Post-call workflows](/en/build/flows/post-call-flows) do not run for email: they are made for calls. If the agent never wrote in the thread (for example, a newsletter its rules skipped), no webhooks are sent either. If the customer replies later in the same thread, a new conversation opens and keeps the history. With [follow-ups](/en/email/follow-ups) on, the conversation stays open while the agent waits to write a reminder.
