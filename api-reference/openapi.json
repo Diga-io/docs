@@ -13203,7 +13203,7 @@
           "Security"
         ],
         "summary": "Revoke a single session",
-        "description": "Revoke a single session owned by the caller.\n\nThe session's refresh token dies immediately (it can never renew), but its\nalready-issued access token stays valid until it expires (GoTrue\nJWT_EXPIRY, ~1h) — revocation is not instant. PRO-838 tracks per-request\nsession validation for immediate revocation.",
+        "description": "Revoke one of the current user's sessions.\n\nThe session can no longer be renewed, but an access token it already issued stays valid until it expires (about 1 hour), so revocation is not instant.",
         "operationId": "revoke_session_v1_profile_security_sessions__session_id__delete",
         "security": [
           {
@@ -13252,7 +13252,7 @@
           "Security"
         ],
         "summary": "Sign out all other sessions",
-        "description": "Revoke every session except the caller's current one.\n\nDeletes the other sessions (cascading to their refresh tokens) so they\ncannot renew, but their current access tokens stay valid until they expire\n(GoTrue JWT_EXPIRY, ~1h) — the other devices are not kicked instantly.\nPRO-838 tracks per-request session validation for immediate revocation.",
+        "description": "Revoke every session of the current user except the current one.\n\nThe other sessions can no longer be renewed, but their current access tokens stay valid until they expire (about 1 hour), so the other devices are not signed out instantly.",
         "operationId": "sign_out_others_v1_profile_security_sessions_sign_out_others_post",
         "responses": {
           "200": {
@@ -16047,7 +16047,7 @@
           "Workflows"
         ],
         "summary": "Create Workflow Connection",
-        "description": "Create a piece connection in the caller's workflow project.\n\nThin proxy to the workflow engine's app-connection upsert. The engine's\nschema validates the per-type ``value`` shape; a bad piece or value is\nsurfaced as a 4xx via ``_handle_ap_error``.\n\nFor OAuth2 types the caller must already hold an authorization ``code``\n(obtained via the panel's browser redirect flow); this endpoint only\nforwards the ``value`` it is given.",
+        "description": "Create a workflow piece connection (credentials) in the project.\n\nThe piece validates the shape of `value`; an invalid piece or value returns a 4xx error.\n\nFor OAuth2 connections, you must already have an authorization `code`, obtained by signing in through the workflows panel. This endpoint only uses the `value` it receives.",
         "operationId": "create_workflow_connection_v1_workflow_connections_post",
         "requestBody": {
           "content": {
@@ -20885,7 +20885,7 @@
           "completed"
         ],
         "title": "CallStatus",
-        "description": "Call lifecycle state. Only four states: a call is dialing, waiting in the\nqueue, in progress, or completed. Every terminal outcome — answered,\ntransferred, refused, no-answer, errored — is COMPLETED; the specific\noutcome lives in ``Call.end_reason`` (see EndReason)."
+        "description": "Call lifecycle state. Only four states: a call is dialing, waiting in the queue, in progress, or completed. Every terminal outcome — answered, transferred, refused, no-answer, errored — is COMPLETED; the specific outcome is in `end_reason` (see EndReason)."
       },
       "CallToolSchema": {
         "properties": {
@@ -22747,7 +22747,7 @@
               }
             ],
             "title": "Included Flows",
-            "description": "Number of Digapieces workflows included, null when not set"
+            "description": "Number of workflows included, null when not set"
           },
           "included_storage_bytes": {
             "anyOf": [
@@ -24424,7 +24424,7 @@
           "phone"
         ],
         "title": "Handover",
-        "description": "Who answers a WhatsApp session: null is the agent (design §5.5)."
+        "description": "Who answers a WhatsApp conversation. null: the agent. requested: the agent asked for a person and nobody has taken the conversation yet. taken: a person from the team answers and the agent stays silent. phone: the owner is answering from the WhatsApp Business app."
       },
       "HangUpToolSchema": {
         "properties": {
@@ -26369,7 +26369,7 @@
           "ARCHIVE"
         ],
         "title": "PackageType",
-        "description": "How an Activepieces piece is packaged. Mirrors AP's own\n``PackageType`` (a closed, AP-validated set)."
+        "description": "How a workflow piece is packaged."
       },
       "PaginatedResponseStrId_FlowAllResponse_": {
         "properties": {
@@ -28906,7 +28906,7 @@
           "hang_up"
         ],
         "title": "PhoneMenuAction",
-        "description": "What the agent does when an outbound call reaches an automated phone menu\n/ IVR (PRO-724)."
+        "description": "What the agent does when an outbound call reaches an automated phone menu (IVR)."
       },
       "PhoneMenuNavigationMode": {
         "type": "string",
@@ -28915,7 +28915,7 @@
           "key_sequence"
         ],
         "title": "PhoneMenuNavigationMode",
-        "description": "How the agent traverses a phone menu (PRO-724).\n\nGOAL: an LLM listens to each menu and picks the option that best advances\na plain-language goal (\"reach a human in billing\").\nKEY_SEQUENCE: press a fixed sequence of DTMF keys in order, one per menu."
+        "description": "How the agent navigates a phone menu.\n\nGOAL: the agent listens to each menu and picks the option that best advances a plain-language goal (\"reach a human in billing\").\nKEY_SEQUENCE: the agent presses a fixed sequence of keys (DTMF) in order, one per menu."
       },
       "PhoneNumberType": {
         "type": "string",
@@ -29416,7 +29416,7 @@
           "DEVELOPMENT"
         ],
         "title": "PieceCategory",
-        "description": "Diga's grouped piece categories. Each value collapses one or more\nupstream Activepieces categories — see ``_AP_TO_DIGA_CATEGORY`` in\n``api/v1/routes/workflows/pieces.py`` for the mapping."
+        "description": "Category of a workflow piece."
       },
       "PieceDetailResponse": {
         "properties": {
@@ -30085,7 +30085,7 @@
           "CUSTOM"
         ],
         "title": "PieceType",
-        "description": "Origin of an Activepieces piece. Mirrors AP's own ``PieceType``\n(a closed, AP-validated set), so it is safe to enumerate here."
+        "description": "Origin of a workflow piece: official or custom."
       },
       "PostImportPhoneNumberRequestSchema": {
         "properties": {
@@ -33941,7 +33941,7 @@
           "hang_up"
         ],
         "title": "VoicemailAction",
-        "description": "What the agent does when an outbound call reaches a voicemail (PRO-724)."
+        "description": "What the agent does when an outbound call reaches a voicemail."
       },
       "WebhookCreatedResponse": {
         "properties": {
