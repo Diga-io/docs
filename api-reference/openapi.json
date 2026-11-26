@@ -20229,7 +20229,8 @@
           "CANCELED",
           "INTERNAL_ERROR",
           "QUOTA_EXCEEDED",
-          "MEMORY_LIMIT_EXCEEDED"
+          "MEMORY_LIMIT_EXCEEDED",
+          "LOG_SIZE_EXCEEDED"
         ],
         "title": "FlowRunStatus"
       },
