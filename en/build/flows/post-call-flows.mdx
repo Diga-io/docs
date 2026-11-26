@@ -35,6 +35,10 @@ This is where the follow-up work after a conversation happens:
 
 Post-call flows run in the background after the call is already over, so they never add delay to the conversation and the caller never notices them.
 
+<Note>
+  Post-call flows also run when a [WhatsApp conversation](/en/whatsapp/introduction#flows-and-whatsapp) closes. In that case, the `channel` field is `whatsapp` and `messages` holds the conversation's messages.
+</Note>
+
 ## Build a Post-call Flow
 
 <Steps>

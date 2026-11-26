@@ -21,7 +21,7 @@ It's a [during-call workflow](/en/build/flows/during-call-flows) running in sync
 
 | Step | What it does |
 |---|---|
-| **Cancel booking in Cal** | Calls Cal.com to cancel the given booking, with the reason if there is one. |
+| **Cancel booking in Cal** | Calls Cal.com to cancel the given booking, with the reason if there is one. If Cal.com returns an error, the workflow carries on to the router instead of stopping. |
 | **Check cancellation status** | Router that splits the result depending on whether Cal.com returned success or not. |
 | **Return Response (canceled / error)** | Responds to the agent with the matching message. |
 

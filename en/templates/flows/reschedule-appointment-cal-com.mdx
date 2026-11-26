@@ -13,7 +13,7 @@ description: "During-call workflow that moves an existing Cal.com booking to a n
 
 The agent passes it the booking's identifier (`booking_uid`, obtained from [Find appointment](/en/templates/flows/find-appointment-cal-com)) and the new date and time (`start_date`, in local time), and the workflow **moves the booking** in Cal.com to the new slot.
 
-Unlike [Create appointment](/en/templates/flows/create-appointment-cal-com#before-publishing), this workflow does distinguish between success and failure: if Cal.com rejects the change (for example, because the slot just got taken), the agent gets a message meant for apologizing and offering alternatives, instead of being left with no response.
+Like [Create appointment](/en/templates/flows/create-appointment-cal-com) and [Cancel appointment](/en/templates/flows/cancel-appointment-cal-com), it distinguishes between success and failure: if Cal.com rejects the change (for example, because the slot just got taken), the agent gets a message meant for apologizing and offering alternatives, instead of being left with no response.
 
 It's a [during-call workflow](/en/build/flows/during-call-flows) running in sync mode.
 
@@ -22,7 +22,7 @@ It's a [during-call workflow](/en/build/flows/during-call-flows) running in sync
 | Step | What it does |
 |---|---|
 | **Convert date to UTC** | Converts `start_date` from local time to UTC. |
-| **Reschedule booking in Cal** | Calls Cal.com to move the given booking to the new time. |
+| **Reschedule booking in Cal** | Calls Cal.com to move the given booking to the new time. If Cal.com returns an error, the workflow carries on to the router instead of stopping. |
 | **Check reschedule status** | Router that splits the result depending on whether Cal.com returned success or not. |
 | **Return Response (rescheduled / error)** | Responds to the agent with the matching message. |
 

@@ -1,0 +1,140 @@
+---
+title: "Conversaciones"
+description: "Sigue las conversaciones de WhatsApp, inicia nuevas y toma el control cuando haga falta una persona"
+---
+
+Todas las conversaciones de WhatsApp de tu proyecto están en **Registros → Registro de mensajes**. Desde la página de un número, **Ver conversaciones** abre la lista filtrada por ese número.
+
+## Registro de mensajes
+
+La lista muestra cada conversación con su agente, su tipo (**Entrante** o **Saliente**), el contacto, su estado y la última actividad. Arriba verás cuántas conversaciones hay abiertas y cuántas esperan a una persona.
+
+Puedes filtrar por fechas, estado, agente y número de WhatsApp, y buscar en el contenido de las conversaciones.
+
+### Estados
+
+Una conversación está **Abierta** o **Cerrada**. Una conversación abierta muestra además quién la atiende:
+
+| Estado | Qué significa |
+|---|---|
+| **Responde el agente** | El agente está gestionando la conversación |
+| **Esperando respuesta** | El agente respondió y espera al contacto |
+| **Espera a una persona** | El agente ha pedido que responda una persona de tu equipo |
+| **Gestionada por** | Una persona de tu equipo ha tomado la conversación |
+| **Respondido desde el teléfono** | Alguien está respondiendo desde la app WhatsApp Business. Solo en números compartidos con la app |
+
+Una conversación cerrada muestra el motivo del cierre: consulta [Ciclo de vida de una conversación](/es/whatsapp/introduccion#ciclo-de-vida-de-una-conversación).
+
+### Eliminar y descargar
+
+Selecciona conversaciones en la lista para:
+
+- **Descargar transcripciones**: descarga un archivo `.zip` con las transcripciones.
+- **Eliminar**: borra las conversaciones y sus mensajes. No se puede deshacer. Las conversaciones abiertas no se pueden eliminar.
+
+## Ver una conversación
+
+Haz clic en una conversación para abrirla. La pestaña **Mensajes** muestra la conversación tal como la ve el contacto, con quién escribió cada mensaje: el contacto, el agente o una persona de tu equipo. Las pestañas **Logs** y **Trazas** funcionan igual que en una llamada: consulta [Logs de llamadas](/es/despliegue/logs-llamadas) y [Trazas de llamadas](/es/despliegue/trazas-llamadas).
+
+Los mensajes enviados muestran su estado de entrega: **Enviado**, **Entregado**, **Leído** o **No entregado**.
+
+Los archivos se ven dentro de la conversación: imágenes, vídeos, documentos para descargar y notas de voz con su transcripción.
+
+Mientras la conversación está abierta, la página se actualiza sola.
+
+## Iniciar una conversación
+
+Para escribir a alguien que no te ha escrito, necesitas una [plantilla](/es/whatsapp/plantillas) aprobada.
+
+<Steps>
+  <Step title="Abre el modal">
+    En **Registro de mensajes**, haz clic en **Iniciar conversación**.
+  </Step>
+  <Step title="Elige el número y el contacto">
+    En **Desde**, elige el número de WhatsApp que envía el mensaje. En **Para**, escribe el número del contacto.
+  </Step>
+  <Step title="Elige la plantilla">
+    Elige una plantilla aprobada, revisa la vista previa y rellena el valor de cada variable.
+  </Step>
+  <Step title="Envía">
+    Haz clic en **Enviar**. Se abre la nueva conversación.
+  </Step>
+</Steps>
+
+Cuando el contacto responde, el agente del número continúa la conversación. Si el contacto no responde en 24 horas, la conversación se cierra con el motivo **El usuario no respondió**.
+
+<Tip>
+  Para iniciar conversaciones de forma automática, por ejemplo después de una llamada, usa la acción [Enviar mensaje de WhatsApp](/es/build/flujos/pieza-diga#enviar-mensaje-de-whatsapp) en un flujo.
+</Tip>
+
+## Pasar la conversación a una persona
+
+Cuando el agente no puede resolver algo, pide que responda una persona de tu equipo. Lo hace con la herramienta [Transferir llamadas](/es/build/agentes/herramientas-llamada#transferir-llamadas), o con un nodo de transferencia si usa un [camino conversacional](/es/build/agentes/camino-conversacional/tipos-nodos).
+
+Entonces:
+
+1. El agente avisa al contacto: *"Te paso con una persona del equipo. Te responderá por aquí lo antes posible."*
+2. La conversación pasa a **Espera a una persona** y el agente deja de responder.
+3. Las personas de tu equipo que pueden tomar conversaciones reciben una notificación.
+
+<Note>
+  El aviso al contacto se envía en español si el idioma del agente es español, y en inglés en cualquier otro caso.
+</Note>
+
+### Tomar una conversación
+
+Abre la conversación y haz clic en **Tomar la conversación** o **Responder ahora**. Puedes tomar cualquier conversación abierta, aunque el agente no haya pedido ayuda.
+
+Mientras la tienes tú, el agente está en pausa y nadie más de tu equipo puede escribir en ella desde el dashboard. Si alguien más intenta tomarla, ve que la estás respondiendo tú.
+
+### Responder
+
+Escribe en el cuadro de texto y haz clic en **Enviar**, o pulsa Ctrl+Intro.
+
+Para enviar un archivo, haz clic en el clip. Puedes enviar imágenes (JPG o PNG), vídeos (MP4 o 3GP), audios y documentos (PDF, Word, Excel, PowerPoint o texto). Con un archivo adjunto, el texto que escribas se envía como pie de foto. Los audios no llevan pie: el texto se envía en un mensaje aparte.
+
+Si han pasado más de 24 horas desde el último mensaje del contacto, WhatsApp no entrega el texto libre. Diga te avisa de que **la ventana de 24 horas está cerrada** y te deja elegir una plantilla aprobada. Cuando el contacto responde, la ventana se abre de nuevo.
+
+### Devolver la conversación al agente
+
+Haz clic en **Devolver al agente**. El contacto no recibe ningún aviso, y el agente responde a partir de su siguiente mensaje. Si el agente usa un camino conversacional, sigue desde el nodo en el que estaba antes de la transferencia.
+
+La conversación también vuelve sola al agente, según los [ajustes del número](/es/whatsapp/ajustes#conversaciones):
+
+| Situación | Vuelve al agente | Qué ve el contacto |
+|---|---|---|
+| Nadie toma una conversación que espera a una persona | Tras **Esperar a una persona** (2 horas por defecto) | *"Ahora mismo nadie del equipo puede responder. Sigo yo por aquí: cuéntame en qué te puedo ayudar."* |
+| La persona que la tomó deja de responder | Tras **Volver si la persona deja de responder** (24 horas por defecto) | Nada |
+| Alguien respondió desde la app WhatsApp Business | Tras **Pausa tras una respuesta desde el teléfono** (24 horas por defecto) | Nada |
+
+Mientras tienes la conversación, verás una cuenta atrás con el tiempo que queda para que vuelva al agente. La vuelta se comprueba cada pocos minutos, así que puede llegar hasta 5 minutos tarde.
+
+### Números compartidos con la app WhatsApp Business
+
+Si respondes a un chat desde la app de tu teléfono, la conversación pasa a **Respondido desde el teléfono** y el agente deja de responder. Mientras tanto, nadie puede escribir desde Diga. Para que el agente vuelva antes, haz clic en **Devolver al agente**.
+
+## Permisos
+
+| Acción | Administrador | Miembro | Lector |
+|---|---|---|---|
+| Ver conversaciones | ✓ | ✓ | ✓ |
+| Iniciar conversaciones | ✓ | ✓ | ✗ |
+| Tomar y devolver conversaciones | ✓ | ✓ | ✗ |
+| Responder en una conversación | ✓ | ✓ | ✗ |
+
+Para responder necesitas los permisos de iniciar y de tomar conversaciones. Consulta [Equipo](/es/plataforma/equipo#permisos-detallados).
+
+## Notificaciones
+
+Cuando el agente pide una persona, recibes una notificación que abre la conversación. También puedes recibirla por email: actívalo en **Ajustes → Notificaciones**, en **Conversación de WhatsApp esperando a una persona**.
+
+## Siguientes pasos
+
+<CardGroup cols={2}>
+  <Card title="Ajustes del número" icon="settings" href="/es/whatsapp/ajustes">
+    Ajusta cuánto espera el agente antes de volver a responder.
+  </Card>
+  <Card title="Flujos post-llamada" icon="workflow" href="/es/build/flujos/flujos-post-llamada">
+    Procesa cada conversación cuando se cierra.
+  </Card>
+</CardGroup>

@@ -1,0 +1,102 @@
+---
+title: "Ajustes del número"
+description: "Elige qué agente responde en un número de WhatsApp y cómo gestiona las conversaciones"
+---
+
+Cada número de WhatsApp tiene su propia página de ajustes. Para abrirla, ve a **Números de WhatsApp** en la barra lateral y haz clic en el número.
+
+Los cambios no se aplican al momento: cuando modificas algo, aparece una barra con **Guardar cambios** y **Descartar**. Para editar los ajustes necesitas permiso para configurar números.
+
+<Tip>
+  Para cambiar el nombre con el que identificas el número en Diga, haz clic en el lápiz junto al título. No cambia el nombre visible en WhatsApp, que gestiona Meta.
+</Tip>
+
+## Agente
+
+El agente que eliges responde a todos los mensajes de WhatsApp del número. Si el número también recibe llamadas, las llamadas mantienen su propio agente.
+
+En el selector **Agente**:
+
+- Los agentes con versión publicada llevan la etiqueta **Pública**. Al elegirlos, el número responde con esa versión.
+- Los agentes sin versión publicada muestran sus versiones y su borrador. Al guardar, Diga te pide confirmar con **Publicar y guardar**, porque publica la versión elegida, o crea una versión a partir del borrador y la publica.
+- **Sin agente** deja el número sin responder: los mensajes se guardan, pero nadie los contesta.
+
+<Warning>
+  Un agente solo tiene una versión publicada. Si publicas otra versión desde aquí, los demás números del agente, de llamadas y de WhatsApp, también responden con ella.
+</Warning>
+
+También puedes asignar números de WhatsApp desde el agente: en **Publicar agente** o en **Editar números de teléfono**, cambia a **Número de WhatsApp** y añade los números. Si otro agente respondía en ese número, pasa a responder el que estás publicando. Consulta [Control de versiones](/es/build/agentes/control-versiones#publicar-una-versión).
+
+## Conversaciones
+
+Estos ajustes controlan cómo gestiona el agente las conversaciones del número.
+
+| Ajuste | Qué hace | Opciones | Por defecto |
+|---|---|---|---|
+| **Esperar a una persona** | Cuando el agente pide que entre una persona, cuánto espera antes de volver a responder | De 15 minutos a 72 horas, o **Hasta que alguien lo libere** | 2 horas |
+| **Volver si la persona deja de responder** | Cuando una persona toma una conversación, cuánto puede pasar sin que responda antes de que el agente vuelva a hacerlo | De 15 minutos a 72 horas, o **Nunca** | 24 horas |
+| **Esperar antes de responder** | Cuánto espera el agente tras el último mensaje del contacto, para responder a varios mensajes seguidos a la vez | De 3 a 30 segundos | 6 segundos |
+| **Cerrar conversaciones inactivas** | Tras cuánto tiempo sin mensajes nuevos se cierra una conversación | De 10 minutos a 24 horas | 30 minutos |
+
+Si el contacto envía un archivo, el agente espera 4 segundos más para que el archivo esté listo.
+
+Consulta [Pasar la conversación a una persona](/es/whatsapp/conversaciones#pasar-la-conversación-a-una-persona) para ver cómo funcionan las dos primeras esperas.
+
+## Compartido con tu teléfono
+
+Esta sección solo aparece en números que también usas en la app WhatsApp Business. Controla cómo trabajan juntos el agente y tu teléfono.
+
+### Cuándo responde el agente
+
+| Opción | Qué hace |
+|---|---|
+| **Siempre** | El agente responde a todo. Para intervenir, responde desde tu teléfono |
+| **Como respaldo** | El agente espera y no responde si alguien contesta antes desde el teléfono. Eliges cuánto espera en **Cuánto espera el agente**, de 1 a 60 minutos (5 por defecto) |
+
+En modo **Como respaldo**, el agente no marca el mensaje como leído mientras espera.
+
+### Pausa tras una respuesta desde el teléfono
+
+Cuando respondes a un chat desde tu teléfono, el agente deja de responder en ese chat durante este tiempo, de 15 minutos a 72 horas (24 horas por defecto). Cada nueva respuesta tuya reinicia la pausa.
+
+### A quién responde el agente
+
+| Opción | Qué hace |
+|---|---|
+| **A todos** | El agente responde a cualquier contacto (por defecto) |
+| **Solo a contactos no guardados en tu teléfono** | Útil si quieres atender tú a tus contactos habituales |
+| **Solo a contactos guardados en tu teléfono** | El agente solo responde a quien tienes en la agenda |
+
+Estas opciones necesitan tu agenda, así que no aparecen si al conectar elegiste no compartir los contactos.
+
+Además, puedes:
+
+- **Excluir contactos concretos**: haz clic en **Añadir contacto excluido** e introduce el número. Puedes excluir hasta 500.
+- **No entrar en chats recientes**: el agente no responde en los chats en los que escribiste tú en los últimos días. Eliges cuántos, de 1 a 90 (7 al activarlo).
+
+<Note>
+  De un contacto al que el agente no responde no se guarda nada en Diga. Le respondes desde la app.
+</Note>
+
+### Firmar los mensajes del agente
+
+Activa esta opción para que tus contactos distingan al agente de ti. Escribe una firma de hasta 100 caracteres, por ejemplo `Asistente de Dental Sonrisas:`. La firma va en su propia línea antes de cada mensaje del agente, pero no en los tuyos ni en las plantillas.
+
+## Detalles de conexión
+
+Al final de la página tienes los datos que te pedirá el soporte o que necesitas para la API:
+
+- **Conectado el**: cuándo se conectó el número.
+- **ID de la cuenta de WhatsApp Business** e **ID del número**, con un botón para copiarlos.
+- Si el número también recibe llamadas, un enlace a **Ver configuración de llamadas**.
+
+## Siguientes pasos
+
+<CardGroup cols={2}>
+  <Card title="Plantillas" icon="file-text" href="/es/whatsapp/plantillas">
+    Crea plantillas para iniciar conversaciones.
+  </Card>
+  <Card title="Conversaciones" icon="messages-square" href="/es/whatsapp/conversaciones">
+    Sigue las conversaciones y toma el control cuando haga falta.
+  </Card>
+</CardGroup>

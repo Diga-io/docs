@@ -11,9 +11,9 @@ description: "During-call workflow that books the appointment in Cal.com"
 
 ## What it does
 
-The agent passes it the appointment type (`event_type_id`), the start date and time (`start_date`, in local time), and the customer's email, and the workflow **books the appointment** in Cal.com. The customer's name is optional.
+The agent passes it the appointment type (`event_type_id`), the start date and time (`start_date`, in local time), and the customer's name and email, and the workflow **books the appointment** in Cal.com. All four are required: Cal.com doesn't accept a booking without a name, so the agent asks for it before calling the tool.
 
-Unlike [Check availability](/en/templates/flows/check-availability-cal-com), this workflow **doesn't re-check the slot** before booking: it calls Cal.com's booking action directly and relies on Cal.com to reject an already-taken slot.
+Unlike [Check availability](/en/templates/flows/check-availability-cal-com), this workflow **doesn't re-check the slot** before booking: it calls Cal.com's booking action directly and relies on Cal.com to reject an already-taken slot. If Cal.com rejects the booking, the agent gets a message telling it to apologize and offer another time, same as in [Reschedule appointment](/en/templates/flows/reschedule-appointment-cal-com).
 
 It's a [during-call workflow](/en/build/flows/during-call-flows) running in sync mode: the agent runs it mid-conversation and waits for the response before confirming the appointment to the customer.
 
@@ -22,8 +22,9 @@ It's a [during-call workflow](/en/build/flows/during-call-flows) running in sync
 | Step | What it does |
 |---|---|
 | **Format start date** | Converts `start_date` from local time to UTC, handling daylight saving automatically. |
-| **Create booking in Cal** | Books the appointment in Cal.com with the given type, time, name, and email. No guests or extra notes. |
-| **Return Response** | Tells the agent `Citado correctamente.` (Booked successfully.) |
+| **Create booking in Cal** | Books the appointment in Cal.com with the given type, time, name, and email. No guests or extra notes. If Cal.com returns an error, the workflow carries on to the router instead of stopping. |
+| **Check whether the appointment was created** | Router that splits the result depending on whether Cal.com returned success or not. |
+| **Return Response (created / error)** | Tells the agent `Citado correctamente.` (Booked successfully.) or, if the booking failed, to apologize, not treat the appointment as booked, and offer to look at another time or let the team know. |
 
 ## What you need
 
@@ -45,10 +46,6 @@ It's a [during-call workflow](/en/build/flows/during-call-flows) running in sync
     `Europe/Madrid` appears in the `zona` input of **Format start date** and in the **Attendee Timezone** field of **Create booking in Cal**. If you operate in a different time zone, change both.
   </Step>
 
-  <Step title="Mark start_date as required" id="mark-start-date-as-required">
-    The template ships with the trigger's `start_date` parameter marked as **optional**, when in reality it's always needed to book the appointment. Mark it as **required** before publishing: otherwise the agent can call the tool with no date, and the conversion step fails without a clear message for the customer.
-  </Step>
-
   <Step title="Publish the workflow">
     [Publish](/en/build/flows/creating-workflows#draft-vs-published) the workflow.
   </Step>
@@ -61,7 +58,8 @@ It's a [during-call workflow](/en/build/flows/during-call-flows) running in sync
 ## Before publishing
 
 - **There's no slot check right before booking.** Unlike `check_availability`, this workflow doesn't re-query Cal.com before booking: if the slot got taken in the meantime, Cal.com is what rejects the booking, not the workflow.
-- **If Cal.com rejects the booking, the agent is left with no response.** The booking step is set to **stop the workflow on failure**, and there's no step afterward to tell the agent what happened — unlike [Reschedule appointment](/en/templates/flows/reschedule-appointment-cal-com#before-publishing) and [Cancel appointment](/en/templates/flows/cancel-appointment-cal-com#before-publishing), which do have an error branch with a message for the customer. If you want that same behavior here, add a router that splits on the result before the final response.
+- **The agent doesn't get the reason for a rejection.** If Cal.com rejects the booking, the agent always gets the same error message, without the specific reason: a step that fails and lets the workflow carry on leaves no result the router can read.
+- **The success check depends on an internal field from the Cal.com piece** (`status: "success"`), same as in [Reschedule appointment](/en/templates/flows/reschedule-appointment-cal-com#before-publishing).
 - **The event is created with no guests**: the customer's email stays on the Cal.com booking, but the workflow doesn't add extra guests or notes.
 - **The workflow only creates.** It doesn't cancel or reschedule existing appointments; that's what [Reschedule appointment](/en/templates/flows/reschedule-appointment-cal-com) and [Cancel appointment](/en/templates/flows/cancel-appointment-cal-com) are for.
 - **The appointment's length is set by the appointment type in Cal.com**, not by the workflow or the agent's prompt.

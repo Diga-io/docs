@@ -13,7 +13,7 @@ description: "Flujo durante llamada que mueve una reserva existente a un nuevo h
 
 El agente le pasa el identificador de la reserva (`booking_uid`, obtenido con [Buscar cita](/es/plantillas/flujos/buscar-cita-calcom)) y la nueva fecha y hora (`start_date`, en hora local), y el flujo **mueve la reserva** en Cal.com al nuevo hueco.
 
-A diferencia de [Crear cita](/es/plantillas/flujos/crear-cita-calcom#antes-de-publicar), este flujo sí distingue entre éxito y fallo: si Cal.com rechaza el cambio (por ejemplo, porque el hueco se acaba de ocupar), el agente recibe un mensaje pensado para que se disculpe y ofrezca alternativas, en lugar de quedarse sin respuesta.
+Igual que [Crear cita](/es/plantillas/flujos/crear-cita-calcom) y [Cancelar cita](/es/plantillas/flujos/cancelar-cita-calcom), distingue entre éxito y fallo: si Cal.com rechaza el cambio (por ejemplo, porque el hueco se acaba de ocupar), el agente recibe un mensaje pensado para que se disculpe y ofrezca alternativas, en lugar de quedarse sin respuesta.
 
 Es un [flujo durante llamada](/es/build/flujos/flujos-durante-llamada) en modo síncrono.
 
@@ -22,7 +22,7 @@ Es un [flujo durante llamada](/es/build/flujos/flujos-durante-llamada) en modo s
 | Paso | Qué hace |
 |---|---|
 | **Convertir fecha a UTC** | Convierte `start_date` de hora local a UTC. |
-| **Reprogramar reserva en Cal** | Llama a Cal.com para mover la reserva indicada al nuevo horario. |
+| **Reprogramar reserva en Cal** | Llama a Cal.com para mover la reserva indicada al nuevo horario. Si Cal.com devuelve un error, el flujo sigue hasta el router en lugar de pararse. |
 | **Comprobar estado de la reprogramación** | Router que separa el resultado según si Cal.com devolvió éxito o no. |
 | **Devolver respuesta (reprogramada / error)** | Responde al agente con el mensaje que corresponda. |
 

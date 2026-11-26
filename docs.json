@@ -136,6 +136,16 @@
                 ]
               },
               {
+                "group": "WhatsApp",
+                "pages": [
+                  "es/whatsapp/introduccion",
+                  "es/whatsapp/conectar-numero",
+                  "es/whatsapp/ajustes",
+                  "es/whatsapp/plantillas",
+                  "es/whatsapp/conversaciones"
+                ]
+              },
+              {
                 "group": "Plataforma",
                 "pages": [
                   "es/plataforma/cuentas",
@@ -166,6 +176,7 @@
           },
           {
             "tab": "MCP",
+            "icon": "plug",
             "groups": [
               {
                 "group": "Comenzar",
@@ -313,6 +324,16 @@
                 ]
               },
               {
+                "group": "WhatsApp",
+                "pages": [
+                  "en/whatsapp/introduction",
+                  "en/whatsapp/connect-number",
+                  "en/whatsapp/settings",
+                  "en/whatsapp/templates",
+                  "en/whatsapp/conversations"
+                ]
+              },
+              {
                 "group": "Platform",
                 "pages": [
                   "en/platform/accounts",
@@ -343,6 +364,7 @@
           },
           {
             "tab": "MCP",
+            "icon": "plug",
             "groups": [
               {
                 "group": "Get Started",

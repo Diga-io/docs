@@ -22,7 +22,7 @@ It's a [during-call workflow](/en/build/flows/during-call-flows): the agent runs
 | Step | What it does |
 |---|---|
 | **Get current time in UTC** | Works out the current instant, so past appointments aren't included. |
-| **Find bookings in Cal** | Queries Cal.com for up to 10 upcoming bookings (`status: upcoming`) matching the customer's name and email. |
+| **Find bookings in Cal** | Queries Cal.com for up to 10 upcoming bookings (`status: upcoming`) matching the customer's email. |
 | **Format appointments to local time** | Extracts the appointment type from each booking's title, converts date and time to local time, and sorts the list chronologically. |
 | **Return Response** | Hands the list to the agent, telling it the `uid` is internal (never said out loud) and to ignore `inicio_utc` too. If the list comes back empty, it tells the agent to ask for the email again. |
 
@@ -52,7 +52,7 @@ It's a [during-call workflow](/en/build/flows/during-call-flows): the agent runs
 
 ## Before publishing
 
-- **The lookup is by name and email, not phone number.** If the customer calls from a different number than the one used to book, the workflow still finds the appointment as long as the email matches.
+- **The lookup is by email only, not name or phone number.** If the customer calls from a different number than the one used to book, the workflow still finds the appointment as long as the email matches. The name isn't used because Cal.com stores it exactly as it was given when booking, and a variant (for example, with an extra surname) would return no appointments.
 - **It returns up to 10 upcoming appointments.** If the customer has more than 10 pending bookings, the furthest-out ones won't show up.
 - **The appointment type is parsed from the booking's title in Cal.com**, not a dedicated field. If you change the title format in Cal.com, check the workflow still parses it correctly.
 - **If the email doesn't match any booking, the list comes back empty**, and it's the agent's prompt that decides what to do next — the agent template asks for the email again and, if it still doesn't turn up, tells the customer the team will call back.

@@ -21,7 +21,7 @@ Es un [flujo durante llamada](/es/build/flujos/flujos-durante-llamada) en modo s
 
 | Paso | Qué hace |
 |---|---|
-| **Cancelar reserva en Cal** | Llama a Cal.com para anular la reserva indicada, con el motivo si lo hay. |
+| **Cancelar reserva en Cal** | Llama a Cal.com para anular la reserva indicada, con el motivo si lo hay. Si Cal.com devuelve un error, el flujo sigue hasta el router en lugar de pararse. |
 | **Comprobar estado de la cancelación** | Router que separa el resultado según si Cal.com devolvió éxito o no. |
 | **Devolver respuesta (cancelada / error)** | Responde al agente con el mensaje que corresponda. |
 

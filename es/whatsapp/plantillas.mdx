@@ -1,0 +1,136 @@
+---
+title: "Plantillas"
+description: "Crea y gestiona los mensajes que Meta aprueba para iniciar conversaciones de WhatsApp"
+---
+
+Una plantilla es un mensaje que Meta aprueba antes de que lo envíes. Solo una plantilla aprobada puede **iniciar una conversación** o llegar a un contacto **fuera de la ventana de 24 horas**. Consulta [La ventana de 24 horas](/es/whatsapp/introduccion#la-ventana-de-24-horas).
+
+Las plantillas pertenecen a la cuenta de WhatsApp Business, no al número: todos los números de la misma cuenta comparten las mismas plantillas.
+
+## Ver las plantillas
+
+Abre un número en **Números de WhatsApp** y ve a la pestaña **Plantillas de la cuenta**. Solo aparece cuando el número está conectado.
+
+La lista muestra el nombre, el idioma, la categoría y el estado de cada plantilla. Puedes filtrar por estado y por categoría, o buscar por nombre. Haz clic en una plantilla para ver cómo la recibe el contacto.
+
+Las plantillas que creas en WhatsApp Manager también aparecen aquí: Diga mantiene una copia sincronizada con Meta.
+
+### Estados
+
+| Estado | Qué significa |
+|---|---|
+| **Aprobada** | Puedes enviarla |
+| **En revisión** | Meta la está revisando. Suele tardar unos minutos, y como mucho 24 horas |
+| **Rechazada** | Meta no la ha aprobado. El motivo aparece debajo del estado |
+| **En pausa** | Meta la ha pausado por problemas de calidad y no se puede enviar mientras tanto |
+| **Desactivada** | Meta la ha desactivado y no se puede enviar |
+
+Cuando una plantilla se aprueba, recibes una notificación. Si se rechaza, se pausa o se desactiva, recibes una notificación, también por email.
+
+Estos son los motivos de rechazo más comunes:
+
+| Motivo | Cómo arreglarlo |
+|---|---|
+| El contenido es promocional | Créala con la categoría Marketing |
+| La categoría no corresponde al contenido | Cambia la categoría o el contenido |
+| El formato no es válido | Revisa, por ejemplo, que el mensaje no empiece ni termine con una variable |
+| El contenido puede ser abusivo o parece una estafa | Reescribe el mensaje |
+
+## Crear una plantilla
+
+<Steps>
+  <Step title="Abre el editor">
+    En la pestaña **Plantillas de la cuenta**, haz clic en **Crear plantilla**.
+  </Step>
+  <Step title="Elige la categoría">
+    - **Marketing**: ofertas, novedades e invitaciones. Puede llevar multimedia y botones personalizados.
+    - **Utilidad**: mensajes sobre un pedido, una reserva o una cuenta que el contacto ya tiene.
+
+    Meta puede cambiar la categoría tras su revisión.
+  </Step>
+  <Step title="Escribe la plantilla">
+    Rellena el nombre, el idioma y el contenido. La vista previa de la derecha muestra cómo la recibe el contacto. Consulta [Contenido de la plantilla](#contenido-de-la-plantilla).
+  </Step>
+  <Step title="Envíala a revisión">
+    Revisa el nombre, el idioma y la categoría, y haz clic en **Enviar a revisión**. La plantilla aparece **En revisión** hasta que Meta responde.
+  </Step>
+</Steps>
+
+<Note>
+  Diga no crea plantillas de autenticación (códigos de un solo uso). Si las creas en WhatsApp Manager, aparecen en la lista.
+</Note>
+
+## Contenido de la plantilla
+
+| Campo | Reglas |
+|---|---|
+| **Nombre de la plantilla** | Letras minúsculas, números y guiones bajos, como `recordatorio_cita`. Hasta 512 caracteres. No se puede cambiar después |
+| **Idioma** | El idioma en que está escrita. No se puede cambiar después. Para tener la misma plantilla en otro idioma, crea otra con el mismo nombre |
+| **Muestra de contenido multimedia** | Opcional. Imagen (JPG o PNG, hasta 5 MB), vídeo (MP4 con vídeo H.264 y audio AAC, hasta 16 MB) o documento (PDF, hasta 16 MB). Sustituye al encabezado de texto |
+| **Encabezado** | Opcional. Texto de hasta 60 caracteres, con una variable como mucho |
+| **Cuerpo** | Obligatorio. Hasta 1024 caracteres. Admite variables y formato de WhatsApp: `*negrita*`, `_cursiva_`, `~tachado~` |
+| **Pie de página** | Opcional. Hasta 60 caracteres, sin variables |
+| **Botones** | Opcionales. Consulta [Botones](#botones) |
+
+### Variables
+
+Las variables son las partes del mensaje que cambian en cada envío, como el nombre del contacto o la fecha de una cita. Escribe `{{` en el cuerpo, o haz clic en **Añadir variable**.
+
+Puedes usar uno de estos dos tipos en una plantilla, pero no los dos:
+
+- **Con nombre**: `{{first_name}}`, `{{fecha_cita}}`. Letras minúsculas, números y guiones bajos.
+- **Numeradas**: `{{1}}`, `{{2}}`, `{{3}}`… en orden y sin saltos.
+
+Para cada variable, escribe un ejemplo en **Ejemplos para la revisión de Meta**. Meta revisa la plantilla con esos valores, y tus contactos no los ven.
+
+Si el encabezado lleva una variable, tiene que ser del mismo tipo que las del cuerpo.
+
+### Botones
+
+Haz clic en **Añadir botón** y elige el tipo:
+
+| Botón | Qué hace | Límite |
+|---|---|---|
+| **Ir al sitio web** | Abre una URL. Puede ser **Estática** o **Dinámica**: en una dinámica, la parte final de la URL (`{{1}}`) se rellena en cada envío | 2 |
+| **Llamar por teléfono** | Llama al número que indiques, con el prefijo del país, como `+34600111222` | 1 |
+| **Respuesta rápida** | El contacto responde con el texto del botón, y el agente lo recibe como un mensaje | Sin límite propio |
+| **Copiar código** | Copia un código, como un cupón de descuento. WhatsApp pone el texto del botón | 1 |
+
+Una plantilla tiene como mucho 10 botones, y el texto de cada uno tiene hasta 25 caracteres. Las respuestas rápidas tienen que ir juntas, antes o después de los demás botones.
+
+## Editar una plantilla
+
+Haz clic en la plantilla y después en **Editar**. Puedes cambiar el contenido y los botones, pero no el nombre ni el idioma. Al guardar, Meta vuelve a revisarla.
+
+- Solo puedes editar plantillas **Aprobadas**, **Rechazadas** o **En pausa**. Mientras está **En revisión**, espera a que Meta termine.
+- Una plantilla aprobada se puede editar una vez al día y hasta 10 veces en 30 días, y no puede cambiar de categoría. Son límites de Meta.
+
+## Eliminar plantillas
+
+Marca las plantillas en la lista y haz clic en el icono de la papelera.
+
+- Meta elimina cada plantilla solo en su idioma. Si existe la misma plantilla en otros idiomas, se mantienen.
+- Una plantilla eliminada ya no se puede enviar.
+- Meta no deja reutilizar el nombre de una plantilla aprobada durante 30 días.
+
+## Enviar una plantilla
+
+Puedes enviar una plantilla aprobada desde:
+
+- **Iniciar conversación**, en el Registro de mensajes. Consulta [Iniciar una conversación](/es/whatsapp/conversaciones#iniciar-una-conversación).
+- Una conversación abierta, cuando la ventana de 24 horas está cerrada.
+- Un flujo, con la acción [Enviar mensaje de WhatsApp](/es/build/flujos/pieza-diga#enviar-mensaje-de-whatsapp).
+- La API, con `POST /v1/whatsapp/messages`.
+
+Al enviarla, rellenas el valor de cada variable. En Diga, solo puedes enviar plantillas con un encabezado multimedia si el archivo se subió desde Diga: las que tienen multimedia y se crearon en WhatsApp Manager no aparecen en el selector.
+
+## Siguientes pasos
+
+<CardGroup cols={2}>
+  <Card title="Conversaciones" icon="messages-square" href="/es/whatsapp/conversaciones">
+    Inicia conversaciones con tus plantillas.
+  </Card>
+  <Card title="La Pieza de Diga" icon="puzzle" href="/es/build/flujos/pieza-diga">
+    Envía plantillas automáticamente desde un flujo.
+  </Card>
+</CardGroup>
