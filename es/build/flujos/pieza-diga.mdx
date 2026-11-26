@@ -71,6 +71,7 @@ Cuando se dispara este trigger, el flujo recibe toda la información de la llama
 | `status` | Estado final de la llamada |
 | `duration` | Duración en segundos |
 | `type` | Tipo de llamada (`inbound` o `outbound`) |
+| `channel` | Canal: `call` para llamadas o `whatsapp` para [conversaciones de WhatsApp](/es/whatsapp/introduccion#flujos-y-whatsapp) |
 | `end_reason` | Razón por la que terminó la llamada |
 | `recording_url` | URL de la grabación de la llamada |
 | `contact` | Objeto de contacto (`id`, `identifier`, `contact_type`, `created_date`). El número de teléfono es `contact.identifier` |
@@ -224,6 +225,39 @@ Inicia una llamada saliente desde un flujo. Esta acción convierte cualquier flu
     ```
   </Accordion>
 </AccordionGroup>
+
+---
+
+### Enviar mensaje de WhatsApp
+
+Envía una plantilla o un texto desde uno de tus [números de WhatsApp](/es/whatsapp/introduccion). Si el contacto responde, el agente del número continúa la conversación.
+
+#### Configuración
+
+| Campo | Descripción |
+|---|---|
+| **Número de WhatsApp** | El número de WhatsApp conectado que envía el mensaje |
+| **Para** | El número de WhatsApp del contacto, en formato E.164 (por ejemplo, `+34600123456`) |
+| **Tipo de mensaje** | **Plantilla** o **Texto** |
+| **Plantilla** | Una [plantilla](/es/whatsapp/plantillas) aprobada del número. Se usa cuando el tipo es Plantilla |
+| **Variables de la plantilla** | Un valor para cada variable de la plantilla elegida |
+| **Texto** | El mensaje que se envía. Se usa cuando el tipo es Texto |
+
+<Warning>
+  Un texto solo llega si el contacto escribió a ese número en las últimas 24 horas. Para escribir a alguien por primera vez, o fuera de ese plazo, usa una plantilla. Consulta [La ventana de 24 horas](/es/whatsapp/introduccion#la-ventana-de-24-horas).
+</Warning>
+
+#### Caso de uso
+
+Envía un WhatsApp después de cada llamada con la información que pidió el contacto:
+
+```
+Trigger: Llamada Finalizada
+→ Acción: Enviar mensaje de WhatsApp
+   - Para: contact.identifier del trigger
+   - Plantilla: "envio_informacion"
+   - Variables: nombre del contacto, enlace
+```
 
 ---
 

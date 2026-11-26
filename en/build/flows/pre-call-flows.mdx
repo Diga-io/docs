@@ -22,6 +22,10 @@ This lets you prepare each call with fresh, up-to-date information:
   Don't confuse **Pre-call** flows with **Call launcher** flows. A pre-call flow runs *inside* a call that is already starting, to prepare it. A [call launcher](/en/build/flows/diga-piece#make-call) uses the **Make Call** action to *start* a brand-new outbound call from an external event.
 </Warning>
 
+<Note>
+  Pre-call flows only run on calls. They don't run on [WhatsApp conversations](/en/whatsapp/introduction#flows-and-whatsapp).
+</Note>
+
 ## How it works
 
 When a call comes in (or an outbound call connects), Diga runs every pre-call flow assigned to the agent, waits for them to respond, applies the result, and only then lets the agent begin:

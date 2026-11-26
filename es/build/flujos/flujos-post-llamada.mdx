@@ -35,6 +35,10 @@ Aquí es donde ocurre el trabajo posterior a una conversación:
 
 Los flujos post-llamada se ejecutan en segundo plano cuando la llamada ya ha terminado, por lo que nunca añaden retraso a la conversación y el contacto no los nota.
 
+<Note>
+  Los flujos post-llamada también se ejecutan cuando se cierra una [conversación de WhatsApp](/es/whatsapp/introduccion#flujos-y-whatsapp). En ese caso, el campo `channel` vale `whatsapp` y `messages` contiene los mensajes de la conversación.
+</Note>
+
 ## Crear un Flujo Post-llamada
 
 <Steps>
