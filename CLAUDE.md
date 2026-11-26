@@ -32,6 +32,11 @@
 - Alt text on all images
 - Relative paths for internal links
 
+## API reference
+- `api-reference/openapi.json` is a copy of the production API's spec (`https://api.diga.io/openapi.json`); do not edit it by hand
+- The `Sync API reference` workflow downloads it every day and opens a PR when production changed
+- The sidebar groups (sections, collapsible groups) come from the spec's OpenAPI 3.2 tags, defined in the API (`api/src/api/openapi_tags.py` in Diga-io/diga)
+
 ## Git workflow
 - NEVER use --no-verify when committing
 - Ask how to handle uncommitted changes before starting

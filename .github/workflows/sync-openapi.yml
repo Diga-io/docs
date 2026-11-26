@@ -1,0 +1,62 @@
+# Keeps api-reference/openapi.json equal to the production API's spec.
+#
+# The production spec only changes when `main` of Diga-io/diga is deployed, so
+# a PR appears after a release and nothing happens on the other days. The API
+# publishes the spec ready for Mintlify (OpenAPI 3.2 tag tree and servers,
+# api/src/api/openapi_tags.py in Diga-io/diga): it is copied as is.
+name: Sync API reference
+
+on:
+  schedule:
+    - cron: "0 7 * * *" # every day, 07:00 UTC
+  workflow_dispatch:
+
+# This repo is public: keep the triggers to `schedule` and `workflow_dispatch`.
+permissions:
+  contents: read
+
+env:
+  SPEC_URL: https://api.diga.io/openapi.json
+  SPEC_PATH: api-reference/openapi.json
+  BRANCH: chore/sync-openapi
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: development
+          token: ${{ secrets.CHANGELOG_GH_TOKEN }}
+
+      - name: Download the production spec
+        run: |
+          curl --fail --silent --show-error --retry 3 "$SPEC_URL" -o /tmp/openapi.json
+          python3 - <<'PY'
+          import json, os
+          spec = json.load(open("/tmp/openapi.json"))
+          assert spec.get("paths"), "the downloaded spec has no paths"
+          with open(os.environ["SPEC_PATH"], "w") as f:
+              json.dump(spec, f, indent=2, ensure_ascii=False)
+              f.write("\n")
+          PY
+
+      - name: Open or update the PR
+        env:
+          GH_TOKEN: ${{ secrets.CHANGELOG_GH_TOKEN }}
+        run: |
+          if git diff --quiet -- "$SPEC_PATH"; then
+            echo "The API reference already matches production."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$BRANCH"
+          git add "$SPEC_PATH"
+          git commit -m "docs(api): sync the API reference with production"
+          git push --force origin "$BRANCH"
+          if [ -z "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[].number')" ]; then
+            gh pr create --base development --head "$BRANCH" \
+              --title "docs(api): sync the API reference with production" \
+              --body "The production API spec ($SPEC_URL) changed since the last copy. Review the endpoints before merging; Mintlify publishes the API reference from this file."
+          fi
