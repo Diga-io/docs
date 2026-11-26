@@ -176,6 +176,7 @@
           },
           {
             "tab": "MCP",
+            "icon": "plug",
             "groups": [
               {
                 "group": "Comenzar",
@@ -363,6 +364,7 @@
           },
           {
             "tab": "MCP",
+            "icon": "plug",
             "groups": [
               {
                 "group": "Get Started",
