@@ -136,6 +136,16 @@
                 ]
               },
               {
+                "group": "WhatsApp",
+                "pages": [
+                  "es/whatsapp/introduccion",
+                  "es/whatsapp/conectar-numero",
+                  "es/whatsapp/ajustes",
+                  "es/whatsapp/plantillas",
+                  "es/whatsapp/conversaciones"
+                ]
+              },
+              {
                 "group": "Plataforma",
                 "pages": [
                   "es/plataforma/cuentas",
@@ -310,6 +320,16 @@
                       "en/telephony/sip-trunks/twilio"
                     ]
                   }
+                ]
+              },
+              {
+                "group": "WhatsApp",
+                "pages": [
+                  "en/whatsapp/introduction",
+                  "en/whatsapp/connect-number",
+                  "en/whatsapp/settings",
+                  "en/whatsapp/templates",
+                  "en/whatsapp/conversations"
                 ]
               },
               {

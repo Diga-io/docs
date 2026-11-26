@@ -1,0 +1,140 @@
+---
+title: "Conversations"
+description: "Follow WhatsApp conversations, start new ones and take over when a person is needed"
+---
+
+All your project's WhatsApp conversations are in **Logs → Messages logs**. From a number's page, **See conversations** opens the list filtered by that number.
+
+## Messages logs
+
+The list shows each conversation with its agent, its type (**Incoming** or **Outgoing**), the contact, its status and its last activity. At the top you'll see how many conversations are open and how many are waiting for a person.
+
+You can filter by dates, status, agent and WhatsApp number, and search the content of conversations.
+
+### Statuses
+
+A conversation is **Open** or **Closed**. An open conversation also shows who is handling it:
+
+| Status | What it means |
+|---|---|
+| **Agent replying** | The agent is handling the conversation |
+| **Awaiting reply** | The agent replied and is waiting for the contact |
+| **Waiting for a person** | The agent asked for a person on your team to answer |
+| **Taken by** | A person on your team took the conversation |
+| **Answered from phone** | Someone is answering from the WhatsApp Business app. Only on numbers shared with the app |
+
+A closed conversation shows why it closed: see [Conversation lifecycle](/en/whatsapp/introduction#conversation-lifecycle).
+
+### Delete and download
+
+Select conversations in the list to:
+
+- **Download transcripts**: downloads a `.zip` file with the transcripts.
+- **Delete**: deletes the conversations and their messages. This can't be undone. Open conversations can't be deleted.
+
+## View a conversation
+
+Click a conversation to open it. The **Messages** tab shows the conversation as the contact sees it, with who wrote each message: the contact, the agent or a person on your team. The **Logs** and **Traces** tabs work the same as on a call: see [Call Logs](/en/deployment/call-logs) and [Call Traces](/en/deployment/call-traces).
+
+Sent messages show their delivery status: **Sent**, **Delivered**, **Read** or **Not delivered**.
+
+Files appear inside the conversation: images, videos, documents to download, and voice notes with their transcript.
+
+While the conversation is open, the page updates on its own.
+
+## Start a conversation
+
+To write to someone who hasn't written to you, you need an approved [template](/en/whatsapp/templates).
+
+<Steps>
+  <Step title="Open the modal">
+    In **Messages logs**, click **Start a conversation**.
+  </Step>
+  <Step title="Choose the number and the contact">
+    In **From**, choose the WhatsApp number that sends the message. In **To**, enter the contact's number.
+  </Step>
+  <Step title="Choose the template">
+    Choose an approved template, check the preview and fill in the value of each variable.
+  </Step>
+  <Step title="Send">
+    Click **Send**. The new conversation opens.
+  </Step>
+</Steps>
+
+When the contact answers, the number's agent continues the conversation. If the contact doesn't answer within 24 hours, the conversation closes with the reason **User did not reply**.
+
+<Tip>
+  To start conversations automatically, for example after a call, use the [Send WhatsApp Message](/en/build/flows/diga-piece#send-whatsapp-message) action in a flow.
+</Tip>
+
+## Hand the conversation to a person
+
+When the agent can't resolve something, it asks for a person on your team to answer. It does this with the [Transfer calls](/en/build/agents/call-tools#transfer-calls) tool, or with a transfer node if it uses a [conversational path](/en/build/agents/conversational-paths/node-types).
+
+Then:
+
+1. The agent tells the contact: *"I'm passing you to a person on the team. They will answer you here as soon as they can."*
+2. The conversation moves to **Waiting for a person** and the agent stops answering.
+3. The people on your team who can take over conversations get a notification.
+
+<Note>
+  The message to the contact is sent in Spanish if the agent's language is Spanish, and in English otherwise.
+</Note>
+
+### Take over a conversation
+
+Open the conversation and click **Take over** or **Answer now**. You can take over any open conversation, even if the agent didn't ask for help.
+
+While you have it, the agent is paused and nobody else on your team can write in it from the dashboard. If someone else tries to take it, they see that you're answering it.
+
+### Reply
+
+Type in the text box and click **Send**, or press Ctrl+Enter.
+
+To send a file, click the paperclip. You can send images (JPG or PNG), videos (MP4 or 3GP), audio and documents (PDF, Word, Excel, PowerPoint or text). With a file attached, the text you write is sent as the caption. Audio has no caption: the text is sent as a separate message.
+
+If more than 24 hours have passed since the contact's last message, WhatsApp doesn't deliver free text. Diga tells you that **the 24-hour window is closed** and lets you choose an approved template. When the contact answers, the window opens again.
+
+### Hand back to the agent
+
+Click **Hand back to the agent**. The contact doesn't get any message, and the agent answers from their next message. If the agent uses a conversational path, it continues from the node it was in before the transfer.
+
+The conversation also goes back to the agent on its own, based on the [number settings](/en/whatsapp/settings#conversations):
+
+| Situation | Goes back to the agent | What the contact sees |
+|---|---|---|
+| Nobody takes a conversation that is waiting for a person | After **Wait for a person** (2 hours by default) | *"Nobody on the team can answer right now. I'll keep helping you here: tell me what you need."* |
+| The person who took it stops answering | After **Return after a person goes quiet** (24 hours by default) | Nothing |
+| Someone replied from the WhatsApp Business app | After **Pause after a phone reply** (24 hours by default) | Nothing |
+
+While you have the conversation, you'll see a countdown with the time left before it goes back to the agent. The return is checked every few minutes, so it can happen up to 5 minutes late.
+
+### Numbers shared with the WhatsApp Business app
+
+If you reply to a chat from the app on your phone, the conversation moves to **Answered from phone** and the agent stops answering. In the meantime, nobody can write from Diga. To bring the agent back sooner, click **Hand back to the agent**.
+
+## Permissions
+
+| Action | Administrator | Member | Reader |
+|---|---|---|---|
+| View conversations | ✓ | ✓ | ✓ |
+| Start conversations | ✓ | ✓ | ✗ |
+| Take over and hand back conversations | ✓ | ✓ | ✗ |
+| Reply in a conversation | ✓ | ✓ | ✗ |
+
+To reply, you need the permissions to start and to take over conversations. See [Team](/en/platform/team#detailed-permissions).
+
+## Notifications
+
+When the agent asks for a person, you get a notification that opens the conversation. You can also get it by email: turn it on in **Settings → Notifications**, under **WhatsApp conversation waiting for a person**.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Number settings" icon="settings" href="/en/whatsapp/settings">
+    Set how long the agent waits before answering again.
+  </Card>
+  <Card title="Post-call flows" icon="workflow" href="/en/build/flows/post-call-flows">
+    Process each conversation when it closes.
+  </Card>
+</CardGroup>
