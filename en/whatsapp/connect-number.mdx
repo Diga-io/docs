@@ -1,0 +1,138 @@
+---
+title: "Connect a Number"
+description: "Link a WhatsApp Business number to your project through Meta, or send a link to whoever owns it"
+---
+
+Connecting a WhatsApp number links your WhatsApp Business account to your Diga project through Meta. You can connect it yourself or send a link to the person who owns the number.
+
+## Requirements
+
+- A Facebook account with access to the business in Meta that owns the number, or that you want to create it with.
+- Access to the number's phone to receive the verification code.
+- Permission to add numbers to the project. See [Team](/en/platform/team#roles-and-permissions).
+- A browser that doesn't block Facebook: turn off ad and tracker blockers while you connect.
+
+A number can only be connected to one project. If it's already a Diga number in another project, you can't connect it.
+
+## Connect with Meta
+
+<Steps>
+  <Step title="Open WhatsApp numbers">
+    In the sidebar, go to **WhatsApp numbers**, click **Connect number** and choose **Connect with Meta**.
+  </Step>
+  <Step title="Complete Meta's window">
+    A Meta window opens. Log in with Facebook, choose the business and the WhatsApp number (or add a new one) and confirm.
+  </Step>
+  <Step title="Check the number">
+    When it finishes, Diga opens the number's page. There you choose the agent that answers: see [Number settings](/en/whatsapp/settings).
+  </Step>
+</Steps>
+
+When you connect, Diga brings in the [templates](/en/whatsapp/templates) your WhatsApp Business account already has.
+
+<Note>
+  If the number already exists in Diga because it takes calls, WhatsApp is added to that same number and calls keep working as before. Otherwise, a WhatsApp-only number is created, which doesn't make or take calls.
+</Note>
+
+## Send a connect link
+
+If the number belongs to someone else, such as one of your customers, send them a link so they connect it themselves with their own Facebook account. They don't need a Diga account.
+
+<Steps>
+  <Step title="Create the link">
+    In **WhatsApp numbers**, click **Connect number** and choose **Send a connect link**. Copy the link with **Copy**.
+  </Step>
+  <Step title="Send it to whoever owns the number">
+    When they open it, they see your project's name and the **Connect with Meta** button. They follow the same steps in Meta's window.
+  </Step>
+  <Step title="The number appears in your project">
+    When it finishes, the page shows **Successfully connected** and the number appears in your **WhatsApp numbers** list.
+  </Step>
+</Steps>
+
+- Each link **connects one number** and **expires after 7 days**. To connect another number, create another link.
+- If an attempt fails, the same link can be used again until it expires.
+- If the connected number isn't active, you get a notification, because nobody on your team watched the connection.
+
+## Numbers also used in the WhatsApp Business app
+
+You can connect a number you already use in the **WhatsApp Business** app on your phone. The agent answers messages and you can still reply from the app. The list and the number's page show the label **Also in WhatsApp Business App**.
+
+These numbers have extra settings: when the agent answers, which contacts it answers, and how long it pauses when you reply from your phone. See [Sharing with your phone](/en/whatsapp/settings#sharing-with-your-phone).
+
+<Warning>
+  Open the WhatsApp Business app on your phone **at least once every 13 days**. Otherwise, Meta disconnects the number.
+</Warning>
+
+### Import chats from the app
+
+You can import your contacts and up to **6 months of chats** from the app into Diga, so the agent has the context of earlier conversations.
+
+1. Open the number's page and find the **WhatsApp Business app** section.
+2. Click **Import chats**. The status changes to **Importing**, which can take a few minutes.
+3. When it finishes, you'll see **Contacts and chat history imported** with the number of chats and messages.
+
+Keep in mind that:
+
+- You can only import **within 24 hours of connecting the number**, and only once. This is a Meta limit.
+- If you chose not to share contacts and chats when connecting, the status is **Declined** and you can no longer import.
+- Imported chats appear as closed conversations. The agent doesn't answer any of them.
+
+## Number status
+
+Each number shows a status based on what Meta reports:
+
+| Status | What it means |
+|---|---|
+| **Active** | Works normally |
+| **At risk** | Meta flagged the number or rates its quality as low. It still works, but Meta may limit it. Review your templates and message content |
+| **Limited** | It may only answer conversations the contact opened in the last 24 hours |
+| **Setup pending** | The number's registration at Meta isn't finished. Use the **Finish setup** link to complete it in WhatsApp Manager |
+| **Blocked** | Meta doesn't let the number send messages |
+| **Disconnected** | Meta no longer accepts Diga's access to the number. See [Reconnect a number](#reconnect-a-number) |
+| **Unavailable** | Meta banned or removed the number, or it moved to another provider. This can't be fixed from Diga: contact Meta Support |
+
+The number's page also shows:
+
+- **Quality**: High, Medium or Low, as rated by Meta.
+- **Messaging limit**: how many new contacts per day the number can reach. Replies to people who wrote in the last 24 hours don't count, and the limit is shared by all numbers of the same business in Meta.
+- **Last checked**: when Meta was last checked.
+
+Diga checks the status every 6 hours and whenever Meta reports a change. To check it right away, click **Check with Meta now**.
+
+If a number becomes Limited, Blocked, Unavailable or Disconnected, the people on your team with access to numbers get a notification.
+
+## Reconnect a number
+
+If a number shows as **Disconnected**, incoming messages are saved, but nobody answers them and you can't send any.
+
+To reconnect it, click **Reconnect**, in the number's row or in the alert on its page, and choose the same number in Meta's window. The number keeps its agent. If you choose a different number, it's connected as a new number.
+
+## Disconnect a number
+
+<Steps>
+  <Step title="Open the number">
+    In **WhatsApp numbers**, open the number's page.
+  </Step>
+  <Step title="Disconnect">
+    At the bottom of the page, click **Disconnect WhatsApp** and confirm.
+  </Step>
+</Steps>
+
+What happens depends on the number:
+
+- **If it also takes calls**, it stops answering on WhatsApp and calls keep working.
+- **If it only has WhatsApp**, it's deleted from the project. To use it again, connect it again.
+
+If the number is also used in the WhatsApp Business app, Diga can't disconnect it. Disconnect it from the app: **Settings → Account → Business Platform → Disconnect**. The agent stops answering and the app keeps working as usual.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Number settings" icon="settings" href="/en/whatsapp/settings">
+    Choose the agent that answers and how it handles conversations.
+  </Card>
+  <Card title="Templates" icon="file-text" href="/en/whatsapp/templates">
+    Create templates to start conversations.
+  </Card>
+</CardGroup>

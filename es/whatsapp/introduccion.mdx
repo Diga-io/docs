@@ -1,0 +1,117 @@
+---
+title: "WhatsApp"
+description: "Conecta tus números de WhatsApp Business para que tus agentes respondan mensajes escritos"
+---
+
+Con WhatsApp, el mismo agente que atiende tus llamadas responde por escrito a los mensajes que llegan a tu número de WhatsApp Business. También puedes iniciar conversaciones con plantillas aprobadas por Meta y tomar el control de cualquier conversación cuando haga falta una persona.
+
+## Cómo funciona
+
+<Steps>
+  <Step title="Conectas un número">
+    Vinculas un número de WhatsApp Business a tu proyecto a través de Meta. Consulta [Conectar un número](/es/whatsapp/conectar-numero).
+  </Step>
+  <Step title="Le asignas un agente">
+    Eliges qué agente responde en ese número. Consulta [Ajustes del número](/es/whatsapp/ajustes).
+  </Step>
+  <Step title="El agente responde">
+    Cada mensaje que llega abre o continúa una conversación, y el agente responde con su versión publicada.
+  </Step>
+  <Step title="Tu equipo supervisa">
+    Sigues todas las conversaciones en **Registro de mensajes**, y puedes tomarlas o devolverlas al agente. Consulta [Conversaciones](/es/whatsapp/conversaciones).
+  </Step>
+</Steps>
+
+## Qué hace el agente en WhatsApp
+
+El agente usa lo mismo que en una llamada:
+
+- Su **prompt**, o su [camino conversacional](/es/build/agentes/camino-conversacional) si usa uno.
+- Sus [herramientas](/es/build/agentes/herramientas-llamada): integraciones HTTP y MCP, y [flujos durante llamada](/es/build/flujos/flujos-durante-llamada).
+- Sus [bases de conocimiento](/es/build/agentes/bases-conocimiento).
+- Su idioma.
+
+Diga adapta el agente al canal escrito: escribe mensajes cortos, puede usar formato de WhatsApp como `*negrita*` y enlaces, e ignora las instrucciones de tu prompt que solo tienen sentido en una llamada, como deletrear números.
+
+Algunas herramientas cambian de comportamiento:
+
+| Herramienta | En WhatsApp |
+|---|---|
+| [Transferir llamadas](/es/build/agentes/herramientas-llamada#transferir-llamadas) | No llama a nadie. Pide que una persona de tu equipo responda en la misma conversación. Consulta [Pasar la conversación a una persona](/es/whatsapp/conversaciones#pasar-la-conversación-a-una-persona). |
+| [Colgar llamadas](/es/build/agentes/herramientas-llamada#colgar-llamadas) | El agente se despide y cierra la conversación. |
+
+<Note>
+  Si el agente no tiene versión publicada, o el número no tiene agente, los mensajes se guardan pero nadie los responde.
+</Note>
+
+### Qué puede leer el agente
+
+| El contacto envía | El agente recibe |
+|---|---|
+| Texto | El texto |
+| Nota de voz o audio | La transcripción |
+| Imagen | La imagen (JPG, PNG o WebP) |
+| Documento | El documento, si el modelo puede leer su formato. PDF y texto plano funcionan siempre |
+| Ubicación | El nombre, la dirección, las coordenadas y un enlace al mapa |
+| Contacto | El nombre y los números de teléfono |
+| Respuesta a un botón de plantilla | El texto del botón |
+| Vídeo, sticker u otro tipo | Solo un aviso de que el contacto envió algo. El agente le pide que lo escriba |
+
+El agente responde siempre con texto. Para enviar archivos o plantillas, tiene que hacerlo una persona desde la conversación o un flujo.
+
+### Mensajes seguidos
+
+Los contactos suelen escribir varios mensajes cortos seguidos. El agente espera unos segundos tras el último mensaje y responde a todos a la vez. Puedes cambiar esa espera en los [ajustes del número](/es/whatsapp/ajustes#conversaciones).
+
+## La ventana de 24 horas
+
+WhatsApp solo entrega mensajes de texto libre, archivos incluidos, en las **24 horas siguientes al último mensaje del contacto**. Fuera de esa ventana, solo puedes enviar una [plantilla](/es/whatsapp/plantillas) aprobada por Meta. Si el contacto responde a la plantilla, la ventana se abre de nuevo.
+
+Por eso, para iniciar una conversación con alguien que no te ha escrito, siempre necesitas una plantilla.
+
+## Ciclo de vida de una conversación
+
+Cada contacto tiene como mucho una conversación abierta por número. Una conversación se abre cuando:
+
+- El contacto escribe al número (conversación **entrante**).
+- Envías un mensaje desde Diga, la API o un flujo y no había ninguna abierta (conversación **saliente**).
+
+Y se cierra cuando:
+
+| Motivo | Cuándo |
+|---|---|
+| **Tiempo de inactividad** | Pasa el tiempo configurado sin mensajes nuevos (30 minutos por defecto) |
+| **El usuario no respondió** | En una conversación saliente, el contacto no escribe en las 24 horas siguientes al último mensaje |
+| **Finalizada por el agente** | El agente se despide y cierra la conversación |
+| **Completada** | El camino conversacional llega a su final |
+
+El cierre se comprueba cada pocos minutos, así que puede llegar hasta 5 minutos tarde. Una conversación que espera a una persona, o que está respondiendo una persona, no se cierra por inactividad hasta que vuelve al agente.
+
+Si el contacto escribe después del cierre, empieza una conversación nueva. El agente conserva el contexto: lee los últimos mensajes con ese contacto, aunque sean de conversaciones anteriores.
+
+## Flujos y WhatsApp
+
+| Tipo de flujo | En WhatsApp |
+|---|---|
+| [Post-llamada](/es/build/flujos/flujos-post-llamada) | Se ejecuta cuando la conversación se cierra. El campo `channel` vale `whatsapp`, y `messages` contiene la conversación |
+| [Pre-llamada](/es/build/flujos/flujos-pre-llamada) | No se ejecuta |
+| [Durante llamada](/es/build/flujos/flujos-durante-llamada) | Funciona igual: el agente lo usa como herramienta |
+
+Además, la acción [Enviar mensaje de WhatsApp](/es/build/flujos/pieza-diga#enviar-mensaje-de-whatsapp) de la Pieza de Diga envía una plantilla o un texto desde tu número. Si el contacto responde, el agente continúa la conversación.
+
+## Siguientes pasos
+
+<CardGroup cols={2}>
+  <Card title="Conectar un número" icon="link" href="/es/whatsapp/conectar-numero">
+    Vincula tu número de WhatsApp Business con Meta.
+  </Card>
+  <Card title="Ajustes del número" icon="settings" href="/es/whatsapp/ajustes">
+    Elige el agente y cómo gestiona las conversaciones.
+  </Card>
+  <Card title="Plantillas" icon="file-text" href="/es/whatsapp/plantillas">
+    Crea los mensajes que Meta aprueba para iniciar conversaciones.
+  </Card>
+  <Card title="Conversaciones" icon="messages-square" href="/es/whatsapp/conversaciones">
+    Sigue, inicia y toma conversaciones.
+  </Card>
+</CardGroup>

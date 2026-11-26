@@ -1,0 +1,102 @@
+---
+title: "Number Settings"
+description: "Choose which agent answers on a WhatsApp number and how it handles conversations"
+---
+
+Each WhatsApp number has its own settings page. To open it, go to **WhatsApp numbers** in the sidebar and click the number.
+
+Changes don't apply right away: when you change something, a bar appears with **Save changes** and **Discard**. To edit the settings, you need permission to configure numbers.
+
+<Tip>
+  To change the name you use for the number in Diga, click the pencil next to the title. It doesn't change the display name on WhatsApp, which Meta manages.
+</Tip>
+
+## Agent
+
+The agent you choose answers every WhatsApp message on the number. If the number also takes calls, calls keep their own agent.
+
+In the **Agent** selector:
+
+- Agents with a published version have the **Published** label. When you pick one, the number answers with that version.
+- Agents without a published version show their versions and their draft. When you save, Diga asks you to confirm with **Publish and save**, because it publishes the chosen version, or creates a version from the draft and publishes it.
+- **No agent** leaves the number unanswered: messages are saved, but nobody replies.
+
+<Warning>
+  An agent has only one published version. If you publish another version from here, the agent's other numbers, for calls and WhatsApp, also answer with it.
+</Warning>
+
+You can also assign WhatsApp numbers from the agent: in **Publish agent** or **Edit phone numbers**, switch to **WhatsApp number** and add the numbers. If another agent answered on that number, the agent you're publishing takes over. See [Version Control](/en/build/agents/version-control#publishing-a-version).
+
+## Conversations
+
+These settings control how the agent handles conversations on the number.
+
+| Setting | What it does | Options | Default |
+|---|---|---|---|
+| **Wait for a person** | When the agent asks for a person, how long it waits before it answers again | 15 minutes to 72 hours, or **Until someone releases it** | 2 hours |
+| **Return after a person goes quiet** | When a person takes a conversation, how long it can go without a reply before the agent answers again | 15 minutes to 72 hours, or **Never** | 24 hours |
+| **Wait before replying** | How long the agent waits after the contact's last message, to answer several messages in a row at once | 3 to 30 seconds | 6 seconds |
+| **Close inactive conversations** | How long without new messages before a conversation closes | 10 minutes to 24 hours | 30 minutes |
+
+If the contact sends a file, the agent waits 4 more seconds for the file to be ready.
+
+See [Hand the conversation to a person](/en/whatsapp/conversations#hand-the-conversation-to-a-person) for how the first two waits work.
+
+## Sharing with your phone
+
+This section only appears on numbers you also use in the WhatsApp Business app. It controls how the agent and your phone work together.
+
+### When the agent answers
+
+| Option | What it does |
+|---|---|
+| **Always** | The agent answers everything. To step in, reply from your phone |
+| **As a backup** | The agent waits and stays quiet if someone replies from the phone first. You choose how long it waits in **How long the agent waits**, from 1 to 60 minutes (5 by default) |
+
+In **As a backup** mode, the agent doesn't mark the message as read while it waits.
+
+### Pause after a phone reply
+
+When you reply to a chat from your phone, the agent stops answering in that chat for this long, from 15 minutes to 72 hours (24 hours by default). Each new reply of yours restarts the pause.
+
+### Who the agent answers
+
+| Option | What it does |
+|---|---|
+| **Everyone** | The agent answers any contact (default) |
+| **Only contacts not saved in your phone** | Useful if you want to answer your regular contacts yourself |
+| **Only contacts saved in your phone** | The agent only answers people in your address book |
+
+These options need your address book, so they don't appear if you chose not to share contacts when connecting.
+
+You can also:
+
+- **Exclude specific contacts**: click **Add excluded contact** and enter the number. You can exclude up to 500.
+- **Don't join chats you had recently**: the agent doesn't answer in chats you wrote in during the last few days. You choose how many, from 1 to 90 (7 when you turn it on).
+
+<Note>
+  Nothing from a contact the agent doesn't answer is saved in Diga. You answer them from the app.
+</Note>
+
+### Sign the agent's messages
+
+Turn this on so your contacts can tell the agent from you. Write a signature of up to 100 characters, such as `Dental Sonrisas assistant:`. The signature goes on its own line before each agent message, but not before yours or on templates.
+
+## Connection details
+
+At the bottom of the page you have the details that support will ask for, or that you need for the API:
+
+- **Connected on**: when the number was connected.
+- **WhatsApp Business account ID** and **Phone number ID**, with a button to copy them.
+- If the number also takes calls, a link to **See calls configuration**.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Templates" icon="file-text" href="/en/whatsapp/templates">
+    Create templates to start conversations.
+  </Card>
+  <Card title="Conversations" icon="messages-square" href="/en/whatsapp/conversations">
+    Follow conversations and take over when needed.
+  </Card>
+</CardGroup>

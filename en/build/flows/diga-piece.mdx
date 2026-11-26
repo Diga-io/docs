@@ -71,6 +71,7 @@ When this trigger fires, the workflow receives all call information:
 | `status` | Final call status |
 | `duration` | Duration in seconds |
 | `type` | Call type (`inbound` or `outbound`) |
+| `channel` | Channel: `call` for calls or `whatsapp` for [WhatsApp conversations](/en/whatsapp/introduction#flows-and-whatsapp) |
 | `end_reason` | Reason the call ended |
 | `recording_url` | URL of the call recording |
 | `contact` | Contact object (`id`, `identifier`, `contact_type`, `created_date`). The phone number is `contact.identifier` |
@@ -224,6 +225,39 @@ Initiates an outbound call from a workflow. This action turns any workflow into 
     ```
   </Accordion>
 </AccordionGroup>
+
+---
+
+### Send WhatsApp Message
+
+Sends a template or a text from one of your [WhatsApp numbers](/en/whatsapp/introduction). If the contact answers, the number's agent continues the conversation.
+
+#### Configuration
+
+| Field | Description |
+|---|---|
+| **WhatsApp Number** | The connected WhatsApp number that sends the message |
+| **To** | The contact's WhatsApp number, in E.164 format (for example, `+34600123456`) |
+| **Message Type** | **Template** or **Text** |
+| **Template** | An approved [template](/en/whatsapp/templates) of the number. Used when the type is Template |
+| **Template Variables** | One value for each variable of the chosen template |
+| **Text** | The message to send. Used when the type is Text |
+
+<Warning>
+  A text only arrives if the contact wrote to that number in the last 24 hours. To write to someone for the first time, or after that, use a template. See [The 24-hour window](/en/whatsapp/introduction#the-24-hour-window).
+</Warning>
+
+#### Use case
+
+Send a WhatsApp after each call with the information the contact asked for:
+
+```
+Trigger: Call Finished
+→ Action: Send WhatsApp Message
+   - To: contact.identifier from the trigger
+   - Template: "send_information"
+   - Variables: contact name, link
+```
 
 ---
 

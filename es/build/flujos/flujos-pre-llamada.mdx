@@ -22,6 +22,10 @@ Esto te permite preparar cada llamada con información fresca y actualizada:
   No confundas los flujos **Pre-llamada** con los flujos **Lanzador de llamadas**. Un flujo pre-llamada se ejecuta *dentro* de una llamada que ya está empezando, para prepararla. Un [lanzador de llamadas](/es/build/flujos/pieza-diga#hacer-llamada) usa la acción **Hacer llamada** para *iniciar* una llamada saliente completamente nueva a partir de un evento externo.
 </Warning>
 
+<Note>
+  Los flujos pre-llamada solo se ejecutan en llamadas. No se ejecutan en las [conversaciones de WhatsApp](/es/whatsapp/introduccion#flujos-y-whatsapp).
+</Note>
+
 ## Cómo funciona
 
 Cuando entra una llamada (o se conecta una llamada saliente), Diga ejecuta cada flujo pre-llamada asignado al agente, espera su respuesta, aplica el resultado y solo entonces deja que el agente comience:

@@ -1,0 +1,117 @@
+---
+title: "WhatsApp"
+description: "Connect your WhatsApp Business numbers so your agents answer written messages"
+---
+
+With WhatsApp, the same agent that handles your calls answers, in writing, the messages that reach your WhatsApp Business number. You can also start conversations with templates approved by Meta, and take over any conversation when a person is needed.
+
+## How it works
+
+<Steps>
+  <Step title="You connect a number">
+    You link a WhatsApp Business number to your project through Meta. See [Connect a number](/en/whatsapp/connect-number).
+  </Step>
+  <Step title="You assign an agent">
+    You choose which agent answers on that number. See [Number settings](/en/whatsapp/settings).
+  </Step>
+  <Step title="The agent answers">
+    Each incoming message opens or continues a conversation, and the agent answers with its published version.
+  </Step>
+  <Step title="Your team supervises">
+    You follow every conversation in **Messages logs**, and you can take them over or hand them back to the agent. See [Conversations](/en/whatsapp/conversations).
+  </Step>
+</Steps>
+
+## What the agent does on WhatsApp
+
+The agent uses the same things as on a call:
+
+- Its **prompt**, or its [conversational path](/en/build/agents/conversational-paths) if it uses one.
+- Its [tools](/en/build/agents/call-tools): HTTP and MCP integrations, and [during-call flows](/en/build/flows/during-call-flows).
+- Its [knowledge bases](/en/build/agents/knowledge-bases).
+- Its language.
+
+Diga adapts the agent to the written channel: it writes short messages, can use WhatsApp formatting such as `*bold*` and links, and ignores the instructions in your prompt that only make sense on a call, such as spelling out numbers.
+
+Some tools behave differently:
+
+| Tool | On WhatsApp |
+|---|---|
+| [Transfer calls](/en/build/agents/call-tools#transfer-calls) | Doesn't call anyone. It asks a person on your team to answer in the same conversation. See [Hand the conversation to a person](/en/whatsapp/conversations#hand-the-conversation-to-a-person). |
+| [Hang up calls](/en/build/agents/call-tools#hang-up-calls) | The agent says goodbye and closes the conversation. |
+
+<Note>
+  If the agent has no published version, or the number has no agent, messages are saved but nobody answers them.
+</Note>
+
+### What the agent can read
+
+| The contact sends | The agent receives |
+|---|---|
+| Text | The text |
+| Voice note or audio | The transcript |
+| Image | The image (JPG, PNG or WebP) |
+| Document | The document, if the model can read its format. PDF and plain text always work |
+| Location | The name, address, coordinates and a map link |
+| Contact | The name and phone numbers |
+| Template button reply | The button text |
+| Video, sticker or other type | Only a note that the contact sent something. The agent asks them to write it |
+
+The agent always answers with text. To send files or templates, a person must do it from the conversation, or a flow must.
+
+### Messages in a row
+
+Contacts often send several short messages in a row. The agent waits a few seconds after the last message and answers them all at once. You can change that wait in the [number settings](/en/whatsapp/settings#conversations).
+
+## The 24-hour window
+
+WhatsApp only delivers free-form messages, files included, **within 24 hours of the contact's last message**. Outside that window, you can only send a [template](/en/whatsapp/templates) approved by Meta. If the contact answers the template, the window opens again.
+
+That's why you always need a template to start a conversation with someone who hasn't written to you.
+
+## Conversation lifecycle
+
+Each contact has at most one open conversation per number. A conversation opens when:
+
+- The contact writes to the number (**incoming** conversation).
+- You send a message from Diga, the API or a flow and none was open (**outgoing** conversation).
+
+And it closes when:
+
+| Reason | When |
+|---|---|
+| **Inactivity timeout** | The configured time passes without new messages (30 minutes by default) |
+| **User did not reply** | In an outgoing conversation, the contact doesn't write within 24 hours of the last message |
+| **Ended by the agent** | The agent says goodbye and closes the conversation |
+| **Completed** | The conversational path reaches its end |
+
+Closing is checked every few minutes, so it can happen up to 5 minutes late. A conversation that is waiting for a person, or that a person is answering, doesn't close for inactivity until it's back with the agent.
+
+If the contact writes after the conversation closes, a new conversation starts. The agent keeps the context: it reads the latest messages with that contact, even from earlier conversations.
+
+## Flows and WhatsApp
+
+| Flow type | On WhatsApp |
+|---|---|
+| [Post-call](/en/build/flows/post-call-flows) | Runs when the conversation closes. The `channel` field is `whatsapp`, and `messages` holds the conversation |
+| [Pre-call](/en/build/flows/pre-call-flows) | Doesn't run |
+| [During-call](/en/build/flows/during-call-flows) | Works the same: the agent uses it as a tool |
+
+The [Send WhatsApp Message](/en/build/flows/diga-piece#send-whatsapp-message) action of the Diga Piece also sends a template or a text from your number. If the contact answers, the agent continues the conversation.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Connect a number" icon="link" href="/en/whatsapp/connect-number">
+    Link your WhatsApp Business number through Meta.
+  </Card>
+  <Card title="Number settings" icon="settings" href="/en/whatsapp/settings">
+    Choose the agent and how it handles conversations.
+  </Card>
+  <Card title="Templates" icon="file-text" href="/en/whatsapp/templates">
+    Create the messages Meta approves to start conversations.
+  </Card>
+  <Card title="Conversations" icon="messages-square" href="/en/whatsapp/conversations">
+    Follow, start and take over conversations.
+  </Card>
+</CardGroup>

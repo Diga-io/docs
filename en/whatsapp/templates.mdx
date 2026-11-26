@@ -1,0 +1,136 @@
+---
+title: "Templates"
+description: "Create and manage the messages Meta approves to start WhatsApp conversations"
+---
+
+A template is a message that Meta approves before you send it. Only an approved template can **start a conversation** or reach a contact **outside the 24-hour window**. See [The 24-hour window](/en/whatsapp/introduction#the-24-hour-window).
+
+Templates belong to the WhatsApp Business account, not to the number: all numbers of the same account share the same templates.
+
+## View templates
+
+Open a number in **WhatsApp numbers** and go to the **Account templates** tab. It only appears while the number is connected.
+
+The list shows each template's name, language, category and status. You can filter by status and category, or search by name. Click a template to see how the contact receives it.
+
+Templates you create in WhatsApp Manager also appear here: Diga keeps a copy in sync with Meta.
+
+### Statuses
+
+| Status | What it means |
+|---|---|
+| **Approved** | You can send it |
+| **In review** | Meta is reviewing it. It usually takes a few minutes, and at most 24 hours |
+| **Rejected** | Meta didn't approve it. The reason appears under the status |
+| **Paused** | Meta paused it for quality issues, and it can't be sent in the meantime |
+| **Disabled** | Meta disabled it and it can't be sent |
+
+When a template is approved, you get a notification. If it's rejected, paused or disabled, you get a notification, also by email.
+
+These are the most common rejection reasons:
+
+| Reason | How to fix it |
+|---|---|
+| The content is promotional | Create it with the Marketing category |
+| The category doesn't fit the content | Change the category or the content |
+| The format isn't valid | Check, for example, that the message doesn't start or end with a variable |
+| The content may be abusive or looks like a scam | Rewrite the message |
+
+## Create a template
+
+<Steps>
+  <Step title="Open the editor">
+    In the **Account templates** tab, click **Create template**.
+  </Step>
+  <Step title="Choose the category">
+    - **Marketing**: offers, news and invitations. It can include media and custom buttons.
+    - **Utility**: messages about an existing order, booking or account.
+
+    Meta can change the category after its review.
+  </Step>
+  <Step title="Write the template">
+    Fill in the name, language and content. The preview on the right shows how the contact receives it. See [Template content](#template-content).
+  </Step>
+  <Step title="Submit it for review">
+    Check the name, language and category, and click **Submit for review**. The template shows as **In review** until Meta answers.
+  </Step>
+</Steps>
+
+<Note>
+  Diga doesn't create authentication templates (one-time codes). If you create them in WhatsApp Manager, they appear in the list.
+</Note>
+
+## Template content
+
+| Field | Rules |
+|---|---|
+| **Template name** | Lowercase letters, numbers and underscores, such as `appointment_reminder`. Up to 512 characters. Can't be changed later |
+| **Language** | The language it's written in. Can't be changed later. To have the same template in another language, create another one with the same name |
+| **Media sample** | Optional. Image (JPG or PNG, up to 5 MB), video (MP4 with H.264 video and AAC audio, up to 16 MB) or document (PDF, up to 16 MB). Replaces the text header |
+| **Header** | Optional. Text up to 60 characters, with one variable at most |
+| **Body** | Required. Up to 1024 characters. Supports variables and WhatsApp formatting: `*bold*`, `_italic_`, `~strikethrough~` |
+| **Footer** | Optional. Up to 60 characters, no variables |
+| **Buttons** | Optional. See [Buttons](#buttons) |
+
+### Variables
+
+Variables are the parts of the message that change with each send, such as the contact's name or an appointment date. Type `{{` in the body, or click **Add variable**.
+
+You can use one of these two kinds in a template, but not both:
+
+- **Named**: `{{first_name}}`, `{{appointment_date}}`. Lowercase letters, numbers and underscores.
+- **Numbered**: `{{1}}`, `{{2}}`, `{{3}}`… in order, with no gaps.
+
+For each variable, write an example under **Examples for Meta's review**. Meta reviews the template with those values, and your contacts never see them.
+
+If the header has a variable, it must be the same kind as the body's.
+
+### Buttons
+
+Click **Add button** and choose the type:
+
+| Button | What it does | Limit |
+|---|---|---|
+| **Visit website** | Opens a URL. It can be **Static** or **Dynamic**: in a dynamic one, the end of the URL (`{{1}}`) is filled in with each send | 2 |
+| **Call phone number** | Calls the number you enter, with the country code, such as `+34600111222` | 1 |
+| **Quick reply** | The contact replies with the button's text, and the agent receives it as a message | No limit of its own |
+| **Copy code** | Copies a code, such as a discount coupon. WhatsApp sets the button's text | 1 |
+
+A template has at most 10 buttons, and each button's text is up to 25 characters. Quick replies must stay together, before or after the other buttons.
+
+## Edit a template
+
+Click the template and then **Edit**. You can change the content and the buttons, but not the name or the language. When you save, Meta reviews it again.
+
+- You can only edit **Approved**, **Rejected** or **Paused** templates. While it's **In review**, wait for Meta to finish.
+- An approved template can be edited once a day and up to 10 times in 30 days, and it can't change category. These are Meta's limits.
+
+## Delete templates
+
+Select the templates in the list and click the trash icon.
+
+- Meta deletes each template in its own language only. If the same template exists in other languages, those stay.
+- A deleted template can no longer be sent.
+- Meta doesn't allow reusing an approved template's name for 30 days.
+
+## Send a template
+
+You can send an approved template from:
+
+- **Start a conversation**, in Messages logs. See [Start a conversation](/en/whatsapp/conversations#start-a-conversation).
+- An open conversation, when the 24-hour window is closed.
+- A flow, with the [Send WhatsApp Message](/en/build/flows/diga-piece#send-whatsapp-message) action.
+- The API, with `POST /v1/whatsapp/messages`.
+
+When you send it, you fill in the value of each variable. In Diga, you can only send templates with a media header if the file was uploaded from Diga: templates with media created in WhatsApp Manager don't appear in the picker.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Conversations" icon="messages-square" href="/en/whatsapp/conversations">
+    Start conversations with your templates.
+  </Card>
+  <Card title="The Diga Piece" icon="puzzle" href="/en/build/flows/diga-piece">
+    Send templates automatically from a flow.
+  </Card>
+</CardGroup>

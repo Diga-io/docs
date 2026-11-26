@@ -4,6 +4,12 @@
     "title": "FastAPI",
     "version": "0.1.0"
   },
+  "servers": [
+    {
+      "url": "https://api.diga.io",
+      "description": "Production"
+    }
+  ],
   "paths": {
     "/v1/call/": {
       "get": {
@@ -9741,7 +9747,7 @@
           "Phones"
         ],
         "summary": "Update WhatsApp agent and answer settings",
-        "description": "Choose the agent that answers WhatsApp messages on a number, and when it answers.\n\nThe number answers with the agent's published version, so the agent must\nbe published. `null` unassigns the agent. Calls on the same number keep\ntheir own agents. Only the fields you send change.\n\nOn a number also used in the WhatsApp Business app, `answer_mode` `backup`\nmakes the agent wait `backup_wait_minutes` for your reply from the app\nbefore it answers; `phone_pause_minutes` is how long it steps back after you\nreply from the app.\n\nThe timings say when a conversation goes back to the agent by itself:\n`handover_wait_minutes` after the agent asked for a person (`requested`),\n`takeover_idle_minutes` after a person who took it over (`taken`) last\nreplied, `phone_pause_minutes` after your last reply from the app (`phone`);\n`null` for the first two means never. `reply_delay_seconds` is the pause\nbefore the agent answers, and `inactivity_close_minutes` closes a quiet\nconversation. Diga checks the handover and inactivity times every 5 minutes,\nso they take effect up to 5 minutes late. Any value in range is accepted;\none outside it is `422`.",
+        "description": "Choose the agent that answers WhatsApp messages on a number, and when it answers.\n\nThe number answers with the agent's published version, so the agent must\nbe published. `null` unassigns the agent. Calls on the same number keep\ntheir own agents. Only the fields you send change.\n\nOn a number also used in the WhatsApp Business app, `answer_mode` `backup`\nmakes the agent wait `backup_wait_minutes` for your reply from the app\nbefore it answers; `phone_pause_minutes` is how long it steps back after you\nreply from the app.\n\nOn such a number you can also choose who the agent answers:\n`answer_contacts` (`all`, `unsaved` or `saved` contacts of the app's address\nbook), `excluded_contacts` (numbers it never answers) and `recent_chat_days`\n(it does not join a chat you wrote in from the app within that many days).\nNothing of a contact the agent does not answer is stored in Diga; you answer\nit from the app. On a number that is not in the WhatsApp Business app these\nsettings can only be sent with their defaults (`422` otherwise); values\nstored while the number was in the app are kept but not applied.\n`signature` (any number) is put on its own line before every message the\nagent sends.\n\nThe timings say when a conversation goes back to the agent by itself:\n`handover_wait_minutes` after the agent asked for a person (`requested`),\n`takeover_idle_minutes` after a person who took it over (`taken`) last\nreplied, `phone_pause_minutes` after your last reply from the app (`phone`);\n`null` for the first two means never. `reply_delay_seconds` is the pause\nbefore the agent answers, and `inactivity_close_minutes` closes a quiet\nconversation. Diga checks the handover and inactivity times every 5 minutes,\nso they take effect up to 5 minutes late. Any value in range is accepted;\none outside it is `422`.",
         "operationId": "update_whatsapp_v1_phone__phone_id__whatsapp_patch",
         "security": [
           {
@@ -9797,7 +9803,7 @@
             }
           },
           "422": {
-            "description": "Unprocessable - The agent has no published version (AGENT_NOT_PUBLISHED), or `answer_mode` is `backup` on a number that is not also in the WhatsApp Business app (WHATSAPP_BACKUP_NOT_SUPPORTED)",
+            "description": "Unprocessable - The agent has no published version (AGENT_NOT_PUBLISHED), `answer_mode` is `backup` on a number that is not also in the WhatsApp Business app (WHATSAPP_BACKUP_NOT_SUPPORTED), `answer_contacts` other than `all`, a non-empty `excluded_contacts` or a `recent_chat_days` on such a number (WHATSAPP_COEXISTENCE_ONLY), or a setting out of range or an invalid excluded number",
             "content": {
               "application/json": {
                 "example": {
@@ -9928,6 +9934,100 @@
                   "status": "error",
                   "error_code": "META_API_ERROR",
                   "message": "Meta rejected the request: (#2) Service temporarily unavailable"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/phone/{phone_id}/whatsapp/app-history": {
+      "post": {
+        "tags": [
+          "Phones"
+        ],
+        "summary": "Import the chats from the WhatsApp Business app",
+        "description": "Import up to 6 months of chats from the WhatsApp Business app on the owner's phone.\n\nDiga never imports them on its own: only the address book comes when the\nnumber is connected. Meta allows this once per connection, within 24 hours\nof connecting (`whatsapp.app_import.available_until`), and only if the\nowner agreed to share the chats when connecting. The chats arrive over the\nnext minutes as closed conversations; follow `whatsapp.app_import`. The\nagent answers none of them, and chats with contacts it would not answer\n(see `answer_contacts`, `excluded_contacts`, `recent_chat_days`) are not\nimported, so set those first.",
+        "operationId": "import_whatsapp_app_history_v1_phone__phone_id__whatsapp_app_history_post",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "phone_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Phone Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhoneRegisterResponseSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found - The phone or its WhatsApp connection",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "WHATSAPP_NOT_CONNECTED",
+                  "message": "Phone 550e8400-e29b-41d4-a716-446655440000 has no connected WhatsApp configuration."
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - Not a WhatsApp Business app number (`WHATSAPP_APP_HISTORY_UNAVAILABLE`), already requested (`WHATSAPP_APP_HISTORY_ALREADY_REQUESTED`) or the 24 hours are over (`WHATSAPP_APP_HISTORY_WINDOW_CLOSED`)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "WHATSAPP_APP_HISTORY_WINDOW_CLOSED",
+                  "message": "Meta lets Diga import the app's chats only within 24 hours of connecting the number, until 2026-11-26T09:00:00+00:00. Connect the number again to get a new window."
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad Gateway - Meta refused the request; it can be asked again",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "error_code": "META_API_ERROR",
+                  "message": "Meta did not start the import of the chats: (#2) Service temporarily unavailable"
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponseSchema"
@@ -13103,7 +13203,7 @@
           "Security"
         ],
         "summary": "Revoke a single session",
-        "description": "Revoke a single session owned by the caller.\n\nThe session's refresh token dies immediately (it can never renew), but its\nalready-issued access token stays valid until it expires (GoTrue\nJWT_EXPIRY, ~1h) — revocation is not instant. PRO-838 tracks per-request\nsession validation for immediate revocation.",
+        "description": "Revoke one of the current user's sessions.\n\nThe session can no longer be renewed, but an access token it already issued stays valid until it expires (about 1 hour), so revocation is not instant.",
         "operationId": "revoke_session_v1_profile_security_sessions__session_id__delete",
         "security": [
           {
@@ -13152,7 +13252,7 @@
           "Security"
         ],
         "summary": "Sign out all other sessions",
-        "description": "Revoke every session except the caller's current one.\n\nDeletes the other sessions (cascading to their refresh tokens) so they\ncannot renew, but their current access tokens stay valid until they expire\n(GoTrue JWT_EXPIRY, ~1h) — the other devices are not kicked instantly.\nPRO-838 tracks per-request session validation for immediate revocation.",
+        "description": "Revoke every session of the current user except the current one.\n\nThe other sessions can no longer be renewed, but their current access tokens stay valid until they expire (about 1 hour), so the other devices are not signed out instantly.",
         "operationId": "sign_out_others_v1_profile_security_sessions_sign_out_others_post",
         "responses": {
           "200": {
@@ -15947,7 +16047,7 @@
           "Workflows"
         ],
         "summary": "Create Workflow Connection",
-        "description": "Create a piece connection in the caller's workflow project.\n\nThin proxy to the workflow engine's app-connection upsert. The engine's\nschema validates the per-type ``value`` shape; a bad piece or value is\nsurfaced as a 4xx via ``_handle_ap_error``.\n\nFor OAuth2 types the caller must already hold an authorization ``code``\n(obtained via the panel's browser redirect flow); this endpoint only\nforwards the ``value`` it is given.",
+        "description": "Create a workflow piece connection (credentials) in the project.\n\nThe piece validates the shape of `value`; an invalid piece or value returns a 4xx error.\n\nFor OAuth2 connections, you must already have an authorization `code`, obtained by signing in through the workflows panel. This endpoint only uses the `value` it receives.",
         "operationId": "create_workflow_connection_v1_workflow_connections_post",
         "requestBody": {
           "content": {
@@ -20785,7 +20885,7 @@
           "completed"
         ],
         "title": "CallStatus",
-        "description": "Call lifecycle state. Only four states: a call is dialing, waiting in the\nqueue, in progress, or completed. Every terminal outcome — answered,\ntransferred, refused, no-answer, errored — is COMPLETED; the specific\noutcome lives in ``Call.end_reason`` (see EndReason)."
+        "description": "Call lifecycle state. Only four states: a call is dialing, waiting in the queue, in progress, or completed. Every terminal outcome — answered, transferred, refused, no-answer, errored — is COMPLETED; the specific outcome is in `end_reason` (see EndReason)."
       },
       "CallToolSchema": {
         "properties": {
@@ -22647,7 +22747,7 @@
               }
             ],
             "title": "Included Flows",
-            "description": "Number of Digapieces workflows included, null when not set"
+            "description": "Number of workflows included, null when not set"
           },
           "included_storage_bytes": {
             "anyOf": [
@@ -24324,7 +24424,7 @@
           "phone"
         ],
         "title": "Handover",
-        "description": "Who answers a WhatsApp session: null is the agent (design §5.5)."
+        "description": "Who answers a WhatsApp conversation. null: the agent. requested: the agent asked for a person and nobody has taken the conversation yet. taken: a person from the team answers and the agent stays silent. phone: the owner is answering from the WhatsApp Business app."
       },
       "HangUpToolSchema": {
         "properties": {
@@ -26269,7 +26369,7 @@
           "ARCHIVE"
         ],
         "title": "PackageType",
-        "description": "How an Activepieces piece is packaged. Mirrors AP's own\n``PackageType`` (a closed, AP-validated set)."
+        "description": "How a workflow piece is packaged."
       },
       "PaginatedResponseStrId_FlowAllResponse_": {
         "properties": {
@@ -28248,6 +28348,59 @@
             ],
             "title": "Close After Inactivity (minutes)",
             "description": "Minutes without any message after which an open conversation is closed (`end_reason` `inactivity`): 10 to 1440 (24 hours). The contact's next message opens a new conversation. A conversation with a `handover` state is only closed once it is back with the agent. Default 30. Leave it out to keep it."
+          },
+          "answer_contacts": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WhatsappAnswerContacts"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Answer Contacts",
+            "description": "Who the agent answers: `all` (default) every contact; `unsaved` only contacts that are not saved in the WhatsApp Business app's address book of this number; `saved` only contacts saved in it. Nothing of a contact the agent does not answer is stored in Diga (no contact, conversation, message or file): you answer it from the app. Diga knows the address book from what the app shares when the number is connected and from every change after, so with `saved` a contact it does not know as saved is not answered. Changing it later does not delete conversations already stored. Applies only while the number is also used in the WhatsApp Business app (`is_on_biz_app`): on any other number the agent answers every contact, since there is no app where you would see the messages it leaves. Leave it out to keep it."
+          },
+          "excluded_contacts": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Excluded Contacts",
+            "description": "Phone numbers the agent never answers on this number, in international format (E.164, e.g. `+34600111222`); nothing of them is stored in Diga. Numbers are normalized to E.164 and repeated ones dropped; an invalid one is `422`. Up to 500. Empty by default. Applies only while the number is also used in the WhatsApp Business app (`is_on_biz_app`): on any other number the agent answers every contact, since there is no app where you would see the messages it leaves. Replaces the whole list; send `[]` to clear it. Leave it out to keep it."
+          },
+          "recent_chat_days": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 90.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Skip Recent Chats (days)",
+            "description": "The agent does not join a chat you wrote in from the WhatsApp Business app within the last 1 to 90 days: while the agent has no conversation with that contact on this number, its messages are not stored in Diga until that many days pass without you writing to it (chats imported from the app count as your messages, not as agent conversations). Once the agent, or a send from Diga, has reached the contact, this no longer applies; your replies from the app pause it for `phone_pause_minutes` instead. `null` (default): off. Applies only while the number is also used in the WhatsApp Business app (`is_on_biz_app`): on any other number the agent answers every contact, since there is no app where you would see the messages it leaves. Send `null` to turn it off. Leave it out to keep it."
+          },
+          "signature": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signature",
+            "description": "Text the agent puts on its own line before every message it sends on this number, e.g. `Dental Sonrisas assistant:`, so contacts can tell it from you. One line, up to 100 characters; an empty text means none. Not added to messages a person sends from Diga, nor to templates. `null` (default): none. Works on every number. Send `null` or an empty text to remove it. Leave it out to keep it."
           }
         },
         "additionalProperties": false,
@@ -28753,7 +28906,7 @@
           "hang_up"
         ],
         "title": "PhoneMenuAction",
-        "description": "What the agent does when an outbound call reaches an automated phone menu\n/ IVR (PRO-724)."
+        "description": "What the agent does when an outbound call reaches an automated phone menu (IVR)."
       },
       "PhoneMenuNavigationMode": {
         "type": "string",
@@ -28762,7 +28915,7 @@
           "key_sequence"
         ],
         "title": "PhoneMenuNavigationMode",
-        "description": "How the agent traverses a phone menu (PRO-724).\n\nGOAL: an LLM listens to each menu and picks the option that best advances\na plain-language goal (\"reach a human in billing\").\nKEY_SEQUENCE: press a fixed sequence of DTMF keys in order, one per menu."
+        "description": "How the agent navigates a phone menu.\n\nGOAL: the agent listens to each menu and picks the option that best advances a plain-language goal (\"reach a human in billing\").\nKEY_SEQUENCE: the agent presses a fixed sequence of keys (DTMF) in order, one per menu."
       },
       "PhoneNumberType": {
         "type": "string",
@@ -29263,7 +29416,7 @@
           "DEVELOPMENT"
         ],
         "title": "PieceCategory",
-        "description": "Diga's grouped piece categories. Each value collapses one or more\nupstream Activepieces categories — see ``_AP_TO_DIGA_CATEGORY`` in\n``api/v1/routes/workflows/pieces.py`` for the mapping."
+        "description": "Category of a workflow piece."
       },
       "PieceDetailResponse": {
         "properties": {
@@ -29932,7 +30085,7 @@
           "CUSTOM"
         ],
         "title": "PieceType",
-        "description": "Origin of an Activepieces piece. Mirrors AP's own ``PieceType``\n(a closed, AP-validated set), so it is safe to enumerate here."
+        "description": "Origin of a workflow piece: official or custom."
       },
       "PostImportPhoneNumberRequestSchema": {
         "properties": {
@@ -33788,7 +33941,7 @@
           "hang_up"
         ],
         "title": "VoicemailAction",
-        "description": "What the agent does when an outbound call reaches a voicemail (PRO-724)."
+        "description": "What the agent does when an outbound call reaches a voicemail."
       },
       "WebhookCreatedResponse": {
         "properties": {
@@ -33942,6 +34095,15 @@
         "type": "object",
         "title": "WebhookUpdateRequest"
       },
+      "WhatsappAnswerContacts": {
+        "type": "string",
+        "enum": [
+          "all",
+          "unsaved",
+          "saved"
+        ],
+        "title": "WhatsappAnswerContacts"
+      },
       "WhatsappAnswerMode": {
         "type": "string",
         "enum": [
@@ -33949,6 +34111,94 @@
           "backup"
         ],
         "title": "WhatsappAnswerMode"
+      },
+      "WhatsappAppImportSchema": {
+        "properties": {
+          "state": {
+            "$ref": "#/components/schemas/WhatsappAppImportState",
+            "title": "State",
+            "description": "`not_requested`: nobody has asked to import the app's chats. `importing`: Meta is sending them. `imported`: all of them arrived. `declined`: the business refused to share them in Meta's popup. `failed`: Meta could not send them. The address book comes on its own when the number is connected; the chats only when asked, once, before `available_until`."
+          },
+          "progress": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Progress",
+            "description": "Percentage Meta reported, 0 to 100. Null until the first chats arrive."
+          },
+          "requested_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requested At",
+            "description": "When the project asked to import up to 6 months of the app's chats (`POST /v1/phone/{phone_id}/whatsapp/app-history`). Null until then: Diga never imports them on its own."
+          },
+          "available_until": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Available Until",
+            "description": "Last moment to ask for the chats: Meta allows it only within 24 hours of connecting the number. After that, connect the number again to get a new window."
+          },
+          "contacts_requested_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contacts Requested At",
+            "description": "When Diga asked Meta for the app's address book."
+          },
+          "conversations": {
+            "type": "integer",
+            "title": "Conversations",
+            "description": "Imported conversations, one per contact.",
+            "default": 0
+          },
+          "messages": {
+            "type": "integer",
+            "title": "Messages",
+            "description": "Messages in the imported conversations.",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "state"
+        ],
+        "title": "WhatsappAppImportSchema"
+      },
+      "WhatsappAppImportState": {
+        "type": "string",
+        "enum": [
+          "not_requested",
+          "importing",
+          "imported",
+          "declined",
+          "failed"
+        ],
+        "title": "WhatsappAppImportState"
       },
       "WhatsappConfigResponseSchema": {
         "properties": {
@@ -34160,6 +34410,18 @@
             "description": "When the agent answers on this number. `always`: it answers every message; if you reply from the WhatsApp Business app, it steps back for `phone_pause_minutes`. `backup`: it waits `backup_wait_minutes` after each message and answers only if nobody replied from the WhatsApp Business app meanwhile; it does not mark the message as read while it waits. `backup` is only available for numbers also used in the WhatsApp Business app (`is_on_biz_app`).",
             "default": "always"
           },
+          "app_import": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WhatsappAppImportSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Import From the App",
+            "description": "Import of the chats in the WhatsApp Business app, for a number also used there (`is_on_biz_app`); null otherwise."
+          },
           "backup_wait_minutes": {
             "type": "integer",
             "title": "Backup Wait (minutes)",
@@ -34209,6 +34471,44 @@
             "title": "Close After Inactivity (minutes)",
             "description": "Minutes without any message after which an open conversation is closed (`end_reason` `inactivity`): 10 to 1440 (24 hours). The contact's next message opens a new conversation. A conversation with a `handover` state is only closed once it is back with the agent. Default 30.",
             "default": 30
+          },
+          "answer_contacts": {
+            "$ref": "#/components/schemas/WhatsappAnswerContacts",
+            "title": "Answer Contacts",
+            "description": "Who the agent answers: `all` (default) every contact; `unsaved` only contacts that are not saved in the WhatsApp Business app's address book of this number; `saved` only contacts saved in it. Nothing of a contact the agent does not answer is stored in Diga (no contact, conversation, message or file): you answer it from the app. Diga knows the address book from what the app shares when the number is connected and from every change after, so with `saved` a contact it does not know as saved is not answered. Changing it later does not delete conversations already stored. Applies only while the number is also used in the WhatsApp Business app (`is_on_biz_app`): on any other number the agent answers every contact, since there is no app where you would see the messages it leaves.",
+            "default": "all"
+          },
+          "excluded_contacts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Excluded Contacts",
+            "description": "Phone numbers the agent never answers on this number, in international format (E.164, e.g. `+34600111222`); nothing of them is stored in Diga. Numbers are normalized to E.164 and repeated ones dropped; an invalid one is `422`. Up to 500. Empty by default. Applies only while the number is also used in the WhatsApp Business app (`is_on_biz_app`): on any other number the agent answers every contact, since there is no app where you would see the messages it leaves."
+          },
+          "recent_chat_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Skip Recent Chats (days)",
+            "description": "The agent does not join a chat you wrote in from the WhatsApp Business app within the last 1 to 90 days: while the agent has no conversation with that contact on this number, its messages are not stored in Diga until that many days pass without you writing to it (chats imported from the app count as your messages, not as agent conversations). Once the agent, or a send from Diga, has reached the contact, this no longer applies; your replies from the app pause it for `phone_pause_minutes` instead. `null` (default): off. Applies only while the number is also used in the WhatsApp Business app (`is_on_biz_app`): on any other number the agent answers every contact, since there is no app where you would see the messages it leaves."
+          },
+          "signature": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signature",
+            "description": "Text the agent puts on its own line before every message it sends on this number, e.g. `Dental Sonrisas assistant:`, so contacts can tell it from you. One line, up to 100 characters; an empty text means none. Not added to messages a person sends from Diga, nor to templates. `null` (default): none. Works on every number."
           }
         },
         "type": "object",
